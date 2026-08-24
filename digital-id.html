@@ -731,6 +731,23 @@ button {
 }
 
 
+
+/* =========================================================
+   COMPACT BACK - ESSENTIAL INFORMATION ONLY
+========================================================= */
+
+.compact-back-grid {
+  grid-template-columns: 1fr 1fr 1.2fr;
+}
+
+.compact-back-grid .address-wide {
+  grid-column: 1 / -1;
+}
+
+.status-row {
+  justify-content: flex-start;
+}
+
 /* =========================================================
    MOBILE
 ========================================================= */
@@ -782,19 +799,24 @@ button {
 
 
 /* =========================================================
-   PRINT FRONT + BACK
+   PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
+   85.60 mm × 53.98 mm
 ========================================================= */
 
 @media print {
 
   @page {
-    size: landscape;
-    margin: 8mm;
+    size: A4 landscape;
+    margin: 12mm;
   }
 
+  html,
   body {
-    padding: 0;
-    background: white;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .search-box,
@@ -804,29 +826,48 @@ button {
   }
 
   .cards-wrapper {
-    display: block;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 12mm !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .id-side,
   .id-side.hidden-side {
     display: block !important;
+    position: relative !important;
+    width: 85.60mm !important;
+    height: 53.98mm !important;
+    min-width: 85.60mm !important;
+    min-height: 53.98mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .id-card {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 950px !important;
+    max-width: none !important;
+    min-height: 590px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    transform: scale(0.3405) !important;
+    transform-origin: top left !important;
+    page-break-after: auto !important;
+    break-after: auto !important;
   }
 
   .view-controls {
     display: none !important;
-  }
-
-  .id-card {
-    width: 100%;
-    max-width: none;
-    box-shadow: none;
-    page-break-after: always;
-    break-after: page;
-  }
-
-  .id-card:last-of-type {
-    page-break-after: auto;
-    break-after: auto;
   }
 }
 
@@ -1031,6 +1072,30 @@ function formatPhilippineDate(value) {
   ).format(date);
 }
 
+
+
+function formatPhilippineDateOnly(value) {
+
+  if (!value) {
+    return "—";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
+
+  return new Intl.DateTimeFormat(
+    "en-PH",
+    {
+      timeZone: "Asia/Manila",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }
+  ).format(date);
+}
 
 /* =========================================================
    GOOGLE FORM / DRIVE PROFILE PHOTO
@@ -1274,9 +1339,6 @@ function displayID(person) {
 
             </div>
 
-            <div class="label">
-              KK MEMBER
-            </div>
 
           </div>
 
@@ -1358,52 +1420,17 @@ function displayID(person) {
 
           </div>
 
-          <div class="back-member-strip">
-            <div>
-              <div class="label">KK MEMBER</div>
-              <div class="back-member-name">
-                ${escapeHTML(person.FULL_NAME || "—")}
-              </div>
-            </div>
-
-            <div class="back-member-id">
-              ${escapeHTML(person.KK_ID || "—")}
-            </div>
-          </div>
-
-
           <div class="personal-title">
             PERSONAL INFORMATION
           </div>
 
 
-          <div class="back-extra-grid">
+          <div class="back-extra-grid compact-back-grid">
 
             <div class="back-extra-item">
               <div class="label">BIRTHDAY</div>
               <div class="back-extra-value">
-                ${escapeHTML(person.BIRTHDAY || "—")}
-              </div>
-            </div>
-
-            <div class="back-extra-item">
-              <div class="label">AGE</div>
-              <div class="back-extra-value">
-                ${escapeHTML(person.AGE || "—")}
-              </div>
-            </div>
-
-            <div class="back-extra-item">
-              <div class="label">SEX ASSIGNED AT BIRTH</div>
-              <div class="back-extra-value">
-                ${escapeHTML(person.SEX_ASSIGNED_AT_BIRTH || "—")}
-              </div>
-            </div>
-
-            <div class="back-extra-item">
-              <div class="label">CIVIL STATUS</div>
-              <div class="back-extra-value">
-                ${escapeHTML(person.CIVIL_STATUS || "—")}
+                ${escapeHTML(formatPhilippineDateOnly(person.BIRTHDAY))}
               </div>
             </div>
 
@@ -1421,7 +1448,7 @@ function displayID(person) {
               </div>
             </div>
 
-            <div class="back-extra-item" style="grid-column: span 2;">
+            <div class="back-extra-item address-wide">
               <div class="label">COMPLETE ADDRESS</div>
               <div class="back-extra-value">
                 ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
@@ -1488,33 +1515,6 @@ function displayID(person) {
 
 
           </div>
-
-
-          <div class="verification-strip">
-
-            <div class="verification-item">
-              <div class="label">DATE REGISTERED</div>
-              <div class="verification-value">
-                ${escapeHTML(formatPhilippineDate(person.DATE_REGISTERED))}
-              </div>
-            </div>
-
-            <div class="verification-item">
-              <div class="label">DATE VERIFIED</div>
-              <div class="verification-value">
-                ${escapeHTML(formatPhilippineDate(person.DATE_VERIFIED))}
-              </div>
-            </div>
-
-            <div class="verification-item">
-              <div class="label">ID STATUS</div>
-              <div class="verification-value">
-                ${escapeHTML(person.ID_STATUS || "—")}
-              </div>
-            </div>
-
-          </div>
-
 
           <div class="back-lower">
 
@@ -1593,7 +1593,7 @@ function displayID(person) {
     </button>
 
     <button onclick="window.print()">
-      PRINT FRONT & BACK
+      PRINT ID - ACTUAL SIZE
     </button>
 
   </div>
