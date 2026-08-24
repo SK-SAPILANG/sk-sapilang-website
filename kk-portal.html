@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="SK Sapilang Katipunan ng Kabataan Digital Portal">
+
+    <title>KK Digital Portal | SK Sapilang</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        /* =========================================
+           KK PORTAL - READABLE FUTURISTIC DESIGN
+        ========================================= */
+
+        :root {
+            --cyan: #00e5ff;
+            --blue: #238cff;
+            --green: #00e59a;
+
+            --background: #03070c;
+            --panel: #0b151f;
+            --panel-light: #101e2a;
+
+            --white: #ffffff;
+            --text: #e9f1f5;
+            --muted: #c1d0d8;
+
+            --border: rgba(0,229,255,0.22);
+        }
+
+
+        body {
+
+            background:
+                radial-gradient(
+                    circle at 20% 10%,
+                    rgba(0,229,255,0.07),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 80% 20%,
+                    rgba(35,140,255,0.07),
+                    transparent 30%
+                ),
+
+                var(--background);
+
+            color: var(--text);
+
+        }
+
+
+        /* =========================================
+           BACKGROUND GRID
+        ========================================= */
+
+        .kk-grid-bg {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: -1;
+
+            pointer-events: none;
+
+            opacity: 0.12;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(255,255,255,0.08) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.08) 1px,
+                    transparent 1px
+                );
+
+            background-size: 50px 50px;
+
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .kk-hero {
+
+            position: relative;
+
+            padding:
+                110px 20px 90px;
+
+            text-align: center;
+
+        }
+
+
+        .kk-hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 950px;
+
+            margin: auto;
+
+        }
+
+
+        .kk-status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                9px 16px;
+
+            border:
+                1px solid
+                rgba(0,229,255,0.35);
+
+            border-radius: 50px;
+
+            background:
+                #0b1822;
+
+            color: #bdf7ff;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .status-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 12px
+                var(--green);
+
+        }
+
+
+        .kk-hero h1 {
+
+            margin:
+                30px 0 25px;
+
+            font-size:
+                clamp(48px, 9vw, 100px);
+
+            line-height: 1;
+
+            font-weight: 900;
+
+            letter-spacing: -3px;
+
+            color: var(--white);
+
+        }
+
+
+        .kk-hero h1 .outline {
+
+            color: var(--white);
+
+        }
+
+
+        .kk-hero h1 .cyan {
+
+            color: var(--cyan);
+
+            text-shadow:
+                0 0 25px
+                rgba(0,229,255,0.3);
+
+        }
+
+
+        .kk-tagline {
+
+            max-width: 720px;
+
+            margin: auto;
+
+            color: var(--text);
+
+            font-size: 18px;
+
+            line-height: 1.8;
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .kk-hero-actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            margin-top: 35px;
+
+        }
+
+
+        .kk-main-button,
+        .kk-outline-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 52px;
+
+            padding:
+                14px 24px;
+
+            border-radius: 10px;
+
+            font-weight: 800;
+
+            text-decoration: none;
+
+            transition: .25s;
+
+        }
+
+
+        .kk-main-button {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--cyan),
+                    var(--blue)
+                );
+
+            color: #001018;
+
+            box-shadow:
+                0 8px 30px
+                rgba(0,229,255,0.18);
+
+        }
+
+
+        .kk-main-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 12px 35px
+                rgba(0,229,255,0.3);
+
+        }
+
+
+        .kk-outline-button {
+
+            border:
+                1px solid
+                var(--cyan);
+
+            color:
+                var(--cyan);
+
+            background:
+                #09131c;
+
+        }
+
+
+        .kk-outline-button:hover {
+
+            background:
+                var(--cyan);
+
+            color:
+                #001018;
+
+        }
+
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+
+        .kk-section {
+
+            padding:
+                80px 0;
+
+        }
+
+
+        .kk-section-header {
+
+            text-align: center;
+
+            max-width: 720px;
+
+            margin:
+                0 auto 45px;
+
+        }
+
+
+        .kk-section-label {
+
+            color: var(--cyan);
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+
+        }
+
+
+        .kk-section-header h2 {
+
+            color: var(--white);
+
+            font-size:
+                clamp(32px, 5vw, 52px);
+
+            margin:
+                12px 0;
+
+        }
+
+
+        .kk-section-header h2 span {
+
+            color: var(--cyan);
+
+        }
+
+
+        .kk-section-header p {
+
+            color: var(--muted);
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* =========================================
+           SERVICES
+        ========================================= */
+
+        .kk-services {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+
+        }
+
+
+        .kk-service {
+
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0d1a25,
+                    #09121a
+                );
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 20px;
+
+            padding: 32px;
+
+            min-height: 350px;
+
+            transition: .3s;
+
+        }
+
+
+        .kk-service:hover {
+
+            transform:
+                translateY(-6px);
+
+            border-color:
+                rgba(0,229,255,0.55);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.35);
+
+        }
+
+
+        .kk-number {
+
+            position: absolute;
+
+            top: 22px;
+
+            right: 25px;
+
+            color:
+                rgba(255,255,255,0.3);
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+        }
+
+
+        .kk-service-icon {
+
+            width: 62px;
+
+            height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                #102432;
+
+            border:
+                1px solid
+                rgba(0,229,255,0.25);
+
+            font-size: 28px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .kk-service h3 {
+
+            color:
+                var(--white);
+
+            font-size: 24px;
+
+            margin:
+                0 0 12px;
+
+        }
+
+
+        .kk-service p {
+
+            color:
+                var(--muted);
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .kk-service-link {
+
+            color:
+                var(--cyan);
+
+            font-weight: 900;
+
+            text-decoration: none;
+
+        }
+
+
+        .kk-service-link:hover {
+
+            text-decoration:
+                underline;
+
+        }
+
+
+        /* =========================================
+           DIGITAL ID
+        ========================================= */
+
+        .kk-id-section {
+
+            padding:
+                90px 0;
+
+            background:
+                #050b11;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.04);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.04);
+
+        }
+
+
+        .kk-id-preview {
+
+            max-width: 800px;
+
+            margin: auto;
+
+            border:
+                1px solid
+                rgba(0,229,255,0.3);
+
+            border-radius: 22px;
+
+            background:
+                #0b151f;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,0.35);
+
+        }
+
+
+        .kk-id-inner {
+
+            padding:
+                35px;
+
+        }
+
+
+        .kk-id-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 20px;
+
+            margin-bottom:
+                35px;
+
+        }
+
+
+        .kk-id-brand {
+
+            color:
+                var(--cyan);
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                2px;
+
+        }
+
+
+        .kk-id-brand small {
+
+            display: block;
+
+            color:
+                var(--muted);
+
+            margin-top:
+                5px;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .kk-id-status {
+
+            padding:
+                6px 12px;
+
+            border-radius:
+                50px;
+
+            color:
+                var(--green);
+
+            background:
+                rgba(0,245,160,0.06);
+
+            border:
+                1px solid
+                rgba(0,245,160,0.25);
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .kk-id-content {
+
+            display: grid;
+
+            grid-template-columns:
+                120px 1fr;
+
+            gap: 25px;
+
+            align-items:
+                center;
+
+        }
+
+
+        .kk-avatar {
+
+            width: 120px;
+
+            height: 120px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius:
+                18px;
+
+            background:
+                #102432;
+
+            border:
+                1px solid
+                rgba(0,229,255,0.2);
+
+            color:
+                var(--cyan);
+
+            font-size:
+                40px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .kk-id-name {
+
+            color:
+                var(--white);
+
+            font-size:
+                26px;
+
+            font-weight:
+                900;
+
+            margin-bottom:
+                8px;
+
+        }
+
+
+        .kk-id-details {
+
+            color:
+                var(--muted);
+
+            line-height:
+                1.8;
+
+        }
+
+
+        .kk-id-footer {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            gap: 15px;
+
+            margin-top:
+                30px;
+
+            padding-top:
+                20px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            color:
+                #91a5b1;
+
+            font-size:
+                11px;
+
+        }
+
+
+        /* =========================================
+           STATS
+        ========================================= */
+
+        .kk-stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            max-width: 800px;
+
+            margin:
+                30px auto 0;
+
+        }
+
+
+        .kk-stat {
+
+            text-align:
+                center;
+
+            padding:
+                25px;
+
+            background:
+                #0b151f;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            border-radius:
+                15px;
+
+        }
+
+
+        .kk-stat strong {
+
+            display: block;
+
+            color:
+                var(--cyan);
+
+            font-size:
+                28px;
+
+        }
+
+
+        .kk-stat span {
+
+            color:
+                var(--muted);
+
+            font-size:
+                12px;
+
+        }
+
+
+        /* =========================================
+           NOTICE
+        ========================================= */
+
+        .kk-notice {
+
+            max-width:
+                850px;
+
+            margin:
+                45px auto 0;
+
+            padding:
+                22px 25px;
+
+            background:
+                #0b151f;
+
+            border:
+                1px solid
+                rgba(0,229,255,0.15);
+
+            border-left:
+                4px solid
+                var(--cyan);
+
+            border-radius:
+                10px;
+
+            color:
+                var(--muted);
+
+            line-height:
+                1.7;
+
+        }
+
+
+        .kk-notice strong {
+
+            color:
+                var(--cyan);
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media(max-width: 850px) {
+
+            .kk-services {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .kk-stats {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media(max-width: 600px) {
+
+            .kk-hero {
+
+                padding:
+                    75px 20px;
+
+            }
+
+            .kk-hero h1 {
+
+                font-size:
+                    48px;
+
+                letter-spacing:
+                    -2px;
+
+            }
+
+            .kk-tagline {
+
+                font-size:
+                    16px;
+
+            }
+
+            .kk-id-content {
+
+                grid-template-columns:
+                    1fr;
+
+                text-align:
+                    center;
+
+            }
+
+            .kk-avatar {
+
+                margin:
+                    auto;
+
+            }
+
+            .kk-id-top {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+            }
+
+            .kk-id-footer {
+
+                flex-direction:
+                    column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="kk-grid-bg"></div>
+
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="site-header">
+
+    <div class="container nav-container">
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <img
+                src="images/logo.png"
+                alt="SK Sapilang Logo">
+
+            <div>
+
+                <strong>
+                    SK SAPILANG
+                </strong>
+
+                <small>
+                    Bacnotan, La Union
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <button
+            class="menu-toggle"
+            onclick="toggleMenu()">
+
+            ☰
+
+        </button>
+
+
+        <nav id="mainNav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="programs.html">
+                Programs
+            </a>
+
+            <a href="events.html">
+                Events
+            </a>
+
+            <a href="announcements.html">
+                Announcements
+            </a>
+
+            <a href="kk-portal.html">
+                KK Portal
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     HERO
+========================================= -->
+
+<section class="kk-hero">
+
+    <div class="kk-hero-content">
+
+        <div class="kk-status">
+
+            <span class="status-dot"></span>
+
+            KK DIGITAL SERVICES
+
+        </div>
+
+
+        <h1>
+
+            <span class="outline">
+                KATIPUNAN
+            </span>
+
+            <br>
+
+            <span class="cyan">
+                NG KABATAAN
+            </span>
+
+        </h1>
+
+
+        <p class="kk-tagline">
+
+            The official digital gateway for the
+            youth of Barangay Sapilang. Access
+            youth registration and digital
+            identification services in one place.
+
+        </p>
+
+
+        <div class="kk-hero-actions">
+
+            <a
+                href="https://docs.google.com/forms/d/1AAt4Zjfu1FDxPZVPAA8Nm6bl6GfnkKafdfhbIIBleNE/viewform"
+                target="_blank"
+                rel="noopener"
+                class="kk-main-button">
+
+                REGISTER / UPDATE KK
+
+            </a>
+
+
+            <a
+                href="#services"
+                class="kk-outline-button">
+
+                VIEW SERVICES
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     SERVICES
+========================================= -->
+
+<section
+    class="kk-section"
+    id="services">
+
+    <div class="container">
+
+
+        <div class="kk-section-header">
+
+            <div class="kk-section-label">
+                DIGITAL SERVICES
+            </div>
+
+            <h2>
+
+                Youth Services
+                <span>Made Simple</span>
+
+            </h2>
+
+            <p>
+
+                Access the official digital services
+                of the Sangguniang Kabataan of
+                Barangay Sapilang.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="kk-services">
+
+
+            <article class="kk-service">
+
+                <div class="kk-number">
+                    01
+                </div>
+
+                <div class="kk-service-icon">
+                    📝
+                </div>
+
+                <h3>
+                    KK Profiling
+                </h3>
+
+                <p>
+
+                    Register or update your
+                    Katipunan ng Kabataan
+                    information through the
+                    official profiling form.
+
+                </p>
+
+                <a
+                    href="https://docs.google.com/forms/d/1AAt4Zjfu1FDxPZVPAA8Nm6bl6GfnkKafdfhbIIBleNE/viewform"
+                    target="_blank"
+                    rel="noopener"
+                    class="kk-service-link">
+
+                    OPEN PROFILING →
+
+                </a>
+
+            </article>
+
+
+
+            <article class="kk-service">
+
+                <div class="kk-number">
+                    02
+                </div>
+
+                <div class="kk-service-icon">
+                    🪪
+                </div>
+
+                <h3>
+                    KK Digital ID
+                </h3>
+
+                <p>
+
+                    Access your official digital
+                    KK identification after your
+                    registration has been processed.
+
+                </p>
+
+                <a
+                    href="javascript:void(0)"
+                    onclick="openKKSystem()"
+                    class="kk-service-link">
+
+                    ACCESS DIGITAL ID →
+
+                </a>
+
+            </article>
+
+
+
+            <article class="kk-service">
+
+                <div class="kk-number">
+                    03
+                </div>
+
+                <div class="kk-service-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    QR Verification
+                </h3>
+
+                <p>
+
+                    Verify a KK Digital ID using
+                    the official SK Sapilang
+                    verification system.
+
+                </p>
+
+                <a
+                    href="javascript:void(0)"
+                    onclick="openKKSystem()"
+                    class="kk-service-link">
+
+                    VERIFY KK ID →
+
+                </a>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     DIGITAL ID PREVIEW
+========================================= -->
+
+<section class="kk-id-section">
+
+    <div class="container">
+
+
+        <div class="kk-section-header">
+
+            <div class="kk-section-label">
+                DIGITAL IDENTIFICATION
+            </div>
+
+            <h2>
+
+                Your KK
+                <span>Digital ID</span>
+
+            </h2>
+
+            <p>
+
+                A modern digital representation
+                of your Katipunan ng Kabataan
+                membership.
+
+            </p>
+
+        </div>
+
+
+        <div class="kk-id-preview">
+
+            <div class="kk-id-inner">
+
+
+                <div class="kk-id-top">
+
+                    <div class="kk-id-brand">
+
+                        SK SAPILANG
+
+                        <small>
+                            KATIPUNAN NG KABATAAN
+                        </small>
+
+                    </div>
+
+
+                    <div class="kk-id-status">
+
+                        VERIFIED MEMBER
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="kk-id-content">
+
+
+                    <div class="kk-avatar">
+                        KK
+                    </div>
+
+
+                    <div>
+
+                        <div class="kk-id-name">
+                            KK MEMBER
+                        </div>
+
+                        <div class="kk-id-details">
+
+                            Barangay Sapilang<br>
+
+                            Bacnotan, La Union<br>
+
+                            Digital Membership ID
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="kk-id-footer">
+
+                    <span>
+                        KK DIGITAL ID
+                    </span>
+
+                    <span>
+                        SECURE • DIGITAL • VERIFIED
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="kk-stats">
+
+
+            <div class="kk-stat">
+
+                <strong>
+                    01
+                </strong>
+
+                <span>
+                    DIGITAL PROFILE
+                </span>
+
+            </div>
+
+
+            <div class="kk-stat">
+
+                <strong>
+                    24/7
+                </strong>
+
+                <span>
+                    ACCESS
+                </span>
+
+            </div>
+
+
+            <div class="kk-stat">
+
+                <strong>
+                    QR
+                </strong>
+
+                <span>
+                    VERIFICATION
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="kk-notice">
+
+            <strong>
+                PRIVACY & DATA PROTECTION
+            </strong>
+
+            <br><br>
+
+            Please submit your personal information
+            only through the official SK Sapilang KK
+            profiling system. Make sure that all
+            information provided is accurate and
+            updated.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="site-footer">
+
+    <div class="container">
+
+        <strong>
+            SANGGUNIANG KABATAAN
+            BARANGAY SAPILANG
+        </strong>
+
+        <p>
+            Bacnotan, La Union
+        </p>
+
+        <p>
+            © 2026 SK Sapilang
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<script src="js/main.js"></script>
+
+
+</body>
+
+</html>
