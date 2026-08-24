@@ -1,3 +1,2 @@
 const KK_CONFIG = {
-    API_URL: "https://script.google.com/macros/s/AKfycbwL3PUp4e2a7v4ju619LLsoxfrC9XW2X49yQPe7Bnedmnwdq5UgLSulEpQ5UsDLr8uJ/exec"
-};
+    API_URL: "https://script.google.com/macros/s/AKfycbwCT4hLkGBG--ZwOJGn1AO8_Zs6iLt4BPTbREnAPEe1c29Qx3aTNLrVRltdj_voTrPy/exec"
