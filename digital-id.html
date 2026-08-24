@@ -801,6 +801,7 @@ button {
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
+   FRONT + BACK STAY TOGETHER ON ONE PAGE
 ========================================================= */
 
 @media print {
@@ -814,69 +815,85 @@ button {
   body {
     margin: 0 !important;
     padding: 0 !important;
-    background: white !important;
+    width: 100% !important;
+    height: auto !important;
+    background: #ffffff !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
+  #app {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   .search-box,
   .controls,
-  .side-title {
+  .side-title,
+  .view-controls {
     display: none !important;
   }
 
   .cards-wrapper {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    gap: 10mm !important;
+    display: grid !important;
+    grid-template-columns: 85.60mm 85.60mm !important;
+    grid-template-rows: 53.98mm !important;
+    column-gap: 10mm !important;
+    row-gap: 0 !important;
+    align-items: start !important;
+    justify-content: start !important;
+    width: 181.20mm !important;
+    height: 53.98mm !important;
     margin: 0 !important;
     padding: 0 !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .id-side,
   .id-side.hidden-side {
     display: block !important;
     position: relative !important;
-
     width: 85.60mm !important;
     height: 53.98mm !important;
-
     min-width: 85.60mm !important;
     min-height: 53.98mm !important;
-
+    max-width: 85.60mm !important;
+    max-height: 53.98mm !important;
     margin: 0 !important;
     padding: 0 !important;
-
-    overflow: visible !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
+  /*
+    IMPORTANT:
+    Use zoom instead of transform for printing.
+    Chrome calculates page breaks using the zoomed size,
+    so the ID will not split onto a second page.
+  */
   .id-card {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-
+    position: relative !important;
     width: 950px !important;
+    height: 590px !important;
     min-height: 590px !important;
-
     max-width: none !important;
-
     margin: 0 !important;
-
     box-shadow: none !important;
 
-    transform: scale(0.325) !important;
+    zoom: 0.3405 !important;
+    transform: none !important;
     transform-origin: top left !important;
 
-    page-break-after: auto !important;
-    break-after: auto !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
-
-  .view-controls {
-    display: none !important;
-  }
-
 }
 
 </style>
