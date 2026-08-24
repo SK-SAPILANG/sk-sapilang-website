@@ -1,5 +1,1407 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital KK ID</title><link rel="stylesheet" href="styles.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><style>.id{max-width:800px;margin:25px auto;background:linear-gradient(135deg,#0b2035,#14507b);border:1px solid #4baee3;border-radius:24px;padding:30px}.idbody{display:grid;grid-template-columns:1fr 180px;gap:25px;align-items:center;margin-top:35px}.name{font-size:32px;font-weight:900}.kk{font-size:20px;color:#86dcff;margin:10px 0 25px}.qr{background:#fff;padding:12px;border-radius:15px;width:max-content}.controls{text-align:center;margin:20px}@media(max-width:650px){.idbody{grid-template-columns:1fr}.qr{margin:auto}}@media print{.controls{display:none}body{background:#fff}}</style></head><body><div class="container"><div id="app" class="panel card"><div class="row"><input id="idInput" placeholder="KK-SAP-2026-0001"><button class="primary" onclick="go()">Access Digital ID</button></div><div class="muted center">Enter your verified KK ID.</div></div></div><script src="config.js"></script><script>
-const q=new URLSearchParams(location.search).get("id");if(q)load(q);function go(){let id=document.getElementById("idInput").value.trim();if(id)location.search="?id="+encodeURIComponent(id)}
-async function load(id){let app=document.getElementById("app");app.innerHTML="Loading Digital KK ID...";try{let r=await fetch(KK_CONFIG.API_URL+"?action=digital&id="+encodeURIComponent(id)+"&t="+Date.now());let j=await r.json();if(!j.success||!j.data||j.data.ID_STATUS!=="ACTIVE"){app.innerHTML=`<div class="message error">${esc(j.message||"This Digital KK ID is not active.")}</div>`;return}let p=j.data;app.innerHTML=`<div class="id"><small>REPUBLIC OF THE PHILIPPINES</small><h2>Katipunan ng Kabataan Digital ID</h2><div>Barangay Sapilang • Bacnotan, La Union</div><div class="idbody"><div><div class="muted">REGISTERED MEMBER</div><div class="name">${esc(p.FULL_NAME)}</div><div class="kk">${esc(p.KK_ID)}</div><p><b>Barangay:</b> ${esc(p.BARANGAY)}</p><p><b>Municipality:</b> ${esc(p.MUNICIPALITY)}</p><p><b>Youth Age Group:</b> ${esc(p.YOUTH_AGE_GROUP)}</p><p><b>Status:</b> VERIFIED • ACTIVE</p><p><b>Date Verified:</b> ${esc(p.DATE_VERIFIED||"—")}</p></div><div><div id="qrcode" class="qr"></div><p class="center muted">Scan to verify</p></div></div></div><div class="controls"><button class="primary" onclick="window.print()">Print / Save as PDF</button></div>`;if(p.QR_CODE)new QRCode(document.getElementById("qrcode"),{text:p.QR_CODE,width:150,height:150})}catch(e){app.innerHTML='<div class="message error">Unable to connect to the KK server.</div>'}}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digital KK ID | Barangay Sapilang</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 30px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        radial-gradient(circle at top, #123c64, #06111e 65%);
+
+    color: white;
+}
+
+
+/* ==============================
+   SEARCH
+============================== */
+
+.search-box {
+
+    width: 500px;
+    max-width: 100%;
+
+    margin: 40px auto;
+
+    padding: 25px;
+
+    background: #102235;
+
+    border: 1px solid #31536f;
+
+    border-radius: 20px;
+
+    text-align: center;
+}
+
+.search-box input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin: 15px 0;
+
+    border-radius: 10px;
+
+    border: 1px solid #40617a;
+
+    background: #071726;
+
+    color: white;
+}
+
+button {
+
+    padding: 12px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #67ceff;
+
+    color: #052034;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* ==============================
+   DIGITAL ID
+============================== */
+
+.id-card {
+
+    width: 950px;
+
+    max-width: 100%;
+
+    margin: auto;
+
+    padding: 30px;
+
+    border-radius: 28px;
+
+    background:
+
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(80, 200, 255, .20),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #071728,
+            #0c3558
+        );
+
+    border:
+        1px solid
+        rgba(126, 220, 255, .40);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.45);
+}
+
+
+/* ==============================
+   HEADER
+============================== */
+
+.id-header {
+
+    display: grid;
+
+    grid-template-columns:
+        100px
+        1fr
+        100px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding-bottom: 20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.15);
+}
+
+
+.logo {
+
+    width: 85px;
+
+    height: 85px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: auto;
+}
+
+
+.header-center {
+
+    text-align: center;
+}
+
+
+.republic {
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    color: #b8c9d7;
+
+    text-transform: uppercase;
+}
+
+
+.header-title {
+
+    margin-top: 5px;
+
+    font-size: 25px;
+
+    font-weight: 900;
+}
+
+
+.header-location {
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: #c2d0dc;
+}
+
+
+.digital-id-label {
+
+    display: inline-block;
+
+    margin-top: 8px;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    border:
+        1px solid
+        rgba(103,206,255,.45);
+
+    color: #79dcff;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+}
+
+
+/* ==============================
+   MAIN BODY
+============================== */
+
+.id-body {
+
+    display: grid;
+
+    grid-template-columns:
+        150px
+        1fr
+        180px;
+
+    gap: 30px;
+
+    align-items: center;
+
+    margin-top: 30px;
+}
+
+
+/* ==============================
+   PROFILE PHOTO
+============================== */
+
+.photo-box {
+
+    width: 140px;
+
+    height: 170px;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+
+    border:
+        3px solid
+        rgba(255,255,255,.85);
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+
+.profile-photo {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.photo-placeholder {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #8edcff;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+/* ==============================
+   MEMBER INFORMATION
+============================== */
+
+.label {
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+
+    color: #9fb5c6;
+
+    text-transform: uppercase;
+}
+
+
+.member-name {
+
+    margin-top: 4px;
+
+    font-size: 32px;
+
+    font-weight: 900;
+}
+
+
+.kk-number {
+
+    margin-top: 8px;
+
+    margin-bottom: 22px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: #79dcff;
+}
+
+
+.info-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 16px 25px;
+}
+
+
+.info-value {
+
+    margin-top: 3px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+/* ==============================
+   QR
+============================== */
+
+.qr-area {
+
+    text-align: center;
+}
+
+
+.qr-box {
+
+    display: inline-block;
+
+    padding: 12px;
+
+    background: white;
+
+    border-radius: 15px;
+}
+
+
+.qr-box img,
+.qr-box canvas {
+
+    width: 145px !important;
+
+    height: 145px !important;
+
+    display: block;
+}
+
+
+.qr-label {
+
+    margin-top: 8px;
+
+    font-size: 10px;
+
+    color: #a9bdce;
+}
+
+
+/* ==============================
+   STATUS
+============================== */
+
+.status-row {
+
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.12);
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+}
+
+
+.active-status {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #67e8ad;
+}
+
+
+.status-dot {
+
+    display: inline-block;
+
+    width: 8px;
+
+    height: 8px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: #67e8ad;
+}
+
+
+/* ==============================
+   SIGNATURE / ISSUED
+============================== */
+
+.bottom-section {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: flex-end;
+
+    margin-top: 30px;
+}
+
+
+.issued-section {
+
+    font-size: 11px;
+
+    color: #aebfcd;
+}
+
+
+.issued-date {
+
+    margin-top: 4px;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+.signature-section {
+
+    width: 280px;
+
+    text-align: center;
+}
+
+
+.signed {
+
+    margin-bottom: 35px;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    color: #aebfcd;
+}
+
+
+.signature-line {
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.8);
+
+    margin-bottom: 7px;
+}
+
+
+.chairperson-name {
+
+    font-size: 16px;
+
+    font-weight: 900;
+}
+
+
+.chairperson-position {
+
+    margin-top: 3px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+/* ==============================
+   BUTTON
+============================== */
+
+.controls {
+
+    margin-top: 20px;
+
+    text-align: center;
+}
+
+
+/* ==============================
+   ERROR
+============================== */
+
+.error {
+
+    width: 500px;
+
+    max-width: 100%;
+
+    margin: 50px auto;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    background: #40232c;
+
+    text-align: center;
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media(max-width:720px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .id-header {
+
+        grid-template-columns:
+            65px
+            1fr
+            65px;
+    }
+
+    .logo {
+
+        width: 58px;
+
+        height: 58px;
+    }
+
+    .id-body {
+
+        grid-template-columns:
+            1fr;
+
+        text-align: center;
+    }
+
+    .photo-box {
+
+        margin: auto;
+    }
+
+    .info-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .bottom-section {
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 30px;
+    }
+
+}
+
+
+/* ==============================
+   PRINT
+============================== */
+
+@media print {
+
+    body {
+
+        padding: 0;
+
+        background: white;
+    }
+
+    .controls,
+    .search-box {
+
+        display: none !important;
+    }
+
+    .id-card {
+
+        width: 100%;
+
+        box-shadow: none;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div id="app">
+
+    <div class="search-box">
+
+        <h2>
+            Access Digital KK ID
+        </h2>
+
+        <p>
+            Enter your verified KK ID.
+        </p>
+
+        <input
+            id="kkInput"
+            placeholder="KK-SAP-2026-58310472"
+        >
+
+        <button onclick="openID()">
+            Access Digital ID
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="config.js"></script>
+
+
+<script>
+
+
+/* ==============================
+   CHECK URL FOR KK ID
+============================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const kkID =
+    params.get("id");
+
+
+if (kkID) {
+
+    loadID(
+        kkID
+    );
+
+}
+
+
+/* ==============================
+   OPEN ID
+============================== */
+
+function openID() {
+
+    const id =
+        document
+        .getElementById(
+            "kkInput"
+        )
+        .value
+        .trim();
+
+
+    if (!id) {
+
+        alert(
+            "Please enter your KK ID."
+        );
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "digital-id.html?id=" +
+        encodeURIComponent(
+            id
+        );
+
+}
+
+
+/* ==============================
+   LOAD DATA
+============================== */
+
+async function loadID(id) {
+
+    const app =
+        document
+        .getElementById(
+            "app"
+        );
+
+
+    app.innerHTML = `
+
+        <div class="search-box">
+
+            Loading Digital KK ID...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const url =
+
+            KK_CONFIG.API_URL +
+
+            "?action=digital&id=" +
+
+            encodeURIComponent(
+                id
+            ) +
+
+            "&t=" +
+
+            Date.now();
+
+
+        const response =
+            await fetch(
+                url
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (
+            !result.success ||
+            !result.data
+        ) {
+
+            showError(
+                result.message ||
+                "Digital ID not found."
+            );
+
+            return;
+
+        }
+
+
+        const person =
+            result.data;
+
+
+        if (
+            person.VERIFICATION_STATUS !==
+            "VERIFIED"
+        ) {
+
+            showError(
+                "This registration has not yet been verified."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            person.ID_STATUS !==
+            "ACTIVE"
+        ) {
+
+            showError(
+                "This Digital KK ID is not active."
+            );
+
+            return;
+
+        }
+
+
+        displayID(
+            person
+        );
+
+    }
+
+    catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        showError(
+            "Unable to connect to the KK server."
+        );
+
+    }
+
+}
+
+
+/* ==============================
+   DISPLAY ID
+============================== */
+
+function displayID(person) {
+
+
+    let photoHTML;
+
+
+    if (
+        person.PROFILE_PHOTO_URL
+    ) {
+
+        photoHTML = `
+
+            <img
+                src="${escapeHTML(
+                    person.PROFILE_PHOTO_URL
+                )}"
+
+                class="profile-photo"
+
+                alt="Profile Picture"
+
+                onerror="
+                    this.style.display='none';
+                    document.getElementById('photoFallback').style.display='flex';
+                "
+            >
+
+            <div
+                id="photoFallback"
+                class="photo-placeholder"
+                style="display:none;"
+            >
+                PROFILE<br>
+                PICTURE
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+        photoHTML = `
+
+            <div
+                class="photo-placeholder"
+            >
+                PROFILE<br>
+                PICTURE
+            </div>
+
+        `;
+
+    }
+
+
+    const app =
+        document
+        .getElementById(
+            "app"
+        );
+
+
+    app.innerHTML = `
+
+
+    <div class="id-card">
+
+
+        <!-- HEADER -->
+
+        <div class="id-header">
+
+
+            <img
+                src="images/sk-logo.png"
+                class="logo"
+                alt="Sangguniang Kabataan Logo"
+            >
+
+
+            <div class="header-center">
+
+
+                <div class="republic">
+
+                    Republic of the Philippines
+
+                </div>
+
+
+                <div class="header-title">
+
+                    KATIPUNAN NG KABATAAN
+
+                </div>
+
+
+                <div class="header-location">
+
+                    Barangay Sapilang,
+                    Bacnotan, La Union
+
+                </div>
+
+
+                <div class="digital-id-label">
+
+                    DIGITAL KK ID
+
+                </div>
+
+
+            </div>
+
+
+            <img
+                src="images/bagong-pilipinas-logo.png"
+                class="logo"
+                alt="Bagong Pilipinas Logo"
+            >
+
+
+        </div>
+
+
+
+        <!-- MEMBER INFORMATION -->
+
+        <div class="id-body">
+
+
+            <div class="photo-box">
+
+                ${photoHTML}
+
+            </div>
+
+
+
+            <div>
+
+
+                <div class="label">
+
+                    Registered Member
+
+                </div>
+
+
+                <div class="member-name">
+
+                    ${escapeHTML(
+                        person.FULL_NAME
+                    )}
+
+                </div>
+
+
+                <div class="kk-number">
+
+                    ${escapeHTML(
+                        person.KK_ID
+                    )}
+
+                </div>
+
+
+
+                <div class="info-grid">
+
+
+                    <div>
+
+                        <div class="label">
+                            Barangay
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                person.BARANGAY ||
+                                "Sapilang"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <div class="label">
+                            Municipality
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                person.MUNICIPALITY ||
+                                "Bacnotan"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <div class="label">
+                            Province
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                person.PROVINCE ||
+                                "La Union"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <div class="label">
+                            Youth Age Group
+                        </div>
+
+                        <div class="info-value">
+
+                            ${escapeHTML(
+                                person.YOUTH_AGE_GROUP ||
+                                "—"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- QR CODE -->
+
+            <div class="qr-area">
+
+
+                <div
+                    id="qrcode"
+                    class="qr-box"
+                ></div>
+
+
+                <div class="qr-label">
+
+                    Scan to verify
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div class="status-row">
+
+
+            <div class="active-status">
+
+                <span
+                    class="status-dot"
+                ></span>
+
+                VERIFIED • ACTIVE
+
+            </div>
+
+
+            <div class="label">
+
+                KK MEMBER
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- LOWER PORTION -->
+
+        <div class="bottom-section">
+
+
+            <!-- ISSUED DATE -->
+
+            <div class="issued-section">
+
+                ISSUED ON
+
+                <div class="issued-date">
+
+                    ${escapeHTML(
+                        person.DATE_REGISTERED ||
+                        "—"
+                    )}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SK CHAIRPERSON -->
+
+            <div class="signature-section">
+
+
+                <div class="signed">
+
+                    SIGNED
+
+                </div>
+
+
+                <div class="signature-line">
+                </div>
+
+
+                <div class="chairperson-name">
+
+                    DANDY F. NILLO
+
+                </div>
+
+
+                <div class="chairperson-position">
+
+                    SK CHAIRPERSON
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="controls">
+
+
+        <button
+            onclick="window.print()"
+        >
+
+            Print / Save as PDF
+
+        </button>
+
+
+    </div>
+
+
+    `;
+
+
+
+    /* CREATE QR CODE */
+
+    const qrValue =
+
+        person.QR_CODE ||
+
+        (
+            window.location.origin +
+            window.location.pathname
+                .replace(
+                    "digital-id.html",
+                    "verify.html"
+                ) +
+
+            "?id=" +
+
+            encodeURIComponent(
+                person.KK_ID
+            )
+        );
+
+
+    if (
+        typeof QRCode !==
+        "undefined"
+    ) {
+
+        new QRCode(
+
+            document
+            .getElementById(
+                "qrcode"
+            ),
+
+            {
+
+                text:
+                    qrValue,
+
+                width:
+                    145,
+
+                height:
+                    145,
+
+                correctLevel:
+                    QRCode.CorrectLevel.H
+
+            }
+
+        );
+
+    }
+
+}
+
+
+/* ==============================
+   ERROR
+============================== */
+
+function showError(message) {
+
+    document
+    .getElementById(
+        "app"
+    )
+    .innerHTML = `
+
+        <div class="error">
+
+            <h2>
+                Digital ID Unavailable
+            </h2>
+
+            <p>
+
+                ${escapeHTML(
+                    message
+                )}
+
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==============================
+   SECURITY
+============================== */
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
