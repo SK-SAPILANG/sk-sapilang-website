@@ -12,1395 +12,1439 @@
 <style>
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  --red: #c8102e;
+  --dark-red: #9f1028;
+  --orange: #f47c20;
+  --gold: #f5a800;
+  --green: #138a4b;
+  --dark: #171717;
+  --gray: #666666;
+  --light: #f7f7f7;
+  --white: #ffffff;
 }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    padding: 30px;
+  margin: 0;
+  min-height: 100vh;
+  padding: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #eeeeee;
+  color: var(--dark);
+}
 
-    font-family: Arial, Helvetica, sans-serif;
-
-    background:
-        radial-gradient(circle at top, #123c64, #06111e 65%);
-
-    color: white;
+#app {
+  width: 100%;
 }
 
 
-/* ==============================
+/* =========================================================
    SEARCH
-============================== */
+========================================================= */
 
 .search-box {
+  width: 620px;
+  max-width: 100%;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(0,0,0,.12);
+  text-align: center;
+}
 
-    width: 500px;
-    max-width: 100%;
+.search-box h2 {
+  margin: 0 0 8px;
+  color: var(--red);
+  font-size: 28px;
+}
 
-    margin: 40px auto;
-
-    padding: 25px;
-
-    background: #102235;
-
-    border: 1px solid #31536f;
-
-    border-radius: 20px;
-
-    text-align: center;
+.search-box p {
+  color: #555;
 }
 
 .search-box input {
-
-    width: 100%;
-
-    padding: 13px;
-
-    margin: 15px 0;
-
-    border-radius: 10px;
-
-    border: 1px solid #40617a;
-
-    background: #071726;
-
-    color: white;
+  width: 100%;
+  margin: 15px 0;
+  padding: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  font-size: 15px;
 }
 
 button {
-
-    padding: 12px 20px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #67ceff;
-
-    color: #052034;
-
-    font-weight: bold;
-
-    cursor: pointer;
+  border: none;
+  padding: 13px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange)
+  );
 }
 
 
-/* ==============================
-   DIGITAL ID
-============================== */
+/* =========================================================
+   WRAPPER
+========================================================= */
+
+.cards-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.side-title {
+  margin-bottom: 7px;
+  text-align: center;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
 
 .id-card {
+  position: relative;
+  width: 950px;
+  max-width: 100%;
+  min-height: 590px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: white;
+  border: 2px solid var(--red);
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
 
-    width: 950px;
+.id-card::before {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 115px;
+  right: -80px;
+  top: -55px;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange)
+  );
+  transform: rotate(8deg);
+  border-radius: 50%;
+}
 
-    max-width: 100%;
-
-    margin: auto;
-
-    padding: 30px;
-
-    border-radius: 28px;
-
-    background:
-
-        radial-gradient(
-            circle at 85% 15%,
-            rgba(80, 200, 255, .20),
-            transparent 30%
-        ),
-
-        linear-gradient(
-            135deg,
-            #071728,
-            #0c3558
-        );
-
-    border:
-        1px solid
-        rgba(126, 220, 255, .40);
-
-    box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.45);
+.id-card::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 100px;
+  left: -120px;
+  bottom: -55px;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange),
+    var(--gold)
+  );
+  transform: rotate(5deg);
+  border-radius: 50%;
 }
 
 
-/* ==============================
-   HEADER
-============================== */
+/* =========================================================
+   FRONT
+========================================================= */
+
+.front-content {
+  position: relative;
+  z-index: 2;
+  padding: 28px 32px 30px;
+}
 
 .id-header {
-
-    display: grid;
-
-    grid-template-columns:
-        100px
-        1fr
-        100px;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding-bottom: 20px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.15);
+  display: grid;
+  grid-template-columns: 110px 1fr 110px;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid #f2b24c;
 }
-
 
 .logo {
-
-    width: 85px;
-
-    height: 85px;
-
-    object-fit: contain;
-
-    display: block;
-
-    margin: auto;
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
 }
-
 
 .header-center {
-
-    text-align: center;
+  text-align: center;
 }
-
 
 .republic {
-
-    font-size: 11px;
-
-    letter-spacing: 1px;
-
-    color: #b8c9d7;
-
-    text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: #333333;
 }
-
 
 .header-title {
-
-    margin-top: 5px;
-
-    font-size: 25px;
-
-    font-weight: 900;
+  margin-top: 5px;
+  color: var(--red);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 900;
 }
-
 
 .header-location {
+  margin-top: 7px;
+  font-size: 14px;
+  color: #222222;
+}
 
-    margin-top: 4px;
-
-    font-size: 12px;
-
-    color: #c2d0dc;
+.digital-label {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 6px 20px;
+  border-radius: 999px;
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 
-.digital-id-label {
-
-    display: inline-block;
-
-    margin-top: 8px;
-
-    padding: 5px 12px;
-
-    border-radius: 20px;
-
-    border:
-        1px solid
-        rgba(103,206,255,.45);
-
-    color: #79dcff;
-
-    font-size: 10px;
-
-    font-weight: bold;
-
-    letter-spacing: 1.5px;
-}
-
-
-/* ==============================
-   MAIN BODY
-============================== */
+/* =========================================================
+   FRONT BODY
+========================================================= */
 
 .id-body {
-
-    display: grid;
-
-    grid-template-columns:
-        150px
-        1fr
-        180px;
-
-    gap: 30px;
-
-    align-items: center;
-
-    margin-top: 30px;
+  display: grid;
+  grid-template-columns: 160px 1fr 190px;
+  gap: 28px;
+  align-items: center;
+  margin-top: 28px;
 }
-
-
-/* ==============================
-   PROFILE PHOTO
-============================== */
 
 .photo-box {
-
-    width: 140px;
-
-    height: 170px;
-
-    overflow: hidden;
-
-    border-radius: 16px;
-
-    border:
-        3px solid
-        rgba(255,255,255,.85);
-
-    background:
-        rgba(255,255,255,.08);
+  width: 150px;
+  height: 185px;
+  overflow: hidden;
+  border: 3px solid var(--red);
+  border-radius: 18px;
+  background: #f5f5f5;
 }
-
 
 .profile-photo {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-
 
 .photo-placeholder {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color: #8edcff;
-
-    font-size: 12px;
-
-    font-weight: bold;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: bold;
 }
-
-
-/* ==============================
-   MEMBER INFORMATION
-============================== */
 
 .label {
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-
-    color: #9fb5c6;
-
-    text-transform: uppercase;
+  color: #666666;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
-
 
 .member-name {
-
-    margin-top: 4px;
-
-    font-size: 32px;
-
-    font-weight: 900;
+  margin-top: 5px;
+  color: #111111;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.05;
 }
-
 
 .kk-number {
-
-    margin-top: 8px;
-
-    margin-bottom: 22px;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    color: #79dcff;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  color: var(--red);
+  font-size: 20px;
+  font-weight: 900;
 }
 
 
-.info-grid {
+/* =========================================================
+   COMPLETE ADDRESS
+========================================================= */
 
-    display: grid;
+.address-box {
+  margin-top: 12px;
+  padding: 15px;
+  background: #fff7ed;
+  border-left: 5px solid var(--orange);
+  border-radius: 10px;
+}
 
-    grid-template-columns:
-        1fr
-        1fr;
-
-    gap: 16px 25px;
+.address-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
 
-.info-value {
-
-    margin-top: 3px;
-
-    font-size: 14px;
-
-    font-weight: bold;
-}
-
-
-/* ==============================
-   QR
-============================== */
+/* =========================================================
+   FRONT QR
+========================================================= */
 
 .qr-area {
-
-    text-align: center;
+  text-align: center;
 }
-
 
 .qr-box {
-
-    display: inline-block;
-
-    padding: 12px;
-
-    background: white;
-
-    border-radius: 15px;
+  display: inline-block;
+  padding: 12px;
+  background: white;
+  border: 3px solid var(--red);
+  border-radius: 18px;
 }
-
 
 .qr-box img,
 .qr-box canvas {
-
-    width: 145px !important;
-
-    height: 145px !important;
-
-    display: block;
+  width: 150px !important;
+  height: 150px !important;
+  display: block;
 }
-
 
 .qr-label {
-
-    margin-top: 8px;
-
-    font-size: 10px;
-
-    color: #a9bdce;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--red);
+  color: white;
+  font-size: 10px;
 }
 
 
-/* ==============================
+/* =========================================================
    STATUS
-============================== */
+========================================================= */
 
 .status-row {
-
-    margin-top: 25px;
-
-    padding-top: 18px;
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.12);
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #dddddd;
 }
-
 
 .active-status {
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-    color: #67e8ad;
+  color: var(--green);
+  font-size: 15px;
+  font-weight: 900;
 }
-
 
 .status-dot {
-
-    display: inline-block;
-
-    width: 8px;
-
-    height: 8px;
-
-    margin-right: 7px;
-
-    border-radius: 50%;
-
-    background: #67e8ad;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--green);
 }
 
 
-/* ==============================
-   SIGNATURE / ISSUED
-============================== */
+/* =========================================================
+   FRONT LOWER
+========================================================= */
 
 .bottom-section {
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items: flex-end;
-
-    margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 28px;
 }
 
-
-.issued-section {
-
-    font-size: 11px;
-
-    color: #aebfcd;
+.issued {
+  color: #666666;
+  font-size: 10px;
+  letter-spacing: 1px;
 }
-
 
 .issued-date {
-
-    margin-top: 4px;
-
-    color: white;
-
-    font-size: 13px;
-
-    font-weight: bold;
+  margin-top: 5px;
+  color: #111111;
+  font-size: 14px;
+  font-weight: bold;
 }
-
 
 .signature-section {
-
-    width: 280px;
-
-    text-align: center;
+  width: 290px;
+  text-align: center;
 }
-
 
 .signed {
-
-    margin-bottom: 35px;
-
-    font-size: 10px;
-
-    letter-spacing: 1.5px;
-
-    color: #aebfcd;
+  margin-bottom: 35px;
+  color: #666666;
+  font-size: 10px;
+  letter-spacing: 1.5px;
 }
-
 
 .signature-line {
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.8);
-
-    margin-bottom: 7px;
+  border-top: 2px solid var(--orange);
+  margin-bottom: 8px;
 }
-
 
 .chairperson-name {
-
-    font-size: 16px;
-
-    font-weight: 900;
+  color: var(--red);
+  font-size: 17px;
+  font-weight: 900;
 }
-
 
 .chairperson-position {
-
-    margin-top: 3px;
-
-    font-size: 11px;
-
-    font-weight: bold;
+  margin-top: 3px;
+  color: #111111;
+  font-size: 11px;
+  font-weight: bold;
 }
 
 
-/* ==============================
-   BUTTON
-============================== */
+/* =========================================================
+   BACK
+========================================================= */
+
+.back-content {
+  position: relative;
+  z-index: 2;
+  min-height: 590px;
+  padding: 35px;
+}
+
+.back-header {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange)
+  );
+  color: white;
+  text-align: center;
+}
+
+.back-header h2 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.back-header p {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   PERSONAL INFORMATION
+========================================================= */
+
+.personal-title,
+.emergency-title {
+  margin-top: 25px;
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.personal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 13px;
+}
+
+.personal-item {
+  padding: 17px;
+  border: 1px solid #e3e3e3;
+  border-top: 4px solid var(--orange);
+  border-radius: 12px;
+  background: #fffaf5;
+}
+
+.personal-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   EMERGENCY
+========================================================= */
+
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 13px;
+}
+
+.emergency-item {
+  padding: 17px;
+  border: 1px solid #e3e3e3;
+  border-left: 5px solid var(--red);
+  border-radius: 12px;
+  background: white;
+}
+
+.emergency-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   BACK LOWER
+========================================================= */
+
+.back-lower {
+  display: grid;
+  grid-template-columns: 1fr 145px;
+  gap: 25px;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.id-note {
+  padding: 13px 16px;
+  background: #fff5e8;
+  border-left: 5px solid var(--orange);
+  border-radius: 10px;
+  color: #444444;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.id-note strong {
+  color: var(--red);
+}
+
+.return-box {
+  margin-top: 15px;
+  color: #444444;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.return-box strong {
+  color: var(--red);
+}
+
+.back-qr {
+  text-align: center;
+}
+
+.back-qr-box {
+  display: inline-block;
+  padding: 9px;
+  background: white;
+  border: 2px solid var(--orange);
+  border-radius: 12px;
+}
+
+.back-qr-box img,
+.back-qr-box canvas {
+  width: 105px !important;
+  height: 105px !important;
+  display: block;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
 
 .controls {
-
-    margin-top: 20px;
-
-    text-align: center;
+  margin-top: 25px;
+  text-align: center;
 }
 
 
-/* ==============================
+/* =========================================================
    ERROR
-============================== */
+========================================================= */
 
 .error {
-
-    width: 500px;
-
-    max-width: 100%;
-
-    margin: 50px auto;
-
-    padding: 25px;
-
-    border-radius: 20px;
-
-    background: #40232c;
-
-    text-align: center;
+  width: 520px;
+  max-width: 100%;
+  margin: 50px auto;
+  padding: 30px;
+  background: white;
+  border: 2px solid var(--red);
+  border-radius: 20px;
+  text-align: center;
+  color: #111111;
 }
 
 
-/* ==============================
+/* =========================================================
    MOBILE
-============================== */
+========================================================= */
 
-@media(max-width:720px) {
+@media(max-width: 760px) {
 
-    body {
-        padding: 15px;
-    }
+  body {
+    padding: 12px;
+  }
 
-    .id-header {
+  .id-header {
+    grid-template-columns: 65px 1fr 65px;
+  }
 
-        grid-template-columns:
-            65px
-            1fr
-            65px;
-    }
+  .logo {
+    width: 58px;
+    height: 58px;
+  }
 
-    .logo {
+  .header-title {
+    font-size: 19px;
+  }
 
-        width: 58px;
+  .id-body {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 
-        height: 58px;
-    }
+  .photo-box {
+    margin: auto;
+  }
 
-    .id-body {
+  .bottom-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
 
-        grid-template-columns:
-            1fr;
+  .personal-grid,
+  .emergency-grid {
+    grid-template-columns: 1fr;
+  }
 
-        text-align: center;
-    }
-
-    .photo-box {
-
-        margin: auto;
-    }
-
-    .info-grid {
-
-        grid-template-columns:
-            1fr;
-    }
-
-    .bottom-section {
-
-        flex-direction: column;
-
-        align-items: center;
-
-        gap: 30px;
-    }
-
+  .back-lower {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 }
 
 
-/* ==============================
-   PRINT
-============================== */
+/* =========================================================
+   PRINT FRONT + BACK
+========================================================= */
 
 @media print {
 
-    body {
+  @page {
+    size: landscape;
+    margin: 8mm;
+  }
 
-        padding: 0;
+  body {
+    padding: 0;
+    background: white;
+  }
 
-        background: white;
-    }
+  .search-box,
+  .controls,
+  .side-title {
+    display: none !important;
+  }
 
-    .controls,
-    .search-box {
+  .cards-wrapper {
+    display: block;
+  }
 
-        display: none !important;
-    }
+  .id-card {
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    page-break-after: always;
+    break-after: page;
+  }
 
-    .id-card {
-
-        width: 100%;
-
-        box-shadow: none;
-    }
-
+  .id-card:last-of-type {
+    page-break-after: auto;
+    break-after: auto;
+  }
 }
 
 </style>
-
 </head>
 
 
 <body>
 
-
 <div id="app">
 
-    <div class="search-box">
+  <div class="search-box">
 
-        <h2>
-            Access Digital KK ID
-        </h2>
+    <h2>
+      ACCESS DIGITAL KK ID
+    </h2>
 
-        <p>
-            Enter your verified KK ID.
-        </p>
+    <p>
+      Enter your verified KK ID.
+    </p>
 
-        <input
-            id="kkInput"
-            placeholder="KK-SAP-2026-58310472"
-        >
+    <input
+      id="kkInput"
+      placeholder="KK-SAP-2026-58310472"
+    >
 
-        <button onclick="openID()">
-            Access Digital ID
-        </button>
+    <button onclick="openID()">
+      ACCESS DIGITAL ID
+    </button>
 
-    </div>
+  </div>
 
 </div>
 
 
 <script src="config.js"></script>
 
-
 <script>
 
 
-/* ==============================
-   CHECK URL FOR KK ID
-============================== */
+/* =========================================================
+   GET ID FROM URL
+========================================================= */
 
 const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
+  new URLSearchParams(
+    window.location.search
+  );
 
 const kkID =
-    params.get("id");
-
+  params.get("id");
 
 if (kkID) {
-
-    loadID(
-        kkID
-    );
-
+  loadID(kkID);
 }
 
 
-/* ==============================
+/* =========================================================
    OPEN ID
-============================== */
+========================================================= */
 
 function openID() {
 
-    const id =
-        document
-        .getElementById(
-            "kkInput"
-        )
-        .value
-        .trim();
+  const id =
+    document
+      .getElementById("kkInput")
+      .value
+      .trim();
 
+  if (!id) {
+    alert("Please enter your KK ID.");
+    return;
+  }
 
-    if (!id) {
-
-        alert(
-            "Please enter your KK ID."
-        );
-
-        return;
-
-    }
-
-
-    window.location.href =
-        "digital-id.html?id=" +
-        encodeURIComponent(
-            id
-        );
-
+  window.location.href =
+    "digital-id.html?id=" +
+    encodeURIComponent(id);
 }
 
 
-/* ==============================
-   LOAD DATA
-============================== */
+/* =========================================================
+   LOAD ID
+========================================================= */
 
 async function loadID(id) {
 
-    const app =
-        document
-        .getElementById(
-            "app"
-        );
+  const app =
+    document.getElementById("app");
 
+  app.innerHTML = `
+    <div class="search-box">
+      Loading Digital KK ID...
+    </div>
+  `;
 
-    app.innerHTML = `
+  try {
 
-        <div class="search-box">
+    const url =
+      KK_CONFIG.API_URL +
+      "?action=digital&id=" +
+      encodeURIComponent(id) +
+      "&t=" +
+      Date.now();
 
-            Loading Digital KK ID...
+    const response =
+      await fetch(url);
 
-        </div>
+    const result =
+      await response.json();
 
-    `;
+    if (
+      !result.success ||
+      !result.data
+    ) {
 
+      showError(
+        result.message ||
+        "Digital ID not found."
+      );
 
-    try {
-
-        const url =
-
-            KK_CONFIG.API_URL +
-
-            "?action=digital&id=" +
-
-            encodeURIComponent(
-                id
-            ) +
-
-            "&t=" +
-
-            Date.now();
-
-
-        const response =
-            await fetch(
-                url
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (
-            !result.success ||
-            !result.data
-        ) {
-
-            showError(
-                result.message ||
-                "Digital ID not found."
-            );
-
-            return;
-
-        }
-
-
-        const person =
-            result.data;
-
-
-        if (
-            person.VERIFICATION_STATUS !==
-            "VERIFIED"
-        ) {
-
-            showError(
-                "This registration has not yet been verified."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            person.ID_STATUS !==
-            "ACTIVE"
-        ) {
-
-            showError(
-                "This Digital KK ID is not active."
-            );
-
-            return;
-
-        }
-
-
-        displayID(
-            person
-        );
-
+      return;
     }
 
-    catch(error) {
+    const person =
+      result.data;
 
-        console.error(
-            error
-        );
+    if (
+      person.VERIFICATION_STATUS !==
+      "VERIFIED"
+    ) {
 
+      showError(
+        "This registration has not yet been verified."
+      );
 
-        showError(
-            "Unable to connect to the KK server."
-        );
-
+      return;
     }
 
+    if (
+      person.ID_STATUS !==
+      "ACTIVE"
+    ) {
+
+      showError(
+        "This Digital KK ID is not active."
+      );
+
+      return;
+    }
+
+    displayID(person);
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    showError(
+      "Unable to connect to the KK server."
+    );
+  }
 }
 
 
-/* ==============================
-   DISPLAY ID
-============================== */
+/* =========================================================
+   DISPLAY FRONT + BACK
+========================================================= */
 
 function displayID(person) {
 
+  let photoHTML;
 
-    let photoHTML;
+  if (
+    person.PROFILE_PHOTO_URL
+  ) {
 
+    photoHTML = `
 
-    if (
-        person.PROFILE_PHOTO_URL
-    ) {
+      <img
+        src="${escapeHTML(
+          person.PROFILE_PHOTO_URL
+        )}"
+        class="profile-photo"
+        alt="Profile Picture"
+        onerror="
+          this.style.display='none';
+          document.getElementById('photoFallback').style.display='flex';
+        "
+      >
 
-        photoHTML = `
+      <div
+        id="photoFallback"
+        class="photo-placeholder"
+        style="display:none;"
+      >
+        PROFILE<br>
+        PICTURE
+      </div>
 
-            <img
-                src="${escapeHTML(
-                    person.PROFILE_PHOTO_URL
-                )}"
+    `;
 
-                class="profile-photo"
+  } else {
 
-                alt="Profile Picture"
+    photoHTML = `
 
-                onerror="
-                    this.style.display='none';
-                    document.getElementById('photoFallback').style.display='flex';
-                "
-            >
+      <div class="photo-placeholder">
+        PROFILE<br>
+        PICTURE
+      </div>
 
-            <div
-                id="photoFallback"
-                class="photo-placeholder"
-                style="display:none;"
-            >
-                PROFILE<br>
-                PICTURE
-            </div>
-
-        `;
-
-    }
-
-    else {
-
-        photoHTML = `
-
-            <div
-                class="photo-placeholder"
-            >
-                PROFILE<br>
-                PICTURE
-            </div>
-
-        `;
-
-    }
+    `;
+  }
 
 
-    const app =
-        document
-        .getElementById(
-            "app"
-        );
+  const app =
+    document.getElementById("app");
 
 
-    app.innerHTML = `
+  app.innerHTML = `
+
+  <div class="cards-wrapper">
 
 
-    <div class="id-card">
+    <!-- =====================================================
+         FRONT
+    ====================================================== -->
+
+    <div>
+
+      <div class="side-title">
+        FRONT
+      </div>
+
+      <div class="id-card">
+
+        <div class="front-content">
 
 
-        <!-- HEADER -->
-
-        <div class="id-header">
-
+          <div class="id-header">
 
             <img
-                src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
-                class="logo"
-                alt="Sangguniang Kabataan Logo"
+              src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+              class="logo"
+              alt="Sangguniang Kabataan Logo"
             >
 
 
             <div class="header-center">
 
+              <div class="republic">
+                Republic of the Philippines
+              </div>
 
-                <div class="republic">
+              <div class="header-title">
+                KATIPUNAN NG KABATAAN
+              </div>
 
-                    Republic of the Philippines
+              <div class="header-location">
+                Barangay Sapilang, Bacnotan, La Union
+              </div>
 
-                </div>
-
-
-                <div class="header-title">
-
-                    KATIPUNAN NG KABATAAN
-
-                </div>
-
-
-                <div class="header-location">
-
-                    Barangay Sapilang,
-                    Bacnotan, La Union
-
-                </div>
-
-
-                <div class="digital-id-label">
-
-                    DIGITAL KK ID
-
-                </div>
-
+              <div class="digital-label">
+                DIGITAL KK ID
+              </div>
 
             </div>
 
 
             <img
-                src="images/Bagong_Pilipinas_logo.png"
-                class="logo"
-                alt="Bagong Pilipinas Logo"
+              src="images/Bagong_Pilipinas_logo.png"
+              class="logo"
+              alt="Bagong Pilipinas Logo"
             >
+
+          </div>
+
+
+          <div class="id-body">
+
+
+            <div class="photo-box">
+              ${photoHTML}
+            </div>
+
+
+            <div>
+
+              <div class="label">
+                REGISTERED MEMBER
+              </div>
+
+              <div class="member-name">
+                ${escapeHTML(
+                  person.FULL_NAME || "—"
+                )}
+              </div>
+
+              <div class="kk-number">
+                ${escapeHTML(
+                  person.KK_ID || "—"
+                )}
+              </div>
+
+
+              <div class="address-box">
+
+                <div class="label">
+                  COMPLETE ADDRESS
+                </div>
+
+                <div class="address-value">
+                  ${escapeHTML(
+                    person.COMPLETE_ADDRESS || "—"
+                  )}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="qr-area">
+
+              <div
+                id="qrcodeFront"
+                class="qr-box"
+              ></div>
+
+              <div class="qr-label">
+                SCAN TO VERIFY
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="status-row">
+
+            <div class="active-status">
+
+              <span
+                class="status-dot"
+              ></span>
+
+              VERIFIED • ACTIVE
+
+            </div>
+
+            <div class="label">
+              KK MEMBER
+            </div>
+
+          </div>
+
+
+          <div class="bottom-section">
+
+
+            <div class="issued">
+
+              ISSUED ON
+
+              <div class="issued-date">
+                ${escapeHTML(
+                  person.DATE_REGISTERED || "—"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="signature-section">
+
+              <div class="signed">
+                SIGNED
+              </div>
+
+              <div
+                class="signature-line"
+              ></div>
+
+              <div class="chairperson-name">
+                DANDY F. NILLO
+              </div>
+
+              <div class="chairperson-position">
+                SK CHAIRPERSON
+              </div>
+
+            </div>
+
+          </div>
 
 
         </div>
 
+      </div>
+
+    </div>
 
 
-        <!-- MEMBER INFORMATION -->
 
-        <div class="id-body">
+    <!-- =====================================================
+         BACK
+    ====================================================== -->
+
+    <div>
+
+      <div class="side-title">
+        BACK
+      </div>
+
+      <div class="id-card">
+
+        <div class="back-content">
 
 
-            <div class="photo-box">
+          <div class="back-header">
 
-                ${photoHTML}
+            <h2>
+              KATIPUNAN NG KABATAAN
+            </h2>
+
+            <p>
+              Barangay Sapilang, Bacnotan, La Union
+            </p>
+
+          </div>
+
+
+          <div class="personal-title">
+            PERSONAL INFORMATION
+          </div>
+
+
+          <div class="personal-grid">
+
+
+            <div class="personal-item">
+
+              <div class="label">
+                BLOOD TYPE
+              </div>
+
+              <div class="personal-value">
+                ${escapeHTML(
+                  person.BLOOD_TYPE || "—"
+                )}
+              </div>
 
             </div>
 
+
+            <div class="personal-item">
+
+              <div class="label">
+                CIVIL STATUS
+              </div>
+
+              <div class="personal-value">
+                ${escapeHTML(
+                  person.CIVIL_STATUS || "—"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="personal-item">
+
+              <div class="label">
+                PLACE OF BIRTH
+              </div>
+
+              <div class="personal-value">
+                ${escapeHTML(
+                  person.PLACE_OF_BIRTH || "—"
+                )}
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="emergency-title">
+            IN CASE OF EMERGENCY
+          </div>
+
+
+          <div class="emergency-grid">
+
+
+            <div class="emergency-item">
+
+              <div class="label">
+                CONTACT PERSON
+              </div>
+
+              <div class="emergency-value">
+                ${escapeHTML(
+                  person.EMERGENCY_CONTACT_NAME ||
+                  "—"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="emergency-item">
+
+              <div class="label">
+                RELATIONSHIP
+              </div>
+
+              <div class="emergency-value">
+                ${escapeHTML(
+                  person.EMERGENCY_CONTACT_RELATIONSHIP ||
+                  "—"
+                )}
+              </div>
+
+            </div>
+
+
+            <div class="emergency-item">
+
+              <div class="label">
+                CONTACT NUMBER
+              </div>
+
+              <div class="emergency-value">
+                ${escapeHTML(
+                  person.EMERGENCY_CONTACT_NUMBER ||
+                  "—"
+                )}
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="back-lower">
 
 
             <div>
 
 
-                <div class="label">
+              <div class="id-note">
 
-                    Registered Member
+                <strong>IMPORTANT:</strong>
 
-                </div>
+                If lost or found, please report or return this ID
+                to the SK Office of Barangay Sapilang.
+                This ID is non-transferable and valid only when
+                VERIFIED and ACTIVE.
 
-
-                <div class="member-name">
-
-                    ${escapeHTML(
-                        person.FULL_NAME
-                    )}
-
-                </div>
+              </div>
 
 
-                <div class="kk-number">
+              <div class="return-box">
 
-                    ${escapeHTML(
-                        person.KK_ID
-                    )}
+                <strong>
+                  IF FOUND, PLEASE RETURN TO:
+                </strong>
 
-                </div>
+                <br>
 
+                Office of the Sangguniang Kabataan<br>
+                Barangay Sapilang, Bacnotan, La Union
 
-
-                <div class="info-grid">
-
-
-                    <div>
-
-                        <div class="label">
-                            Barangay
-                        </div>
-
-                        <div class="info-value">
-
-                            ${escapeHTML(
-                                person.BARANGAY ||
-                                "Sapilang"
-                            )}
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div>
-
-                        <div class="label">
-                            Municipality
-                        </div>
-
-                        <div class="info-value">
-
-                            ${escapeHTML(
-                                person.MUNICIPALITY ||
-                                "Bacnotan"
-                            )}
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div>
-
-                        <div class="label">
-                            Province
-                        </div>
-
-                        <div class="info-value">
-
-                            ${escapeHTML(
-                                person.PROVINCE ||
-                                "La Union"
-                            )}
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div>
-
-                        <div class="label">
-                            Youth Age Group
-                        </div>
-
-                        <div class="info-value">
-
-                            ${escapeHTML(
-                                person.YOUTH_AGE_GROUP ||
-                                "—"
-                            )}
-
-                        </div>
-
-                    </div>
-
-
-                </div>
+              </div>
 
 
             </div>
 
 
+            <div class="back-qr">
 
-            <!-- QR CODE -->
+              <div
+                id="qrcodeBack"
+                class="back-qr-box"
+              ></div>
 
-            <div class="qr-area">
-
-
-                <div
-                    id="qrcode"
-                    class="qr-box"
-                ></div>
-
-
-                <div class="qr-label">
-
-                    Scan to verify
-
-                </div>
-
+              <div class="label">
+                VERIFY ID
+              </div>
 
             </div>
+
+
+          </div>
 
 
         </div>
 
-
-
-        <!-- STATUS -->
-
-        <div class="status-row">
-
-
-            <div class="active-status">
-
-                <span
-                    class="status-dot"
-                ></span>
-
-                VERIFIED • ACTIVE
-
-            </div>
-
-
-            <div class="label">
-
-                KK MEMBER
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- LOWER PORTION -->
-
-        <div class="bottom-section">
-
-
-            <!-- ISSUED DATE -->
-
-            <div class="issued-section">
-
-                ISSUED ON
-
-                <div class="issued-date">
-
-                    ${escapeHTML(
-                        person.DATE_REGISTERED ||
-                        "—"
-                    )}
-
-                </div>
-
-            </div>
-
-
-
-            <!-- SK CHAIRPERSON -->
-
-            <div class="signature-section">
-
-
-                <div class="signed">
-
-                    SIGNED
-
-                </div>
-
-
-                <div class="signature-line">
-                </div>
-
-
-                <div class="chairperson-name">
-
-                    DANDY F. NILLO
-
-                </div>
-
-
-                <div class="chairperson-position">
-
-                    SK CHAIRPERSON
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
+      </div>
 
     </div>
 
 
-
-    <div class="controls">
-
-
-        <button
-            onclick="window.print()"
-        >
-
-            Print / Save as PDF
-
-        </button>
+  </div>
 
 
-    </div>
+  <div class="controls">
+
+    <button
+      onclick="window.print()"
+    >
+      PRINT FRONT & BACK
+    </button>
+
+  </div>
+
+  `;
 
 
-    `;
+  /* =======================================================
+     QR URL
+  ======================================================= */
+
+  const qrValue =
+
+    person.QR_CODE ||
+
+    (
+      window.location.origin +
+
+      window.location.pathname
+        .replace(
+          "digital-id.html",
+          "verify.html"
+        ) +
+
+      "?id=" +
+
+      encodeURIComponent(
+        person.KK_ID
+      )
+    );
 
 
+  if (
+    typeof QRCode !==
+    "undefined"
+  ) {
 
-    /* CREATE QR CODE */
-
-    const qrValue =
-
-        person.QR_CODE ||
-
-        (
-            window.location.origin +
-            window.location.pathname
-                .replace(
-                    "digital-id.html",
-                    "verify.html"
-                ) +
-
-            "?id=" +
-
-            encodeURIComponent(
-                person.KK_ID
-            )
-        );
+    new QRCode(
+      document.getElementById(
+        "qrcodeFront"
+      ),
+      {
+        text: qrValue,
+        width: 150,
+        height: 150,
+        correctLevel:
+          QRCode.CorrectLevel.H
+      }
+    );
 
 
-    if (
-        typeof QRCode !==
-        "undefined"
-    ) {
+    new QRCode(
+      document.getElementById(
+        "qrcodeBack"
+      ),
+      {
+        text: qrValue,
+        width: 105,
+        height: 105,
+        correctLevel:
+          QRCode.CorrectLevel.H
+      }
+    );
 
-        new QRCode(
-
-            document
-            .getElementById(
-                "qrcode"
-            ),
-
-            {
-
-                text:
-                    qrValue,
-
-                width:
-                    145,
-
-                height:
-                    145,
-
-                correctLevel:
-                    QRCode.CorrectLevel.H
-
-            }
-
-        );
-
-    }
+  }
 
 }
 
 
-/* ==============================
+/* =========================================================
    ERROR
-============================== */
+========================================================= */
 
 function showError(message) {
 
-    document
-    .getElementById(
-        "app"
-    )
+  document
+    .getElementById("app")
     .innerHTML = `
 
-        <div class="error">
+      <div class="error">
 
-            <h2>
-                Digital ID Unavailable
-            </h2>
+        <h2>
+          Digital ID Unavailable
+        </h2>
 
-            <p>
+        <p>
+          ${escapeHTML(message)}
+        </p>
 
-                ${escapeHTML(
-                    message
-                )}
-
-            </p>
-
-        </div>
+      </div>
 
     `;
-
 }
 
 
-/* ==============================
+/* =========================================================
    SECURITY
-============================== */
+========================================================= */
 
 function escapeHTML(value) {
 
-    return String(
-        value ?? ""
-    )
+  return String(
+    value ?? ""
+  )
 
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
 
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
 
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
 
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
 
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
-
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 }
 
-
 </script>
-
 
 </body>
 
