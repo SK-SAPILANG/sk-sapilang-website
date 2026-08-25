@@ -1511,6 +1511,135 @@ button {
   color: var(--red) !important;
 }
 
+
+/* =========================================================
+   REFINED HONEY + SK SILHOUETTE DESIGN
+   Based on the approved visual reference.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* clean white card */
+.id-card {
+  background: #fff !important;
+}
+
+/* large, very light SK logo watermark */
+.front-content::before,
+.back-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .055 !important;
+  background: url("images/sk-logo.svg") center center / 54% auto no-repeat !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* honeycomb outlines at side/corners */
+.front-content::after,
+.back-content::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: 150px !important;
+  height: 180px !important;
+  right: -28px !important;
+  top: 150px !important;
+  bottom: auto !important;
+  opacity: .28 !important;
+  background-image:
+    linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+    linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)) !important;
+  background-size: 34px 59px !important;
+  background-position: 0 0, 0 0, 17px 29.5px, 17px 29.5px !important;
+}
+
+/* second honeycomb area on left */
+.id-card {
+  background-color: #fff !important;
+  background-image:
+    linear-gradient(30deg, rgba(245,168,0,.16) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.16) 87.5%, rgba(245,168,0,.16)),
+    linear-gradient(150deg, rgba(244,124,32,.13) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.13) 87.5%, rgba(244,124,32,.13)) !important;
+  background-size: 30px 52px !important;
+  background-position: -18px 330px, -18px 330px !important;
+  background-repeat: no-repeat !important;
+}
+
+/* information panels similar to the reference */
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item {
+  background: rgba(255,255,255,.91) !important;
+  border: 1px solid rgba(200,16,46,.18);
+  box-shadow: none !important;
+}
+
+.front-mini-item {
+  border-left: 1px solid rgba(200,16,46,.18) !important;
+}
+
+.certification-box,
+.id-note {
+  background: rgba(255,248,237,.92) !important;
+  box-shadow: none !important;
+}
+
+/* red dates */
+.issued-date,
+.expiry-date {
+  color: var(--red) !important;
+  font-weight: 900;
+}
+
+/* stronger clean status */
+.status {
+  color: #138a48;
+  font-weight: 900;
+}
+
+/* subtle gold divider detail */
+.id-header::after,
+.back-header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+  width: 36%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--orange), transparent);
+}
+
+/* keep all actual content above watermark */
+.front-content > *,
+.back-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* clean QR emphasis */
+.qr-box,
+.back-qr-box {
+  background: #fff !important;
+  box-shadow: 0 5px 15px rgba(200,16,46,.08) !important;
+}
+
+/* #LevelUpSapilang accent */
+.levelup {
+  color: var(--red);
+  background: transparent !important;
+  padding: 0 !important;
+  font-weight: 900;
+  letter-spacing: .5px;
+  box-shadow: none !important;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
