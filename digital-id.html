@@ -1043,6 +1043,140 @@ button {
 .back-meta-value { margin-top: 4px; font-size: 11px; font-weight: 900; color: #111; }
 .levelup { margin-top: 8px; color: var(--red); font-size: 11px; font-weight: 900; letter-spacing: .4px; }
 
+
+/* =========================================================
+   FIT / OVERFLOW FIX
+   Keeps all details inside the card.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+.issue-expiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  width: 330px;
+}
+
+.expiry-date {
+  margin-top: 5px;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* Keep the front comfortably inside 590px */
+.front-content {
+  padding-bottom: 20px;
+}
+
+.id-body {
+  margin-top: 20px;
+}
+
+.status-row {
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+.bottom-section {
+  margin-top: 12px;
+}
+
+/* Compact back so the QR and bottom line are never cut */
+.back-content {
+  padding: 20px 26px 16px;
+}
+
+.back-header {
+  padding: 10px 14px;
+}
+
+.back-header h2 {
+  font-size: 22px;
+}
+
+.personal-title,
+.emergency-title {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.back-extra-grid.compact-back-grid {
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.back-extra-item {
+  padding: 8px 10px;
+}
+
+.back-extra-value {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.back-meta-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.back-meta-item {
+  padding: 7px 9px;
+}
+
+.back-meta-value {
+  font-size: 10px;
+}
+
+.certification-box {
+  margin-top: 8px;
+  padding: 7px 9px;
+  font-size: 8px;
+  line-height: 1.25;
+}
+
+.emergency-grid {
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.emergency-item {
+  padding: 8px 9px;
+}
+
+.emergency-value {
+  font-size: 11px;
+}
+
+.back-lower {
+  grid-template-columns: 1fr 105px;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.id-note {
+  padding: 7px 9px;
+  font-size: 8px;
+  line-height: 1.25;
+}
+
+.levelup {
+  margin-top: 4px;
+  font-size: 9px;
+}
+
+.back-qr-box {
+  padding: 5px;
+}
+
+.back-qr-box img,
+.back-qr-box canvas {
+  width: 76px !important;
+  height: 76px !important;
+}
+
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
@@ -1589,18 +1723,21 @@ function displayID(person) {
 
           <div class="bottom-section">
 
-            <div class="issued">
-              ISSUED ON
-              <div class="issued-date">
-                ${escapeHTML(
-                  formatPhilippineDate(
-                    person.DATE_VERIFIED ||
-                    person.DATE_REGISTERED
-                  )
-                )}
+            <div class="issue-expiry-grid">
+
+              <div class="issued">
+                ISSUED ON
+                <div class="issued-date">
+                  ${escapeHTML(
+                    formatPhilippineDate(
+                      person.DATE_VERIFIED ||
+                      person.DATE_REGISTERED
+                    )
+                  )}
+                </div>
               </div>
 
-              <div class="expiry-block">
+              <div class="issued">
                 EXPIRES ON
                 <div class="expiry-date">
                   ${escapeHTML(
@@ -1611,6 +1748,7 @@ function displayID(person) {
                   )}
                 </div>
               </div>
+
             </div>
 
             <div class="signature-section">
@@ -1695,10 +1833,6 @@ function displayID(person) {
             <div class="back-meta-item">
               <div class="label">SEX</div>
               <div class="back-meta-value">${escapeHTML(getDisplaySex(person.SEX_ASSIGNED_AT_BIRTH))}</div>
-            </div>
-            <div class="back-meta-item">
-              <div class="label">EXPIRATION DATE</div>
-              <div class="back-meta-value">${escapeHTML(getExpirationDate(person.DATE_VERIFIED || person.DATE_REGISTERED))}</div>
             </div>
           </div>
 
