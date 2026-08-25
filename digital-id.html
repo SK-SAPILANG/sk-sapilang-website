@@ -1922,6 +1922,93 @@ button {
   border: 2px solid var(--red) !important;
 }
 
+
+/* =========================================================
+   REMOVE GLITCH / DECORATIVE STRIP NEAR QR
+   FRONT + BACK
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+/* Remove decorative honeycomb / side strips */
+.front-content::after,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove all decoration around QR containers */
+.qr-area,
+.back-qr,
+.qr-box,
+.back-qr-box {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* QR box itself stays clean white */
+.qr-box,
+.back-qr-box {
+  background: #ffffff !important;
+}
+
+/* Remove pseudo-elements around QR */
+.qr-area::before,
+.qr-area::after,
+.back-qr::before,
+.back-qr::after,
+.qr-box::before,
+.qr-box::after,
+.back-qr-box::before,
+.back-qr-box::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep QR image/canvas plain */
+.qr-box img,
+.qr-box canvas,
+.back-qr-box img,
+.back-qr-box canvas {
+  background: #ffffff !important;
+  filter: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Keep the card sides plain white */
+.front-content,
+.back-content {
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+}
+
+/* Keep only the subtle centered SK watermark */
+.front-content::before,
+.back-content::before {
+  z-index: 0 !important;
+}
+
+/* Ensure content remains above watermark */
+.front-content > *,
+.back-content > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
