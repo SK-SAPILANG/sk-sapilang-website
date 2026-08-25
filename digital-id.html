@@ -2361,6 +2361,41 @@ button {
   display: none !important;
 }
 
+
+/* =========================================================
+   KK HOLDER SIGNATURE / THUMBMARK
+========================================================= */
+
+.holder-signature {
+  width: 145px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.holder-signature-img {
+  display: block;
+  width: 120px;
+  height: 30px;
+  margin: 0 auto 2px;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+
+.holder-signature-line {
+  width: 130px;
+  margin: 0 auto 4px;
+  border-top: 1.5px solid #444;
+}
+
+.holder-signature-label {
+  font-size: 7px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: .4px;
+  color: #555;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
@@ -2539,83 +2574,128 @@ function openID() {
 
 async function loadID(id) {
 
-  const app =
-    document.getElementById("app");
+  const app = document.getElementById("app");
 
   app.innerHTML = `
     <div class="search-box">
-      Loading Digital KK ID...
+      <h2>Loading Digital KK ID...</h2>
+      <p>Please wait while we retrieve your record.</p>
     </div>
   `;
 
   try {
 
+    if (
+      typeof KK_CONFIG === "undefined" ||
+      !KK_CONFIG.API_URL
+    ) {
+      throw new Error(
+        "KK API URL is missing. Check config.js."
+      );
+    }
+
+    const apiURL =
+      String(KK_CONFIG.API_URL).trim();
+
     const url =
-      KK_CONFIG.API_URL +
+      apiURL +
       "?action=digital&id=" +
       encodeURIComponent(id) +
       "&t=" +
       Date.now();
 
-    const response =
-      await fetch(url);
+    console.log("KK ID:", id);
+    console.log("KK API:", url);
 
-    const result =
-      await response.json();
+    const response = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "follow"
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        "KK server returned HTTP " +
+        response.status + "."
+      );
+    }
+
+    const responseText =
+      await response.text();
+
+    if (!responseText.trim()) {
+      throw new Error(
+        "KK server returned an empty response."
+      );
+    }
+
+    let result;
+
+    try {
+      result = JSON.parse(responseText);
+    } catch (jsonError) {
+      console.error(
+        "Invalid KK API response:",
+        responseText
+      );
+
+      throw new Error(
+        "KK server did not return valid JSON. Check the Apps Script deployment."
+      );
+    }
 
     if (
       !result.success ||
       !result.data
     ) {
-
       showError(
         result.message ||
         "Digital ID not found."
       );
-
       return;
     }
 
-    const person =
-      result.data;
+    const person = result.data;
 
-    if (
-      String(person.VERIFICATION_STATUS || "")
-        .trim()
-        .toUpperCase() !==
-      "VERIFIED"
-    ) {
+    const verificationStatus =
+      String(
+        person.VERIFICATION_STATUS || ""
+      )
+      .trim()
+      .toUpperCase();
 
+    const idStatus =
+      String(
+        person.ID_STATUS || ""
+      )
+      .trim()
+      .toUpperCase();
+
+    if (verificationStatus !== "VERIFIED") {
       showError(
         "This registration has not yet been verified."
       );
-
       return;
     }
 
-    if (
-      String(person.ID_STATUS || "")
-        .trim()
-        .toUpperCase() !==
-      "ACTIVE"
-    ) {
-
+    if (idStatus !== "ACTIVE") {
       showError(
         "This Digital KK ID is not active."
       );
-
       return;
     }
 
     displayID(person);
 
-  }
+  } catch (error) {
 
-  catch(error) {
-
-    console.error(error);
+    console.error(
+      "DIGITAL KK ID ERROR:",
+      error
+    );
 
     showError(
+      error.message ||
       "Unable to connect to the KK server."
     );
   }
@@ -2855,10 +2935,6 @@ function displayID(person) {
               <div class="photo-box">
                 ${photoHTML}
               </div>
-              <div class="holder-signature">
-                <div class="holder-signature-line"></div>
-                <div class="holder-signature-label">KK HOLDER SIGNATURE / THUMBMARK</div>
-              </div>
             </div>
 
             <div>
@@ -3096,6 +3172,50 @@ function displayID(person) {
 
   `;
 
+
+
+
+  /* =======================================================
+     KK HOLDER SIGNATURE / THUMBMARK
+  ======================================================= */
+
+  const holderSignature =
+    document.getElementById("holderSignature");
+
+  const holderSignatureURL =
+    getProfilePhotoURL(
+      person.HOLDER_SIGNATURE_URL ||
+      person.holder_signature_url ||
+      ""
+    );
+
+  if (holderSignature) {
+
+    if (holderSignatureURL) {
+
+      holderSignature.src =
+        holderSignatureURL;
+
+      holderSignature.style.display =
+        "block";
+
+      holderSignature.onerror =
+        function () {
+          this.removeAttribute("src");
+          this.style.display = "none";
+          console.warn(
+            "Unable to load KK holder signature.",
+            holderSignatureURL
+          );
+        };
+
+    } else {
+
+      holderSignature.removeAttribute("src");
+      holderSignature.style.display =
+        "none";
+    }
+  }
 
   /* =======================================================
      QR URL
