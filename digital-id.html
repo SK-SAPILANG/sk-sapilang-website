@@ -2009,6 +2009,104 @@ button {
   z-index: 2 !important;
 }
 
+
+/* =========================================================
+   EDGE DESIGN
+   Clean honey-inspired accents around the card edges only.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* keep center clean */
+.front-content,
+.back-content {
+  background: #ffffff !important;
+}
+
+/* subtle edge honeycomb pattern */
+.id-card {
+  background-color: #ffffff !important;
+  background-image:
+    linear-gradient(30deg, rgba(245,168,0,.18) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.18) 87.5%, rgba(245,168,0,.18)),
+    linear-gradient(150deg, rgba(244,124,32,.15) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.15) 87.5%, rgba(244,124,32,.15)),
+    linear-gradient(30deg, rgba(245,168,0,.18) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.18) 87.5%, rgba(245,168,0,.18)),
+    linear-gradient(150deg, rgba(244,124,32,.15) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.15) 87.5%, rgba(244,124,32,.15)) !important;
+  background-size:
+    26px 45px,
+    26px 45px,
+    26px 45px,
+    26px 45px !important;
+  background-position:
+    -12px 42px,
+    -12px 42px,
+    calc(100% + 12px) 42px,
+    calc(100% + 12px) 42px !important;
+  background-repeat:
+    repeat-y,
+    repeat-y,
+    repeat-y,
+    repeat-y !important;
+}
+
+/* small gold edge accents on top and bottom */
+.id-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 18% !important;
+  width: 64% !important;
+  height: 3px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold),
+    var(--orange),
+    var(--gold),
+    transparent
+  ) !important;
+  border-radius: 999px !important;
+  transform: none !important;
+  z-index: 1 !important;
+}
+
+.id-card::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 18% !important;
+  bottom: 0 !important;
+  width: 64% !important;
+  height: 3px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold),
+    var(--orange),
+    var(--gold),
+    transparent
+  ) !important;
+  border-radius: 999px !important;
+  transform: none !important;
+  z-index: 1 !important;
+}
+
+/* keep QR areas clean */
+.qr-area,
+.qr-box,
+.back-qr,
+.back-qr-box {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* signature spacing after removing label */
+.signature-section {
+  padding-top: 6px;
+}
+
+.e-signature-image,
+.e-signature-fallback {
+  margin-top: 0 !important;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
@@ -2584,7 +2682,7 @@ function displayID(person) {
             </div>
 
             <div class="signature-section">
-              <div class="signed">ELECTRONICALLY SIGNED</div>
+              
               <img
                 src="images/dandy-signature.png"
                 class="e-signature-image"
