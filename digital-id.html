@@ -1689,6 +1689,61 @@ button {
   z-index: 3;
 }
 
+
+/* =========================================================
+   QR AREA CLEANUP
+   Removes backdrop / glitch around QR codes only.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+.qr-box,
+.back-qr-box {
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.qr-box::before,
+.qr-box::after,
+.back-qr-box::before,
+.back-qr-box::after,
+.qr-area::before,
+.qr-area::after,
+.back-qr::before,
+.back-qr::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  filter: none !important;
+}
+
+.qr-area,
+.back-qr {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.qr-box img,
+.qr-box canvas,
+.back-qr-box img,
+.back-qr-box canvas {
+  position: relative !important;
+  z-index: 5 !important;
+  background: #ffffff !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
