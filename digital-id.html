@@ -1177,6 +1177,204 @@ button {
 }
 
 
+
+/* =========================================================
+   HONEYCOMB INSPIRED VISUAL DESIGN
+   Decorative only - does not change the print preset
+========================================================= */
+
+.id-card {
+  isolation: isolate;
+}
+
+/* subtle honeycomb texture */
+.id-card .front-content::before,
+.id-card .back-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .07;
+  background-image:
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(60deg, var(--red) 25%, transparent 25.5%, transparent 75%, var(--red) 75%, var(--red)),
+    linear-gradient(60deg, var(--red) 25%, transparent 25.5%, transparent 75%, var(--red) 75%, var(--red));
+  background-size: 38px 66px;
+  background-position:
+    0 0,
+    0 0,
+    19px 33px,
+    19px 33px,
+    0 0,
+    19px 33px;
+}
+
+/* honeycomb accent cluster - top right */
+.id-card .front-content::after,
+.id-card .back-content::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  width: 120px;
+  height: 92px;
+  z-index: -1;
+  opacity: .16;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(244,124,32,.95) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 55% 25%, rgba(200,16,46,.90) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 85% 25%, rgba(245,168,0,.90) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 40% 58%, rgba(245,168,0,.90) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 70% 58%, rgba(244,124,32,.95) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 55% 90%, rgba(200,16,46,.90) 0 8px, transparent 8.5px);
+}
+
+/* elegant hexagonal styling for key information blocks */
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.back-meta-item,
+.emergency-item,
+.id-note,
+.certification-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.address-box::after,
+.front-mini-item::after,
+.back-extra-item::after,
+.back-meta-item::after,
+.emergency-item::after,
+.id-note::after,
+.certification-box::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  right: -6px;
+  bottom: -6px;
+  opacity: .18;
+  background: var(--orange);
+  clip-path: polygon(25% 6.7%,75% 6.7%,100% 50%,75% 93.3%,25% 93.3%,0% 50%);
+}
+
+/* QR areas with subtle hexagonal halo */
+.qr-box,
+.back-qr-box {
+  position: relative;
+  box-shadow: 0 7px 18px rgba(200,16,46,.08);
+}
+
+.qr-box::before,
+.back-qr-box::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: -1;
+  opacity: .12;
+  background:
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--red) 12%, transparent 12.5%, transparent 87%, var(--red) 87.5%, var(--red));
+  background-size: 22px 38px;
+  border-radius: 20px;
+}
+
+/* hashtag accent */
+.levelup {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(200,16,46,.10), rgba(244,124,32,.14));
+}
+
+/* keep text readable above decorative layers */
+.front-content > *,
+.back-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   FUTURISTIC HONEYCOMB ACCENTS
+   Inspired by Bacnotan - Honey Capital of the North
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+.id-card {
+  background:
+    radial-gradient(circle at 10% 8%, rgba(245,168,0,.055), transparent 23%),
+    radial-gradient(circle at 88% 88%, rgba(200,16,46,.045), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #fffdf8 100%);
+}
+
+/* tech-line accents */
+.id-card .front-content,
+.id-card .back-content {
+  position: relative;
+}
+
+.id-card .front-content {
+  background-image:
+    linear-gradient(90deg, transparent 0 72%, rgba(245,168,0,.035) 72% 72.5%, transparent 72.5%),
+    linear-gradient(0deg, transparent 0 78%, rgba(200,16,46,.025) 78% 78.5%, transparent 78.5%);
+}
+
+.id-card .back-content {
+  background-image:
+    linear-gradient(90deg, transparent 0 68%, rgba(245,168,0,.035) 68% 68.5%, transparent 68.5%),
+    linear-gradient(0deg, transparent 0 75%, rgba(200,16,46,.025) 75% 75.5%, transparent 75.5%);
+}
+
+.emergency-address {
+  grid-column: 1 / -1;
+}
+
+.emergency-address .emergency-value {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+/* honey-capital identity detail */
+.back-header::before {
+  content: "BACNOTAN • HONEY CAPITAL OF THE NORTH";
+  position: absolute;
+  left: 50%;
+  top: -11px;
+  transform: translateX(-50%);
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold), var(--orange));
+  color: white;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .65px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(244,124,32,.18);
+}
+
+/* futuristic corner hex accents */
+.id-card::before {
+  filter: saturate(1.08);
+}
+
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item,
+.certification-box,
+.id-note {
+  box-shadow:
+    inset 0 0 0 1px rgba(245,168,0,.06),
+    0 4px 12px rgba(200,16,46,.025);
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
@@ -1729,7 +1927,7 @@ function displayID(person) {
                 ISSUED ON
                 <div class="issued-date">
                   ${escapeHTML(
-                    formatPhilippineDate(
+                    formatPhilippineDateOnly(
                       person.DATE_VERIFIED ||
                       person.DATE_REGISTERED
                     )
@@ -1816,24 +2014,6 @@ function displayID(person) {
               </div>
             </div>
 
-            <div class="back-extra-item address-wide">
-              <div class="label">COMPLETE ADDRESS</div>
-              <div class="back-extra-value">
-                ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
-              </div>
-            </div>
-
-          </div>
-
-          <div class="back-meta-grid">
-            <div class="back-meta-item">
-              <div class="label">CITIZENSHIP</div>
-              <div class="back-meta-value">FILIPINO</div>
-            </div>
-            <div class="back-meta-item">
-              <div class="label">SEX</div>
-              <div class="back-meta-value">${escapeHTML(getDisplaySex(person.SEX_ASSIGNED_AT_BIRTH))}</div>
-            </div>
           </div>
 
           <div class="certification-box">
@@ -1862,6 +2042,13 @@ function displayID(person) {
               <div class="label">CONTACT NUMBER</div>
               <div class="emergency-value">
                 ${escapeHTML(person.EMERGENCY_CONTACT_NUMBER || "—")}
+              </div>
+            </div>
+
+            <div class="emergency-item emergency-address">
+              <div class="label">ADDRESS</div>
+              <div class="emergency-value">
+                ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
               </div>
             </div>
 
