@@ -1640,6 +1640,55 @@ button {
   box-shadow: none !important;
 }
 
+
+/* =========================================================
+   BACK GLITCH CLEANUP
+   Removes unnecessary decorative display from the BACK only.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* clean plain white back */
+.back-content {
+  background: #ffffff !important;
+}
+
+/* remove back watermark / decorative overlay that may look like a glitch */
+.back-content::before,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* remove decorative pseudo-elements on back header */
+.back-header::before,
+.back-header::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* keep back information boxes simple and clean */
+.back-extra-item,
+.emergency-item,
+.certification-box,
+.id-note {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* ensure no decorative elements overlap the QR */
+.back-qr-box::before,
+.back-qr-box::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* keep all back content above any remaining card decoration */
+.back-content > * {
+  position: relative;
+  z-index: 3;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
