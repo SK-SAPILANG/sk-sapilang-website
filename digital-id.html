@@ -2224,6 +2224,143 @@ button {
   display: none !important;
 }
 
+
+/* =========================================================
+   TOP + BOTTOM EDGE DESIGN ONLY
+   Side design removed.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* Remove side honeycomb design completely */
+.front-content::before,
+.back-content::before {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Remove any remaining side decoration */
+.front-content::after,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Top decorative band */
+.id-card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 24px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: 28px 28px 0 0 !important;
+  transform: none !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(200,16,46,.95) 0%,
+      rgba(244,124,32,.95) 38%,
+      rgba(245,168,0,.92) 60%,
+      rgba(244,124,32,.95) 78%,
+      rgba(200,16,46,.95) 100%
+    ) !important;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 48%,
+    88% 48%,
+    84% 100%,
+    72% 48%,
+    58% 48%,
+    54% 100%,
+    42% 48%,
+    28% 48%,
+    24% 100%,
+    12% 48%,
+    0 48%
+  ) !important;
+}
+
+/* Bottom decorative band */
+.id-card::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 24px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: 0 0 28px 28px !important;
+  transform: none !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(245,168,0,.92) 0%,
+      rgba(244,124,32,.95) 28%,
+      rgba(200,16,46,.95) 50%,
+      rgba(244,124,32,.95) 72%,
+      rgba(245,168,0,.92) 100%
+    ) !important;
+  clip-path: polygon(
+    0 52%,
+    12% 52%,
+    16% 0,
+    28% 52%,
+    42% 52%,
+    46% 0,
+    58% 52%,
+    72% 52%,
+    76% 0,
+    88% 52%,
+    100% 52%,
+    100% 100%,
+    0 100%
+  ) !important;
+}
+
+/* Keep card body white and clean */
+.front-content,
+.back-content {
+  background: #ffffff !important;
+}
+
+/* Keep QR areas plain */
+.qr-area,
+.back-qr,
+.qr-box,
+.back-qr-box {
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep all real content above decorative bands */
+.front-content > *,
+.back-content > * {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Electronically signed stays removed */
+.signed {
+  display: none !important;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
