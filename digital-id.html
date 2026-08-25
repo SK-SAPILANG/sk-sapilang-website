@@ -2107,6 +2107,123 @@ button {
   margin-top: 0 !important;
 }
 
+
+/* =========================================================
+   VISIBLE EDGE HONEYCOMB DESIGN - FINAL OVERRIDE
+   Uses inset pseudo-elements so the design is actually visible.
+   Does NOT place decoration beside/behind the QR.
+========================================================= */
+
+.id-card {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+/* Remove old full-height/right-side patterns */
+.front-content::after,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Visible honeycomb band INSIDE the LEFT edge */
+.front-content::before,
+.back-content::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 115px !important;
+  bottom: 72px !important;
+  width: 42px !important;
+  right: auto !important;
+  z-index: 0 !important;
+  opacity: .34 !important;
+  pointer-events: none !important;
+  background-image:
+    linear-gradient(30deg, #f5a800 12%, transparent 12.5%, transparent 87%, #f5a800 87.5%, #f5a800),
+    linear-gradient(150deg, #f5a800 12%, transparent 12.5%, transparent 87%, #f5a800 87.5%, #f5a800),
+    linear-gradient(30deg, #f47c20 12%, transparent 12.5%, transparent 87%, #f47c20 87.5%, #f47c20),
+    linear-gradient(150deg, #f47c20 12%, transparent 12.5%, transparent 87%, #f47c20 87.5%, #f47c20) !important;
+  background-size: 28px 49px !important;
+  background-position: -14px 0, -14px 0, 0 24.5px, 0 24.5px !important;
+  background-repeat: repeat-y !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Top-right decorative corner, kept ABOVE the QR zone */
+.id-card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 150px !important;
+  height: 52px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(145deg,
+      transparent 0 31%,
+      rgba(200,16,46,.95) 31% 58%,
+      rgba(244,124,32,.95) 58% 100%) !important;
+  border-radius: 0 18px 0 55px !important;
+  transform: none !important;
+}
+
+/* Bottom-left gold/orange corner accent */
+.id-card::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 175px !important;
+  height: 28px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(20deg,
+      #f47c20 0 48%,
+      #f5a800 48% 70%,
+      transparent 70%) !important;
+  border-radius: 0 50px 0 16px !important;
+  transform: none !important;
+}
+
+/* Keep all content above edge decoration */
+.front-content > *,
+.back-content > * {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Keep QR zone completely clean */
+.qr-area,
+.back-qr,
+.qr-box,
+.back-qr-box,
+.qr-area::before,
+.qr-area::after,
+.back-qr::before,
+.back-qr::after,
+.qr-box::before,
+.qr-box::after,
+.back-qr-box::before,
+.back-qr-box::after {
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Electronically signed label remains removed */
+.signed {
+  display: none !important;
+}
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
