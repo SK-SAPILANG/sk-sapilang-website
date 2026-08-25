@@ -1,6 +1,1168 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KK ID Verification</title><link rel="stylesheet" href="styles.css"></head><body><div class="container"><div class="center"><h1>KK ID Verification</h1><p class="muted">Barangay Sapilang • Bacnotan, La Union</p></div><div class="panel card"><div class="row"><input id="idInput" placeholder="KK-SAP-2026-0001"><button class="primary" onclick="go()">Verify ID</button></div><div id="result" class="center muted">Enter a KK ID to verify.</div></div></div><script src="config.js"></script><script>
-const q=new URLSearchParams(location.search).get("id");if(q){document.getElementById("idInput").value=q;verify(q)}
-function go(){const id=document.getElementById("idInput").value.trim();if(id)location.search="?id="+encodeURIComponent(id)}
-async function verify(id){let box=document.getElementById("result");box.innerHTML="Checking ID...";try{let r=await fetch(KK_CONFIG.API_URL+"?action=verify&id="+encodeURIComponent(id)+"&t="+Date.now());let j=await r.json();if(!j.success||!j.data){box.innerHTML=`<div class="message error">${esc(j.message||"ID not found.")}</div>`;return}let p=j.data;box.innerHTML=`<h2>${j.valid?"✓ VERIFIED KK MEMBER":"ID NOT ACTIVE"}</h2><div class="details">${d("KK ID",p.KK_ID)}${d("Name",p.FULL_NAME)}${d("Barangay",p.BARANGAY)}${d("Municipality",p.MUNICIPALITY)}${d("Youth Age Group",p.YOUTH_AGE_GROUP)}${d("Verification",p.VERIFICATION_STATUS)}${d("ID Status",p.ID_STATUS)}${d("Date Verified",p.DATE_VERIFIED)}</div>`}catch(e){box.innerHTML='<div class="message error">Unable to connect to the verification server.</div>'}}
-function d(a,b){return `<div class="detail"><span class="muted">${esc(a)}</span><strong>${esc(b||"—")}</strong></div>`}function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KK Digital ID Verification | Barangay Sapilang</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #071423;
+      color: #ffffff;
+    }
+
+    .header {
+      text-align: center;
+      padding: 28px 15px 18px;
+      color: #bcd8ef;
+      font-size: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      margin: 15px auto 50px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #10243a;
+      border: 1px solid #31526f;
+      border-radius: 20px;
+      padding: 35px 28px 30px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    /* SEARCH */
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 0;
+      height: 46px;
+      padding: 0 14px;
+      border: 1px solid #47708f;
+      border-radius: 12px;
+      background: #091b2c;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #5ec5ff;
+    }
+
+    .search-box button {
+      height: 46px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 12px;
+      background: #5ec5ff;
+      color: #071423;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      opacity: 0.9;
+    }
+
+    /* STATUS */
+
+    .status {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    .active {
+      color: #65d98b;
+    }
+
+    .expired {
+      color: #ffca63;
+    }
+
+    .inactive {
+      color: #ff7777;
+    }
+
+    /* INFORMATION */
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      padding: 16px 0;
+      border-bottom: 1px solid #31526f;
+    }
+
+    .label {
+      flex: 0 0 34%;
+      color: #bcd8ef;
+      font-size: 16px;
+    }
+
+    .value {
+      flex: 1;
+      text-align: right;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      word-break: break-word;
+    }
+
+    .status-value-active {
+      color: #65d98b;
+    }
+
+    .status-value-expired {
+      color: #ffca63;
+    }
+
+    .status-value-inactive {
+      color: #ff7777;
+    }
+
+    .message {
+      min-height: 20px;
+      margin-top: 22px;
+      text-align: center;
+      color: #ffca63;
+      font-size: 14px;
+    }
+
+    .footer {
+      padding-top: 25px;
+      text-align: center;
+      color: #7898b4;
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      .card {
+        padding: 25px 18px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .search-box button {
+        width: 100%;
+      }
+
+      .row {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .label,
+      .value {
+        width: 100%;
+        flex: auto;
+        text-align: left;
+      }
+
+      .status {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <div class="header">
+    Barangay Sapilang • Bacnotan, La Union
+  </div>
+
+
+  <main class="container">
+
+    <div class="card">
+
+      <!-- SEARCH -->
+
+      <div class="search-box">
+
+        <input
+          id="kkIdInput"
+          type="text"
+          placeholder="Enter KK ID"
+          autocomplete="off"
+        >
+
+        <button
+          type="button"
+          onclick="verifyID()"
+        >
+          Verify ID
+        </button>
+
+      </div>
+
+
+      <!-- STATUS -->
+
+      <div
+        id="verificationTitle"
+        class="status"
+      >
+        KK DIGITAL ID VERIFICATION
+      </div>
+
+
+      <!-- KK ID -->
+
+      <div class="row">
+
+        <div class="label">
+          KK ID
+        </div>
+
+        <div
+          id="kkId"
+          class="value"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <!-- COMPLETE NAME -->
+
+      <div class="row">
+
+        <div class="label">
+          Complete Name
+        </div>
+
+        <div
+          id="completeName"
+          class="value"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <!-- COMPLETE ADDRESS -->
+
+      <div class="row">
+
+        <div class="label">
+          Complete Address
+        </div>
+
+        <div
+          id="completeAddress"
+          class="value"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <!-- ID STATUS -->
+
+      <div class="row">
+
+        <div class="label">
+          ID Status
+        </div>
+
+        <div
+          id="idStatus"
+          class="value"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <!-- ISSUED ON -->
+
+      <div class="row">
+
+        <div class="label">
+          Issued On
+        </div>
+
+        <div
+          id="issuedOn"
+          class="value"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <!-- EXPIRES ON -->
+
+      <div class="row">
+
+        <div class="label">
+          Expires On
+        </div>
+
+        <div
+          id="expiresOn"
+          class="value"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </div>
+
+
+    <div class="footer">
+      Official KK Digital ID Verification • Barangay Sapilang
+    </div>
+
+  </main>
+
+
+  <script>
+
+    /* =========================================================
+       GOOGLE APPS SCRIPT WEB APP
+       ========================================================= */
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbwCT4hLkGBG--ZwOJGn1AO8_Zs6iLt4BPTbREnAPEe1c29Qx3aTNLrVRltdj_voTrPy/exec";
+
+
+    /* =========================================================
+       AUTO VERIFY FROM URL
+
+       Example:
+       verify.html?id=KK-SAP-2026-24798685
+       ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+
+        const id =
+          params.get("id");
+
+
+        if (id) {
+
+          document
+            .getElementById("kkIdInput")
+            .value = id;
+
+          verifyID();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       ENTER KEY
+       ========================================================= */
+
+    document
+      .getElementById("kkIdInput")
+      .addEventListener(
+        "keydown",
+        function (event) {
+
+          if (event.key === "Enter") {
+            verifyID();
+          }
+
+        }
+      );
+
+
+    /* =========================================================
+       VERIFY KK ID
+       ========================================================= */
+
+    async function verifyID() {
+
+      const input =
+        document.getElementById(
+          "kkIdInput"
+        );
+
+      const kkId =
+        input.value.trim();
+
+
+      const title =
+        document.getElementById(
+          "verificationTitle"
+        );
+
+      const message =
+        document.getElementById(
+          "message"
+        );
+
+
+      message.textContent = "";
+
+
+      if (!kkId) {
+
+        resetFields();
+
+        title.className =
+          "status inactive";
+
+        title.textContent =
+          "ENTER KK ID";
+
+        message.textContent =
+          "Please enter a KK ID.";
+
+        return;
+
+      }
+
+
+      title.className =
+        "status";
+
+      title.textContent =
+        "VERIFYING...";
+
+
+      try {
+
+        const response =
+          await fetch(
+            API_URL +
+            "?action=verify&id=" +
+            encodeURIComponent(kkId)
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Server request failed."
+          );
+
+        }
+
+
+        const result =
+          await response.json();
+
+
+        console.log(
+          "Verification response:",
+          result
+        );
+
+
+        /* ===============================================
+           RECORD NOT FOUND
+           =============================================== */
+
+        if (
+          result.success === false ||
+          result.found === false ||
+          result.error
+        ) {
+
+          resetFields();
+
+          title.className =
+            "status inactive";
+
+          title.textContent =
+            "ID NOT FOUND";
+
+
+          message.textContent =
+            result.message ||
+            result.error ||
+            "No KK record was found.";
+
+          return;
+
+        }
+
+
+        /* ===============================================
+           SUPPORT DIFFERENT API RESPONSE FORMATS
+           =============================================== */
+
+        const record =
+          result.member ||
+          result.data ||
+          result.record ||
+          result;
+
+
+        /* ===============================================
+           KK ID
+           =============================================== */
+
+        const recordKKID =
+          getValue(
+            record,
+            [
+              "KK_ID",
+              "kkId",
+              "kk_id",
+              "id"
+            ]
+          );
+
+
+        document
+          .getElementById("kkId")
+          .textContent =
+            recordKKID;
+
+
+        /* ===============================================
+           COMPLETE NAME
+           =============================================== */
+
+        const completeName =
+          getValue(
+            record,
+            [
+              "FULL_NAME",
+              "COMPLETE_NAME",
+              "fullName",
+              "completeName",
+              "name",
+              "NAME"
+            ]
+          );
+
+
+        document
+          .getElementById(
+            "completeName"
+          )
+          .textContent =
+            completeName;
+
+
+        /* ===============================================
+           COMPLETE ADDRESS
+           =============================================== */
+
+        const completeAddress =
+          getValue(
+            record,
+            [
+              "COMPLETE_ADDRESS",
+              "completeAddress",
+              "ADDRESS",
+              "address"
+            ]
+          );
+
+
+        document
+          .getElementById(
+            "completeAddress"
+          )
+          .textContent =
+            completeAddress;
+
+
+        /* ===============================================
+           ID STATUS
+           =============================================== */
+
+        let idStatus =
+          getValue(
+            record,
+            [
+              "ID_STATUS",
+              "idStatus",
+              "ID Status",
+              "status"
+            ],
+            ""
+          );
+
+
+        idStatus =
+          String(idStatus)
+            .trim()
+            .toUpperCase();
+
+
+        /* ===============================================
+           ISSUED ON
+
+           DATE_VERIFIED = ISSUED ON
+           =============================================== */
+
+        const issuedDate =
+          getRawValue(
+            record,
+            [
+              "DATE_VERIFIED",
+              "DATE_ISSUED",
+              "ISSUED_ON",
+              "dateVerified",
+              "dateIssued",
+              "issuedOn"
+            ]
+          );
+
+
+        document
+          .getElementById(
+            "issuedOn"
+          )
+          .textContent =
+            formatDate(
+              issuedDate
+            );
+
+
+        /* ===============================================
+           EXPIRATION
+
+           Automatically:
+           DATE_VERIFIED + 1 YEAR
+           =============================================== */
+
+        const expirationDate =
+          getExpirationDate(
+            issuedDate
+          );
+
+
+        document
+          .getElementById(
+            "expiresOn"
+          )
+          .textContent =
+            formatDate(
+              expirationDate
+            );
+
+
+        /* ===============================================
+           CHECK IF DATE HAS ALREADY EXPIRED
+           =============================================== */
+
+        const expired =
+          isExpired(
+            expirationDate
+          );
+
+
+        /*
+          If the expiration date has passed,
+          display EXPIRED even if the sheet still
+          contains ACTIVE.
+        */
+
+        if (
+          expired &&
+          idStatus === "ACTIVE"
+        ) {
+
+          idStatus =
+            "EXPIRED";
+
+        }
+
+
+        document
+          .getElementById(
+            "idStatus"
+          )
+          .textContent =
+            idStatus || "—";
+
+
+        updateStatus(
+          idStatus
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Verification error:",
+          error
+        );
+
+
+        resetFields();
+
+
+        title.className =
+          "status inactive";
+
+        title.textContent =
+          "VERIFICATION ERROR";
+
+
+        message.textContent =
+          "Unable to verify the ID. Please try again.";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       UPDATE STATUS HEADING
+       ========================================================= */
+
+    function updateStatus(status) {
+
+      const title =
+        document.getElementById(
+          "verificationTitle"
+        );
+
+      const statusField =
+        document.getElementById(
+          "idStatus"
+        );
+
+
+      title.className =
+        "status";
+
+      statusField.className =
+        "value";
+
+
+      const cleanStatus =
+        String(status || "")
+          .trim()
+          .toUpperCase();
+
+
+      if (
+        cleanStatus === "ACTIVE"
+      ) {
+
+        title.classList.add(
+          "active"
+        );
+
+        statusField.classList.add(
+          "status-value-active"
+        );
+
+        title.textContent =
+          "ID ACTIVE";
+
+      }
+
+      else if (
+        cleanStatus === "EXPIRED"
+      ) {
+
+        title.classList.add(
+          "expired"
+        );
+
+        statusField.classList.add(
+          "status-value-expired"
+        );
+
+        title.textContent =
+          "ID EXPIRED";
+
+      }
+
+      else {
+
+        title.classList.add(
+          "inactive"
+        );
+
+        statusField.classList.add(
+          "status-value-inactive"
+        );
+
+        title.textContent =
+          "ID NOT ACTIVE";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       CALCULATE EXPIRATION
+
+       VALIDITY = 1 YEAR
+       ========================================================= */
+
+    function getExpirationDate(
+      issuedDate
+    ) {
+
+      if (!issuedDate) {
+        return null;
+      }
+
+
+      const issued =
+        new Date(
+          issuedDate
+        );
+
+
+      if (
+        isNaN(
+          issued.getTime()
+        )
+      ) {
+
+        return null;
+
+      }
+
+
+      const expiration =
+        new Date(
+          issued
+        );
+
+
+      expiration.setFullYear(
+        expiration.getFullYear() + 1
+      );
+
+
+      return expiration;
+
+    }
+
+
+    /* =========================================================
+       CHECK IF EXPIRED
+       ========================================================= */
+
+    function isExpired(
+      expirationDate
+    ) {
+
+      if (!expirationDate) {
+        return false;
+      }
+
+
+      const expiration =
+        new Date(
+          expirationDate
+        );
+
+
+      if (
+        isNaN(
+          expiration.getTime()
+        )
+      ) {
+
+        return false;
+
+      }
+
+
+      /*
+        Expiration is considered valid through
+        the displayed expiration date.
+      */
+
+      expiration.setHours(
+        23,
+        59,
+        59,
+        999
+      );
+
+
+      const now =
+        new Date();
+
+
+      return (
+        now.getTime() >
+        expiration.getTime()
+      );
+
+    }
+
+
+    /* =========================================================
+       FORMAT DATE
+
+       Example:
+       August 24, 2026
+       ========================================================= */
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "—";
+      }
+
+
+      const date =
+        new Date(
+          value
+        );
+
+
+      if (
+        isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "—";
+
+      }
+
+
+      return date.toLocaleDateString(
+        "en-PH",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       GET DISPLAY VALUE
+       ========================================================= */
+
+    function getValue(
+      object,
+      possibleKeys,
+      fallback = "—"
+    ) {
+
+      const value =
+        getRawValue(
+          object,
+          possibleKeys
+        );
+
+
+      if (
+        value === undefined ||
+        value === null ||
+        String(value).trim() === ""
+      ) {
+
+        return fallback;
+
+      }
+
+
+      return String(value);
+
+    }
+
+
+    /* =========================================================
+       GET RAW VALUE
+
+       Also checks keys without worrying about capitalization.
+       ========================================================= */
+
+    function getRawValue(
+      object,
+      possibleKeys
+    ) {
+
+      if (!object) {
+        return null;
+      }
+
+
+      /* EXACT MATCH */
+
+      for (
+        const key
+        of possibleKeys
+      ) {
+
+        if (
+          Object.prototype
+            .hasOwnProperty
+            .call(
+              object,
+              key
+            )
+        ) {
+
+          return object[key];
+
+        }
+
+      }
+
+
+      /* CASE INSENSITIVE MATCH */
+
+      const actualKeys =
+        Object.keys(
+          object
+        );
+
+
+      for (
+        const wantedKey
+        of possibleKeys
+      ) {
+
+        const match =
+          actualKeys.find(
+            actualKey =>
+              actualKey
+                .toLowerCase()
+                .trim() ===
+              wantedKey
+                .toLowerCase()
+                .trim()
+          );
+
+
+        if (match) {
+
+          return object[
+            match
+          ];
+
+        }
+
+      }
+
+
+      return null;
+
+    }
+
+
+    /* =========================================================
+       RESET DISPLAY
+       ========================================================= */
+
+    function resetFields() {
+
+      document
+        .getElementById(
+          "kkId"
+        )
+        .textContent =
+          "—";
+
+
+      document
+        .getElementById(
+          "completeName"
+        )
+        .textContent =
+          "—";
+
+
+      document
+        .getElementById(
+          "completeAddress"
+        )
+        .textContent =
+          "—";
+
+
+      document
+        .getElementById(
+          "idStatus"
+        )
+        .textContent =
+          "—";
+
+
+      document
+        .getElementById(
+          "issuedOn"
+        )
+        .textContent =
+          "—";
+
+
+      document
+        .getElementById(
+          "expiresOn"
+        )
+        .textContent =
+          "—";
+
+
+      document
+        .getElementById(
+          "idStatus"
+        )
+        .className =
+          "value";
+
+    }
+
+  </script>
+
+</body>
+
+</html>
