@@ -1308,10 +1308,7 @@ button {
 ========================================================= */
 
 .id-card {
-  background:
-    radial-gradient(circle at 10% 8%, rgba(245,168,0,.055), transparent 23%),
-    radial-gradient(circle at 88% 88%, rgba(200,16,46,.045), transparent 28%),
-    linear-gradient(135deg, #ffffff 0%, #fffdf8 100%);
+  background: #ffffff;
 }
 
 /* tech-line accents */
@@ -1342,23 +1339,6 @@ button {
 }
 
 /* honey-capital identity detail */
-.back-header::before {
-  content: "BACNOTAN • HONEY CAPITAL OF THE NORTH";
-  position: absolute;
-  left: 50%;
-  top: -11px;
-  transform: translateX(-50%);
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--gold), var(--orange));
-  color: white;
-  font-size: 7px;
-  font-weight: 900;
-  letter-spacing: .65px;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(244,124,32,.18);
-}
-
 /* futuristic corner hex accents */
 .id-card::before {
   filter: saturate(1.08);
@@ -1469,25 +1449,66 @@ button {
 
 /* Honeycomb rail along card edges */
 .id-card {
-  background:
-    linear-gradient(90deg, rgba(245,168,0,.16) 0 8px, transparent 8px calc(100% - 8px), rgba(244,124,32,.14) calc(100% - 8px)),
-    #ffffff !important;
+  background: #ffffff !important;
 }
 
-/* Honey Capital badge */
-.honey-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 7px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--gold), var(--orange));
-  color: white;
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: .6px;
-  box-shadow: 0 5px 14px rgba(244,124,32,.20);
+
+/* =========================================================
+   WHITE BACKGROUND + SUBTLE SK SILHOUETTE / HONEY ACCENTS
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+.id-card {
+  background: #ffffff !important;
+}
+
+/* Subtle SK logo silhouette watermark */
+.front-content::before,
+.back-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .045 !important;
+  background:
+    url("images/sk-logo.svg") center center / 420px auto no-repeat !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Small honeycomb accents only on corners */
+.front-content::after,
+.back-content::after {
+  content: "";
+  position: absolute;
+  top: auto !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  width: 115px !important;
+  height: 85px !important;
+  z-index: 0;
+  opacity: .18 !important;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, var(--gold) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 46% 22%, var(--orange) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 74% 22%, var(--gold) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 32% 54%, var(--orange) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 60% 54%, var(--gold) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 88% 54%, var(--orange) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 46% 86%, var(--gold) 0 8px, transparent 8.5px) !important;
+}
+
+.front-content > *,
+.back-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Issued date in red */
+.issued-date {
+  color: var(--red) !important;
 }
 
 /* =========================================================
@@ -2102,7 +2123,6 @@ function displayID(person) {
           <div class="back-header">
             <h2>KATIPUNAN NG KABATAAN</h2>
             <p>Barangay Sapilang, Bacnotan, La Union</p>
-            <div class="honey-badge">HONEY CAPITAL OF THE NORTH</div>
           </div>
 
           <div class="personal-title">PERSONAL INFORMATION</div>
