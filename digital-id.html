@@ -1021,6 +1021,28 @@ button {
 }
 
 
+
+/* =========================================================
+   ADDITIONAL KK ID DETAILS
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+.holder-signature { margin-top: 8px; text-align: center; }
+.holder-signature-line { width: 130px; margin: 0 auto 4px; border-top: 1.5px solid #444; }
+.holder-signature-label { font-size: 8px; font-weight: 800; color: #555; letter-spacing: .5px; }
+.front-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.front-mini-item { padding: 7px 9px; border-radius: 8px; background: #fff7ed; border-left: 3px solid var(--orange); }
+.front-mini-value { margin-top: 3px; font-size: 11px; font-weight: 900; color: #111; }
+.expiry-block { margin-top: 7px; }
+.expiry-date { margin-top: 4px; font-size: 12px; font-weight: 900; color: var(--red); }
+.e-signature-image { display: block; max-width: 150px; max-height: 42px; object-fit: contain; margin: 0 auto 4px; }
+.e-signature-fallback { font-family: "Brush Script MT", "Segoe Script", cursive; font-size: 24px; line-height: 1; color: var(--red); margin-bottom: 3px; }
+.certification-box { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: #fff7ed; border-left: 5px solid var(--orange); color: #333; font-size: 9px; line-height: 1.4; text-align: justify; }
+.back-meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.back-meta-item { padding: 9px 10px; border: 1px solid #e3e3e3; border-top: 3px solid var(--orange); border-radius: 9px; background: #fffaf5; }
+.back-meta-value { margin-top: 4px; font-size: 11px; font-weight: 900; color: #111; }
+.levelup { margin-top: 8px; color: var(--red); font-size: 11px; font-weight: 900; letter-spacing: .4px; }
+
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
    85.60 mm × 53.98 mm
@@ -1342,6 +1364,22 @@ function formatPhilippineDateOnly(value) {
   ).format(date);
 }
 
+
+function getExpirationDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  date.setFullYear(date.getFullYear() + 1);
+  return formatPhilippineDateOnly(date);
+}
+
+function getDisplaySex(value) {
+  const sex = String(value || "").trim().toUpperCase();
+  if (sex === "MALE" || sex === "M") return "Male";
+  if (sex === "FEMALE" || sex === "F") return "Female";
+  return "—";
+}
+
 /* =========================================================
    GOOGLE FORM / DRIVE PROFILE PHOTO
 ========================================================= */
@@ -1495,8 +1533,14 @@ function displayID(person) {
 
           <div class="id-body">
 
-            <div class="photo-box">
-              ${photoHTML}
+            <div>
+              <div class="photo-box">
+                ${photoHTML}
+              </div>
+              <div class="holder-signature">
+                <div class="holder-signature-line"></div>
+                <div class="holder-signature-label">KK HOLDER SIGNATURE / THUMBMARK</div>
+              </div>
             </div>
 
             <div>
@@ -1514,6 +1558,17 @@ function displayID(person) {
                 <div class="label">COMPLETE ADDRESS</div>
                 <div class="address-value">
                   ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
+                </div>
+              </div>
+
+              <div class="front-mini-grid">
+                <div class="front-mini-item">
+                  <div class="label">CITIZENSHIP</div>
+                  <div class="front-mini-value">FILIPINO</div>
+                </div>
+                <div class="front-mini-item">
+                  <div class="label">SEX</div>
+                  <div class="front-mini-value">${escapeHTML(getDisplaySex(person.SEX_ASSIGNED_AT_BIRTH))}</div>
                 </div>
               </div>
             </div>
@@ -1544,10 +1599,29 @@ function displayID(person) {
                   )
                 )}
               </div>
+
+              <div class="expiry-block">
+                EXPIRES ON
+                <div class="expiry-date">
+                  ${escapeHTML(
+                    getExpirationDate(
+                      person.DATE_VERIFIED ||
+                      person.DATE_REGISTERED
+                    )
+                  )}
+                </div>
+              </div>
             </div>
 
             <div class="signature-section">
               <div class="signed">ELECTRONICALLY SIGNED</div>
+              <img
+                src="images/dandy-signature.png"
+                class="e-signature-image"
+                alt="Electronic Signature of Dandy F. Nillo"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+              >
+              <div class="e-signature-fallback" style="display:none;">Dandy F. Nillo</div>
               <div class="signature-line"></div>
               <div class="chairperson-name">DANDY F. NILLO</div>
               <div class="chairperson-position">SK CHAIRPERSON</div>
@@ -1613,6 +1687,25 @@ function displayID(person) {
 
           </div>
 
+          <div class="back-meta-grid">
+            <div class="back-meta-item">
+              <div class="label">CITIZENSHIP</div>
+              <div class="back-meta-value">FILIPINO</div>
+            </div>
+            <div class="back-meta-item">
+              <div class="label">SEX</div>
+              <div class="back-meta-value">${escapeHTML(getDisplaySex(person.SEX_ASSIGNED_AT_BIRTH))}</div>
+            </div>
+            <div class="back-meta-item">
+              <div class="label">EXPIRATION DATE</div>
+              <div class="back-meta-value">${escapeHTML(getExpirationDate(person.DATE_VERIFIED || person.DATE_REGISTERED))}</div>
+            </div>
+          </div>
+
+          <div class="certification-box">
+            This is to certify that the KK holder whose signature/thumbmark and picture appear in this card is a KK resident of Sapilang, Bacnotan, La Union, Philippines. This card is non-transferable and void if altered.
+          </div>
+
           <div class="emergency-title">IN CASE OF EMERGENCY</div>
 
           <div class="emergency-grid">
@@ -1642,29 +1735,22 @@ function displayID(person) {
 
           <div class="back-lower">
 
-            <div>
+  <div>
 
-              <div class="id-note">
-                <strong>IMPORTANT:</strong>
-                If lost or found, please report or return this Digital KK ID
-                to the SK Office of Barangay Sapilang. This ID is
-                non-transferable and valid only when VERIFIED and ACTIVE.
-              </div>
+    <div class="id-note">
+      <strong>IMPORTANT:</strong>
+      If found, please return it to the SK Office of Barangay Sapilang, Bacnotan, La Union, Philippines.
+      <div class="levelup">#LevelUpSapilang</div>
+    </div>
 
-              <div class="return-box">
-                <strong>IF FOUND, PLEASE RETURN TO:</strong><br>
-                Office of the Sangguniang Kabataan<br>
-                Barangay Sapilang, Bacnotan, La Union
-              </div>
+  </div>
 
-            </div>
+  <div class="back-qr">
+    <div id="qrcodeBack" class="back-qr-box"></div>
+    <div class="label">VERIFY ID</div>
+  </div>
 
-            <div class="back-qr">
-              <div id="qrcodeBack" class="back-qr-box"></div>
-              <div class="label">VERIFY ID</div>
-            </div>
-
-          </div>
+</div>
 
         </div>
 
