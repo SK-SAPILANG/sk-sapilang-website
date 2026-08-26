@@ -516,6 +516,274 @@ footer p,footer a,.footer-bottom{
 }
 </style>
 
+
+<style id="high-contrast-futuristic-fix">
+/* =========================================================
+   HIGH-CONTRAST FUTURISTIC THEME
+   Improves readability on all dark backgrounds
+========================================================= */
+
+:root {
+    --future-bg: #04101f;
+    --future-bg-2: #071a2f;
+    --future-panel: rgba(11, 30, 51, 0.94);
+    --future-panel-2: rgba(14, 38, 64, 0.96);
+    --future-white: #ffffff;
+    --future-text: #f4f9ff;
+    --future-muted: #c7d7e8;
+    --future-soft: #a9bfd4;
+    --future-cyan: #35d6ff;
+    --future-cyan-2: #73e4ff;
+    --future-line: rgba(115, 228, 255, 0.28);
+}
+
+html,
+body,
+button,
+input,
+textarea,
+select {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif !important;
+}
+
+body {
+    background:
+        radial-gradient(circle at 78% 12%, rgba(53,214,255,.12), transparent 25%),
+        radial-gradient(circle at 8% 35%, rgba(39,123,255,.10), transparent 26%),
+        linear-gradient(180deg, var(--future-bg), var(--future-bg-2) 48%, var(--future-bg));
+    color: var(--future-text) !important;
+}
+
+/* Make normal text readable everywhere */
+p,
+li,
+span,
+small,
+label {
+    color: inherit;
+}
+
+p {
+    color: var(--future-muted) !important;
+}
+
+/* TOP BAR */
+.topbar {
+    background: #020b17 !important;
+    color: var(--future-white) !important;
+    border-bottom: 1px solid rgba(115,228,255,.16) !important;
+}
+
+.topbar *,
+.topbar-left,
+.topbar-right {
+    color: var(--future-white) !important;
+}
+
+/* NAVIGATION */
+.navbar {
+    background: rgba(7, 22, 40, 0.97) !important;
+    border-bottom: 1px solid var(--future-line) !important;
+    box-shadow: 0 10px 32px rgba(0,0,0,.24);
+    backdrop-filter: blur(18px);
+}
+
+.brand strong {
+    color: var(--future-white) !important;
+}
+
+.brand small {
+    color: #c3d5e6 !important;
+}
+
+.nav-links a {
+    color: #e8f3ff !important;
+    font-weight: 600 !important;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--future-cyan) !important;
+}
+
+.nav-links a.active {
+    background: rgba(53,214,255,.12) !important;
+    border: 1px solid rgba(53,214,255,.16);
+    border-radius: 12px;
+}
+
+/* HERO */
+.hero {
+    background:
+        linear-gradient(105deg, rgba(4,16,31,.99), rgba(7,35,62,.94)),
+        radial-gradient(circle at 80% 25%, rgba(53,214,255,.16), transparent 28%) !important;
+}
+
+.hero::after {
+    opacity: .12 !important;
+}
+
+.hero .eyebrow,
+.eyebrow {
+    color: var(--future-cyan-2) !important;
+    background: rgba(53,214,255,.09) !important;
+    border: 1px solid rgba(115,228,255,.26) !important;
+    text-shadow: none !important;
+}
+
+.hero h1 {
+    color: var(--future-white) !important;
+    text-shadow: 0 6px 30px rgba(0,0,0,.25);
+}
+
+.hero h1 span {
+    color: var(--future-cyan) !important;
+    text-shadow: 0 0 28px rgba(53,214,255,.20) !important;
+}
+
+.hero p {
+    color: #e0ebf5 !important;
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: linear-gradient(135deg, #65e1ff, #2bbff4) !important;
+    color: #03101d !important;
+    border: 1px solid rgba(255,255,255,.18) !important;
+    box-shadow: 0 12px 30px rgba(43,191,244,.22) !important;
+}
+
+.btn-outline {
+    background: rgba(255,255,255,.055) !important;
+    color: var(--future-white) !important;
+    border: 1px solid rgba(115,228,255,.45) !important;
+}
+
+.btn-outline:hover {
+    background: rgba(53,214,255,.12) !important;
+}
+
+/* SECTIONS */
+.section-head h2,
+.cta h2,
+.card h3,
+.program-slide h3 {
+    color: var(--future-white) !important;
+}
+
+.section-head p,
+.card p,
+.program-slide p,
+.cta p {
+    color: var(--future-muted) !important;
+}
+
+/* CARDS */
+.card,
+.cta,
+.program-slider {
+    background:
+        linear-gradient(180deg, var(--future-panel-2), var(--future-panel)) !important;
+    border: 1px solid var(--future-line) !important;
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.30),
+        inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+.card:hover {
+    border-color: rgba(115,228,255,.52) !important;
+    box-shadow:
+        0 24px 65px rgba(0,0,0,.36),
+        0 0 26px rgba(53,214,255,.06) !important;
+}
+
+/* Small labels */
+.tag {
+    color: var(--future-cyan-2) !important;
+    background: rgba(53,214,255,.10) !important;
+    border: 1px solid rgba(115,228,255,.25) !important;
+}
+
+/* Icons */
+.icon {
+    color: var(--future-cyan) !important;
+    background: rgba(53,214,255,.10) !important;
+    border: 1px solid rgba(115,228,255,.22) !important;
+}
+
+/* Slider */
+.slider-btn {
+    color: var(--future-white) !important;
+    border-color: rgba(115,228,255,.45) !important;
+    background: rgba(4,16,31,.78) !important;
+}
+
+.slider-dot {
+    color: var(--future-cyan) !important;
+}
+
+/* Links inside content */
+main a:not(.btn),
+section a:not(.btn) {
+    color: var(--future-cyan-2);
+}
+
+/* FOOTER */
+footer {
+    background: #020b17 !important;
+    color: var(--future-text) !important;
+    border-top: 1px solid var(--future-line) !important;
+}
+
+footer h3,
+footer h4 {
+    color: var(--future-white) !important;
+}
+
+footer p {
+    color: #b8ccdf !important;
+}
+
+footer a {
+    color: #d8e8f6 !important;
+}
+
+footer a:hover {
+    color: var(--future-cyan) !important;
+}
+
+.footer-bottom {
+    color: #9db5ca !important;
+    border-top: 1px solid rgba(115,228,255,.16) !important;
+}
+
+/* Mobile menu readability */
+@media (max-width: 900px) {
+    .nav-links {
+        background: rgba(5, 18, 34, .99) !important;
+        border: 1px solid var(--future-line) !important;
+        box-shadow: 0 20px 45px rgba(0,0,0,.40);
+    }
+
+    .nav-links a {
+        color: var(--future-white) !important;
+    }
+}
+
+/* Accessibility: selection and focus */
+::selection {
+    background: var(--future-cyan);
+    color: #02101c;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--future-cyan) !important;
+    outline-offset: 3px;
+}
+</style>
+
 </head>
 
 
