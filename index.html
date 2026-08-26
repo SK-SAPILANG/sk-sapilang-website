@@ -13,13 +13,508 @@
         name="description"
         content="Official Website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
 
-    <title>
-        SK SAPILANG OFFICIAL WEBSITE
-    </title>
+    <title>SK Sapilang | Official Website</title>
 
     <link
         rel="stylesheet"
         href="css/style.css">
+
+
+    <style>
+        /* Featured Programs Slider */
+        .program-slider {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .program-track {
+            display: flex;
+            transition: transform 700ms cubic-bezier(.22,.61,.36,1);
+            will-change: transform;
+        }
+
+        .program-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+        }
+
+        .program-slide img {
+            width: 100%;
+            height: clamp(220px, 38vw, 430px);
+            object-fit: cover;
+            display: block;
+        }
+
+        .slider-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .slider-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid currentColor;
+            background: transparent;
+            color: inherit;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .slider-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: .3;
+            cursor: pointer;
+        }
+
+        .slider-dot.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .program-track {
+                transition: none;
+            }
+        }
+    </style>
+
+
+<style>
+    :root {
+        --bg: #06111f;
+        --bg-soft: #0b1a2d;
+        --panel: rgba(16, 37, 61, 0.78);
+        --panel-strong: rgba(19, 44, 72, 0.96);
+        --line: rgba(112, 198, 255, 0.22);
+        --line-strong: rgba(112, 198, 255, 0.48);
+        --text: #f5fbff;
+        --muted: #a9c2d8;
+        --accent: #63c8ff;
+        --accent-soft: rgba(99, 200, 255, 0.12);
+        --success: #5fdc91;
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+        background:
+            radial-gradient(circle at 15% 10%, rgba(69, 160, 255, 0.12), transparent 28%),
+            radial-gradient(circle at 85% 20%, rgba(99, 200, 255, 0.09), transparent 24%),
+            linear-gradient(180deg, #06111f 0%, #081726 45%, #06111f 100%);
+        color: var(--text);
+        letter-spacing: 0;
+    }
+
+    h1, h2, h3, h4, strong, .btn, .tag, .eyebrow, .brand strong {
+        font-family: inherit !important;
+    }
+
+    h1, h2, h3, h4, strong {
+        font-weight: 700 !important;
+        letter-spacing: -0.02em;
+    }
+
+    p, li, a, span, small {
+        font-weight: 400;
+        letter-spacing: 0;
+    }
+
+    .topbar {
+        background: rgba(5, 15, 27, 0.82) !important;
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(14px);
+    }
+
+    .navbar {
+        background: rgba(7, 18, 31, 0.78) !important;
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+    }
+
+    .brand img {
+        filter: drop-shadow(0 8px 20px rgba(69, 160, 255, 0.18));
+    }
+
+    .brand strong {
+        font-size: 1rem;
+        text-transform: none !important;
+    }
+
+    .brand small {
+        text-transform: none !important;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+    }
+
+    .nav-links a {
+        font-weight: 600;
+        text-transform: none !important;
+        letter-spacing: 0;
+        position: relative;
+        transition: color .22s ease;
+    }
+
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 100%;
+        bottom: -7px;
+        height: 2px;
+        background: var(--accent);
+        border-radius: 999px;
+        transition: right .22s ease;
+    }
+
+    .nav-links a:hover::after {
+        right: 0;
+    }
+
+    .hero {
+        position: relative;
+        overflow: hidden;
+        background:
+            linear-gradient(120deg, rgba(7, 20, 35, 0.94), rgba(9, 29, 49, 0.80)),
+            radial-gradient(circle at 78% 28%, rgba(99, 200, 255, 0.15), transparent 24%);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before,
+    .hero::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .hero::before {
+        width: 420px;
+        height: 420px;
+        right: -120px;
+        top: 30px;
+        border: 1px solid rgba(99, 200, 255, 0.16);
+        border-radius: 50%;
+        box-shadow:
+            0 0 0 40px rgba(99, 200, 255, 0.025),
+            0 0 0 80px rgba(99, 200, 255, 0.018);
+    }
+
+    .hero::after {
+        inset: 0;
+        opacity: .2;
+        background-image:
+            linear-gradient(rgba(99,200,255,.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(99,200,255,.06) 1px, transparent 1px);
+        background-size: 52px 52px;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 82%);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .eyebrow,
+    .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid rgba(99, 200, 255, 0.22);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-weight: 700 !important;
+        text-transform: none !important;
+        letter-spacing: 0 !important;
+    }
+
+    .hero h1 {
+        max-width: 900px;
+        font-size: clamp(2.7rem, 6vw, 5.4rem);
+        line-height: .98;
+        text-wrap: balance;
+    }
+
+    .hero h1 span {
+        color: var(--accent);
+        font-weight: 700;
+        text-shadow: 0 0 30px rgba(99, 200, 255, 0.18);
+    }
+
+    .hero p,
+    .section-head p,
+    .card p,
+    .cta p,
+    footer p {
+        color: var(--muted);
+        line-height: 1.75;
+        font-size: 1rem;
+    }
+
+    .btn {
+        border-radius: 999px !important;
+        font-weight: 700 !important;
+        text-transform: none !important;
+        letter-spacing: 0 !important;
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #72d1ff, #4eb6ff) !important;
+        color: #06111f !important;
+        border: 1px solid rgba(255,255,255,.14) !important;
+        box-shadow: 0 10px 30px rgba(78, 182, 255, 0.22);
+    }
+
+    .btn-outline {
+        background: rgba(255,255,255,.03) !important;
+        color: var(--text) !important;
+        border: 1px solid var(--line-strong) !important;
+        backdrop-filter: blur(10px);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .section {
+        position: relative;
+    }
+
+    .section-head h2,
+    .cta h2 {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1.08;
+        text-wrap: balance;
+    }
+
+    .card,
+    .cta,
+    .program-slider {
+        background: linear-gradient(180deg, rgba(19,44,72,.88), rgba(10,27,46,.86)) !important;
+        border: 1px solid var(--line) !important;
+        border-radius: var(--radius-lg) !important;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+    }
+
+    .card {
+        overflow: hidden;
+        transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        border-color: var(--line-strong) !important;
+        box-shadow: 0 26px 70px rgba(0,0,0,.36);
+    }
+
+    .icon {
+        background: var(--accent-soft) !important;
+        color: var(--accent);
+        border: 1px solid rgba(99,200,255,.18);
+        border-radius: 16px;
+    }
+
+    .program-slider {
+        padding: 14px;
+        overflow: hidden;
+    }
+
+    .program-slide {
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .program-slide:hover {
+        transform: none;
+    }
+
+    .program-slide img {
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,.06);
+        background: #0c1c2f;
+    }
+
+    .program-slide .card-body {
+        padding: 26px 6px 10px;
+    }
+
+    .program-slide h3 {
+        font-size: 1.7rem;
+        margin-top: 10px;
+    }
+
+    .slider-btn {
+        border-color: var(--line-strong) !important;
+        background: rgba(255,255,255,.03) !important;
+        color: var(--text) !important;
+        backdrop-filter: blur(8px);
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    .slider-btn:hover {
+        transform: scale(1.05);
+        background: var(--accent-soft) !important;
+    }
+
+    .slider-dot {
+        color: var(--accent);
+    }
+
+    .cta {
+        padding: clamp(28px, 6vw, 58px) !important;
+    }
+
+    footer {
+        background: rgba(5, 15, 27, 0.92) !important;
+        border-top: 1px solid var(--line);
+    }
+
+    footer h3,
+    footer h4 {
+        text-transform: none !important;
+    }
+
+    footer a {
+        color: var(--muted);
+        font-weight: 500;
+        text-transform: none !important;
+    }
+
+    footer a:hover {
+        color: var(--accent);
+    }
+
+    .footer-bottom {
+        color: #7f9bb4;
+        border-top: 1px solid var(--line);
+        text-transform: none !important;
+        letter-spacing: 0 !important;
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: clamp(2.35rem, 12vw, 4rem);
+        }
+
+        .section-head,
+        .footer-grid {
+            gap: 24px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            scroll-behavior: auto !important;
+            animation: none !important;
+            transition: none !important;
+        }
+    }
+</style>
+
+
+<style id="final-typography-system">
+html,body,button,input,textarea,select{
+  font-family:Inter,"Segoe UI",Arial,Helvetica,sans-serif!important;
+}
+body{font-weight:400;letter-spacing:0}
+p,li,small{font-weight:400!important;letter-spacing:0!important}
+h1,h2,h3,h4,h5,h6,strong{font-family:inherit!important;font-weight:700!important}
+
+.topbar,.topbar *,.topbar-left,.topbar-right{
+  font-family:inherit!important;font-size:13px;font-weight:400!important;
+  letter-spacing:0!important;text-transform:none!important;
+}
+.brand strong{
+  font-family:inherit!important;font-size:16px;font-weight:700!important;
+  letter-spacing:0!important;text-transform:none!important;
+}
+.brand small{
+  font-family:inherit!important;font-size:11px;font-weight:400!important;
+  letter-spacing:0!important;text-transform:none!important;color:#a9bdd2;
+}
+.nav-links a{
+  font-family:inherit!important;font-size:14px;font-weight:600!important;
+  letter-spacing:0!important;text-transform:none!important;
+}
+.hero .eyebrow,.eyebrow{
+  font-family:inherit!important;font-size:13px;font-weight:600!important;
+  letter-spacing:.03em!important;text-transform:none!important;
+}
+.hero h1,.hero h1 span,.hero h1 strong{
+  font-family:inherit!important;font-weight:700!important;
+}
+.hero h1{
+  font-size:clamp(3rem,6vw,5rem);line-height:1.02;letter-spacing:-.045em;
+  max-width:920px;margin-top:22px;margin-bottom:22px;
+}
+.hero h1 span{color:#18c7ee}
+.hero p{
+  font-family:inherit!important;max-width:700px;font-size:17px;line-height:1.7;
+  font-weight:400!important;letter-spacing:0!important;
+}
+.btn,button{
+  font-family:inherit!important;font-weight:600!important;
+  letter-spacing:0!important;text-transform:none!important;
+}
+.section-head h2,.cta h2{
+  font-family:inherit!important;font-weight:700!important;
+  letter-spacing:-.03em;line-height:1.1;
+}
+.section-head p,.cta p{
+  font-family:inherit!important;font-weight:400!important;letter-spacing:0!important;
+}
+.card h3,.program-slide h3{
+  font-family:inherit!important;font-weight:700!important;letter-spacing:-.015em;
+}
+.card p,.program-slide p{
+  font-family:inherit!important;font-weight:400!important;letter-spacing:0!important;
+}
+.tag{
+  font-family:inherit!important;font-weight:600!important;
+  letter-spacing:0!important;text-transform:none!important;
+}
+footer,footer *{font-family:inherit!important}
+footer h3,footer h4{
+  font-weight:700!important;letter-spacing:0!important;text-transform:none!important;
+}
+footer p,footer a,.footer-bottom{
+  font-weight:400!important;letter-spacing:0!important;text-transform:none!important;
+}
+@media(max-width:768px){
+  .hero h1{font-size:clamp(2.5rem,11vw,4rem);line-height:1.02}
+  .hero p{font-size:16px;line-height:1.65}
+  .hero .eyebrow,.eyebrow{font-size:12px}
+  .nav-links a{font-size:15px}
+}
+</style>
 
 </head>
 
@@ -40,7 +535,7 @@
         <div class="container">
 
             <span>
-                OFFICIAL WEBSITE • SANGGUNIANG KABATAAN SAPILANG
+                Sangguniang Kabataan 
             </span>
 
             <span>
@@ -66,17 +561,17 @@
                 href="index.html">
 
                 <img
-                    src="images/Classic Scooter Club Community Logo - 2.jpg"
+                    src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
                     alt="SK Sapilang Logo">
 
                 <div>
 
                     <strong>
-                        SK SAPILANG
+                        SK Sapilang
                     </strong>
 
                     <small>
-                        OFFICIAL WEBSITE
+                        Official Website
                     </small>
 
                 </div>
@@ -194,7 +689,7 @@
 
         <div class="eyebrow">
 
-            ✦ SK SAPILANG OFFICIAL WEBSITE
+            ✦ SK Sapilang Official Website
 
         </div>
 
@@ -214,14 +709,9 @@
 
         <p>
 
-            Welcome to the official digital home of the
-            Sangguniang Kabataan of Barangay Sapilang,
-            Bacnotan, La Union.
-
-            Discover our programs, participate in
-            activities, access public documents,
-            connect with youth services, and make your
-            voice part of the community.
+            The official digital home of the Sangguniang Kabataan
+            of Barangay Sapilang, Bacnotan, La Union—connecting youth
+            to programs, services, public information, and opportunities.
 
         </p>
 
@@ -372,70 +862,6 @@
 
 
 
-<!-- =====================================================
-     WEBSITE SERVICES
-===================================================== -->
-
-<section class="stats">
-
-    <div class="container grid">
-
-
-        <div class="stat">
-
-            <strong>
-                KK
-            </strong>
-
-            <span>
-                Digital Services
-            </span>
-
-        </div>
-
-
-        <div class="stat">
-
-            <strong>
-                24/7
-            </strong>
-
-            <span>
-                Public Information
-            </span>
-
-        </div>
-
-
-        <div class="stat">
-
-            <strong>
-                QR
-            </strong>
-
-            <span>
-                Digital Verification
-            </span>
-
-        </div>
-
-
-        <div class="stat">
-
-            <strong>
-                1
-            </strong>
-
-            <span>
-                United Youth Community
-            </span>
-
-        </div>
-
-
-    </div>
-
-</section>
 
 
 
@@ -476,110 +902,47 @@
 
 
 
-        <div class="grid grid-3">
+        
+        <div class="program-slider reveal" aria-label="Featured programs">
+            <div class="program-track">
 
+                <article class="card program-card program-slide">
+                    <img src="images/hero.svg" alt="SK Sapilang E-Library">
+                    <div class="card-body">
+                        <span class="tag">Education</span>
+                        <h3>SK E-Library</h3>
+                        <p>Digital learning resources, technology, and educational opportunities for the youth.</p>
+                    </div>
+                </article>
 
-            <!-- E-LIBRARY -->
+                <article class="card program-card program-slide">
+                    <img src="images/hero.svg" alt="SK Sapilang Youth Sports Development">
+                    <div class="card-body">
+                        <span class="tag">Sports</span>
+                        <h3>Youth Sports Development</h3>
+                        <p>Inclusive opportunities for young people to compete, connect, stay active, and grow.</p>
+                    </div>
+                </article>
 
-            <article class="card program-card reveal">
+                <article class="card program-card program-slide">
+                    <img src="images/hero.svg" alt="SK Sapilang Digital Youth Development">
+                    <div class="card-body">
+                        <span class="tag">Innovation</span>
+                        <h3>Digital Youth Development</h3>
+                        <p>Digital literacy, responsible technology use, and youth-friendly innovation.</p>
+                    </div>
+                </article>
 
-                <img
-                    src="images/hero.svg"
-                    alt="SK Sapilang E-Library">
+            </div>
 
-                <div class="card-body">
-
-                    <span class="tag">
-                        Education
-                    </span>
-
-                    <h3>
-                        SK E-Library
-                    </h3>
-
-                    <p>
-
-                        Expanding access to
-                        digital learning resources,
-                        technology, and educational
-                        opportunities for the youth.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- SPORTS -->
-
-            <article class="card program-card reveal">
-
-                <img
-                    src="images/hero.svg"
-                    alt="SK Sapilang Sports Development">
-
-                <div class="card-body">
-
-                    <span class="tag">
-                        Sports
-                    </span>
-
-                    <h3>
-                        Youth Sports Development
-                    </h3>
-
-                    <p>
-
-                        Creating opportunities
-                        for young people to compete,
-                        connect, stay active,
-                        and grow through sports.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- DIGITAL / INNOVATION -->
-
-            <article class="card program-card reveal">
-
-                <img
-                    src="images/hero.svg"
-                    alt="SK Sapilang Digital Youth Development">
-
-                <div class="card-body">
-
-                    <span class="tag">
-                        Innovation
-                    </span>
-
-                    <h3>
-                        Digital Youth Development
-                    </h3>
-
-                    <p>
-
-                        Promoting digital literacy,
-                        responsible technology use,
-                        and youth-friendly innovation.
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
+            <div class="slider-controls" aria-label="Program slider controls">
+                <button class="slider-btn slider-prev" type="button" aria-label="Previous program">‹</button>
+                <div class="slider-dots" aria-label="Choose program"></div>
+                <button class="slider-btn slider-next" type="button" aria-label="Next program">›</button>
+            </div>
         </div>
 
     </div>
-
 </section>
 
 
@@ -597,7 +960,7 @@
 
 
             <span class="eyebrow">
-                KATIPUNAN NG KABATAAN
+                Katipunan ng Kabataan
             </span>
 
 
@@ -754,52 +1117,6 @@
 
 
 
-<!-- =====================================================
-     AWARDS
-===================================================== -->
-
-<section class="section">
-
-    <div class="container">
-
-
-        <div class="cta reveal">
-
-
-            <span class="eyebrow">
-                ACHIEVEMENTS
-            </span>
-
-
-            <h2>
-                Awards & Recognitions
-            </h2>
-
-
-            <p>
-
-                Discover the achievements,
-                recognitions, milestones,
-                and accomplishments of
-                SK Sapilang.
-
-            </p>
-
-
-            <a
-                class="btn btn-outline"
-                href="awards.html">
-
-                View Awards & Recognitions
-
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
 
 
 
@@ -824,7 +1141,7 @@
             <div>
 
                 <h3>
-                    SK SAPILANG
+                    SK Sapilang
                 </h3>
 
                 <p>
@@ -957,7 +1274,7 @@
             SK Sapilang.
             All Rights Reserved.
 
-            • SK SAPILANG OFFICIAL WEBSITE
+            • SK Sapilang Official Website
 
         </div>
 
@@ -967,6 +1284,77 @@
 </footer>
 
 
+
+
+<script>
+(function () {
+    const slider = document.querySelector(".program-slider");
+    if (!slider) return;
+
+    const track = slider.querySelector(".program-track");
+    const slides = Array.from(slider.querySelectorAll(".program-slide"));
+    const dotsWrap = slider.querySelector(".slider-dots");
+    const prev = slider.querySelector(".slider-prev");
+    const next = slider.querySelector(".slider-next");
+
+    let index = 0;
+    let timer = null;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "slider-dot";
+        dot.setAttribute("aria-label", "Show program " + (i + 1));
+        dot.addEventListener("click", () => {
+            show(i);
+            restart();
+        });
+        dotsWrap.appendChild(dot);
+    });
+
+    const dots = Array.from(dotsWrap.querySelectorAll(".slider-dot"));
+
+    function show(i) {
+        index = (i + slides.length) % slides.length;
+        track.style.transform = "translateX(-" + (index * 100) + "%)";
+        dots.forEach((dot, d) => dot.classList.toggle("active", d === index));
+    }
+
+    function start() {
+        if (reduceMotion || slides.length < 2) return;
+        timer = window.setInterval(() => show(index + 1), 4000);
+    }
+
+    function stop() {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+    }
+
+    function restart() {
+        stop();
+        start();
+    }
+
+    prev.addEventListener("click", () => {
+        show(index - 1);
+        restart();
+    });
+
+    next.addEventListener("click", () => {
+        show(index + 1);
+        restart();
+    });
+
+    slider.addEventListener("mouseenter", stop);
+    slider.addEventListener("mouseleave", start);
+    slider.addEventListener("focusin", stop);
+    slider.addEventListener("focusout", start);
+
+    show(0);
+    start();
+})();
+</script>
 
 <script src="js/main.js"></script>
 
