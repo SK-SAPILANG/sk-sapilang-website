@@ -1,11 +1,94 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+
+<title>Feedback | SK Sapilang</title>
+
+<meta
+name="description"
+content="Connect with SK Sapilang and share feedback to help strengthen youth programs, services and community initiatives.">
+
+<meta
+name="robots"
+content="index, follow">
+
+<link
+rel="canonical"
+href="https://sk-sapilang.github.io/sk-sapilang-website/feedback.html">
+
+
+<!-- GOOGLE / SEARCH ENGINE IDENTITY -->
+
+<meta
+name="application-name"
+content="SK Sapilang">
+
+<meta
+name="author"
+content="Sangguniang Kabataan of Barangay Sapilang">
+
+
+<!-- OPEN GRAPH / FACEBOOK -->
+
+<meta
+property="og:type"
+content="website">
+
+<meta
+property="og:site_name"
+content="SK Sapilang">
+
+<meta
+property="og:title"
+content="Feedback | SK Sapilang">
+
+<meta
+property="og:description"
+content="Connect with SK Sapilang and share feedback to help strengthen youth programs, services and community initiatives.">
+
+<meta
+property="og:url"
+content="https://sk-sapilang.github.io/sk-sapilang-website/feedback.html">
+
+<meta
+property="og:image"
+content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+<meta
+property="og:image:alt"
+content="Official SK Sapilang Logo">
+
+
+<!-- SOCIAL PREVIEW -->
+
+<meta
+name="twitter:card"
+content="summary_large_image">
+
+<meta
+name="twitter:title"
+content="Feedback | SK Sapilang">
+
+<meta
+name="twitter:description"
+content="Connect with SK Sapilang and share feedback to help strengthen youth programs, services and community initiatives.">
+
+<meta
+name="twitter:image"
+content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+
+<!-- FAVICON -->
+
+<link
+rel="icon"
+href="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="SK Sapilang Quality Management System for client feedback, activity evaluation, suggestions and recommendations.">
+
 <meta name="theme-color" content="#020b14">
-<title>Quality Management System | SK Sapilang</title>
+
 
 <style>
 :root{
@@ -479,7 +562,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
         </a>
 
         <button class="admin-header-login" id="adminHeaderLogin" type="button">QMS Admin Login</button>
-        <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+        <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">â˜°</button>
 
         <ul class="nav-links" id="navLinks">
             <li><a href="home.html">Home</a></li>
@@ -932,7 +1015,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <div class="form-group full">
                             <div class="rating-title" style="margin-top:4px">
                                 <h4>Resource Speaker / Trainer / Facilitator Feedback</h4>
-                                <p>Provide additional feedback about the person who delivered or facilitated the session. If the activity had no resource speaker, you may write “Not Applicable.”</p>
+                                <p>Provide additional feedback about the person who delivered or facilitated the session. If the activity had no resource speaker, you may write â€œNot Applicable.â€</p>
                             </div>
                         </div>
 
@@ -1149,11 +1232,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <h3>Administration Dashboard</h3>
                             <p id="integratedGeneratedText">Live evaluation, feedback and improvement monitoring.</p>
                         </div>
-                        <span class="admin-system-chip">● QMS DATABASE CONNECTED</span>
+                        <span class="admin-system-chip">â— QMS DATABASE CONNECTED</span>
                     </div>
 
                     <div class="admin-actions">
-                        <button class="admin-action-btn primary" id="integratedRefreshBtn" type="button">↻ Refresh Dashboard</button>
+                        <button class="admin-action-btn primary" id="integratedRefreshBtn" type="button">â†» Refresh Dashboard</button>
                         <button class="admin-action-btn" id="integratedPrintBtn" type="button">Print Report</button>
                         <button class="admin-action-btn danger" id="integratedLogoutBtn" type="button">Log Out</button>
                     </div>
@@ -1358,7 +1441,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 <span>DIGITAL YOUTH NETWORK</span>
             </div>
         </div>
-        <div class="copyright">© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
+        <div class="copyright">Â© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
     </div>
 </footer>
 
@@ -1370,14 +1453,14 @@ if(menuButton&&navLinks){
     menuButton.addEventListener("click",()=>{
         const open=navLinks.classList.toggle("open");
         menuButton.setAttribute("aria-expanded",open?"true":"false");
-        menuButton.textContent=open?"✕":"☰";
+        menuButton.textContent=open?"âœ•":"â˜°";
     });
 
     navLinks.querySelectorAll("a").forEach(link=>{
         link.addEventListener("click",()=>{
             navLinks.classList.remove("open");
             menuButton.setAttribute("aria-expanded","false");
-            menuButton.textContent="☰";
+            menuButton.textContent="â˜°";
         });
     });
 }
@@ -1769,10 +1852,10 @@ function integratedRenderDashboard(data){
         "Live QMS data generated "+integratedFormatDateTime(data.generatedAt)+".";
 
     document.getElementById("integratedSummaryGrid").innerHTML=`
-        ${integratedMetric("Client Feedback",s.clientResponses,s.averageClientSatisfaction.toFixed(2)+" / 5 • "+s.clientQuality)}
-        ${integratedMetric("Activity Evaluations",s.activityEvaluations,s.averageActivityScore.toFixed(2)+" / 5 • "+s.activityQuality)}
-        ${integratedMetric("Speaker Evaluations",s.speakerEvaluations,s.averageSpeakerScore.toFixed(2)+" / 5 • "+s.speakerQuality)}
-        ${integratedMetric("Suggestions / Concerns",s.suggestions,s.newSuggestions+" New • "+s.inProgressSuggestions+" In Progress")}
+        ${integratedMetric("Client Feedback",s.clientResponses,s.averageClientSatisfaction.toFixed(2)+" / 5 â€¢ "+s.clientQuality)}
+        ${integratedMetric("Activity Evaluations",s.activityEvaluations,s.averageActivityScore.toFixed(2)+" / 5 â€¢ "+s.activityQuality)}
+        ${integratedMetric("Speaker Evaluations",s.speakerEvaluations,s.averageSpeakerScore.toFixed(2)+" / 5 â€¢ "+s.speakerQuality)}
+        ${integratedMetric("Suggestions / Concerns",s.suggestions,s.newSuggestions+" New â€¢ "+s.inProgressSuggestions+" In Progress")}
     `;
 
     integratedRenderBars("integratedActivityTypeBars",data.activityTypes);
@@ -1844,7 +1927,7 @@ function integratedRenderActivities(rows){
         <tr data-type="${integratedEscape(row.activityType)}">
             <td>${integratedEscape(row.timestamp)}</td>
             <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} • ${integratedEscape(row.venue)}</span></td>
+            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} â€¢ ${integratedEscape(row.venue)}</span></td>
             <td>${integratedEscape(row.participant||"Anonymous")}<br><span class="admin-muted">${integratedEscape(row.classification)}</span></td>
             <td>${integratedEscape(row.speaker||"N/A")}</td>
             <td class="admin-rating">${Number(row.averageScore).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
@@ -1893,7 +1976,7 @@ function integratedRenderSuggestions(rows){
         <tr data-status="${integratedEscape(row.status)}">
             <td>${integratedEscape(row.timestamp)}</td>
             <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.subject)}</strong><br><span class="admin-muted">${integratedEscape(row.category)} • ${integratedEscape(row.area)}${row.name?" • "+integratedEscape(row.name):""}</span></td>
+            <td><strong>${integratedEscape(row.subject)}</strong><br><span class="admin-muted">${integratedEscape(row.category)} â€¢ ${integratedEscape(row.area)}${row.name?" â€¢ "+integratedEscape(row.name):""}</span></td>
             <td>${integratedEscape(row.message)}${row.solution?`<br><br><strong>Proposed:</strong> ${integratedEscape(row.solution)}`:""}</td>
             <td>${integratedStatusBadge(row.status)}${row.dateResolved?`<br><span class="admin-muted">${integratedEscape(row.dateResolved)}</span>`:""}</td>
             <td>
@@ -1957,7 +2040,7 @@ function integratedStatusBadge(status){
 }
 
 function integratedScoreOrDash(value){
-    if(value===""||value===null||value===undefined)return"—";
+    if(value===""||value===null||value===undefined)return"â€”";
     return `${Number(value).toFixed(2)} / 5`;
 }
 
@@ -2042,3 +2125,4 @@ document.getElementById("year").textContent=new Date().getFullYear();
 <script src="js/frame-bridge.js"></script>
 </body>
 </html>
+
