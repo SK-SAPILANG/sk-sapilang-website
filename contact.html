@@ -11,39 +11,320 @@
 
 <meta
   name="description"
-  content="Contact the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+  content="Official contact channels of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
 
 <meta
   name="theme-color"
   content="#03111d">
 
-<title>Contact Us | SK Sapilang</title>
-
-<link
-  rel="stylesheet"
-  href="css/site-pages.css">
+<title>Contact | SK Sapilang</title>
 
 
 <style>
 
 /* =========================================================
-   CONTACT PAGE
+   ROOT
 ========================================================= */
 
 :root{
-  --contact-cyan:#38ddff;
-  --contact-blue:#1677ff;
-  --contact-green:#65f2ad;
-  --contact-yellow:#ffd865;
+  --bg:#020914;
+  --panel:#071522;
+  --text:#f4fbff;
+  --muted:#92aabb;
 
-  --contact-panel:
-    rgba(7,22,37,.80);
+  --cyan:#39ddff;
+  --blue:#1775ff;
+  --green:#66f1ad;
+  --yellow:#ffd565;
 
-  --contact-border:
-    rgba(112,219,255,.16);
+  --border:rgba(106,218,255,.15);
+  --border-strong:rgba(74,215,255,.34);
 
-  --contact-muted:
-    #91a9b9;
+  --shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color:var(--text);
+
+  background:
+    radial-gradient(
+      circle at 85% 5%,
+      rgba(0,174,255,.12),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 5% 35%,
+      rgba(0,89,255,.08),
+      transparent 32%
+    ),
+    var(--bg);
+
+  line-height:1.6;
+
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+
+  position:fixed;
+  inset:0;
+
+  z-index:-2;
+
+  background-image:
+    linear-gradient(
+      rgba(80,200,255,.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(80,200,255,.025) 1px,
+      transparent 1px
+    );
+
+  background-size:55px 55px;
+
+  pointer-events:none;
+}
+
+a{
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+}
+
+button{
+  font:inherit;
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.container{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+.section{
+  padding:85px 0;
+}
+
+.section-label{
+  display:inline-block;
+
+  color:var(--cyan);
+
+  font-size:.7rem;
+  font-weight:800;
+
+  letter-spacing:.13em;
+
+  text-transform:uppercase;
+
+  margin-bottom:10px;
+}
+
+.section-heading{
+  max-width:750px;
+  margin-bottom:34px;
+}
+
+.section-heading h2{
+  font-size:clamp(2rem,4vw,3.3rem);
+
+  line-height:1.08;
+
+  letter-spacing:-.035em;
+}
+
+.section-heading p{
+  margin-top:14px;
+  color:var(--muted);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+  position:sticky;
+
+  top:0;
+
+  z-index:1000;
+
+  background:
+    rgba(2,9,20,.82);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.05);
+
+  backdrop-filter:
+    blur(20px);
+}
+
+.nav{
+  min-height:76px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  text-decoration:none;
+}
+
+.logo{
+  width:46px;
+  height:46px;
+
+  min-width:46px;
+
+  border-radius:14px;
+
+  overflow:hidden;
+
+  border:
+    1px solid rgba(87,218,255,.22);
+
+  background:#071521;
+}
+
+.logo img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+.brand-text{
+  display:flex;
+
+  flex-direction:column;
+
+  line-height:1.1;
+}
+
+.brand-text strong{
+  font-size:.92rem;
+
+  letter-spacing:.08em;
+}
+
+.brand-text span{
+  margin-top:5px;
+
+  color:var(--muted);
+
+  font-size:.58rem;
+
+  letter-spacing:.14em;
+}
+
+.nav-links{
+  list-style:none;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:4px;
+}
+
+.nav-links a{
+  display:block;
+
+  padding:9px 11px;
+
+  border-radius:10px;
+
+  text-decoration:none;
+
+  color:#a9bfce;
+
+  font-size:.8rem;
+
+  font-weight:700;
+
+  transition:.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+  color:#fff;
+
+  background:
+    rgba(0,190,255,.07);
+}
+
+.nav-links a.active{
+  border:
+    1px solid rgba(83,218,255,.16);
+}
+
+.menu-button{
+  display:none;
+
+  width:42px;
+  height:42px;
+
+  border-radius:12px;
+
+  border:
+    1px solid var(--border);
+
+  background:
+    rgba(255,255,255,.03);
+
+  color:#fff;
+
+  font-size:1.1rem;
+
+  cursor:pointer;
 }
 
 
@@ -51,12 +332,16 @@
    HERO
 ========================================================= */
 
-.contact-hero{
+.hero{
   position:relative;
+
+  padding:
+    110px 0 70px;
+
   overflow:hidden;
 }
 
-.contact-hero::after{
+.hero::after{
   content:"";
 
   position:absolute;
@@ -64,190 +349,184 @@
   width:520px;
   height:520px;
 
-  border-radius:50%;
+  right:-190px;
+  top:-260px;
 
-  top:-300px;
-  right:-180px;
+  border-radius:50%;
 
   background:
     radial-gradient(
       circle,
-      rgba(0,203,255,.15),
-      transparent 67%
+      rgba(0,198,255,.15),
+      transparent 68%
     );
 
   pointer-events:none;
 }
 
-.contact-hero-content{
-  max-width:800px;
-}
-
-.contact-status{
+.eyebrow{
   display:inline-flex;
 
   align-items:center;
 
   gap:8px;
 
-  margin-top:22px;
+  padding:
+    8px 13px;
 
-  padding:8px 13px;
-
-  border-radius:999px;
+  border-radius:
+    999px;
 
   border:
-    1px solid rgba(91,224,255,.19);
+    1px solid rgba(86,220,255,.18);
 
   background:
-    rgba(0,190,255,.045);
+    rgba(0,188,255,.045);
 
   color:#a9eaff;
 
-  font-size:.72rem;
+  font-size:.71rem;
 
-  font-weight:700;
+  font-weight:800;
 
-  letter-spacing:.08em;
+  letter-spacing:.12em;
 
   text-transform:uppercase;
 }
 
-.contact-status-dot{
-  width:8px;
-  height:8px;
+.eyebrow::before{
+  content:"";
+
+  width:7px;
+  height:7px;
 
   border-radius:50%;
 
   background:
-    var(--contact-green);
+    var(--green);
 
   box-shadow:
     0 0 12px
-    var(--contact-green);
+    var(--green);
 }
 
+.hero h1{
+  max-width:900px;
 
-/* =========================================================
-   FRIENDLY INTRO
-========================================================= */
+  margin-top:22px;
 
-.contact-welcome{
-  display:grid;
+  font-size:
+    clamp(3rem,7vw,6.4rem);
 
-  grid-template-columns:
-    1.2fr .8fr;
+  line-height:.94;
 
-  gap:24px;
-
-  align-items:stretch;
+  letter-spacing:-.055em;
 }
 
-.welcome-card{
-  position:relative;
-
-  padding:34px;
-
-  border-radius:30px;
-
-  border:
-    1px solid
-    var(--contact-border);
+.hero h1 span{
+  display:block;
 
   background:
     linear-gradient(
-      145deg,
-      rgba(9,27,44,.88),
-      rgba(3,14,24,.82)
+      90deg,
+      #ffffff,
+      #86eaff,
+      #3c99ff
     );
 
-  overflow:hidden;
+  background-clip:text;
+  -webkit-background-clip:text;
+
+  color:transparent;
+
+  -webkit-text-fill-color:transparent;
 }
 
-.welcome-card::before{
-  content:"";
+.hero p{
+  max-width:720px;
 
-  position:absolute;
-
-  width:180px;
-  height:180px;
-
-  right:-80px;
-  top:-80px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,202,255,.16),
-      transparent 70%
-    );
-}
-
-.welcome-card h2{
-  font-size:
-    clamp(1.8rem,4vw,2.8rem);
-
-  line-height:1.06;
-}
-
-.welcome-card p{
-  margin-top:16px;
-
-  max-width:680px;
+  margin-top:24px;
 
   color:
-    var(--contact-muted);
+    var(--muted);
+
+  font-size:1rem;
 
   line-height:1.8;
 }
 
-.help-card{
-  padding:30px;
-
-  border-radius:30px;
-
-  border:
-    1px solid
-    rgba(96,226,255,.13);
-
-  background:
-    rgba(5,17,29,.78);
-
+.hero-actions{
   display:flex;
 
-  flex-direction:column;
+  flex-wrap:wrap;
 
-  justify-content:center;
+  gap:12px;
+
+  margin-top:28px;
 }
 
-.help-card small{
-  color:
-    var(--contact-cyan);
+.button{
+  min-height:48px;
 
-  font-size:.7rem;
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  padding:
+    0 19px;
+
+  border-radius:13px;
+
+  text-decoration:none;
+
+  font-size:.87rem;
 
   font-weight:800;
 
-  text-transform:uppercase;
+  border:
+    1px solid transparent;
 
-  letter-spacing:.12em;
+  transition:.2s ease;
 }
 
-.help-card h3{
-  margin-top:10px;
-
-  font-size:1.4rem;
+.button:hover{
+  transform:
+    translateY(-2px);
 }
 
-.help-card p{
-  margin-top:10px;
+.button-primary{
+  background:
+    linear-gradient(
+      135deg,
+      var(--cyan),
+      var(--blue)
+    );
 
-  color:
-    var(--contact-muted);
+  color:#fff;
 
-  font-size:.88rem;
+  box-shadow:
+    0 14px 35px
+    rgba(0,136,255,.2);
+}
+
+.button-secondary{
+  background:
+    rgba(255,255,255,.025);
+
+  border-color:
+    var(--border);
+}
+
+.button-secondary:hover{
+  background:
+    rgba(0,190,255,.06);
+
+  border-color:
+    var(--border-strong);
 }
 
 
@@ -255,76 +534,49 @@
    CONTACT CARDS
 ========================================================= */
 
-.contact-options{
+.contact-grid{
   display:grid;
 
   grid-template-columns:
     repeat(2,1fr);
 
   gap:18px;
-
-  margin-top:32px;
 }
 
-.contact-option{
+.contact-card{
   position:relative;
 
-  min-height:250px;
+  min-height:260px;
 
   padding:28px;
 
-  border-radius:27px;
+  border-radius:26px;
 
   border:
-    1px solid
-    var(--contact-border);
+    1px solid var(--border);
 
   background:
     linear-gradient(
       145deg,
-      rgba(8,24,40,.87),
-      rgba(3,13,23,.76)
+      rgba(8,24,39,.87),
+      rgba(3,13,23,.83)
     );
 
   overflow:hidden;
 
-  transition:
-    transform .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
+  transition:.25s ease;
 }
 
-.contact-option:hover{
+.contact-card:hover{
   transform:
     translateY(-4px);
 
   border-color:
-    rgba(79,218,255,.36);
+    var(--border-strong);
 
   box-shadow:
-    0 22px 50px
-    rgba(0,0,0,.25);
-}
-
-.contact-option::after{
-  content:"";
-
-  position:absolute;
-
-  width:140px;
-  height:140px;
-
-  bottom:-70px;
-  right:-70px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,195,255,.15),
-      transparent 70%
-    );
+    0 22px 55px
+    rgba(0,0,0,.27);
 }
 
 .contact-icon{
@@ -339,23 +591,23 @@
 
   border:
     1px solid
-    rgba(99,222,255,.19);
+    rgba(92,220,255,.18);
 
   background:
-    rgba(0,190,255,.06);
+    rgba(0,188,255,.06);
 
-  font-size:1.3rem;
+  font-size:1.25rem;
 }
 
-.contact-option small{
+.contact-card small{
   display:block;
 
   margin-top:22px;
 
   color:
-    var(--contact-muted);
+    var(--muted);
 
-  font-size:.69rem;
+  font-size:.68rem;
 
   font-weight:800;
 
@@ -364,21 +616,21 @@
   text-transform:uppercase;
 }
 
-.contact-option h3{
+.contact-card h3{
   margin-top:7px;
 
   font-size:1.35rem;
 }
 
-.contact-option p{
+.contact-card p{
   margin-top:10px;
 
   color:
-    var(--contact-muted);
-
-  line-height:1.7;
+    var(--muted);
 
   font-size:.88rem;
+
+  line-height:1.7;
 
   word-break:break-word;
 }
@@ -391,67 +643,55 @@
   gap:10px;
 
   margin-top:20px;
-
-  position:relative;
-
-  z-index:2;
 }
 
-.contact-action{
+.small-button{
+  min-height:42px;
+
   display:inline-flex;
 
   align-items:center;
 
   justify-content:center;
 
-  gap:8px;
-
-  padding:11px 15px;
-
-  min-height:43px;
+  padding:
+    0 14px;
 
   border-radius:12px;
 
+  border:
+    1px solid
+    rgba(102,220,255,.18);
+
+  background:
+    rgba(0,190,255,.055);
+
+  color:#fff;
+
   text-decoration:none;
 
-  font-size:.83rem;
+  font-size:.81rem;
 
   font-weight:800;
 
-  border:
-    1px solid
-    rgba(105,220,255,.21);
-
-  background:
-    rgba(0,193,255,.06);
-
-  transition:.2s ease;
+  cursor:pointer;
 }
 
-.contact-action:hover{
-  transform:
-    translateY(-2px);
+.small-button.primary{
+  border-color:
+    transparent;
 
-  background:
-    rgba(0,193,255,.11);
-}
-
-.contact-action.primary{
   background:
     linear-gradient(
       135deg,
-      var(--contact-cyan),
-      var(--contact-blue)
+      var(--cyan),
+      var(--blue)
     );
-
-  border-color:transparent;
-
-  color:#fff;
 }
 
 
 /* =========================================================
-   OFFICE SECTION
+   OFFICE
 ========================================================= */
 
 .office-box{
@@ -464,14 +704,13 @@
 
   padding:34px;
 
-  border-radius:30px;
+  border-radius:28px;
 
   border:
-    1px solid
-    var(--contact-border);
+    1px solid var(--border);
 
   background:
-    rgba(5,17,29,.76);
+    rgba(5,17,29,.78);
 }
 
 .office-info h3{
@@ -479,12 +718,10 @@
 }
 
 .office-info p{
-  margin-top:13px;
+  margin-top:12px;
 
   color:
-    var(--contact-muted);
-
-  line-height:1.8;
+    var(--muted);
 }
 
 .office-details{
@@ -498,9 +735,10 @@
 
   justify-content:space-between;
 
-  gap:25px;
+  gap:20px;
 
-  padding:15px 16px;
+  padding:
+    14px 16px;
 
   border-radius:13px;
 
@@ -516,7 +754,7 @@
 
 .office-row span:first-child{
   color:
-    var(--contact-muted);
+    var(--muted);
 }
 
 .office-row span:last-child{
@@ -530,41 +768,21 @@
    EMERGENCY SECTION
 ========================================================= */
 
-.emergency-wrapper{
-  position:relative;
+.emergency-box{
+  padding:34px;
 
-  padding:36px;
-
-  border-radius:32px;
+  border-radius:30px;
 
   border:
     1px solid
-    rgba(255,191,85,.15);
+    rgba(255,196,89,.14);
 
   background:
     linear-gradient(
       145deg,
-      rgba(33,20,8,.65),
-      rgba(5,16,27,.88)
+      rgba(35,21,8,.62),
+      rgba(5,16,28,.88)
     );
-}
-
-.emergency-heading{
-  max-width:750px;
-}
-
-.emergency-heading h2{
-  font-size:
-    clamp(1.9rem,4vw,3rem);
-}
-
-.emergency-heading p{
-  margin-top:14px;
-
-  color:
-    var(--contact-muted);
-
-  line-height:1.8;
 }
 
 .emergency-grid{
@@ -575,42 +793,42 @@
 
   gap:20px;
 
-  margin-top:30px;
+  margin-top:28px;
 }
 
 .emergency-card{
   overflow:hidden;
 
-  border-radius:24px;
+  border-radius:23px;
 
   border:
     1px solid
-    rgba(255,196,90,.13);
+    rgba(255,198,92,.12);
 
   background:
-    rgba(3,14,24,.8);
+    rgba(3,14,24,.82);
 }
 
-.emergency-card img{
+.emergency-image{
   width:100%;
 
-  height:330px;
+  aspect-ratio:
+    4 / 3;
+
+  object-fit:contain;
 
   display:block;
 
-  object-fit:cover;
-
-  background:
-    rgba(255,255,255,.02);
+  background:#07131e;
 }
 
-.emergency-info{
+.emergency-content{
   padding:22px;
 }
 
-.emergency-info small{
+.emergency-content small{
   color:
-    var(--contact-yellow);
+    var(--yellow);
 
   font-size:.68rem;
 
@@ -621,71 +839,247 @@
   text-transform:uppercase;
 }
 
-.emergency-info h3{
+.emergency-content h3{
   margin-top:7px;
 
   font-size:1.25rem;
 }
 
-.emergency-info p{
+.emergency-content p{
   margin-top:10px;
 
   color:
-    var(--contact-muted);
+    var(--muted);
 
   font-size:.84rem;
-
-  line-height:1.7;
-}
-
-.emergency-note{
-  margin-top:24px;
-
-  padding:17px 19px;
-
-  border-radius:15px;
-
-  border-left:
-    3px solid
-    var(--contact-yellow);
-
-  background:
-    rgba(255,191,70,.045);
-
-  color:#b9c8d2;
-
-  font-size:.84rem;
-
-  line-height:1.7;
 }
 
 
 /* =========================================================
-   FEEDBACK CTA
+   PROVINCIAL 5-IMAGE SLIDER
 ========================================================= */
 
-.feedback-cta{
-  text-align:center;
+.provincial-slider{
+  position:relative;
 
-  padding:50px 30px;
+  width:100%;
 
-  border-radius:32px;
+  overflow:hidden;
+
+  background:#07131e;
+}
+
+.provincial-slides{
+  position:relative;
+
+  width:100%;
+
+  aspect-ratio:
+    4 / 3;
+}
+
+.provincial-slide{
+  position:absolute;
+
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  object-fit:contain;
+
+  opacity:0;
+
+  transform:
+    scale(1.02);
+
+  transition:
+    opacity .6s ease,
+    transform .7s ease;
+
+  pointer-events:none;
+}
+
+.provincial-slide.active{
+  opacity:1;
+
+  transform:
+    scale(1);
+
+  pointer-events:auto;
+}
+
+
+/* LEFT AND RIGHT */
+
+.slider-button{
+  position:absolute;
+
+  top:50%;
+
+  transform:
+    translateY(-50%);
+
+  z-index:10;
+
+  width:44px;
+  height:44px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:50%;
 
   border:
     1px solid
-    rgba(80,218,255,.16);
+    rgba(255,255,255,.17);
+
+  background:
+    rgba(2,10,18,.76);
+
+  color:#fff;
+
+  font-size:1.8rem;
+
+  cursor:pointer;
+}
+
+.slider-prev{
+  left:14px;
+}
+
+.slider-next{
+  right:14px;
+}
+
+.slider-button:hover{
+  background:
+    rgba(0,190,255,.85);
+}
+
+
+/* COUNTER */
+
+.slide-counter{
+  position:absolute;
+
+  right:14px;
+
+  bottom:14px;
+
+  z-index:10;
+
+  padding:
+    6px 11px;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(2,10,18,.82);
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  font-size:.72rem;
+
+  font-weight:800;
+}
+
+
+/* DOTS */
+
+.slider-dots{
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  margin-top:17px;
+}
+
+.slider-dot{
+  width:8px;
+  height:8px;
+
+  padding:0;
+
+  border:0;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255,255,255,.22);
+
+  cursor:pointer;
+
+  transition:.25s ease;
+}
+
+.slider-dot.active{
+  width:25px;
+
+  background:
+    var(--yellow);
+}
+
+
+/* =========================================================
+   EMERGENCY NOTE
+========================================================= */
+
+.emergency-note{
+  margin-top:22px;
+
+  padding:
+    16px 18px;
+
+  border-radius:14px;
+
+  border-left:
+    3px solid
+    var(--yellow);
+
+  background:
+    rgba(255,190,70,.045);
+
+  color:#b8c8d3;
+
+  font-size:.84rem;
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.feedback-box{
+  text-align:center;
+
+  padding:
+    52px 28px;
+
+  border-radius:30px;
+
+  border:
+    1px solid
+    var(--border);
 
   background:
     radial-gradient(
-      circle at 50% 0%,
-      rgba(0,193,255,.11),
+      circle at top,
+      rgba(0,190,255,.1),
       transparent 35%
     ),
-    rgba(5,17,29,.78);
+    rgba(5,17,29,.8);
 }
 
-.feedback-cta h2{
-  max-width:720px;
+.feedback-box h2{
+  max-width:760px;
 
   margin:auto;
 
@@ -695,19 +1089,17 @@
   line-height:1.05;
 }
 
-.feedback-cta p{
+.feedback-box p{
   max-width:650px;
 
   margin:
     17px auto 0;
 
   color:
-    var(--contact-muted);
-
-  line-height:1.8;
+    var(--muted);
 }
 
-.feedback-buttons{
+.feedback-actions{
   display:flex;
 
   justify-content:center;
@@ -716,19 +1108,139 @@
 
   gap:12px;
 
-  margin-top:25px;
+  margin-top:24px;
 }
 
 
 /* =========================================================
-   MOBILE
+   FOOTER
 ========================================================= */
 
-@media(max-width:900px){
+.footer{
+  border-top:
+    1px solid
+    rgba(255,255,255,.05);
 
-  .contact-welcome,
+  margin-top:50px;
+}
+
+.footer-inner{
+  min-height:150px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:25px;
+}
+
+.footer-brand{
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+}
+
+.footer-logo{
+  width:46px;
+  height:46px;
+
+  min-width:46px;
+
+  border-radius:14px;
+
+  overflow:hidden;
+}
+
+.footer-logo img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+.footer-brand strong{
+  display:block;
+
+  letter-spacing:.07em;
+}
+
+.footer-brand span{
+  display:block;
+
+  color:
+    var(--muted);
+
+  font-size:.63rem;
+
+  margin-top:4px;
+}
+
+.copyright{
+  color:#728c9e;
+
+  font-size:.75rem;
+
+  text-align:right;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:980px){
+
+  .nav-links{
+    position:absolute;
+
+    top:76px;
+
+    left:4%;
+    right:4%;
+
+    display:none;
+
+    flex-direction:column;
+
+    align-items:stretch;
+
+    padding:14px;
+
+    border-radius:18px;
+
+    background:
+      rgba(3,12,22,.97);
+
+    border:
+      1px solid
+      var(--border);
+
+    box-shadow:
+      var(--shadow);
+  }
+
+  .nav-links.open{
+    display:flex;
+  }
+
+  .nav-links a{
+    padding:
+      13px 14px;
+  }
+
+  .menu-button{
+    display:block;
+  }
+
   .office-box{
-    grid-template-columns:1fr;
+    grid-template-columns:
+      1fr;
   }
 
 }
@@ -736,23 +1248,46 @@
 
 @media(max-width:720px){
 
-  .contact-options,
+  .section{
+    padding:
+      70px 0;
+  }
+
+  .hero{
+    padding:
+      90px 0 55px;
+  }
+
+  .contact-grid,
   .emergency-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:
+      1fr;
   }
 
-  .emergency-wrapper{
+  .emergency-box{
     padding:24px;
   }
 
-  .welcome-card,
-  .help-card{
-    padding:24px;
+  .slider-button{
+    width:38px;
+    height:38px;
+
+    font-size:1.5rem;
   }
 
-  .emergency-card img{
-    height:auto;
-    min-height:220px;
+  .footer-inner{
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    justify-content:center;
+
+    padding:
+      32px 0;
+  }
+
+  .copyright{
+    text-align:left;
   }
 
 }
@@ -760,18 +1295,25 @@
 
 @media(max-width:520px){
 
-  .contact-actions,
-  .feedback-buttons{
+  .brand-text span{
+    display:none;
+  }
+
+  .hero-actions,
+  .feedback-actions,
+  .contact-actions{
     flex-direction:column;
   }
 
-  .contact-action{
+  .button,
+  .small-button{
     width:100%;
   }
 
   .office-row{
     flex-direction:column;
-    gap:5px;
+
+    gap:4px;
   }
 
   .office-row span:last-child{
@@ -789,15 +1331,6 @@
 <body>
 
 
-<div class="future-bg">
-
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-
-</div>
-
-
-
 <!-- =========================================================
      HEADER
 ========================================================= -->
@@ -811,7 +1344,6 @@
       href="index.html"
       class="brand">
 
-
       <div class="logo">
 
         <img
@@ -819,7 +1351,6 @@
           alt="SK Sapilang Official Logo">
 
       </div>
-
 
       <div class="brand-text">
 
@@ -832,7 +1363,6 @@
         </span>
 
       </div>
-
 
     </a>
 
@@ -855,13 +1385,11 @@
       class="nav-links"
       id="navLinks">
 
-
       <li>
         <a href="index.html">
           Home
         </a>
       </li>
-
 
       <li>
         <a href="index.html#activities">
@@ -869,13 +1397,11 @@
         </a>
       </li>
 
-
       <li>
         <a href="index.html#digital-id">
           Digital ID
         </a>
       </li>
-
 
       <li>
         <a href="about.html">
@@ -883,28 +1409,17 @@
         </a>
       </li>
 
-
       <li>
-        <a
-          href="awards.html"
-          data-nav="awards">
-
+        <a href="awards.html">
           Awards
-
         </a>
       </li>
-
 
       <li>
-        <a
-          href="resolutions.html"
-          data-nav="resolutions">
-
+        <a href="resolutions.html">
           Resolutions
-
         </a>
       </li>
-
 
       <li>
         <a href="transparency.html">
@@ -912,28 +1427,19 @@
         </a>
       </li>
 
-
       <li>
-        <a
-          href="feedback.html"
-          data-nav="feedback">
-
+        <a href="feedback.html">
           Feedback
-
         </a>
       </li>
-
 
       <li>
         <a
           href="contact.html"
-          data-nav="contact">
-
+          class="active">
           Contact
-
         </a>
       </li>
-
 
       <li>
         <a href="kk-portal.html">
@@ -941,9 +1447,7 @@
         </a>
       </li>
 
-
     </ul>
-
 
   </div>
 
@@ -954,162 +1458,42 @@
 <main>
 
 
-
 <!-- =========================================================
      HERO
 ========================================================= -->
 
-<section class="page-hero contact-hero">
+<section class="hero">
 
   <div class="container">
 
-
-    <div class="contact-hero-content">
-
-
-      <span class="eyebrow">
-        We're Here to Help
-      </span>
-
-
-      <h1>
-
-        Get in touch with
-
-        <span>
-          SK Sapilang.
-        </span>
-
-      </h1>
-
-
-      <p class="hero-description">
-
-        Have a question, concern, request or idea?
-        Reach us through our official communication channels
-        and we'll help connect you to the right information
-        or service.
-
-      </p>
-
-
-      <div class="actions">
-
-
-        <a
-          class="button button-primary"
-          href="tel:09093055789">
-
-          Call Us
-
-        </a>
-
-
-        <a
-          class="button button-secondary"
-          href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
-
-          Send an Email
-
-        </a>
-
-
-      </div>
-
-
-      <div class="contact-status">
-
-        <span class="contact-status-dot"></span>
-
-        Official SK Communication Channels
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     FRIENDLY INTRO
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-
-    <div class="contact-welcome">
-
-
-      <article class="welcome-card reveal">
-
-
-        <span class="section-label">
-          Connect With Us
-        </span>
-
-
-        <h2>
-          We want communication to be simple.
-        </h2>
-
-
-        <p>
-
-          Whether you're asking about an SK activity,
-          requesting information, coordinating with the council,
-          accessing youth services or simply reaching out,
-          you can use any of the official channels below.
-
-        </p>
-
-
-      </article>
-
-
-
-      <article class="help-card reveal">
-
-
-        <small>
-          Need to give feedback?
-        </small>
-
-
-        <h3>
-          Use the Feedback Center.
-        </h3>
-
-
-        <p>
-
-          Program evaluations, service feedback,
-          suggestions and recommendations are handled
-          separately for proper documentation.
-
-        </p>
-
-
-        <div class="actions">
-
-          <a
-            class="button button-secondary"
-            href="feedback.html">
-
-            Open Feedback Center
-
-          </a>
-
-        </div>
-
-
-      </article>
-
+    <span class="eyebrow">
+      Official Contact Center
+    </span>
+
+    <h1>
+      We're here when
+      <span>you need us.</span>
+    </h1>
+
+    <p>
+      Have a question, concern, request, document to coordinate,
+      or an idea for the youth community? Reach SK Sapilang through
+      our official communication channels.
+    </p>
+
+    <div class="hero-actions">
+
+      <a
+        class="button button-primary"
+        href="tel:09093055789">
+        Call SK Sapilang
+      </a>
+
+      <a
+        class="button button-secondary"
+        href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
+        Send an Email
+      </a>
 
     </div>
 
@@ -1127,54 +1511,43 @@
 
   <div class="container">
 
-
-    <div class="section-heading reveal">
-
+    <div class="section-heading">
 
       <span class="section-label">
-        Contact Options
+        Connect With Us
       </span>
 
-
       <h2>
-        Choose how you'd like to reach us.
+        Choose the easiest way to reach us.
       </h2>
 
-
       <p>
-
-        Use the option that is most convenient for you.
-
+        Use our verified communication channels for official
+        SK-related inquiries, coordination and assistance.
       </p>
-
 
     </div>
 
 
 
-    <div class="contact-options">
-
+    <div class="contact-grid">
 
 
       <!-- PHONE -->
 
-      <article class="contact-option reveal">
-
+      <article class="contact-card">
 
         <div class="contact-icon">
           ☎
         </div>
 
-
         <small>
           Temporary Contact Number
         </small>
 
-
         <h3>
-          Call or send us a message
+          Call or message us
         </h3>
-
 
         <p>
 
@@ -1182,37 +1555,32 @@
             0909-305-5789
           </strong>
 
-          <br>
+          <br><br>
 
-          For SK-related inquiries, coordination
-          and general concerns.
+          For general inquiries,
+          coordination and SK-related concerns.
 
         </p>
 
-
         <div class="contact-actions">
 
-
           <a
-            class="contact-action primary"
+            class="small-button primary"
             href="tel:09093055789">
 
-            ☎ Call Now
+            Call Now
 
           </a>
 
-
           <a
-            class="contact-action"
+            class="small-button"
             href="sms:09093055789">
 
             Send SMS
 
           </a>
 
-
         </div>
-
 
       </article>
 
@@ -1220,23 +1588,19 @@
 
       <!-- EMAIL -->
 
-      <article class="contact-option reveal">
-
+      <article class="contact-card">
 
         <div class="contact-icon">
           ✉
         </div>
 
-
         <small>
           Official Email
         </small>
 
-
         <h3>
           Send us an email
         </h3>
-
 
         <p>
 
@@ -1244,26 +1608,23 @@
 
           <br><br>
 
-          Recommended for formal inquiries,
-          documents and official correspondence.
+          Best for formal inquiries,
+          letters, documents and official correspondence.
 
         </p>
 
-
         <div class="contact-actions">
 
-
           <a
-            class="contact-action primary"
+            class="small-button primary"
             href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
 
-            ✉ Compose Email
+            Compose Email
 
           </a>
 
-
           <button
-            class="contact-action"
+            class="small-button"
             type="button"
             onclick="copyEmail()">
 
@@ -1271,9 +1632,7 @@
 
           </button>
 
-
         </div>
-
 
       </article>
 
@@ -1281,38 +1640,29 @@
 
       <!-- FACEBOOK -->
 
-      <article class="contact-option reveal">
-
+      <article class="contact-card">
 
         <div class="contact-icon">
           f
         </div>
 
-
         <small>
-          Official Facebook Page
+          Official Facebook
         </small>
 
-
         <h3>
-          Connect with us on Facebook
+          Connect on Facebook
         </h3>
 
-
         <p>
-
-          Follow SK Sapilang for announcements,
-          youth activities, community updates
-          and official information.
-
+          Follow SK Sapilang for official announcements,
+          activities, programs and community updates.
         </p>
-
 
         <div class="contact-actions">
 
-
           <a
-            class="contact-action primary"
+            class="small-button primary"
             href="https://www.facebook.com/profile.php?id=61555692615847"
             target="_blank"
             rel="noopener noreferrer">
@@ -1321,9 +1671,7 @@
 
           </a>
 
-
         </div>
-
 
       </article>
 
@@ -1331,47 +1679,37 @@
 
       <!-- FEEDBACK -->
 
-      <article class="contact-option reveal">
-
+      <article class="contact-card">
 
         <div class="contact-icon">
           ✦
         </div>
 
-
         <small>
           Feedback & Evaluation
         </small>
 
-
         <h3>
-          Share your experience
+          Share your feedback
         </h3>
 
-
         <p>
-
-          Submit feedback about an SK service,
-          activity or program through our dedicated
-          feedback system.
-
+          Submit program evaluations,
+          service feedback, suggestions
+          and recommendations.
         </p>
-
 
         <div class="contact-actions">
 
-
           <a
-            class="contact-action primary"
+            class="small-button primary"
             href="feedback.html">
 
             Open Feedback Center
 
           </a>
 
-
         </div>
-
 
       </article>
 
@@ -1385,41 +1723,33 @@
 
 
 <!-- =========================================================
-     OFFICE INFORMATION
+     OFFICE
 ========================================================= -->
 
 <section class="section">
 
   <div class="container">
 
-
-    <article class="office-box reveal">
+    <article class="office-box">
 
 
       <div class="office-info">
-
 
         <span class="section-label">
           SK Office
         </span>
 
-
         <h3>
           Visit or coordinate with us.
         </h3>
 
-
         <p>
-
-          The Sangguniang Kabataan Office serves the youth
-          of Barangay Sapilang and coordinates official
-          SK programs, activities and youth-related services.
-
+          The Sangguniang Kabataan Office serves as the
+          local youth coordination point for programs,
+          activities, official concerns and youth-related services.
         </p>
 
-
-        <div class="actions">
-
+        <div style="margin-top:22px">
 
           <a
             class="button button-secondary"
@@ -1431,16 +1761,13 @@
 
           </a>
 
-
         </div>
-
 
       </div>
 
 
 
       <div class="office-details">
-
 
         <div class="office-row">
 
@@ -1493,25 +1820,10 @@
 
         </div>
 
-
-        <div class="office-row">
-
-          <span>
-            Country
-          </span>
-
-          <span>
-            Philippines
-          </span>
-
-        </div>
-
-
       </div>
 
 
     </article>
-
 
   </div>
 
@@ -1527,32 +1839,23 @@
 
   <div class="container">
 
+    <article class="emergency-box">
 
-    <article class="emergency-wrapper reveal">
 
-
-      <div class="emergency-heading">
-
+      <div class="section-heading">
 
         <span class="section-label">
           Emergency Information
         </span>
 
-
         <h2>
           Important contacts when you need help quickly.
         </h2>
 
-
         <p>
-
-          For emergencies and urgent public safety concerns,
-          refer to the official emergency directories
-          provided by the Municipality of Bacnotan
-          and the Province of La Union.
-
+          Official emergency contact information from the
+          Municipality of Bacnotan and the Province of La Union.
         </p>
-
 
       </div>
 
@@ -1561,75 +1864,168 @@
       <div class="emergency-grid">
 
 
-
-        <!-- BACNOTAN IMAGE -->
+        <!-- =================================================
+             BACNOTAN
+        ================================================== -->
 
         <article class="emergency-card">
 
-
           <img
-            src="images/bacnotan-emergency-contacts.jpg"
-            alt="Emergency Contact Directory of the Municipality of Bacnotan">
+            class="emergency-image"
+            src="images/754068979_1059814589894173_8643446816999775764_n.jpg"
+            alt="Municipality of Bacnotan Emergency Contact Directory">
 
-
-          <div class="emergency-info">
-
+          <div class="emergency-content">
 
             <small>
               Municipality of Bacnotan
             </small>
 
-
             <h3>
               Municipal Emergency Contacts
             </h3>
 
-
             <p>
-
-              Add the official emergency hotline image
-              provided by the Municipality of Bacnotan here.
-
+              Official emergency and public safety
+              information from the Municipality of Bacnotan.
             </p>
 
-
           </div>
-
 
         </article>
 
 
 
-        <!-- LA UNION IMAGE -->
+        <!-- =================================================
+             PROVINCE OF LA UNION
+             5 AUTOMATIC PICTURES
+        ================================================== -->
 
         <article class="emergency-card">
 
 
-          <img
-            src="images/la-union-emergency-contacts.jpg"
-            alt="Emergency Contact Directory of the Province of La Union">
+          <div
+            class="provincial-slider"
+            id="provincialSlider">
 
 
-          <div class="emergency-info">
+            <div class="provincial-slides">
 
+
+              <!-- PICTURE 1 -->
+
+              <img
+                class="provincial-slide active"
+                src="images/pglu.jpg"
+                alt="La Union Emergency Contact 1">
+
+
+              <!-- PICTURE 2 -->
+
+              <img
+                class="provincial-slide"
+                src="images/pglu 1.jpg"
+                alt="La Union Emergency Contact 2">
+
+
+              <!-- PICTURE 3 -->
+
+              <img
+                class="provincial-slide"
+                src="images/pglu 2.jpg"
+                alt="La Union Emergency Contact 3">
+
+
+              <!-- PICTURE 4 -->
+
+              <img
+                class="provincial-slide"
+                src="images/pglu 3.jpg"
+                alt="La Union Emergency Contact 4">
+
+
+              <!-- PICTURE 5 -->
+
+              <img
+                class="provincial-slide"
+                src="images/pglu 5.jpg"
+                alt="La Union Emergency Contact 5">
+
+
+            </div>
+
+
+
+            <!-- PREVIOUS -->
+
+            <button
+              class="slider-button slider-prev"
+              type="button"
+              id="prevProvincial"
+              aria-label="Previous image">
+
+              ‹
+
+            </button>
+
+
+
+            <!-- NEXT -->
+
+            <button
+              class="slider-button slider-next"
+              type="button"
+              id="nextProvincial"
+              aria-label="Next image">
+
+              ›
+
+            </button>
+
+
+
+            <!-- COUNTER -->
+
+            <div class="slide-counter">
+
+              <span id="provincialCurrent">
+                1
+              </span>
+
+              /
+
+              <span id="provincialTotal">
+                5
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+
+          <div class="emergency-content">
 
             <small>
               Province of La Union
             </small>
 
-
             <h3>
               Provincial Emergency Contacts
             </h3>
 
-
             <p>
-
-              Add the official emergency hotline image
-              provided by the Provincial Government
-              of La Union here.
-
+              Swipe through official emergency and
+              public safety information provided by
+              the Provincial Government of La Union.
             </p>
+
+
+            <div
+              class="slider-dots"
+              id="provincialDots">
+            </div>
 
 
           </div>
@@ -1649,15 +2045,14 @@
         </strong>
 
         SK Sapilang is not an emergency response agency.
-        For emergencies, contact the appropriate police,
-        fire, medical, disaster response or other emergency
-        service listed in the official directories above.
+        For urgent emergencies, contact the appropriate
+        police, fire, medical or disaster-response service
+        listed in the official directories.
 
       </div>
 
 
     </article>
-
 
   </div>
 
@@ -1666,38 +2061,30 @@
 
 
 <!-- =========================================================
-     FRIENDLY FEEDBACK CTA
+     FEEDBACK CTA
 ========================================================= -->
 
 <section class="section">
 
   <div class="container">
 
-
-    <article class="feedback-cta reveal">
-
+    <article class="feedback-box">
 
       <span class="section-label">
-        We Value Your Voice
+        Your Voice Matters
       </span>
 
-
       <h2>
-        Have something you'd like us to improve?
+        Help us make SK services better.
       </h2>
 
-
       <p>
-
-        Your feedback helps us understand what is working,
-        what can be improved and how SK programs and services
-        can better respond to the needs of the youth.
-
+        Your comments and recommendations help improve
+        programs, activities and services for the youth
+        of Barangay Sapilang.
       </p>
 
-
-      <div class="feedback-buttons">
-
+      <div class="feedback-actions">
 
         <a
           class="button button-primary"
@@ -1707,7 +2094,6 @@
 
         </a>
 
-
         <a
           class="button button-secondary"
           href="kk-portal.html">
@@ -1716,17 +2102,13 @@
 
         </a>
 
-
       </div>
 
-
     </article>
-
 
   </div>
 
 </section>
-
 
 
 </main>
@@ -1737,13 +2119,12 @@
      FOOTER
 ========================================================= -->
 
-<footer>
+<footer class="footer">
 
-  <div class="container footer-grid">
+  <div class="container footer-inner">
 
 
     <div class="footer-brand">
-
 
       <div class="footer-logo">
 
@@ -1752,7 +2133,6 @@
           alt="SK Sapilang Official Logo">
 
       </div>
-
 
       <div>
 
@@ -1766,7 +2146,6 @@
 
       </div>
 
-
     </div>
 
 
@@ -1774,7 +2153,7 @@
     <div class="copyright">
 
       ©
-      <span data-year></span>
+      <span id="year"></span>
       SK Sapilang.
       All Rights Reserved.
 
@@ -1787,27 +2166,38 @@
 
 
 
-<script src="js/site-pages.js"></script>
-
-
 <script>
 
 /* =========================================================
-   ACTIVE NAV
+   MOBILE MENU
 ========================================================= */
 
-document
-  .querySelectorAll(
-    '[data-nav="contact"]'
-  )
-  .forEach(link => {
+const menuButton =
+  document.getElementById("menuButton");
 
-    link.classList.add(
-      "active"
+const navLinks =
+  document.getElementById("navLinks");
+
+
+menuButton.addEventListener(
+  "click",
+  ()=>{
+
+    navLinks.classList.toggle("open");
+
+    const open =
+      navLinks.classList.contains("open");
+
+    menuButton.textContent =
+      open ? "✕" : "☰";
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      open
     );
 
-  });
-
+  }
+);
 
 
 /* =========================================================
@@ -1820,10 +2210,7 @@ function copyEmail(){
     "sksapilangbacnotanlaunion@gmail.com";
 
 
-  if(
-    navigator.clipboard &&
-    navigator.clipboard.writeText
-  ){
+  if(navigator.clipboard){
 
     navigator.clipboard
       .writeText(email)
@@ -1833,93 +2220,285 @@ function copyEmail(){
           "SK Sapilang email address copied."
         );
 
-      })
-      .catch(()=>{
-
-        fallbackCopyEmail(email);
-
       });
 
   }
 
   else{
 
-    fallbackCopyEmail(email);
+    alert(email);
 
   }
 
 }
 
 
-
 /* =========================================================
-   COPY FALLBACK
+   5 IMAGE PROVINCIAL SLIDER
 ========================================================= */
 
-function fallbackCopyEmail(email){
+const provincialSlides =
+  document.querySelectorAll(
+    ".provincial-slide"
+  );
 
-  const text =
-    document.createElement(
-      "textarea"
+const provincialDots =
+  document.getElementById(
+    "provincialDots"
+  );
+
+const provincialCurrent =
+  document.getElementById(
+    "provincialCurrent"
+  );
+
+const provincialTotal =
+  document.getElementById(
+    "provincialTotal"
+  );
+
+const provincialSlider =
+  document.getElementById(
+    "provincialSlider"
+  );
+
+let provincialIndex = 0;
+
+let provincialTimer;
+
+
+/* TOTAL */
+
+provincialTotal.textContent =
+  provincialSlides.length;
+
+
+/* CREATE DOTS */
+
+provincialSlides.forEach(
+  (slide,index)=>{
+
+    const dot =
+      document.createElement(
+        "button"
+      );
+
+    dot.type =
+      "button";
+
+    dot.className =
+      "slider-dot";
+
+    dot.setAttribute(
+      "aria-label",
+      "View image " +
+      (index + 1)
     );
 
-  text.value =
-    email;
 
-  document.body.appendChild(
-    text
+    dot.addEventListener(
+      "click",
+      ()=>{
+
+        provincialIndex =
+          index;
+
+        showProvincialSlide();
+
+        restartProvincialSlider();
+
+      }
+    );
+
+
+    provincialDots.appendChild(
+      dot
+    );
+
+  }
+);
+
+
+/* SHOW IMAGE */
+
+function showProvincialSlide(){
+
+  provincialSlides.forEach(
+    (slide,index)=>{
+
+      slide.classList.toggle(
+        "active",
+        index === provincialIndex
+      );
+
+    }
   );
 
-  text.select();
 
-  document.execCommand(
-    "copy"
-  );
+  document
+    .querySelectorAll(
+      ".slider-dot"
+    )
+    .forEach(
+      (dot,index)=>{
 
-  document.body.removeChild(
-    text
-  );
+        dot.classList.toggle(
+          "active",
+          index === provincialIndex
+        );
 
-  alert(
-    "SK Sapilang email address copied."
-  );
+      }
+    );
+
+
+  provincialCurrent.textContent =
+    provincialIndex + 1;
 
 }
+
+
+/* CHANGE IMAGE */
+
+function changeProvincialSlide(direction){
+
+  provincialIndex +=
+    direction;
+
+
+  if(
+    provincialIndex >=
+    provincialSlides.length
+  ){
+
+    provincialIndex = 0;
+
+  }
+
+
+  if(
+    provincialIndex < 0
+  ){
+
+    provincialIndex =
+      provincialSlides.length - 1;
+
+  }
+
+
+  showProvincialSlide();
+
+}
+
+
+/* NEXT BUTTON */
+
+document
+  .getElementById(
+    "nextProvincial"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      changeProvincialSlide(1);
+
+      restartProvincialSlider();
+
+    }
+  );
+
+
+/* PREVIOUS BUTTON */
+
+document
+  .getElementById(
+    "prevProvincial"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      changeProvincialSlide(-1);
+
+      restartProvincialSlider();
+
+    }
+  );
+
+
+/* AUTOMATIC EVERY 5 SECONDS */
+
+function startProvincialSlider(){
+
+  provincialTimer =
+    setInterval(
+      ()=>{
+
+        changeProvincialSlide(1);
+
+      },
+      5000
+    );
+
+}
+
+
+/* RESTART AFTER BUTTON CLICK */
+
+function restartProvincialSlider(){
+
+  clearInterval(
+    provincialTimer
+  );
+
+  startProvincialSlider();
+
+}
+
+
+/* PAUSE WHILE READING */
+
+provincialSlider.addEventListener(
+  "mouseenter",
+  ()=>{
+
+    clearInterval(
+      provincialTimer
+    );
+
+  }
+);
+
+
+provincialSlider.addEventListener(
+  "mouseleave",
+  ()=>{
+
+    restartProvincialSlider();
+
+  }
+);
+
+
+/* START */
+
+showProvincialSlide();
+
+startProvincialSlider();
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+  "year"
+).textContent =
+  new Date().getFullYear();
 
 </script>
 
 
 </body>
 
-</html>/* =========================================================
-   LOGO SIZE SAFETY FIX
-========================================================= */
-
-.logo{
-  width:46px !important;
-  height:46px !important;
-  min-width:46px;
-  overflow:hidden;
-  border-radius:14px;
-}
-
-.logo img{
-  width:100% !important;
-  height:100% !important;
-  object-fit:cover;
-  display:block;
-}
-
-.footer-logo{
-  width:48px !important;
-  height:48px !important;
-  overflow:hidden;
-  border-radius:14px;
-}
-
-.footer-logo img{
-  width:100% !important;
-  height:100% !important;
-  object-fit:cover;
-  display:block;
-}
+</html>
