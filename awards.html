@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -130,7 +130,7 @@ button{font:inherit}
 .award-slide-dot.active{width:20px;background:var(--cyan)}
 .award-image::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(2,10,18,.46),transparent 42%);z-index:2}
 .award-drive-note{display:flex;align-items:center;gap:7px;margin-top:13px;color:#7394a7;font-size:.68rem}
-.award-drive-note::before{content:"●";color:var(--green);font-size:.6rem}
+.award-drive-note::before{content:"â—";color:var(--green);font-size:.6rem}
 .award-content{padding:22px}
 .badge{display:inline-flex;padding:7px 10px;border-radius:999px;background:rgba(0,190,255,.07);border:1px solid rgba(86,220,255,.14);color:#a9eaff;font-size:.67rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .award-content h3{margin-top:13px;font-size:1.22rem;line-height:1.25}
@@ -191,37 +191,11 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
   .spotlight-copy{padding:8px}
 }
 </style>
+  <link rel="stylesheet" href="css/nav-universal.css">
 </head>
 <body>
 
-<header class="header">
-  <div class="container nav">
-    <a href="home.html" class="brand">
-      <div class="logo">
-        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
-      </div>
-      <div class="brand-text">
-        <strong>SK SAPILANG</strong>
-        <span>DIGITAL YOUTH NETWORK</span>
-      </div>
-    </a>
-
-    <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="home.html">Home</a></li>
-      <li><a href="index.html#activities">Activities</a></li>
-      <li><a href="index.html#digital-id">Digital ID</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="awards.html" class="active">Awards</a></li>
-      <li><a href="resolutions.html">Resolutions</a></li>
-      <li><a href="transparency.html">Transparency</a></li>
-      <li><a href="feedback.html">Feedback</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="kk-portal.html">KK Portal</a></li>
-    </ul>
-  </div>
-</header>
+<header id="site-header"></header>
 
 <main>
 
@@ -260,8 +234,8 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
 
       <div class="spotlight-visual">
         <div>
-          <div class="trophy">🏆</div>
-          <strong>Top 5 — SGYG / SYGLG Bacnotan</strong>
+          <div class="trophy">ðŸ†</div>
+          <strong>Top 5 â€” SGYG / SYGLG Bacnotan</strong>
           <span>Featured governance milestone of SK Sapilang</span>
         </div>
       </div>
@@ -282,9 +256,9 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
         <div class="award-image">Add official award photo or certificate</div>
         <div class="award-content">
           <span class="badge">2025</span>
-          <h3>Top 5 — SGYG / SYGLG Bacnotan</h3>
+          <h3>Top 5 â€” SGYG / SYGLG Bacnotan</h3>
           <p>Recognized among the Top 5 Sangguniang Kabataan councils in Bacnotan for youth governance performance.</p>
-          <div class="award-drive-note">Photo archive • Google Drive slideshow</div>
+          <div class="award-drive-note">Photo archive â€¢ Google Drive slideshow</div>
           <div class="award-actions">
             <a class="small-button primary" href="#timeline">View Milestone</a>
             <a class="small-button" href="transparency.html">Governance Records</a>
@@ -301,17 +275,17 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
               <img class="award-slide" data-drive-id="PASTE_BOOTH_FILE_ID_2" alt="SK Sapilang Best Booth SYGLG Bacnotan 2025 photo 2">
               <img class="award-slide" data-drive-id="PASTE_BOOTH_FILE_ID_3" alt="SK Sapilang Best Booth SYGLG Bacnotan 2025 photo 3">
             </div>
-            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">‹</button>
-            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">›</button>
+            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">â€¹</button>
+            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">â€º</button>
             <div class="award-slide-counter"><span class="current">1</span>/<span class="total">3</span></div>
             <div class="award-slide-dots"></div>
           </div>
         </div>
         <div class="award-content">
           <span class="badge">2025</span>
-          <h3>Best Booth — SYGLG Bacnotan 2025</h3>
+          <h3>Best Booth â€” SYGLG Bacnotan 2025</h3>
           <p>Recognized for Best Booth during the 2025 SYGLG Bacnotan recognition activities.</p>
-          <div class="award-drive-note">Photo archive • Google Drive slideshow</div>
+          <div class="award-drive-note">Photo archive â€¢ Google Drive slideshow</div>
           <div class="award-actions">
             <a class="small-button primary" href="index.html#activities">View Activities</a>
             <a class="small-button" href="#timeline">Timeline</a>
@@ -328,8 +302,8 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
               <img class="award-slide" data-drive-id="PASTE_PICKLEBALL_FILE_ID_2" alt="SK Sapilang localized pickleball program photo 2">
               <img class="award-slide" data-drive-id="PASTE_PICKLEBALL_FILE_ID_3" alt="SK Sapilang localized pickleball program photo 3">
             </div>
-            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">‹</button>
-            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">›</button>
+            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">â€¹</button>
+            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">â€º</button>
             <div class="award-slide-counter"><span class="current">1</span>/<span class="total">3</span></div>
             <div class="award-slide-dots"></div>
           </div>
@@ -338,7 +312,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
           <span class="badge">Milestone</span>
           <h3>Localized Pickleball Program</h3>
           <p>A community-based youth sports initiative developed through partnerships, dedicated facilities and accessible equipment.</p>
-          <div class="award-drive-note">Photo archive • Google Drive slideshow</div>
+          <div class="award-drive-note">Photo archive â€¢ Google Drive slideshow</div>
           <div class="award-actions">
             <a class="small-button primary" href="index.html#activities">View Program</a>
             <a class="small-button" href="contact.html">Contact SK</a>
@@ -354,7 +328,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
     <div class="section-heading reveal">
       <span class="section-label">Milestone Timeline</span>
       <h2>Progress built through service.</h2>
-      <p>A concise timeline of recognitions and program growth across SK Sapilang’s youth-development work.</p>
+      <p>A concise timeline of recognitions and program growth across SK Sapilangâ€™s youth-development work.</p>
     </div>
 
     <div class="timeline">
@@ -398,7 +372,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
     <article class="cta-box reveal">
       <span class="section-label">Public Record</span>
       <h2>Recognition backed by transparent service.</h2>
-      <p>Explore SK Sapilang’s public documents, resolutions and transparency records to learn more about the work behind these milestones.</p>
+      <p>Explore SK Sapilangâ€™s public documents, resolutions and transparency records to learn more about the work behind these milestones.</p>
       <div class="cta-actions">
         <a class="button button-primary" href="transparency.html">Open Transparency Portal</a>
         <a class="button button-secondary" href="resolutions.html">View Resolutions</a>
@@ -420,7 +394,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:48px}
         <span>DIGITAL YOUTH NETWORK</span>
       </div>
     </div>
-    <div class="copyright">© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
+    <div class="copyright">Â© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
   </div>
 </footer>
 
@@ -431,14 +405,14 @@ const navLinks = document.getElementById("navLinks");
 menuButton.addEventListener("click",()=>{
   navLinks.classList.toggle("open");
   const open = navLinks.classList.contains("open");
-  menuButton.textContent = open ? "✕" : "☰";
+  menuButton.textContent = open ? "âœ•" : "â˜°";
   menuButton.setAttribute("aria-expanded",open);
 });
 
 document.querySelectorAll('.nav-links a').forEach(link=>{
   link.addEventListener('click',()=>{
     navLinks.classList.remove('open');
-    menuButton.textContent='☰';
+    menuButton.textContent='â˜°';
     menuButton.setAttribute('aria-expanded','false');
   });
 });
@@ -460,7 +434,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 <script>
 /* =========================================================
    GOOGLE DRIVE AWARD SLIDESHOWS
-   Share every Drive image as: "Anyone with the link" → Viewer.
+   Share every Drive image as: "Anyone with the link" â†’ Viewer.
    Paste only the FILE ID into data-drive-id="...".
    Example Drive link:
    https://drive.google.com/file/d/FILE_ID/view
@@ -572,5 +546,7 @@ document.querySelectorAll(".award-slider").forEach((slider)=>{
 </script>
 
 <script src="js/frame-bridge.js"></script>
+  <script src="js/site-header.js"></script>
 </body>
 </html>
+

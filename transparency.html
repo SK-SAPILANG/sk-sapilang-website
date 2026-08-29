@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -12,8 +12,8 @@
 
 <style>
 /* =========================================================
-   SK SAPILANG — TRANSPARENCY PAGE
-   PROFESSIONAL • FUTURISTIC • RESPONSIVE
+   SK SAPILANG â€” TRANSPARENCY PAGE
+   PROFESSIONAL â€¢ FUTURISTIC â€¢ RESPONSIVE
 ========================================================= */
 
 :root {
@@ -827,6 +827,7 @@ img {
   }
 }
 </style>
+  <link rel="stylesheet" href="css/nav-universal.css">
 </head>
 
 <body>
@@ -837,91 +838,7 @@ img {
      HEADER
 ====================================================== -->
 
-<header>
-
-  <div class="trans-topbar">
-    <div class="trans-container trans-topbar-inner">
-      <span>Official Website • Sangguniang Kabataan Sapilang</span>
-      <span>Barangay Sapilang • Bacnotan, La Union</span>
-    </div>
-  </div>
-
-  <nav class="trans-navbar">
-
-    <div class="trans-container trans-nav">
-
-      <a class="trans-brand" href="home.html">
-
-        <img
-          src="images/sk-logo.svg"
-          alt="SK Sapilang Logo"
-        >
-
-        <div>
-          <strong>SK SAPILANG</strong>
-          <small>Kabataan. Serbisyo. Pag-asa.</small>
-        </div>
-
-      </a>
-
-
-      <button
-        class="trans-menu-toggle"
-        id="transMenuToggle"
-        aria-label="Open navigation"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
-
-
-      <ul class="trans-menu" id="transMenu">
-
-        <li>
-          <a href="home.html">Home</a>
-        </li>
-
-        <li>
-          <a href="about.html">About</a>
-        </li>
-
-        <li>
-          <a href="programs.html">Programs</a>
-        </li>
-
-        <li>
-          <a href="events.html">Events</a>
-        </li>
-
-        <li>
-          <a href="announcements.html">News</a>
-        </li>
-
-        <li>
-          <a href="organization.html">Officials</a>
-        </li>
-
-        <li>
-          <a href="kk-portal.html">KK Portal</a>
-        </li>
-
-        <li>
-          <a href="transparency.html" class="active">
-            Transparency
-          </a>
-        </li>
-
-        <li>
-          <a href="contact.html">Contact</a>
-        </li>
-
-      </ul>
-
-    </div>
-
-  </nav>
-
-</header>
+<header id="site-header"></header>
 
 
 <!-- ======================================================
@@ -952,7 +869,7 @@ img {
       </p>
 
       <div class="trans-status">
-        <span>● PUBLIC ACCESS</span>
+        <span>â— PUBLIC ACCESS</span>
         <span>ORGANIZED RECORDS</span>
         <span>ACCOUNTABLE GOVERNANCE</span>
       </div>
@@ -1038,7 +955,7 @@ img {
             href="documents/transparency/"
           >
             <span>View Financial Records</span>
-            <span>→</span>
+            <span>â†’</span>
           </a>
 
         </div>
@@ -1089,7 +1006,7 @@ img {
             href="documents/reports/"
           >
             <span>View Plans & Reports</span>
-            <span>→</span>
+            <span>â†’</span>
           </a>
 
         </div>
@@ -1141,7 +1058,7 @@ img {
             href="resolutions.html"
           >
             <span>View Resolutions</span>
-            <span>→</span>
+            <span>â†’</span>
           </a>
 
         </div>
@@ -1278,8 +1195,8 @@ img {
 
     <div class="trans-footer-bottom">
 
-      © <span id="transYear"></span> SK Sapilang.
-      All rights reserved. • Official Youth Governance Website.
+      Â© <span id="transYear"></span> SK Sapilang.
+      All rights reserved. â€¢ Official Youth Governance Website.
 
     </div>
 
@@ -1331,7 +1248,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       menuButton.textContent =
-        opened ? "✕" : "☰";
+        opened ? "âœ•" : "â˜°";
 
     });
 
@@ -1347,7 +1264,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "false"
         );
 
-        menuButton.textContent = "☰";
+        menuButton.textContent = "â˜°";
 
       });
 
@@ -1411,5 +1328,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
+  <script src="js/site-header.js"></script>
 </body>
 </html>

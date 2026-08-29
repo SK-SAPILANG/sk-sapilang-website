@@ -1,0 +1,315 @@
+﻿document.addEventListener("DOMContentLoaded", function () {
+
+    const header =
+        document.getElementById("site-header");
+
+    if (!header) {
+        return;
+    }
+
+
+    header.className =
+        "sk-universal-header";
+
+
+    header.innerHTML = `
+
+        <div class="sk-topbar">
+
+            <div class="sk-topbar-inner">
+
+                <span>
+                    OFFICIAL WEBSITE • SANGGUNIANG KABATAAN SAPILANG
+                </span>
+
+                <span>
+                    Barangay Sapilang • Bacnotan, La Union
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sk-navbar">
+
+            <div class="sk-nav-inner">
+
+
+                <a
+                    class="sk-brand"
+                    href="home.html"
+                >
+
+                    <img
+                        src="images/sk-logo.svg"
+                        alt="SK Sapilang Logo"
+                    >
+
+                    <div class="sk-brand-text">
+
+                        <strong>
+                            SK SAPILANG
+                        </strong>
+
+                        <small>
+                            Kabataan. Serbisyo. Pag-asa.
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <button
+                    class="sk-menu-toggle"
+                    id="skMenuToggle"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+
+                <ul
+                    class="sk-nav-links"
+                    id="skNavLinks"
+                >
+
+                    <li>
+                        <a href="home.html">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="programs.html">
+                            Activities
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="digital-id.html">
+                            Digital ID
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="about.html">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="awards.html">
+                            Awards
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="resolutions.html">
+                            Resolutions
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="transparency.html">
+                            Transparency
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contact.html#feedback">
+                            Feedback
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contact.html">
+                            Contact
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="kk-portal.html">
+                            KK Portal
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+    `;
+
+
+    /* =====================================================
+       ACTIVE PAGE
+    ===================================================== */
+
+    let currentPage =
+        window.location.pathname
+            .split("/")
+            .pop()
+            .toLowerCase();
+
+
+    if (
+        currentPage === "" ||
+        currentPage === "index.html"
+    ) {
+        currentPage = "home.html";
+    }
+
+
+    const currentHash =
+        window.location.hash.toLowerCase();
+
+
+    document
+        .querySelectorAll(".sk-nav-links a")
+        .forEach(function (link) {
+
+            const fullHref =
+                link.getAttribute("href") || "";
+
+            const hrefPage =
+                fullHref
+                    .split("#")[0]
+                    .split("?")[0]
+                    .toLowerCase();
+
+
+            link.classList.remove("active");
+
+            link.removeAttribute(
+                "aria-current"
+            );
+
+
+            if (
+                currentPage === "contact.html" &&
+                currentHash === "#feedback"
+            ) {
+
+                if (
+                    fullHref.toLowerCase() ===
+                    "contact.html#feedback"
+                ) {
+
+                    link.classList.add(
+                        "active"
+                    );
+
+                    link.setAttribute(
+                        "aria-current",
+                        "page"
+                    );
+
+                }
+
+                return;
+            }
+
+
+            if (
+                hrefPage === currentPage &&
+                !fullHref.includes("#")
+            ) {
+
+                link.classList.add(
+                    "active"
+                );
+
+                link.setAttribute(
+                    "aria-current",
+                    "page"
+                );
+
+            }
+
+        });
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    const menuButton =
+        document.getElementById(
+            "skMenuToggle"
+        );
+
+    const navLinks =
+        document.getElementById(
+            "skNavLinks"
+        );
+
+
+    if (
+        menuButton &&
+        navLinks
+    ) {
+
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                navLinks.classList.toggle(
+                    "open"
+                );
+
+
+                const isOpen =
+                    navLinks.classList.contains(
+                        "open"
+                    );
+
+
+                menuButton.textContent =
+                    isOpen
+                        ? "✕"
+                        : "☰";
+
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                        ? "true"
+                        : "false"
+                );
+
+            }
+        );
+
+
+        navLinks
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        navLinks.classList.remove(
+                            "open"
+                        );
+
+                        menuButton.textContent =
+                            "☰";
+
+                        menuButton.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+});
