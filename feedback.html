@@ -897,10 +897,9 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     <div class="container">
         <article class="notice reveal">
             <small>System Notice</small>
-            <h3>Current version provides instant results only.</h3>
+            <h3>Connected to the QMS database.</h3>
             <p>
-                This GitHub Pages version generates a reference number and satisfaction result in the browser.
-                Responses are not yet stored in a central database. For official QMS records, connect this page to Google Apps Script and Google Sheets.
+                Submissions on this page are connected to the SK Sapilang Google Sheets Quality Management System through Google Apps Script. Reference numbers and quality scores are generated after the response has been successfully saved to the QMS database.
             </p>
         </article>
     </div>
@@ -959,97 +958,217 @@ tabs.forEach(tab=>{
     });
 });
 
-function createReference(prefix){
-    const date=new Date().toISOString().slice(0,10).replaceAll("-","");
-    const random=Math.floor(1000+Math.random()*9000);
-    return `${prefix}-${date}-${random}`;
+const QMS_WEB_APP_URL =
+    "https://script.google.com/macros/s/AKfycbxG-b_P47JMJu-S8AvU-Az-tZFJiGhxs9IzKrPCZgxTJwdI7Se2bbyx0z6DKvYnZ90Jqg/exec";
+
+
+function setSubmitting(button, submitting){
+    if(!button) return;
+
+    if(submitting){
+        button.dataset.originalText=button.textContent;
+        button.disabled=true;
+        button.textContent="Saving Submission...";
+        button.style.opacity=".65";
+        button.style.cursor="wait";
+    } else {
+        button.disabled=false;
+        button.textContent=button.dataset.originalText||"Submit";
+        button.style.opacity="";
+        button.style.cursor="";
+    }
 }
 
-function ratingLabel(score){
-    if(score>=4.5)return"Excellent";
-    if(score>=3.5)return"Very Satisfactory";
-    if(score>=2.5)return"Satisfactory";
-    if(score>=1.5)return"Needs Improvement";
-    return"Poor";
+
+async function sendToQMS(type, form){
+    const payload=new URLSearchParams();
+    payload.append("type",type);
+
+    const formData=new FormData(form);
+
+    for(const [key,value] of formData.entries()){
+        payload.append(key,value);
+    }
+
+    const response=await fetch(
+        QMS_WEB_APP_URL,
+        {
+            method:"POST",
+            body:payload,
+            redirect:"follow"
+        }
+    );
+
+    if(!response.ok){
+        throw new Error("The QMS server returned an error.");
+    }
+
+    const data=await response.json();
+
+    if(!data.success){
+        throw new Error(
+            data.message ||
+            "The submission could not be saved."
+        );
+    }
+
+    return data;
 }
 
-function showResult(el,reference,score,type){
+
+function showResult(el,reference,score,rating,type){
     el.innerHTML=`
-        <div class="result-status">Submission Completed</div>
+        <div class="result-status">Saved to QMS Database</div>
         <h4>Thank you for your feedback.</h4>
-        <p>Your ${type} has been processed by the SK Sapilang Quality Management System. Please keep your reference number for your records.</p>
+        <p>
+            Your ${type} has been successfully recorded in the
+            SK Sapilang Quality Management System.
+            Please keep your reference number for your records.
+        </p>
+
         <div class="result-row">
             <div class="result-item">
                 <small>Reference Number</small>
                 <strong>${reference}</strong>
             </div>
-            ${score!==null?`
+
+            ${score!==null&&score!==undefined?`
             <div class="result-item">
-                <small>Satisfaction Score</small>
-                <strong>${score.toFixed(2)} / 5</strong>
+                <small>Quality Score</small>
+                <strong>${Number(score).toFixed(2)} / 5</strong>
             </div>
+
             <div class="result-item">
                 <small>Quality Rating</small>
-                <strong>${ratingLabel(score)}</strong>
-            </div>`:""}
+                <strong>${rating||""}</strong>
+            </div>
+            `:""}
         </div>
     `;
+
+    el.removeAttribute("style");
     el.classList.add("show");
     el.scrollIntoView({behavior:"smooth",block:"center"});
 }
 
-document.getElementById("clientForm").addEventListener("submit",e=>{
+
+function showSubmissionError(el,message){
+    el.innerHTML=`
+        <div class="result-status" style="color:#ff8d8d">
+            Submission Not Saved
+        </div>
+        <h4>Unable to complete the submission.</h4>
+        <p>${message}</p>
+    `;
+
+    el.style.borderColor="rgba(255,107,107,.35)";
+    el.style.background="rgba(100,25,25,.12)";
+    el.classList.add("show");
+    el.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+
+document.getElementById("clientForm").addEventListener("submit",async e=>{
     e.preventDefault();
-    const score=Number(new FormData(e.currentTarget).get("rating"));
-    showResult(document.getElementById("clientResult"),createReference("SKS-CF"),score,"client feedback");
-    e.currentTarget.reset();
+
+    const form=e.currentTarget;
+    const button=form.querySelector('button[type="submit"]');
+    const resultBox=document.getElementById("clientResult");
+
+    resultBox.classList.remove("show");
+
+    try{
+        setSubmitting(button,true);
+
+        const data=await sendToQMS("client",form);
+
+        showResult(
+            resultBox,
+            data.reference,
+            data.score,
+            data.rating,
+            "client feedback"
+        );
+
+        form.reset();
+    }catch(error){
+        showSubmissionError(
+            resultBox,
+            error.message || "Unable to connect to the QMS database."
+        );
+    }finally{
+        setSubmitting(button,false);
+    }
 });
 
-document.getElementById("activityForm").addEventListener("submit",e=>{
+
+document.getElementById("activityForm").addEventListener("submit",async e=>{
     e.preventDefault();
 
-    const data=new FormData(e.currentTarget);
+    const form=e.currentTarget;
+    const button=form.querySelector('button[type="submit"]');
+    const resultBox=document.getElementById("activityResult");
 
-    const scores=[
-        Number(data.get("rating")),
-        Number(data.get("relevance")),
-        Number(data.get("objectives")),
-        Number(data.get("facilitatorRating")),
-        Number(data.get("organization")),
-        Number(data.get("venueRating")),
-        Number(data.get("materials")),
-        Number(data.get("timeManagement")),
-        Number(data.get("engagement"))
-    ];
+    resultBox.classList.remove("show");
 
-    const optionalSpeakerScores=[
-        data.get("speakerKnowledge"),
-        data.get("speakerClarity"),
-        data.get("speakerEngagement"),
-        data.get("speakerResponsiveness")
-    ]
-    .filter(value=>value!=="")
-    .map(Number);
+    try{
+        setSubmitting(button,true);
 
-    scores.push(...optionalSpeakerScores);
+        const data=await sendToQMS("activity",form);
 
-    const score=scores.reduce((total,value)=>total+value,0)/scores.length;
+        showResult(
+            resultBox,
+            data.reference,
+            data.score,
+            data.rating,
+            "seminar, training or activity evaluation"
+        );
 
-    showResult(
-        document.getElementById("activityResult"),
-        createReference("SKS-AE"),
-        score,
-        "seminar, training or activity evaluation"
-    );
-
-    e.currentTarget.reset();
+        form.reset();
+    }catch(error){
+        showSubmissionError(
+            resultBox,
+            error.message || "Unable to connect to the QMS database."
+        );
+    }finally{
+        setSubmitting(button,false);
+    }
 });
 
-document.getElementById("suggestionForm").addEventListener("submit",e=>{
+
+document.getElementById("suggestionForm").addEventListener("submit",async e=>{
     e.preventDefault();
-    showResult(document.getElementById("suggestionResult"),createReference("SKS-SR"),null,"suggestion or recommendation");
-    e.currentTarget.reset();
+
+    const form=e.currentTarget;
+    const button=form.querySelector('button[type="submit"]');
+    const resultBox=document.getElementById("suggestionResult");
+
+    resultBox.classList.remove("show");
+
+    try{
+        setSubmitting(button,true);
+
+        const data=await sendToQMS("suggestion",form);
+
+        showResult(
+            resultBox,
+            data.reference,
+            null,
+            null,
+            "suggestion or recommendation"
+        );
+
+        form.reset();
+    }catch(error){
+        showSubmissionError(
+            resultBox,
+            error.message || "Unable to connect to the QMS database."
+        );
+    }finally{
+        setSubmitting(button,false);
+    }
 });
+
 
 const revealItems=document.querySelectorAll(".reveal");
 if("IntersectionObserver" in window){
