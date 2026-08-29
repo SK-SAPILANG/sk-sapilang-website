@@ -146,7 +146,7 @@ img{display:block;max-width:100%}
 .qms-topbar h3{color:white;font-size:20px}
 .qms-topbar p{margin-top:5px;color:#8099a5;font-size:9px}
 .qms-chip{padding:7px 10px;border:1px solid rgba(55,220,255,.25);border-radius:999px;color:var(--cyan);font-size:7px;text-transform:uppercase;letter-spacing:.8px}
-.form-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(60,216,255,.10)}
+.form-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(60,216,255,.10)}
 .form-tab{min-height:66px;padding:12px 16px;border:0;color:#8aa3af;background:#041723}
 .form-tab strong{display:block;font-size:10px}
 .form-tab span{display:block;margin-top:4px;font-size:7px}
@@ -239,6 +239,205 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     color:#6f8996;
     font-size:7.5px;
     line-height:1.55;
+}
+
+
+/* =========================================================
+   INTEGRATED QMS ADMIN DASHBOARD
+========================================================= */
+.admin-panel-shell{
+    padding:0;
+}
+.admin-login-card{
+    width:min(520px,100%);
+    margin:0 auto;
+    padding:28px;
+    border:1px solid rgba(55,220,255,.26);
+    border-radius:15px;
+    background:linear-gradient(145deg,rgba(6,34,51,.94),rgba(3,18,29,.96));
+}
+.admin-security-mark{
+    width:68px;height:68px;margin:0 auto 18px;
+    display:grid;place-items:center;border:1px solid rgba(55,220,255,.4);
+    border-radius:50%;color:var(--cyan);font-size:24px;
+}
+.admin-login-card small{
+    display:block;color:var(--cyan);text-align:center;
+    font-size:8px;text-transform:uppercase;letter-spacing:1.4px
+}
+.admin-login-card h3{
+    margin-top:8px;color:white;text-align:center;font-size:24px
+}
+.admin-login-card p{
+    margin:9px auto 20px;max-width:400px;color:#829aa7;
+    text-align:center;font-size:9px;line-height:1.65
+}
+.admin-login-card label{
+    display:block;margin-bottom:7px;color:#b8cbd4;
+    font-size:8px;font-weight:700;text-transform:uppercase
+}
+.admin-login-card input{
+    width:100%;min-height:48px;padding:12px 14px;outline:0;
+    border:1px solid var(--line);border-radius:8px;color:white;
+    background:rgba(2,15,24,.82);letter-spacing:2px
+}
+.admin-login-card button{
+    width:100%;min-height:48px;margin-top:12px;border:0;border-radius:8px;
+    color:white;background:linear-gradient(135deg,#22cdea,#337aff);
+    font-size:9px;font-weight:800;text-transform:uppercase
+}
+.admin-login-error{
+    display:none;margin-top:12px;padding:10px;border:1px solid rgba(255,113,113,.25);
+    border-radius:8px;color:#ffaaaa;background:rgba(100,20,20,.12);
+    font-size:9px;line-height:1.5
+}
+.admin-login-error.show{display:block}
+.admin-dashboard{display:none}
+.admin-dashboard.show{display:block}
+.admin-topline{
+    display:flex;justify-content:space-between;align-items:end;
+    gap:18px;margin-bottom:18px
+}
+.admin-topline h3{margin-top:6px;color:white;font-size:26px}
+.admin-topline p{margin-top:6px;color:#829aa7;font-size:9px}
+.admin-system-chip{
+    padding:8px 11px;border:1px solid rgba(117,239,120,.22);
+    border-radius:999px;color:var(--green);font-size:7px;white-space:nowrap
+}
+.admin-actions{
+    display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px
+}
+.admin-action-btn{
+    min-height:38px;padding:0 13px;border:1px solid var(--line);
+    border-radius:8px;color:#b9ccd5;background:rgba(255,255,255,.02);
+    font-size:8px;font-weight:800;text-transform:uppercase
+}
+.admin-action-btn.primary{
+    color:white;border:0;background:linear-gradient(135deg,#20cbea,#337aff)
+}
+.admin-action-btn.danger{
+    color:#ffaaaa;border-color:rgba(255,113,113,.25)
+}
+.admin-summary-grid{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;margin-bottom:14px
+}
+.admin-metric{
+    padding:16px;border:1px solid var(--line);border-radius:11px;
+    background:linear-gradient(145deg,rgba(5,31,47,.78),rgba(3,20,31,.88))
+}
+.admin-metric small{color:#75909d;font-size:7px;text-transform:uppercase}
+.admin-metric strong{display:block;margin-top:7px;color:white;font-size:24px}
+.admin-metric span{display:block;margin-top:4px;color:var(--cyan);font-size:7px}
+.admin-tabs{
+    display:flex;overflow:auto;gap:4px;padding:5px;margin-bottom:12px;
+    border:1px solid var(--line);border-radius:9px;background:rgba(3,19,29,.7)
+}
+.admin-tab-btn{
+    flex:0 0 auto;min-height:36px;padding:0 12px;border:0;border-radius:7px;
+    color:#829aa7;background:transparent;font-size:7px;font-weight:800;text-transform:uppercase
+}
+.admin-tab-btn.active{color:var(--cyan);background:rgba(55,220,255,.08)}
+.admin-tab-content{display:none}
+.admin-tab-content.active{display:block}
+.admin-panel{
+    overflow:hidden;border:1px solid var(--line);border-radius:12px;
+    background:rgba(3,20,31,.82)
+}
+.admin-panel-head{
+    padding:16px 18px;border-bottom:1px solid rgba(55,220,255,.10)
+}
+.admin-panel-head h4{color:white;font-size:15px}
+.admin-panel-head p{margin-top:4px;color:#768f9c;font-size:8px}
+.admin-panel-body{padding:16px}
+.admin-analytics-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px
+}
+.admin-bar-list{display:grid;gap:9px}
+.admin-bar-item{
+    display:grid;grid-template-columns:minmax(110px,180px) 1fr 38px;
+    gap:9px;align-items:center
+}
+.admin-bar-label{
+    color:#a9bec8;font-size:7px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+.admin-bar-track{
+    height:7px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.05)
+}
+.admin-bar-fill{
+    height:100%;border-radius:999px;background:linear-gradient(90deg,#20cdea,#337aff)
+}
+.admin-bar-value{color:white;font-size:7px;text-align:right}
+.admin-toolbar{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.admin-toolbar input,.admin-toolbar select{
+    min-height:38px;padding:7px 9px;outline:0;border:1px solid var(--line);
+    border-radius:7px;color:white;background:#041723;font-size:8px
+}
+.admin-toolbar input{flex:1 1 220px}
+.admin-toolbar select{flex:0 0 170px}
+.admin-toolbar select option{color:black}
+.admin-table-wrap{overflow:auto}
+.admin-table{
+    width:100%;min-width:1000px;border-collapse:collapse
+}
+.admin-table th,.admin-table td{
+    padding:10px 9px;border-bottom:1px solid rgba(55,220,255,.08);
+    text-align:left;vertical-align:top
+}
+.admin-table th{
+    color:#7fa0ae;background:#041723;font-size:7px;
+    text-transform:uppercase;letter-spacing:.4px
+}
+.admin-table td{color:#b7cbd4;font-size:8px;line-height:1.5}
+.admin-table td strong{color:white}
+.admin-ref{color:var(--cyan);font-weight:700;white-space:nowrap}
+.admin-rating{white-space:nowrap;color:var(--green);font-weight:800}
+.admin-muted{color:#748e99}
+.admin-detail-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:9px
+}
+.admin-detail-card{
+    padding:13px;border:1px solid var(--line);border-radius:9px;
+    background:rgba(4,27,40,.62)
+}
+.admin-detail-card small{display:block;color:#728d9b;font-size:7px;text-transform:uppercase}
+.admin-detail-card strong{display:block;margin-top:6px;color:white;font-size:19px}
+.admin-detail-card span{display:block;margin-top:4px;color:var(--cyan);font-size:7px}
+.admin-status-badge{
+    display:inline-block;padding:5px 7px;border:1px solid rgba(55,220,255,.15);
+    border-radius:999px;color:var(--cyan);font-size:7px;font-weight:800;white-space:nowrap
+}
+.admin-status-badge.resolved{color:var(--green);border-color:rgba(117,239,120,.22)}
+.admin-status-badge.progress{color:var(--yellow);border-color:rgba(255,209,102,.22)}
+.admin-action-area{min-width:250px;display:grid;gap:5px}
+.admin-action-area select,.admin-action-area textarea{
+    width:100%;padding:7px;border:1px solid var(--line);border-radius:7px;
+    outline:0;color:white;background:#041723;font-size:8px
+}
+.admin-action-area textarea{min-height:58px;resize:vertical}
+.admin-action-area select option{color:black}
+.admin-update-btn{
+    min-height:31px;border:0;border-radius:7px;color:white;
+    background:linear-gradient(135deg,#20cdea,#337aff);
+    font-size:7px;font-weight:800;text-transform:uppercase
+}
+.admin-empty{padding:24px;color:#78909d;text-align:center;font-size:9px}
+.admin-loading{
+    display:none;margin:12px 0;padding:10px;border:1px solid var(--line);
+    border-radius:8px;color:var(--cyan);background:#041723;
+    text-align:center;font-size:8px;text-transform:uppercase;letter-spacing:1px
+}
+.admin-loading.show{display:block}
+@media(max-width:1050px){
+    .admin-summary-grid{grid-template-columns:repeat(2,1fr)}
+    .admin-analytics-grid{grid-template-columns:1fr}
+    .admin-detail-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+    .admin-topline{align-items:flex-start;flex-direction:column}
+    .admin-summary-grid,.admin-detail-grid{grid-template-columns:1fr}
+    .admin-panel-body{padding:12px}
+    .admin-bar-item{grid-template-columns:95px 1fr 30px}
 }
 
 </style>
@@ -399,6 +598,10 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 <button class="form-tab" type="button" data-form="suggestion">
                     <strong>Suggestions & Recommendations</strong>
                     <span>Share ideas, concerns or recommendations</span>
+                </button>
+                <button class="form-tab" type="button" data-form="admin">
+                    <strong>QMS Admin Dashboard</strong>
+                    <span>Restricted monitoring and action center</span>
                 </button>
             </div>
 
@@ -889,6 +1092,222 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 
                 <div class="result-box" id="suggestionResult"></div>
             </div>
+
+            <div class="form-panel admin-panel-shell" id="adminPanel">
+
+                <div id="adminLoginArea">
+                    <div class="admin-login-card">
+                        <div class="admin-security-mark">Q</div>
+                        <small>Restricted Administrative System</small>
+                        <h3>QMS Admin Access</h3>
+                        <p>
+                            Enter the private administrator access code generated by the
+                            SK Sapilang Google Apps Script QMS backend.
+                        </p>
+
+                        <form id="adminLoginForm">
+                            <label for="integratedAdminKey">Administrator Access Code</label>
+                            <input
+                                id="integratedAdminKey"
+                                type="password"
+                                autocomplete="current-password"
+                                spellcheck="false"
+                                required
+                            >
+                            <button type="submit">Access QMS Dashboard</button>
+                            <div class="admin-login-error" id="integratedAdminLoginError"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="admin-dashboard" id="integratedAdminDashboard">
+
+                    <div class="admin-topline">
+                        <div>
+                            <span class="section-label">Quality Management System</span>
+                            <h3>Administration Dashboard</h3>
+                            <p id="integratedGeneratedText">Live evaluation, feedback and improvement monitoring.</p>
+                        </div>
+                        <span class="admin-system-chip">● QMS DATABASE CONNECTED</span>
+                    </div>
+
+                    <div class="admin-actions">
+                        <button class="admin-action-btn primary" id="integratedRefreshBtn" type="button">↻ Refresh Dashboard</button>
+                        <button class="admin-action-btn" id="integratedPrintBtn" type="button">Print Report</button>
+                        <button class="admin-action-btn danger" id="integratedLogoutBtn" type="button">Log Out</button>
+                    </div>
+
+                    <div class="admin-loading" id="integratedAdminLoading">QMS // Synchronizing Database...</div>
+
+                    <div class="admin-summary-grid" id="integratedSummaryGrid"></div>
+
+                    <div class="admin-tabs">
+                        <button class="admin-tab-btn active" data-admin-tab="overview" type="button">Overview</button>
+                        <button class="admin-tab-btn" data-admin-tab="clients" type="button">Client Feedback</button>
+                        <button class="admin-tab-btn" data-admin-tab="activities" type="button">Activity Evaluations</button>
+                        <button class="admin-tab-btn" data-admin-tab="speakers" type="button">Resource Speakers</button>
+                        <button class="admin-tab-btn" data-admin-tab="suggestions" type="button">Suggestions</button>
+                    </div>
+
+                    <section class="admin-tab-content active" id="integratedOverviewTab">
+                        <div class="admin-analytics-grid">
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Activity Types</h4>
+                                    <p>Number of evaluations received by program type.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedActivityTypeBars"></div>
+                                </div>
+                            </article>
+
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Suggestions by Development Area</h4>
+                                    <p>Areas most frequently raised by respondents.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedDevelopmentBars"></div>
+                                </div>
+                            </article>
+
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Client Quality Distribution</h4>
+                                    <p>Distribution of overall client satisfaction ratings.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedClientQualityBars"></div>
+                                </div>
+                            </article>
+
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Activity Quality Distribution</h4>
+                                    <p>Distribution of calculated activity evaluation scores.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedActivityQualityBars"></div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <article class="admin-panel" style="margin-top:12px">
+                            <div class="admin-panel-head">
+                                <h4>Suggestions & Recommendations Status</h4>
+                                <p>Current administrative handling status.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-detail-grid" id="integratedSuggestionStatusCards"></div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedClientsTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Client / Service Feedback Records</h4>
+                                <p>Latest 100 submissions from the QMS database.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-toolbar">
+                                    <input id="integratedClientSearch" type="search" placeholder="Search reference, name, service or comments...">
+                                </div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Date / Time</th><th>Reference</th><th>Client</th>
+                                            <th>Service</th><th>Rating</th><th>Comments</th>
+                                        </tr></thead>
+                                        <tbody id="integratedClientRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedActivitiesTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Seminar / Training / Activity Evaluations</h4>
+                                <p>Latest 100 program evaluation records.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-toolbar">
+                                    <input id="integratedActivitySearch" type="search" placeholder="Search activity, participant, speaker or reference...">
+                                    <select id="integratedActivityTypeFilter">
+                                        <option value="">All Activity Types</option>
+                                    </select>
+                                </div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Date / Time</th><th>Reference</th><th>Activity</th>
+                                            <th>Participant</th><th>Resource Speaker</th>
+                                            <th>Average</th><th>Improvement / Learning</th>
+                                        </tr></thead>
+                                        <tbody id="integratedActivityRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedSpeakersTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Resource Speaker Performance</h4>
+                                <p>Aggregated from speaker-specific participant ratings.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-detail-grid" id="integratedSpeakerSummary"></div>
+                                <div class="admin-table-wrap" style="margin-top:14px">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Activity</th><th>Resource Speaker</th><th>Knowledge</th>
+                                            <th>Clarity</th><th>Engagement</th><th>Responsiveness</th><th>Comments</th>
+                                        </tr></thead>
+                                        <tbody id="integratedSpeakerRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedSuggestionsTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Suggestions, Recommendations & Concerns</h4>
+                                <p>Review, document action taken and update each submission's status.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-toolbar">
+                                    <input id="integratedSuggestionSearch" type="search" placeholder="Search reference, category, subject, message or name...">
+                                    <select id="integratedSuggestionStatusFilter">
+                                        <option value="">All Statuses</option>
+                                        <option>NEW</option>
+                                        <option>UNDER REVIEW</option>
+                                        <option>IN PROGRESS</option>
+                                        <option>RESOLVED</option>
+                                        <option>CLOSED</option>
+                                    </select>
+                                </div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Date / Time</th><th>Reference</th><th>Submission</th>
+                                            <th>Message / Proposed Action</th><th>Status</th><th>Administrative Action</th>
+                                        </tr></thead>
+                                        <tbody id="integratedSuggestionRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                </div>
+
+            </div>
         </div>
     </div>
 </section>
@@ -899,7 +1318,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
             <small>System Notice</small>
             <h3>Connected to the QMS database.</h3>
             <p>
-                Submissions on this page are connected to the SK Sapilang Google Sheets Quality Management System through Google Apps Script. Reference numbers and quality scores are generated after the response has been successfully saved to the QMS database.
+                Submissions on this page are connected to the SK Sapilang Google Sheets Quality Management System through Google Apps Script. Authorized administrators may also access the integrated QMS Admin Dashboard from the feedback interface.
             </p>
         </article>
     </div>
@@ -946,7 +1365,8 @@ const tabs=document.querySelectorAll(".form-tab");
 const panels={
     client:document.getElementById("clientPanel"),
     activity:document.getElementById("activityPanel"),
-    suggestion:document.getElementById("suggestionPanel")
+    suggestion:document.getElementById("suggestionPanel"),
+    admin:document.getElementById("adminPanel")
 };
 
 tabs.forEach(tab=>{
@@ -1168,6 +1588,392 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
         setSubmitting(button,false);
     }
 });
+
+
+
+/* =========================================================
+   INTEGRATED QMS ADMIN DASHBOARD
+========================================================= */
+
+let INTEGRATED_ADMIN_KEY="";
+let INTEGRATED_DASHBOARD_DATA=null;
+
+const integratedAdminLoginArea=document.getElementById("adminLoginArea");
+const integratedAdminDashboard=document.getElementById("integratedAdminDashboard");
+const integratedAdminLoginForm=document.getElementById("adminLoginForm");
+const integratedAdminLoginError=document.getElementById("integratedAdminLoginError");
+const integratedAdminLoading=document.getElementById("integratedAdminLoading");
+
+function integratedEscape(value){
+    return String(value??"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function integratedShowLoading(show){
+    integratedAdminLoading.classList.toggle("show",show);
+}
+
+async function integratedAdminPost(params){
+    const body=new URLSearchParams();
+
+    Object.entries(params).forEach(([key,value])=>{
+        body.append(key,value??"");
+    });
+
+    const response=await fetch(QMS_WEB_APP_URL,{
+        method:"POST",
+        body,
+        redirect:"follow"
+    });
+
+    if(!response.ok){
+        throw new Error("QMS server returned an error.");
+    }
+
+    const data=await response.json();
+
+    if(!data.success){
+        throw new Error(data.message||"Unable to complete the request.");
+    }
+
+    return data;
+}
+
+async function integratedLoadDashboard(){
+    integratedShowLoading(true);
+
+    try{
+        const response=await integratedAdminPost({
+            type:"admin-dashboard",
+            adminKey:INTEGRATED_ADMIN_KEY
+        });
+
+        INTEGRATED_DASHBOARD_DATA=response.dashboard;
+        integratedRenderDashboard(INTEGRATED_DASHBOARD_DATA);
+
+        integratedAdminLoginArea.style.display="none";
+        integratedAdminDashboard.classList.add("show");
+        sessionStorage.setItem("skQmsAdminKey",INTEGRATED_ADMIN_KEY);
+        integratedAdminLoginError.classList.remove("show");
+    }catch(error){
+        sessionStorage.removeItem("skQmsAdminKey");
+        integratedAdminLoginArea.style.display="";
+        integratedAdminDashboard.classList.remove("show");
+        integratedAdminLoginError.textContent=error.message;
+        integratedAdminLoginError.classList.add("show");
+        throw error;
+    }finally{
+        integratedShowLoading(false);
+    }
+}
+
+integratedAdminLoginForm.addEventListener("submit",async event=>{
+    event.preventDefault();
+    INTEGRATED_ADMIN_KEY=document.getElementById("integratedAdminKey").value.trim();
+    if(!INTEGRATED_ADMIN_KEY)return;
+    try{await integratedLoadDashboard()}catch(error){}
+});
+
+document.getElementById("integratedRefreshBtn").addEventListener("click",async()=>{
+    if(!INTEGRATED_ADMIN_KEY)return;
+    try{await integratedLoadDashboard()}catch(error){}
+});
+
+document.getElementById("integratedPrintBtn").addEventListener("click",()=>{
+    window.print();
+});
+
+document.getElementById("integratedLogoutBtn").addEventListener("click",()=>{
+    INTEGRATED_ADMIN_KEY="";
+    INTEGRATED_DASHBOARD_DATA=null;
+    sessionStorage.removeItem("skQmsAdminKey");
+    document.getElementById("integratedAdminKey").value="";
+    integratedAdminDashboard.classList.remove("show");
+    integratedAdminLoginArea.style.display="";
+});
+
+document.querySelectorAll(".admin-tab-btn").forEach(button=>{
+    button.addEventListener("click",()=>{
+        document.querySelectorAll(".admin-tab-btn").forEach(btn=>btn.classList.remove("active"));
+        document.querySelectorAll(".admin-tab-content").forEach(tab=>tab.classList.remove("active"));
+
+        button.classList.add("active");
+        document.getElementById("integrated"+button.dataset.adminTab.charAt(0).toUpperCase()+button.dataset.adminTab.slice(1)+"Tab").classList.add("active");
+    });
+});
+
+function integratedMetric(label,value,sub){
+    return `
+        <article class="admin-metric">
+            <small>${integratedEscape(label)}</small>
+            <strong>${integratedEscape(value)}</strong>
+            <span>${integratedEscape(sub)}</span>
+        </article>
+    `;
+}
+
+function integratedRenderDashboard(data){
+    const s=data.summary;
+
+    document.getElementById("integratedGeneratedText").textContent=
+        "Live QMS data generated "+integratedFormatDateTime(data.generatedAt)+".";
+
+    document.getElementById("integratedSummaryGrid").innerHTML=`
+        ${integratedMetric("Client Feedback",s.clientResponses,s.averageClientSatisfaction.toFixed(2)+" / 5 • "+s.clientQuality)}
+        ${integratedMetric("Activity Evaluations",s.activityEvaluations,s.averageActivityScore.toFixed(2)+" / 5 • "+s.activityQuality)}
+        ${integratedMetric("Speaker Evaluations",s.speakerEvaluations,s.averageSpeakerScore.toFixed(2)+" / 5 • "+s.speakerQuality)}
+        ${integratedMetric("Suggestions / Concerns",s.suggestions,s.newSuggestions+" New • "+s.inProgressSuggestions+" In Progress")}
+    `;
+
+    integratedRenderBars("integratedActivityTypeBars",data.activityTypes);
+    integratedRenderBars("integratedDevelopmentBars",data.developmentAreas);
+    integratedRenderBars("integratedClientQualityBars",data.qualityDistribution.client);
+    integratedRenderBars("integratedActivityQualityBars",data.qualityDistribution.activity);
+
+    document.getElementById("integratedSuggestionStatusCards").innerHTML=
+        data.suggestionStatuses.length
+        ? data.suggestionStatuses.map(item=>`
+            <div class="admin-detail-card">
+                <small>${integratedEscape(item.label)}</small>
+                <strong>${item.value}</strong>
+                <span>Submission${item.value===1?"":"s"}</span>
+            </div>
+        `).join("")
+        : `<div class="admin-empty">No suggestion records yet.</div>`;
+
+    integratedPopulateActivityTypeFilter(data.activityTypes);
+    integratedRenderClients(data.clients);
+    integratedRenderActivities(data.activities);
+    integratedRenderSpeakers(data.activities,s);
+    integratedRenderSuggestions(data.suggestions);
+}
+
+function integratedRenderBars(id,items){
+    const el=document.getElementById(id);
+
+    if(!items||!items.length){
+        el.innerHTML=`<div class="admin-empty">No data available yet.</div>`;
+        return;
+    }
+
+    const max=Math.max(...items.map(item=>Number(item.value)||0),1);
+
+    el.innerHTML=items.map(item=>{
+        const width=((Number(item.value)||0)/max)*100;
+
+        return `
+            <div class="admin-bar-item">
+                <div class="admin-bar-label" title="${integratedEscape(item.label)}">${integratedEscape(item.label)}</div>
+                <div class="admin-bar-track"><div class="admin-bar-fill" style="width:${width}%"></div></div>
+                <div class="admin-bar-value">${integratedEscape(item.value)}</div>
+            </div>
+        `;
+    }).join("");
+}
+
+function integratedRenderClients(rows){
+    document.getElementById("integratedClientRows").innerHTML=rows.length
+    ? rows.map(row=>`
+        <tr>
+            <td>${integratedEscape(row.timestamp)}</td>
+            <td class="admin-ref">${integratedEscape(row.reference)}</td>
+            <td><strong>${integratedEscape(row.name||"Anonymous")}</strong><br><span class="admin-muted">${integratedEscape(row.email)}</span></td>
+            <td>${integratedEscape(row.service)}</td>
+            <td class="admin-rating">${Number(row.rating).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
+            <td>${integratedEscape(row.comments)}</td>
+        </tr>
+    `).join("")
+    : `<tr><td colspan="6" class="admin-empty">No client feedback records yet.</td></tr>`;
+
+    integratedFilterClients();
+}
+
+function integratedRenderActivities(rows){
+    document.getElementById("integratedActivityRows").innerHTML=rows.length
+    ? rows.map(row=>`
+        <tr data-type="${integratedEscape(row.activityType)}">
+            <td>${integratedEscape(row.timestamp)}</td>
+            <td class="admin-ref">${integratedEscape(row.reference)}</td>
+            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} • ${integratedEscape(row.venue)}</span></td>
+            <td>${integratedEscape(row.participant||"Anonymous")}<br><span class="admin-muted">${integratedEscape(row.classification)}</span></td>
+            <td>${integratedEscape(row.speaker||"N/A")}</td>
+            <td class="admin-rating">${Number(row.averageScore).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
+            <td><strong>Learning:</strong> ${integratedEscape(row.learning)}<br><br><strong>Improve:</strong> ${integratedEscape(row.improvement)}</td>
+        </tr>
+    `).join("")
+    : `<tr><td colspan="7" class="admin-empty">No activity evaluations yet.</td></tr>`;
+
+    integratedFilterActivities();
+}
+
+function integratedRenderSpeakers(rows,summary){
+    document.getElementById("integratedSpeakerSummary").innerHTML=`
+        <div class="admin-detail-card"><small>Speaker Evaluations</small><strong>${summary.speakerEvaluations}</strong><span>Responses with speaker ratings</span></div>
+        <div class="admin-detail-card"><small>Average Speaker Score</small><strong>${Number(summary.averageSpeakerScore).toFixed(2)}</strong><span>${integratedEscape(summary.speakerQuality)}</span></div>
+        <div class="admin-detail-card"><small>Activities With Named Speaker</small><strong>${rows.filter(row=>row.speaker).length}</strong><span>Latest stored records</span></div>
+        <div class="admin-detail-card"><small>Quality Target</small><strong>4.50+</strong><span>Excellent</span></div>
+    `;
+
+    const speakerRows=rows.filter(row=>
+        row.speaker ||
+        row.speakerKnowledge!=="" ||
+        row.speakerClarity!=="" ||
+        row.speakerEngagement!=="" ||
+        row.speakerResponsiveness!==""
+    );
+
+    document.getElementById("integratedSpeakerRows").innerHTML=speakerRows.length
+    ? speakerRows.map(row=>`
+        <tr>
+            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.reference)}</span></td>
+            <td>${integratedEscape(row.speaker||"Not specified")}</td>
+            <td class="admin-rating">${integratedScoreOrDash(row.speakerKnowledge)}</td>
+            <td class="admin-rating">${integratedScoreOrDash(row.speakerClarity)}</td>
+            <td class="admin-rating">${integratedScoreOrDash(row.speakerEngagement)}</td>
+            <td class="admin-rating">${integratedScoreOrDash(row.speakerResponsiveness)}</td>
+            <td>${integratedEscape(row.speakerComments)}</td>
+        </tr>
+    `).join("")
+    : `<tr><td colspan="7" class="admin-empty">No resource speaker evaluations yet.</td></tr>`;
+}
+
+function integratedRenderSuggestions(rows){
+    document.getElementById("integratedSuggestionRows").innerHTML=rows.length
+    ? rows.map(row=>`
+        <tr data-status="${integratedEscape(row.status)}">
+            <td>${integratedEscape(row.timestamp)}</td>
+            <td class="admin-ref">${integratedEscape(row.reference)}</td>
+            <td><strong>${integratedEscape(row.subject)}</strong><br><span class="admin-muted">${integratedEscape(row.category)} • ${integratedEscape(row.area)}${row.name?" • "+integratedEscape(row.name):""}</span></td>
+            <td>${integratedEscape(row.message)}${row.solution?`<br><br><strong>Proposed:</strong> ${integratedEscape(row.solution)}`:""}</td>
+            <td>${integratedStatusBadge(row.status)}${row.dateResolved?`<br><span class="admin-muted">${integratedEscape(row.dateResolved)}</span>`:""}</td>
+            <td>
+                <div class="admin-action-area">
+                    <select data-integrated-status="${integratedEscape(row.reference)}">${integratedStatusOptions(row.status)}</select>
+                    <textarea data-integrated-action="${integratedEscape(row.reference)}" placeholder="Record action taken, follow-up, response or resolution...">${integratedEscape(row.actionTaken)}</textarea>
+                    <button type="button" class="admin-update-btn" data-integrated-update="${integratedEscape(row.reference)}">Save Administrative Action</button>
+                </div>
+            </td>
+        </tr>
+    `).join("")
+    : `<tr><td colspan="6" class="admin-empty">No suggestions or recommendations yet.</td></tr>`;
+
+    document.querySelectorAll("[data-integrated-update]").forEach(button=>{
+        button.addEventListener("click",()=>integratedUpdateSuggestion(button.dataset.integratedUpdate));
+    });
+
+    integratedFilterSuggestions();
+}
+
+async function integratedUpdateSuggestion(reference){
+    const esc=CSS.escape(reference);
+    const status=document.querySelector(`[data-integrated-status="${esc}"]`).value;
+    const actionTaken=document.querySelector(`[data-integrated-action="${esc}"]`).value;
+
+    integratedShowLoading(true);
+
+    try{
+        await integratedAdminPost({
+            type:"admin-update-suggestion",
+            adminKey:INTEGRATED_ADMIN_KEY,
+            reference,
+            status,
+            actionTaken
+        });
+
+        await integratedLoadDashboard();
+    }catch(error){
+        alert(error.message);
+    }finally{
+        integratedShowLoading(false);
+    }
+}
+
+function integratedStatusOptions(current){
+    const statuses=["NEW","UNDER REVIEW","IN PROGRESS","RESOLVED","CLOSED"];
+
+    return statuses.map(status=>
+        `<option ${status===String(current).toUpperCase()?"selected":""}>${status}</option>`
+    ).join("");
+}
+
+function integratedStatusBadge(status){
+    const normalized=String(status||"NEW").toUpperCase();
+    let klass="";
+
+    if(normalized==="RESOLVED"||normalized==="CLOSED")klass="resolved";
+    else if(normalized==="IN PROGRESS"||normalized==="UNDER REVIEW")klass="progress";
+
+    return `<span class="admin-status-badge ${klass}">${integratedEscape(normalized)}</span>`;
+}
+
+function integratedScoreOrDash(value){
+    if(value===""||value===null||value===undefined)return"—";
+    return `${Number(value).toFixed(2)} / 5`;
+}
+
+function integratedPopulateActivityTypeFilter(items){
+    const select=document.getElementById("integratedActivityTypeFilter");
+    const current=select.value;
+
+    select.innerHTML=`<option value="">All Activity Types</option>`+
+        items.map(item=>`<option>${integratedEscape(item.label)}</option>`).join("");
+
+    if([...select.options].some(option=>option.value===current)){
+        select.value=current;
+    }
+}
+
+function integratedFilterClients(){
+    const q=document.getElementById("integratedClientSearch").value.trim().toLowerCase();
+    document.querySelectorAll("#integratedClientRows tr").forEach(row=>{
+        row.style.display=!q||row.textContent.toLowerCase().includes(q)?"":"none";
+    });
+}
+
+function integratedFilterActivities(){
+    const q=document.getElementById("integratedActivitySearch").value.trim().toLowerCase();
+    const type=document.getElementById("integratedActivityTypeFilter").value;
+
+    document.querySelectorAll("#integratedActivityRows tr").forEach(row=>{
+        const matchSearch=!q||row.textContent.toLowerCase().includes(q);
+        const matchType=!type||row.dataset.type===type;
+        row.style.display=matchSearch&&matchType?"":"none";
+    });
+}
+
+function integratedFilterSuggestions(){
+    const q=document.getElementById("integratedSuggestionSearch").value.trim().toLowerCase();
+    const status=document.getElementById("integratedSuggestionStatusFilter").value;
+
+    document.querySelectorAll("#integratedSuggestionRows tr").forEach(row=>{
+        const matchSearch=!q||row.textContent.toLowerCase().includes(q);
+        const matchStatus=!status||String(row.dataset.status||"").toUpperCase()===status;
+        row.style.display=matchSearch&&matchStatus?"":"none";
+    });
+}
+
+document.getElementById("integratedClientSearch").addEventListener("input",integratedFilterClients);
+document.getElementById("integratedActivitySearch").addEventListener("input",integratedFilterActivities);
+document.getElementById("integratedActivityTypeFilter").addEventListener("change",integratedFilterActivities);
+document.getElementById("integratedSuggestionSearch").addEventListener("input",integratedFilterSuggestions);
+document.getElementById("integratedSuggestionStatusFilter").addEventListener("change",integratedFilterSuggestions);
+
+function integratedFormatDateTime(value){
+    if(!value)return"";
+    const date=new Date(value);
+    return Number.isNaN(date.getTime())?String(value):date.toLocaleString();
+}
+
+const integratedSavedKey=sessionStorage.getItem("skQmsAdminKey");
+
+if(integratedSavedKey){
+    INTEGRATED_ADMIN_KEY=integratedSavedKey;
+    document.getElementById("integratedAdminKey").value=integratedSavedKey;
+}
 
 
 const revealItems=document.querySelectorAll(".reveal");
