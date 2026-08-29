@@ -1642,6 +1642,27 @@ footer {
 
 }
 
+
+/* =========================================================
+   CONSISTENT FULL DESKTOP NAVIGATION
+========================================================= */
+@media (min-width: 1101px) {
+    .nav {
+        gap: 16px;
+    }
+
+    .nav-links {
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+    }
+
+    .nav-links a {
+        padding: 10px 8px;
+        font-size: 10.5px;
+        white-space: nowrap;
+    }
+}
+
 </style>
 
 </head>
@@ -1713,57 +1734,18 @@ footer {
         </button>
 
 
-        <ul
-            class="nav-links"
-            id="navLinks"
-        >
-
-            <li>
-                <a href="index.html">
-                    Home
-                </a>
-            </li>
-
-            <li>
-                <a href="index.html#activities">
-                    Activities
-                </a>
-            </li>
-
-            <li>
-                <a href="index.html#digital-id">
-                    Digital ID
-                </a>
-            </li>
-
-            <li>
-                <a
-                    href="about.html"
-                    class="active"
-                >
-                    About
-                </a>
-            </li>
-
-            <li>
-                <a href="transparency.html">
-                    Transparency
-                </a>
-            </li>
-
-            <li>
-                <a href="contact.html">
-                    Contact
-                </a>
-            </li>
-
-            <li>
-                <a href="kk-portal.html">
-                    KK Portal
-                </a>
-            </li>
-
-        </ul>
+        <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#activities">Activities</a></li>
+    <li><a href="index.html#digital-id">Digital ID</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="awards.html">Awards</a></li>
+    <li><a href="resolutions.html">Resolutions</a></li>
+    <li><a href="transparency.html">Transparency</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="kk-portal.html">KK Portal</a></li>
+</ul>
 
     </div>
 
@@ -2261,13 +2243,21 @@ footer {
 
 
             <div class="org-image-wrap">
-
-                <img
-                    src="images/Org Chart.pdf"
-                    alt="SK Sapilang Organizational Chart"
-                >
-
-            </div>
+    <object
+        data="images/Org%20Chart.pdf"
+        type="application/pdf"
+        width="100%"
+        height="780"
+        aria-label="SK Sapilang Organizational Chart"
+    >
+        <p>
+            Your browser cannot display the organizational chart PDF.
+            <a href="images/Org%20Chart.pdf" target="_blank" rel="noopener">
+                Open the Organizational Chart
+            </a>
+        </p>
+    </object>
+</div>
 
 
             <div class="org-footer">
