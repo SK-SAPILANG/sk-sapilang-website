@@ -79,6 +79,26 @@ img{display:block;max-width:100%}
 .nav-links a:hover{color:white;background:rgba(55,215,255,.07)}
 .nav-links a.active{color:var(--cyan);background:rgba(55,215,255,.07);border:1px solid rgba(55,215,255,.14)}
 .menu-button{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:9px;color:white;background:rgba(255,255,255,.02)}
+.admin-header-login{
+    min-height:40px;
+    padding:0 14px;
+    border:1px solid rgba(55,220,255,.30);
+    border-radius:8px;
+    color:white;
+    background:linear-gradient(135deg,rgba(39,211,246,.16),rgba(51,122,255,.16));
+    font-size:8px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    white-space:nowrap;
+    transition:.2s;
+}
+.admin-header-login:hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+    background:rgba(55,220,255,.08);
+}
+
 
 .hero{padding:72px 0 34px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:44px;align-items:center}
@@ -218,7 +238,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 @media(max-width:650px){
     .container{width:calc(100% - 20px)}
     .nav{min-height:64px}.logo{width:42px;height:42px;flex:0 0 42px}.brand-text strong{font-size:12px}.brand-text span{display:none}
-    .menu-button{width:39px;height:39px}.nav-links{top:64px;left:10px;right:10px}
+    .admin-header-login{min-height:38px;padding:0 10px;font-size:7px}.menu-button{width:39px;height:39px}.nav-links{top:64px;left:10px;right:10px}
     .hero{padding:44px 0 30px}.hero h1{font-size:clamp(38px,12vw,52px);line-height:.99;letter-spacing:-2px}.hero p{font-size:11px}
     .qms-orbit{min-height:310px}.qms-orbit::before{inset:28px}.qms-orbit::after{inset:72px}
     .orbit-core{width:112px;height:112px}.orbit-core strong{font-size:23px}
@@ -458,6 +478,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
             </div>
         </a>
 
+        <button class="admin-header-login" id="adminHeaderLogin" type="button">QMS Admin Login</button>
         <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
 
         <ul class="nav-links" id="navLinks">
@@ -1358,6 +1379,31 @@ if(menuButton&&navLinks){
             menuButton.setAttribute("aria-expanded","false");
             menuButton.textContent="☰";
         });
+    });
+}
+
+const adminHeaderLogin=document.getElementById("adminHeaderLogin");
+
+if(adminHeaderLogin){
+    adminHeaderLogin.addEventListener("click",()=>{
+        const adminTab=document.querySelector('.form-tab[data-form="admin"]');
+
+        if(adminTab){
+            adminTab.click();
+
+            setTimeout(()=>{
+                document.getElementById("qms-center").scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+                const keyInput=document.getElementById("integratedAdminKey");
+
+                if(keyInput){
+                    setTimeout(()=>keyInput.focus(),450);
+                }
+            },50);
+        }
     });
 }
 
