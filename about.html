@@ -1,60 +1,2677 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official Website of Sangguniang Kabataan Barangay Sapilang, Bacnotan, La Union.">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta
+    name="description"
+    content="Learn about the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union—its mandate, vision, mission, values, leadership structure and youth development priorities."
+>
+
+<meta name="theme-color" content="#020b14">
+
 <title>About | SK Sapilang</title>
-<link rel="stylesheet" href="css/style.css">
+
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+
+    --bg: #020a12;
+
+    --panel:
+        rgba(5, 27, 42, .82);
+
+    --panel2:
+        rgba(5, 34, 51, .92);
+
+    --cyan: #37dcff;
+
+    --cyan2: #78ebff;
+
+    --blue: #327cff;
+
+    --green: #75ef78;
+
+    --white: #f2fbff;
+
+    --text: #cde2eb;
+
+    --muted: #7794a3;
+
+    --line:
+        rgba(67, 215, 255, .18);
+
+    --line2:
+        rgba(67, 215, 255, .36);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(11, 94, 139, .16),
+            transparent 38%
+        ),
+
+        var(--bg);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font: inherit;
+}
+
+.container {
+
+    width:
+        min(
+            1400px,
+            calc(100% - 48px)
+        );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.future-bg {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -10;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.future-bg::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+
+        linear-gradient(
+            rgba(59, 204, 255, .025) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(59, 204, 255, .025) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        48px 48px;
+}
+
+.orb {
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    border-radius: 50%;
+
+    filter: blur(115px);
+
+    background:
+        rgba(0, 161, 255, .10);
+}
+
+.orb.one {
+
+    left: -220px;
+    top: 100px;
+}
+
+.orb.two {
+
+    right: -220px;
+    top: 700px;
+
+    background:
+        rgba(80, 62, 255, .09);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background:
+        rgba(2, 11, 19, .94);
+
+    border-bottom:
+        1px solid rgba(67, 215, 255, .12);
+
+    backdrop-filter:
+        blur(18px);
+}
+
+.nav {
+
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.logo {
+
+    position: relative;
+
+    width: 54px;
+    height: 54px;
+
+    flex: 0 0 54px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+}
+
+.logo img {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+.logo::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -3px;
+
+    border:
+        1px solid rgba(65, 218, 255, .38);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 16px rgba(55, 220, 255, .12);
+}
+
+.logo::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -7px;
+
+    border:
+        1px dashed rgba(61, 215, 255, .30);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    animation:
+        spin 10s linear infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.brand-text strong {
+
+    display: block;
+
+    color: white;
+
+    font-size: 15px;
+
+    letter-spacing: .5px;
+}
+
+.brand-text span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6f8997;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav-links {
+
+    list-style: none;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+}
+
+.nav-links a {
+
+    display: block;
+
+    padding:
+        10px 13px;
+
+    border-radius: 8px;
+
+    color: #afc2cb;
+
+    font-size: 12px;
+
+    transition:
+        .2s ease;
+}
+
+.nav-links a:hover {
+
+    color: white;
+
+    background:
+        rgba(55, 215, 255, .07);
+}
+
+.nav-links a.active {
+
+    color: var(--cyan);
+
+    background:
+        rgba(55, 215, 255, .07);
+
+    border:
+        1px solid rgba(55, 215, 255, .13);
+}
+
+.menu-button {
+
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 9px;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.02);
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.page-hero {
+
+    padding:
+        82px 0 72px;
+}
+
+.hero-copy {
+
+    max-width: 900px;
+}
+
+.eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+    color: var(--cyan);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.eyebrow::before {
+
+    content: "";
+
+    width: 28px;
+    height: 1px;
+
+    background:
+        var(--cyan);
+}
+
+.hero-copy h1 {
+
+    max-width: 850px;
+
+    color: white;
+
+    font-size:
+        clamp(
+            52px,
+            6vw,
+            82px
+        );
+
+    line-height: .96;
+
+    letter-spacing: -3px;
+}
+
+.hero-copy h1 span {
+
+    display: block;
+
+    color: transparent;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #38dcff,
+            #42a9ff
+        );
+
+    background-clip: text;
+
+    -webkit-background-clip: text;
+}
+
+.hero-description {
+
+    max-width: 760px;
+
+    margin-top: 22px;
+
+    color: #a8bdc7;
+
+    font-size: 14px;
+
+    line-height: 1.75;
+}
+
+.hero-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+.button {
+
+    min-height: 48px;
+
+    padding:
+        0 22px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    border-radius: 8px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    transition:
+        .25s ease;
+}
+
+.button:hover {
+
+    transform:
+        translateY(-3px);
+}
+
+.button-primary {
+
+    color: white;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #27d3f6,
+            #337aff
+        );
+}
+
+.button-secondary {
+
+    color: white;
+
+    border:
+        1px solid rgba(65, 218, 255, .36);
+
+    background:
+        rgba(3, 23, 36, .72);
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section {
+
+    padding:
+        25px 0 68px;
+}
+
+.section-heading {
+
+    max-width: 780px;
+
+    margin-bottom: 28px;
+}
+
+.section-label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--cyan);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+
+    color: white;
+
+    font-size:
+        clamp(
+            30px,
+            4vw,
+            46px
+        );
+
+    line-height: 1.05;
+
+    letter-spacing: -1.6px;
+}
+
+.section-heading p {
+
+    margin-top: 11px;
+
+    color: #819aa7;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-card {
+
+    padding: 34px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 17px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(5, 34, 51, .78),
+            rgba(3, 20, 31, .87)
+        );
+}
+
+.about-card h3 {
+
+    color: white;
+
+    font-size: 27px;
+
+    letter-spacing: -1px;
+}
+
+.about-card p {
+
+    max-width: 1050px;
+
+    margin-top: 14px;
+
+    color: #98adb8;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MANDATE
+========================================================= */
+
+.mandate-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 34px;
+
+    border:
+        1px solid rgba(60, 216, 255, .25);
+
+    border-radius: 17px;
+
+    background:
+
+        radial-gradient(
+            circle at 95% 10%,
+            rgba(55, 125, 255, .13),
+            transparent 32%
+        ),
+
+        linear-gradient(
+            135deg,
+            rgba(5, 35, 52, .88),
+            rgba(3, 19, 31, .90)
+        );
+}
+
+.mandate-code {
+
+    display: inline-flex;
+
+    padding:
+        6px 10px;
+
+    border:
+        1px solid rgba(62, 216, 255, .25);
+
+    border-radius: 999px;
+
+    color: var(--cyan);
+
+    background:
+        rgba(55, 220, 255, .05);
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.mandate-card h3 {
+
+    margin-top: 15px;
+
+    color: white;
+
+    font-size: 25px;
+}
+
+.mandate-card p {
+
+    max-width: 1000px;
+
+    margin-top: 13px;
+
+    color: #98adb7;
+
+    font-size: 12px;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   VISION MISSION VALUES
+========================================================= */
+
+.vmv-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+}
+
+.vmv-card {
+
+    min-height: 235px;
+
+    padding: 27px;
+
+    border:
+        1px solid rgba(60, 215, 255, .20);
+
+    border-radius: 15px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(5, 33, 49, .75),
+            rgba(3, 20, 31, .84)
+        );
+
+    transition:
+        .25s ease;
+}
+
+.vmv-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(60, 215, 255, .43);
+}
+
+.vmv-number {
+
+    width: 45px;
+    height: 45px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid rgba(60, 216, 255, .31);
+
+    border-radius: 50%;
+
+    color: var(--cyan);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+.vmv-card h3 {
+
+    margin-top: 21px;
+
+    color: white;
+
+    font-size: 20px;
+}
+
+.vmv-card p {
+
+    margin-top: 10px;
+
+    color: #849daa;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   DEVELOPMENT PRIORITIES
+========================================================= */
+
+.focus-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+.focus-card {
+
+    min-height: 145px;
+
+    padding: 21px;
+
+    border:
+        1px solid rgba(60, 215, 255, .16);
+
+    border-radius: 12px;
+
+    background:
+        rgba(5, 29, 43, .65);
+
+    transition:
+        .25s ease;
+}
+
+.focus-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(60, 215, 255, .38);
+}
+
+.focus-card small {
+
+    display: block;
+
+    color: var(--cyan);
+
+    font-size: 7px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.focus-card h3 {
+
+    margin-top: 9px;
+
+    color: white;
+
+    font-size: 16px;
+}
+
+.focus-card p {
+
+    margin-top: 7px;
+
+    color: #7d97a4;
+
+    font-size: 9px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ORGANIZATIONAL CHART
+========================================================= */
+
+.org-shell {
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(61, 216, 255, .25);
+
+    border-radius: 18px;
+
+    background:
+        rgba(3, 20, 31, .80);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.24);
+}
+
+.org-header {
+
+    padding:
+        25px 27px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom:
+        1px solid rgba(60, 215, 255, .13);
+}
+
+.org-header h3 {
+
+    color: white;
+
+    font-size: 23px;
+}
+
+.org-header p {
+
+    max-width: 620px;
+
+    margin-top: 5px;
+
+    color: #819aa7;
+
+    font-size: 9px;
+
+    line-height: 1.6;
+}
+
+.org-chip {
+
+    flex: 0 0 auto;
+
+    padding:
+        7px 10px;
+
+    border:
+        1px solid rgba(59, 215, 255, .24);
+
+    border-radius: 999px;
+
+    color: var(--cyan);
+
+    font-size: 7px;
+
+    letter-spacing: .8px;
+
+    text-transform: uppercase;
+}
+
+.org-image-wrap {
+
+    padding: 22px;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(37, 183, 255, .08),
+            transparent 43%
+        ),
+
+        #03131e;
+}
+
+.org-image-wrap img {
+
+    width: 100%;
+
+    max-height: 950px;
+
+    margin: auto;
+
+    object-fit: contain;
+
+    border-radius: 11px;
+}
+
+.org-footer {
+
+    padding:
+        16px 25px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #6f8996;
+
+    font-size: 8px;
+}
+
+.org-footer a {
+
+    color: var(--cyan);
+}
+
+
+/* =========================================================
+   GOVERNANCE
+========================================================= */
+
+.principles-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+.principle {
+
+    padding: 21px;
+
+    border:
+        1px solid rgba(60, 215, 255, .16);
+
+    border-radius: 12px;
+
+    background:
+        rgba(4, 26, 39, .67);
+}
+
+.principle span {
+
+    color: var(--cyan);
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.principle h3 {
+
+    margin-top: 10px;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+.principle p {
+
+    margin-top: 7px;
+
+    color: #78929f;
+
+    font-size: 9px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta {
+
+    padding:
+        5px 0 75px;
+}
+
+.cta-shell {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 35px;
+
+    padding: 35px;
+
+    border:
+        1px solid rgba(60, 216, 255, .27);
+
+    border-radius: 17px;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 100%,
+            rgba(44, 200, 255, .12),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(57, 91, 255, .11),
+            transparent 30%
+        ),
+
+        rgba(4, 27, 41, .84);
+}
+
+.cta-copy small {
+
+    color: var(--cyan);
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.cta-copy h2 {
+
+    margin-top: 8px;
+
+    color: white;
+
+    font-size: 29px;
+
+    letter-spacing: -1px;
+}
+
+.cta-copy p {
+
+    max-width: 670px;
+
+    margin-top: 8px;
+
+    color: #829ba7;
+
+    font-size: 10px;
+
+    line-height: 1.65;
+}
+
+.cta-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    padding:
+        18px 0 25px;
+
+    border-top:
+        1px solid rgba(57, 210, 255, .14);
+
+    background:
+        rgba(2, 12, 20, .75);
+}
+
+.footer-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr auto;
+
+    gap: 25px;
+
+    align-items: center;
+}
+
+.footer-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.footer-logo {
+
+    width: 42px;
+    height: 42px;
+}
+
+.footer-logo img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+.footer-brand strong {
+
+    display: block;
+
+    color: white;
+
+    font-size: 10px;
+}
+
+.footer-brand span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6d8794;
+
+    font-size: 6px;
+}
+
+.copyright {
+
+    color: #6d8592;
+
+    font-size: 7px;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+        translateY(20px);
+
+    transition:
+        opacity .65s ease,
+        transform .65s ease;
+}
+
+.reveal.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .menu-button {
+
+        display: grid;
+
+        place-items: center;
+    }
+
+    .nav-links {
+
+        position: absolute;
+
+        top: 76px;
+
+        left: 20px;
+        right: 20px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 4px;
+
+        padding: 12px;
+
+        border:
+            1px solid var(--line);
+
+        border-radius: 12px;
+
+        background:
+            rgba(2, 14, 23, .98);
+
+        box-shadow:
+            0 20px 50px rgba(0,0,0,.42);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+
+        width: 100%;
+
+        padding:
+            13px 14px;
+    }
+
+    .vmv-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .focus-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .principles-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .cta-shell {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .container {
+
+        width:
+            calc(100% - 20px);
+    }
+
+    .nav {
+
+        min-height: 64px;
+
+        gap: 10px;
+    }
+
+    .logo {
+
+        width: 42px;
+        height: 42px;
+
+        flex: 0 0 42px;
+    }
+
+    .logo::after {
+        inset: -4px;
+    }
+
+    .brand {
+
+        gap: 9px;
+    }
+
+    .brand-text strong {
+
+        font-size: 12px;
+    }
+
+    .brand-text span {
+
+        display: none;
+    }
+
+    .menu-button {
+
+        width: 39px;
+        height: 39px;
+    }
+
+    .nav-links {
+
+        top: 64px;
+
+        left: 10px;
+        right: 10px;
+    }
+
+    .page-hero {
+
+        padding:
+            48px 0 52px;
+    }
+
+    .hero-copy h1 {
+
+        font-size:
+            clamp(
+                40px,
+                13vw,
+                54px
+            );
+
+        line-height: .98;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-description {
+
+        margin-top: 17px;
+
+        font-size: 11px;
+    }
+
+    .hero-actions {
+
+        flex-direction: column;
+
+        margin-top: 22px;
+    }
+
+    .button {
+
+        width: 100%;
+
+        min-height: 49px;
+    }
+
+    .section {
+
+        padding:
+            18px 0 50px;
+    }
+
+    .section-heading {
+
+        margin-bottom: 21px;
+    }
+
+    .section-heading h2 {
+
+        font-size: 31px;
+    }
+
+    .section-heading p {
+
+        font-size: 10px;
+    }
+
+    .about-card,
+    .mandate-card {
+
+        padding:
+            22px 18px;
+    }
+
+    .about-card h3,
+    .mandate-card h3 {
+
+        font-size: 23px;
+    }
+
+    .about-card p {
+
+        font-size: 11px;
+    }
+
+    .vmv-card {
+
+        min-height: auto;
+
+        padding:
+            21px 18px;
+    }
+
+    .focus-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .org-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding:
+            20px 17px;
+    }
+
+    .org-image-wrap {
+
+        padding: 8px;
+    }
+
+    .org-footer {
+
+        flex-direction: column;
+
+        gap: 5px;
+
+        padding:
+            14px 17px;
+    }
+
+    .principles-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .cta-shell {
+
+        padding:
+            24px 18px;
+    }
+
+    .cta-copy h2 {
+
+        font-size: 25px;
+    }
+
+    .cta-actions {
+
+        width: 100%;
+    }
+
+    .footer-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 15px;
+    }
+
+    .copyright {
+
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .001ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .001ms !important;
+
+        scroll-behavior:
+            auto !important;
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
 
-<header>
-  <div class="topbar"><div class="container"><span>OFFICIAL WEBSITE • SANGGUNIANG KABATAAN</span><span>Barangay Sapilang • Bacnotan, La Union</span></div></div>
-  <nav class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img src="images/sk-logo.svg" alt="SK Sapilang Logo">
-        <div><strong>SK SAPILANG</strong><small>United in Purpose,Driven by the Future.</small></div>
-      </a>
-      <button class="menu-toggle" aria-label="Open navigation">☰</button>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="programs.html">Programs</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="announcements.html">News</a></li>
-        <li><a href="organization.html">Officials</a></li>
-        <li><a href="kk-portal.html">KK Portal</a></li>
-        <li><a href="transparency.html">Transparency</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+
+<!-- =======================================================
+     BACKGROUND
+======================================================= -->
+
+<div class="future-bg">
+
+    <div class="orb one"></div>
+
+    <div class="orb two"></div>
+
+</div>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="header">
+
+    <div class="container nav">
+
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <div class="logo">
+
+                <img
+                    src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+                    alt="SK Sapilang Official Logo"
+                >
+
+            </div>
+
+
+            <div class="brand-text">
+
+                <strong>
+                    SK SAPILANG
+                </strong>
+
+                <span>
+                    DIGITAL YOUTH NETWORK
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+
+        <ul
+            class="nav-links"
+            id="navLinks"
+        >
+
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="index.html#activities">
+                    Activities
+                </a>
+            </li>
+
+            <li>
+                <a href="index.html#digital-id">
+                    Digital ID
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="about.html"
+                    class="active"
+                >
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="transparency.html">
+                    Transparency
+                </a>
+            </li>
+
+            <li>
+                <a href="contact.html">
+                    Contact
+                </a>
+            </li>
+
+            <li>
+                <a href="kk-portal.html">
+                    KK Portal
+                </a>
+            </li>
+
+        </ul>
+
     </div>
-  </nav>
+
 </header>
 
 
-<section class="page-hero"><div class="container"><span class="eyebrow"></span><h1>About SK Sapilang</h1><p>A youth-driven institution fostering meaningful participation, accountable service, and inclusive community development.</p></div></section>
-<section class="section"><div class="container grid grid-3">
- <article class="card reveal"><div class="icon">🎯</div><h3>Our Vision</h3><p>A generation of empowered young people actively shaping a progressive, inclusive and resilient Barangay Sapilang.</p></article>
- <article class="card reveal"><div class="icon">🧭</div><h3>Our Mission</h3><p>To deliver responsive youth programs, strengthen participation and create opportunities for every young person.</p></article>
- <article class="card reveal"><div class="icon">💙</div><h3>Our Values</h3><p>Integrity, inclusivity, innovation, volunteerism, accountability and service.</p></article>
-</div></section>
-<section class="section"><div class="container card reveal"><span class="tag">About the Institution</span><h2>Serving the youth with purpose.</h2><p>The Sangguniang Kabataan of Barangay Sapilang serves as a platform for youth representation, development and participation. This website is designed to make information, programs and public documents more accessible to the community.</p></div></section>
+<main>
 
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <div class="hero-copy">
+
+            <span class="eyebrow">
+                About SK Sapilang
+            </span>
+
+            <h1>
+                Youth Leadership.
+                <span>
+                    Community Impact.
+                </span>
+            </h1>
+
+            <p class="hero-description">
+
+                The Sangguniang Kabataan of Barangay Sapilang
+                serves as the official youth governance body of
+                Barangay Sapilang, Bacnotan, La Union—advancing
+                meaningful youth participation, responsive programs,
+                transparent governance, and opportunities that empower
+                young people to become active partners in community
+                development.
+
+            </p>
+
+
+            <div class="hero-actions">
+
+                <a
+                    href="#institution"
+                    class="button button-primary"
+                >
+                    About the Institution
+                </a>
+
+                <a
+                    href="#organization"
+                    class="button button-secondary"
+                >
+                    Organizational Chart
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     ABOUT
+======================================================= -->
+
+<section
+    class="section"
+    id="institution"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Institutional Profile
+            </span>
+
+            <h2>
+                Serving the youth with purpose.
+            </h2>
+
+        </div>
+
+
+        <article class="about-card reveal">
+
+            <h3>
+                Sangguniang Kabataan of Barangay Sapilang
+            </h3>
+
+            <p>
+
+                The Sangguniang Kabataan of Barangay Sapilang
+                is the youth governing body representing the
+                Katipunan ng Kabataan within the barangay.
+                It provides young people with a formal platform
+                for participation in local governance, leadership,
+                community service, policy development and
+                youth-centered initiatives.
+
+            </p>
+
+            <p>
+
+                SK Sapilang implements programs and services in
+                education, health and well-being, sports and recreation,
+                leadership development, environmental action, digital
+                access, community engagement and other areas responsive
+                to the needs and aspirations of the youth.
+
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     MANDATE
+======================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <article class="mandate-card reveal">
+
+            <span class="mandate-code">
+                Youth Governance Mandate
+            </span>
+
+            <h3>
+                Meaningful youth participation in local governance.
+            </h3>
+
+            <p>
+
+                The Sangguniang Kabataan operates under Republic Act
+                No. 10742, or the Sangguniang Kabataan Reform Act of
+                2015, as amended by Republic Act No. 11768. It provides
+                a mechanism for meaningful youth participation in
+                governance and supports the formulation and
+                implementation of plans, programs and policies
+                responsive to youth development.
+
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     VISION MISSION VALUES
+======================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Our Direction
+            </span>
+
+            <h2>
+                Vision. Mission. Values.
+            </h2>
+
+            <p>
+
+                The principles that guide our leadership,
+                programs and service to the youth.
+
+            </p>
+
+        </div>
+
+
+        <div class="vmv-grid">
+
+
+            <article class="vmv-card reveal">
+
+                <div class="vmv-number">
+                    01
+                </div>
+
+                <h3>
+                    Our Vision
+                </h3>
+
+                <p>
+
+                    A generation of empowered young people
+                    actively shaping a progressive, inclusive,
+                    resilient and future-ready Barangay Sapilang.
+
+                </p>
+
+            </article>
+
+
+            <article class="vmv-card reveal">
+
+                <div class="vmv-number">
+                    02
+                </div>
+
+                <h3>
+                    Our Mission
+                </h3>
+
+                <p>
+
+                    To deliver responsive youth programs,
+                    strengthen meaningful participation,
+                    expand access to opportunities and provide
+                    transparent, inclusive and innovative
+                    youth-centered governance.
+
+                </p>
+
+            </article>
+
+
+            <article class="vmv-card reveal">
+
+                <div class="vmv-number">
+                    03
+                </div>
+
+                <h3>
+                    Our Values
+                </h3>
+
+                <p>
+
+                    Integrity, accountability, inclusivity,
+                    innovation, volunteerism, collaboration,
+                    transparency and genuine public service.
+
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     DEVELOPMENT PRIORITIES
+======================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Youth Development
+            </span>
+
+            <h2>
+                Creating opportunities that matter.
+            </h2>
+
+            <p>
+
+                Our programs focus on key areas that contribute
+                to the development, participation and well-being
+                of young people in the community.
+
+            </p>
+
+        </div>
+
+
+        <div class="focus-grid">
+
+
+            <article class="focus-card reveal">
+
+                <small>
+                    01 // EDUCATION
+                </small>
+
+                <h3>
+                    Education & Digital Access
+                </h3>
+
+                <p>
+
+                    Learning support, digital services,
+                    access to information and educational
+                    opportunities.
+
+                </p>
+
+            </article>
+
+
+            <article class="focus-card reveal">
+
+                <small>
+                    02 // HEALTH
+                </small>
+
+                <h3>
+                    Health & Well-Being
+                </h3>
+
+                <p>
+
+                    Youth health, mental wellness,
+                    awareness, prevention and safer
+                    community initiatives.
+
+                </p>
+
+            </article>
+
+
+            <article class="focus-card reveal">
+
+                <small>
+                    03 // LEADERSHIP
+                </small>
+
+                <h3>
+                    Leadership & Participation
+                </h3>
+
+                <p>
+
+                    Leadership development, youth
+                    consultation, assemblies and
+                    civic engagement.
+
+                </p>
+
+            </article>
+
+
+            <article class="focus-card reveal">
+
+                <small>
+                    04 // SPORTS
+                </small>
+
+                <h3>
+                    Sports & Recreation
+                </h3>
+
+                <p>
+
+                    Accessible sports and recreational
+                    opportunities promoting healthy
+                    and active lifestyles.
+
+                </p>
+
+            </article>
+
+
+            <article class="focus-card reveal">
+
+                <small>
+                    05 // ENVIRONMENT
+                </small>
+
+                <h3>
+                    Environment & Sustainability
+                </h3>
+
+                <p>
+
+                    Environmental awareness,
+                    community cleanliness and
+                    sustainable youth-led initiatives.
+
+                </p>
+
+            </article>
+
+
+            <article class="focus-card reveal">
+
+                <small>
+                    06 // COMMUNITY
+                </small>
+
+                <h3>
+                    Inclusion & Community Service
+                </h3>
+
+                <p>
+
+                    Volunteerism, social inclusion,
+                    partnerships and responsive
+                    community action.
+
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     ORGANIZATIONAL CHART
+======================================================= -->
+
+<section
+    class="section"
+    id="organization"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Leadership Structure
+            </span>
+
+            <h2>
+                Organizational Chart.
+            </h2>
+
+            <p>
+
+                The leadership structure of the
+                Sangguniang Kabataan of Barangay Sapilang.
+
+            </p>
+
+        </div>
+
+
+        <div class="org-shell reveal">
+
+
+            <div class="org-header">
+
+                <div>
+
+                    <h3>
+                        SK Sapilang Leadership
+                    </h3>
+
+                    <p>
+
+                        Officials responsible for planning,
+                        implementing and supporting youth
+                        programs and governance initiatives.
+
+                    </p>
+
+                </div>
+
+
+                <span class="org-chip">
+                    Official Structure
+                </span>
+
+            </div>
+
+
+            <div class="org-image-wrap">
+
+                <img
+                    src="images/organizational-chart.png"
+                    alt="SK Sapilang Organizational Chart"
+                >
+
+            </div>
+
+
+            <div class="org-footer">
+
+                <span>
+                    Sangguniang Kabataan of Barangay Sapilang
+                </span>
+
+                <a href="organization.html">
+                    View Officials →
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     GOVERNANCE PRINCIPLES
+======================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Public Service
+            </span>
+
+            <h2>
+                Governance built on trust.
+            </h2>
+
+        </div>
+
+
+        <div class="principles-grid">
+
+
+            <article class="principle reveal">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    Transparency
+                </h3>
+
+                <p>
+
+                    Making relevant public information
+                    and governance documents accessible.
+
+                </p>
+
+            </article>
+
+
+            <article class="principle reveal">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Accountability
+                </h3>
+
+                <p>
+
+                    Maintaining responsible leadership,
+                    proper documentation and public trust.
+
+                </p>
+
+            </article>
+
+
+            <article class="principle reveal">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    Participation
+                </h3>
+
+                <p>
+
+                    Providing meaningful opportunities
+                    for young people to participate
+                    and be heard.
+
+                </p>
+
+            </article>
+
+
+            <article class="principle reveal">
+
+                <span>
+                    04
+                </span>
+
+                <h3>
+                    Innovation
+                </h3>
+
+                <p>
+
+                    Using technology and new approaches
+                    to improve accessibility and youth services.
+
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     FINAL CTA
+======================================================= -->
+
+<section class="cta">
+
+    <div class="container">
+
+        <div class="cta-shell reveal">
+
+
+            <div class="cta-copy">
+
+                <small>
+                    SK Sapilang Digital Youth Network
+                </small>
+
+                <h2>
+                    Youth services within your reach.
+                </h2>
+
+                <p>
+
+                    Access the KK Digital Portal, verify your
+                    KK identity and explore public information
+                    through the SK Sapilang Digital Youth Network.
+
+                </p>
+
+            </div>
+
+
+            <div class="cta-actions">
+
+                <a
+                    href="kk-portal.html"
+                    class="button button-primary"
+                >
+                    Access KK Portal
+                </a>
+
+                <a
+                    href="transparency.html"
+                    class="button button-secondary"
+                >
+                    Transparency
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
 <footer>
- <div class="container">
-  <div class="footer-grid">
-   <div><h3>SK SAPILANG</h3><p>The official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.</p></div>
-   <div><h4>Explore</h4><ul><li><a href="about.html">About Us</a></li><li><a href="programs.html">Programs</a></li><li><a href="events.html">Events</a></li><li><a href="awards.html">Awards</a></li></ul></div>
-   <div><h4>Governance</h4><ul><li><a href="resolutions.html">Resolutions</a></li><li><a href="transparency.html">Transparency</a></li><li><a href="organization.html">Officials</a></li></ul></div>
-   <div><h4>Youth</h4><ul><li><a href="kk-portal.html">KK Portal</a></li><li><a href="contact.html">Feedback</a></li><li><a href="announcements.html">Announcements</a></li></ul></div>
-  </div>
-  <div class="footer-bottom">© <span data-year></span> SK Sapilang. All rights reserved. • Official youth governance website.</div>
- </div>
+
+    <div class="container footer-grid">
+
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+
+                <img
+                    src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+                    alt="SK Sapilang Official Logo"
+                >
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    SK SAPILANG
+                </strong>
+
+                <span>
+                    DIGITAL YOUTH NETWORK
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © <span id="year"></span>
+            SK Sapilang.
+            All Rights Reserved.
+
+        </div>
+
+
+    </div>
+
 </footer>
 
-<script src="js/main.js"></script>
+
+<!-- =======================================================
+     JAVASCRIPT
+======================================================= -->
+
+<script>
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const navLinks =
+    document.getElementById("navLinks");
+
+
+if (
+    menuButton &&
+    navLinks
+) {
+
+    menuButton.addEventListener(
+        "click",
+        function () {
+
+            const open =
+                navLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                open ? "true" : "false"
+            );
+
+            menuButton.textContent =
+                open ? "✕" : "☰";
+
+        }
+    );
+
+
+    navLinks
+        .querySelectorAll("a")
+        .forEach(
+            function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        navLinks
+                            .classList
+                            .remove("open");
+
+                        menuButton
+                            .setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+
+                        menuButton.textContent =
+                            "☰";
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const revealItems =
+    document.querySelectorAll(".reveal");
+
+
+if (
+    "IntersectionObserver"
+    in window
+) {
+
+    const observer =
+        new IntersectionObserver(
+
+            function (entries) {
+
+                entries.forEach(
+                    function (entry) {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target
+                                .classList
+                                .add("visible");
+
+                            observer
+                                .unobserve(
+                                    entry.target
+                                );
+
+                        }
+
+                    }
+                );
+
+            },
+
+            {
+                threshold: .10
+            }
+
+        );
+
+
+    revealItems.forEach(
+        function (item) {
+
+            observer.observe(item);
+
+        }
+    );
+
+}
+else {
+
+    revealItems.forEach(
+        function (item) {
+
+            item.classList.add("visible");
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+const year =
+    document.getElementById("year");
+
+if (year) {
+
+    year.textContent =
+        new Date().getFullYear();
+
+}
+
+</script>
+
+
 </body>
 </html>
