@@ -1,1167 +1,408 @@
-/* =========================================================
-   SK SAPILANG
-   UNIVERSAL WEBSITE MUSIC PLAYER
-========================================================= */
-
 (function () {
-
   "use strict";
 
-
-  /* =========================================================
-     SETTINGS
-  ========================================================= */
+  if (document.getElementById("skGlobalMusicPlayer")) {
+    return;
+  }
 
   const MUSIC_FILE = "images/KABATAAN.mp3";
 
-  // Starts almost silent
   const START_VOLUME = 0.01;
-
-  // Normal maximum volume = 20%
   const MAX_VOLUME = 0.20;
+  const FADE_SPEED = 250;
 
-  // How fast the volume increases
-  const FADE_SPEED = 350;
+  let fadeTimer = null;
 
+  const audio = document.createElement("audio");
 
+  audio.id = "skOfficialMusic";
+  audio.src = MUSIC_FILE;
+  audio.loop = true;
+  audio.preload = "auto";
+  audio.volume = START_VOLUME;
 
-  /* =========================================================
-     STOP DUPLICATE PLAYER
-  ========================================================= */
-
-  if (
-    document.getElementById(
-      "skGlobalMusicPlayer"
-    )
-  ) {
-
-    return;
-
-  }
+  document.body.appendChild(audio);
 
 
-
-  /* =========================================================
-     CREATE AUDIO
-  ========================================================= */
-
-  const audio =
-    document.createElement(
-      "audio"
-    );
-
-
-  audio.id =
-    "skOfficialMusic";
-
-
-  audio.src =
-    MUSIC_FILE;
-
-
-  audio.loop =
-    true;
-
-
-  audio.preload =
-    "auto";
-
-
-  audio.volume =
-    START_VOLUME;
-
-
-  document.body.appendChild(
-    audio
-  );
-
-
-
-  /* =========================================================
-     CREATE PLAYER CSS
-  ========================================================= */
-
-  const style =
-    document.createElement(
-      "style"
-    );
-
+  const style = document.createElement("style");
 
   style.textContent = `
-
-    /* ===============================================
-       MAIN PLAYER
-    =============================================== */
-
     #skGlobalMusicPlayer {
-
       position: fixed;
-
-      right: 20px;
-
-      bottom: 20px;
-
+      right: 18px;
+      bottom: 18px;
       z-index: 999999;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+      font-family: Arial, Helvetica, sans-serif;
     }
-
-
-
-    /* ===============================================
-       BUTTON
-    =============================================== */
 
     #skMusicButton {
-
       display: flex;
-
       align-items: center;
-
       gap: 10px;
 
+      min-height: 52px;
+      padding: 6px 15px 6px 6px;
 
-      min-height: 54px;
+      border: 1px solid rgba(57,221,255,.30);
+      border-radius: 999px;
 
+      background: rgba(2,12,22,.92);
+      color: #fff;
 
-      padding:
-        6px
-        16px
-        6px
-        6px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
 
+      box-shadow: 0 14px 40px rgba(0,0,0,.40);
 
-      border:
-
-        1px solid
-        rgba(
-          57,
-          221,
-          255,
-          0.30
-        );
-
-
-      border-radius:
-        999px;
-
-
-      background:
-
-        rgba(
-          2,
-          12,
-          22,
-          0.92
-        );
-
-
-      color:
-        #ffffff;
-
-
-      backdrop-filter:
-        blur(18px);
-
-
-      -webkit-backdrop-filter:
-        blur(18px);
-
-
-      box-shadow:
-
-        0 15px 45px
-        rgba(
-          0,
-          0,
-          0,
-          0.40
-        );
-
-
-      cursor:
-        pointer;
-
-
-      transition:
-
-        transform
-        0.20s ease,
-
-        border-color
-        0.20s ease,
-
-        background
-        0.20s ease;
-
+      cursor: pointer;
     }
-
-
-
-    #skMusicButton:hover {
-
-      transform:
-        translateY(-2px);
-
-
-      border-color:
-        rgba(
-          57,
-          221,
-          255,
-          0.80
-        );
-
-
-      background:
-
-        rgba(
-          4,
-          20,
-          33,
-          0.97
-        );
-
-    }
-
-
-
-    /* ===============================================
-       ROUND MUSIC ICON
-    =============================================== */
 
     #skMusicIcon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
 
-      width:
-        42px;
+      display: grid;
+      place-items: center;
 
-      height:
-        42px;
-
-
-      min-width:
-        42px;
-
-
-      display:
-        grid;
-
-
-      place-items:
-        center;
-
-
-      border-radius:
-        50%;
-
+      border-radius: 50%;
 
       background:
-
         linear-gradient(
           135deg,
           #39ddff,
           #1775ff
         );
 
-
-      color:
-        #ffffff;
-
-
-      font-size:
-        14px;
-
-
-      font-weight:
-        900;
-
-
-      box-shadow:
-
-        0 0 24px
-        rgba(
-          0,
-          184,
-          255,
-          0.25
-        );
-
+      font-weight: 900;
     }
-
-
-
-    /* ===============================================
-       TEXT
-    =============================================== */
 
     #skMusicInfo {
-
-      display:
-        flex;
-
-
-      flex-direction:
-        column;
-
-
-      align-items:
-        flex-start;
-
-
-      justify-content:
-        center;
-
-
-      line-height:
-        1.15;
-
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
     }
-
-
 
     #skMusicTitle {
-
-      color:
-        #ffffff;
-
-
-      font-size:
-        10px;
-
-
-      font-weight:
-        900;
-
-
-      letter-spacing:
-        0.08em;
-
-
-      white-space:
-        nowrap;
-
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
     }
-
-
 
     #skMusicStatus {
+      margin-top: 4px;
 
-      margin-top:
-        4px;
+      color: #8ca8b9;
 
+      font-size: 8px;
+      font-weight: 800;
 
-      color:
-        #8ca8b9;
-
-
-      font-size:
-        8px;
-
-
-      font-weight:
-        800;
-
-
-      letter-spacing:
-        0.10em;
-
-
-      text-transform:
-        uppercase;
-
-
-      white-space:
-        nowrap;
-
+      letter-spacing: .10em;
+      text-transform: uppercase;
     }
 
-
-
-    /* ===============================================
-       PLAYING ANIMATION
-    =============================================== */
-
-    #skMusicButton.playing
-    #skMusicIcon {
-
-      animation:
-
-        skMusicPulse
-        1.5s
-        ease-in-out
-        infinite;
-
-    }
-
-
-
-    @keyframes skMusicPulse {
-
-      0% {
-
-        box-shadow:
-
-          0 0 0 0
-
-          rgba(
-            57,
-            221,
-            255,
-            0.40
-          );
-
-      }
-
-
-      70% {
-
-        box-shadow:
-
-          0 0 0 11px
-
-          rgba(
-            57,
-            221,
-            255,
-            0
-          );
-
-      }
-
-
-      100% {
-
-        box-shadow:
-
-          0 0 0 0
-
-          rgba(
-            57,
-            221,
-            255,
-            0
-          );
-
-      }
-
-    }
-
-
-
-    /* ===============================================
-       MOBILE
-    =============================================== */
-
-    @media (
-      max-width: 600px
-    ) {
-
+    @media (max-width:600px) {
       #skGlobalMusicPlayer {
-
-        right:
-          12px;
-
-
-        bottom:
-          12px;
-
+        right: 12px;
+        bottom: 12px;
       }
-
 
       #skMusicButton {
-
-        padding:
-          6px;
-
+        padding: 6px;
       }
-
 
       #skMusicInfo {
-
-        display:
-          none;
-
+        display: none;
       }
-
-
-      #skMusicIcon {
-
-        width:
-          42px;
-
-
-        height:
-          42px;
-
-      }
-
     }
-
-
-
-    /* ===============================================
-       REDUCED MOTION
-    =============================================== */
-
-    @media (
-      prefers-reduced-motion: reduce
-    ) {
-
-      #skMusicButton.playing
-      #skMusicIcon {
-
-        animation:
-          none;
-
-      }
-
-    }
-
   `;
 
-
-  document.head.appendChild(
-    style
-  );
+  document.head.appendChild(style);
 
 
+  const player = document.createElement("div");
 
-  /* =========================================================
-     CREATE PLAYER
-  ========================================================= */
-
-  const player =
-    document.createElement(
-      "div"
-    );
-
-
-  player.id =
-    "skGlobalMusicPlayer";
-
+  player.id = "skGlobalMusicPlayer";
 
   player.innerHTML = `
-
     <button
-
       id="skMusicButton"
-
       type="button"
-
-      aria-label="Play SK Sapilang music"
-
+      aria-label="Play music"
     >
+      <span id="skMusicIcon">▶</span>
 
-
-      <span
-        id="skMusicIcon"
-      >
-
-        ▶
-
-      </span>
-
-
-
-      <span
-        id="skMusicInfo"
-      >
-
-
-        <strong
-          id="skMusicTitle"
-        >
-
+      <span id="skMusicInfo">
+        <strong id="skMusicTitle">
           SK SAPILANG
-
         </strong>
 
-
-
-        <span
-          id="skMusicStatus"
-        >
-
+        <span id="skMusicStatus">
           MUSIC READY
-
         </span>
-
-
       </span>
-
-
     </button>
-
   `;
 
+  document.body.appendChild(player);
 
-  document.body.appendChild(
-    player
-  );
-
-
-
-  /* =========================================================
-     GET PLAYER ELEMENTS
-  ========================================================= */
 
   const button =
-    document.getElementById(
-      "skMusicButton"
-    );
-
+    document.getElementById("skMusicButton");
 
   const icon =
-    document.getElementById(
-      "skMusicIcon"
-    );
-
+    document.getElementById("skMusicIcon");
 
   const status =
-    document.getElementById(
-      "skMusicStatus"
-    );
+    document.getElementById("skMusicStatus");
 
 
-
-  /* =========================================================
-     STORAGE
-  ========================================================= */
-
-  function saveSetting(
-    name,
-    value
-  ) {
-
+  function save(name, value) {
     try {
-
-      sessionStorage.setItem(
-        name,
-        value
-      );
-
-    }
-
-    catch (error) {
-
-      // Continue without storage.
-
-    }
-
+      localStorage.setItem(name, value);
+    } catch (error) {}
   }
 
 
-
-  function getSetting(
-    name
-  ) {
-
+  function load(name) {
     try {
-
-      return sessionStorage.getItem(
-        name
-      );
-
-    }
-
-    catch (error) {
-
+      return localStorage.getItem(name);
+    } catch (error) {
       return null;
-
     }
-
   }
 
-
-
-  /* =========================================================
-     PLAYING DISPLAY
-  ========================================================= */
 
   function showPlaying() {
-
-    button.classList.add(
-      "playing"
-    );
-
-
-    icon.textContent =
-      "Ⅱ";
-
-
-    status.textContent =
-      "NOW PLAYING";
-
+    icon.textContent = "Ⅱ";
+    status.textContent = "NOW PLAYING";
 
     button.setAttribute(
       "aria-label",
-      "Pause SK Sapilang music"
+      "Pause music"
     );
-
   }
 
 
-
-  /* =========================================================
-     PAUSED DISPLAY
-  ========================================================= */
-
-  function showPaused(
-    message
-  ) {
-
-    button.classList.remove(
-      "playing"
-    );
-
-
-    icon.textContent =
-      "▶";
-
+  function showPaused(message) {
+    icon.textContent = "▶";
 
     status.textContent =
-      message ||
-      "MUSIC PAUSED";
-
+      message || "MUSIC PAUSED";
 
     button.setAttribute(
       "aria-label",
-      "Play SK Sapilang music"
+      "Play music"
     );
-
   }
 
 
+  function fadeIn() {
+    clearInterval(fadeTimer);
 
-  /* =========================================================
-     FADE MUSIC IN
-  ========================================================= */
+    audio.volume = START_VOLUME;
 
-  function fadeInMusic() {
+    fadeTimer = setInterval(function () {
 
-    clearInterval(
-      fadeTimer
-    );
+      if (audio.paused) {
+        clearInterval(fadeTimer);
+        return;
+      }
 
-
-    audio.volume =
-      START_VOLUME;
-
-
-    fadeTimer =
-      setInterval(
-
-        function () {
-
-
-          if (
-            audio.paused
-          ) {
-
-            clearInterval(
-              fadeTimer
-            );
-
-
-            return;
-
-          }
-
-
-
-          const nextVolume =
-
-            Math.min(
-
-              MAX_VOLUME,
-
-              audio.volume +
-              0.01
-
-            );
-
-
-          audio.volume =
-            nextVolume;
-
-
-
-          if (
-            nextVolume >=
-            MAX_VOLUME
-          ) {
-
-            clearInterval(
-              fadeTimer
-            );
-
-          }
-
-
-        },
-
-        FADE_SPEED
-
+      audio.volume = Math.min(
+        MAX_VOLUME,
+        audio.volume + 0.01
       );
 
+      if (audio.volume >= MAX_VOLUME) {
+        clearInterval(fadeTimer);
+      }
+
+    }, FADE_SPEED);
   }
 
 
-
-  /* =========================================================
-     PLAY MUSIC
-  ========================================================= */
-
   async function playMusic() {
-
     try {
-
-
-      audio.volume =
-        START_VOLUME;
-
-
       await audio.play();
-
 
       showPlaying();
 
+      fadeIn();
 
-      fadeInMusic();
-
-
-      saveSetting(
+      save(
         "skMusicPlaying",
         "true"
       );
 
-
       return true;
 
-
-    }
-
-    catch (error) {
-
+    } catch (error) {
 
       showPaused(
         "TAP TO PLAY"
       );
 
-
-      console.log(
-        "Browser blocked automatic audio playback."
-      );
-
-
       return false;
-
     }
-
   }
 
 
-
-  /* =========================================================
-     PAUSE MUSIC
-  ========================================================= */
-
   function pauseMusic() {
-
-
     audio.pause();
 
-
-    clearInterval(
-      fadeTimer
-    );
-
+    clearInterval(fadeTimer);
 
     showPaused(
       "MUSIC PAUSED"
     );
 
-
-    saveSetting(
+    save(
       "skMusicPlaying",
       "false"
     );
-
   }
 
 
-
-  /* =========================================================
-     BUTTON CLICK
-  ========================================================= */
-
   button.addEventListener(
-
     "click",
-
     function () {
 
-
-      if (
-        audio.paused
-      ) {
-
-
+      if (audio.paused) {
         playMusic();
-
-
-      }
-
-      else {
-
-
+      } else {
         pauseMusic();
-
-
       }
-
 
     }
-
   );
 
 
-
-  /* =========================================================
-     SAVE SONG POSITION
-  ========================================================= */
-
-  function saveMusicPosition() {
-
-
-    saveSetting(
-
+  function savePosition() {
+    save(
       "skMusicTime",
-
-      String(
-        audio.currentTime ||
-        0
-      )
-
+      String(audio.currentTime || 0)
     );
-
   }
 
+
+  setInterval(
+    savePosition,
+    500
+  );
 
 
   window.addEventListener(
-
     "pagehide",
-
-    saveMusicPosition
-
+    savePosition
   );
 
 
+  document.addEventListener(
+    "click",
+    function (event) {
 
-  /* =========================================================
-     RESTORE SONG POSITION
-  ========================================================= */
+      const link =
+        event.target.closest("a");
 
-  audio.addEventListener(
+      if (!link) {
+        return;
+      }
 
-    "loadedmetadata",
-
-    function () {
-
-
-      const savedTime =
-
-        Number(
-
-          getSetting(
-            "skMusicTime"
-          ) || 0
-
-        );
-
-
+      const href =
+        link.getAttribute("href");
 
       if (
-
-        Number.isFinite(
-          savedTime
-        ) &&
-
-        savedTime > 0 &&
-
-        savedTime <
-        audio.duration
-
+        !href ||
+        href.startsWith("#") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        href.startsWith("javascript:")
       ) {
+        return;
+      }
+
+      savePosition();
+    }
+  );
 
 
-        audio.currentTime =
-          savedTime;
+  audio.addEventListener(
+    "loadedmetadata",
+    async function () {
 
+      const savedTime =
+        Number(
+          load("skMusicTime") || 0
+        );
 
+      if (
+        Number.isFinite(savedTime) &&
+        savedTime >= 0 &&
+        savedTime < audio.duration
+      ) {
+        audio.currentTime = savedTime;
       }
 
 
-    },
+      if (
+        load("skMusicPlaying") !== "false"
+      ) {
 
-    {
-      once: true
-    }
-
-  );
-
+        const started =
+          await playMusic();
 
 
-  /* =========================================================
-     MUSIC FILE ERROR
-  ========================================================= */
+        if (!started) {
 
-  audio.addEventListener(
+          const firstInteraction =
+            async function () {
 
-    "error",
+              if (
+                load("skMusicPlaying") !== "false" &&
+                audio.paused
+              ) {
+                await playMusic();
+              }
 
-    function () {
+              document.removeEventListener(
+                "pointerdown",
+                firstInteraction
+              );
 
-
-      showPaused(
-        "MUSIC NOT FOUND"
-      );
-
-
-      console.error(
-
-        "SK Sapilang music file was not found:",
-
-        MUSIC_FILE
-
-      );
+            };
 
 
-    }
-
-  );
-
-
-
-  /* =========================================================
-     START PLAYER
-  ========================================================= */
-
-  async function startPlayer() {
-
-
-    const manuallyPaused =
-
-      getSetting(
-        "skMusicPlaying"
-      ) === "false";
-
-
-
-    if (
-      manuallyPaused
-    ) {
-
-
-      showPaused(
-        "MUSIC PAUSED"
-      );
-
-
-      return;
-
-    }
-
-
-
-    const started =
-
-      await playMusic();
-
-
-
-    /* =====================================================
-       BROWSER AUTOPLAY FALLBACK
-
-       Chrome, Safari and mobile browsers may block
-       music until the visitor interacts with the page.
-
-       If blocked, the first click/tap will start it.
-    ===================================================== */
-
-    if (
-      !started
-    ) {
-
-
-      const startAfterInteraction =
-
-        async function () {
-
-
-          const allowed =
-
-            getSetting(
-              "skMusicPlaying"
-            ) !== "false";
-
-
-
-          if (
-
-            allowed &&
-
-            audio.paused
-
-          ) {
-
-
-            await playMusic();
-
-
-          }
-
-
-
-          document.removeEventListener(
-
+          document.addEventListener(
             "pointerdown",
-
-            startAfterInteraction
-
+            firstInteraction
           );
 
+        }
 
-        };
+      } else {
+
+        showPaused(
+          "MUSIC PAUSED"
+        );
+
+      }
+
+    },
+    { once: true }
+  );
 
 
+  audio.addEventListener(
+    "error",
+    function () {
 
-      document.addEventListener(
-
-        "pointerdown",
-
-        startAfterInteraction
-
+      showPaused(
+        "MUSIC FILE NOT FOUND"
       );
 
-
     }
-
-
-  }
-
-
-
-  /* =========================================================
-     GO
-  ========================================================= */
-
-  startPlayer();
-
+  );
 
 })();

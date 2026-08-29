@@ -25,6 +25,8 @@
 
   const style = document.createElement("style");
 
+  style.id = "skMusicPlayerStyle";
+
   style.textContent = `
     #skGlobalMusicPlayer {
       position: fixed;

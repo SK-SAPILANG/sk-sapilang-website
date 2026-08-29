@@ -13,5 +13,6 @@ function buttons(p){if(p.VERIFICATION_STATUS==="PENDING")return `<button class="
 async function act(action,id){if(!confirm(`Continue with ${id}?`))return;try{let r=await api({action,password,kkId:id});if(!r.success)throw Error(r.message);note("msg",r.message||"Done.",true);await load()}catch(e){note("msg",e.message)}}
 function logout(){password="";data=[];document.getElementById("dash").classList.add("hidden");document.getElementById("login").classList.remove("hidden")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}function js(v){return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'")}
-</script><script src="js/music-player.js"></script>
+</script>
+<script src="js/frame-bridge.js"></script>
 </body></html>
