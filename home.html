@@ -1671,7 +1671,7 @@ button {
 
     color: #728d9a;
 
-    font-size: 8px;
+    font-size: 10px;
 }
 
 .core-grid {
@@ -1750,13 +1750,24 @@ button {
     font-size: 20px;
 }
 
+
+.core-icon svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
 .core-card small {
 
     display: block;
 
     color: var(--cyan);
 
-    font-size: 6px;
+    font-size: 8px;
 
     text-transform: uppercase;
 }
@@ -1776,7 +1787,7 @@ button {
 
     color: #7d96a2;
 
-    font-size: 8px;
+    font-size: 10px;
 
     line-height: 1.4;
 }
@@ -2662,7 +2673,7 @@ footer {
     }
 
     .core-card h3 {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .footer-grid {
@@ -3971,7 +3982,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
 <div class="video-tags">
 
     <div class="video-tag">
-        â€”Â SK ACTIVITY FEED
+        — SK ACTIVITY FEED
     </div>
 
     <div class="video-tag">
@@ -4008,7 +4019,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
         type="button"
         id="mobileVideoPlayButton"
     >
-        â€“Â¶ Tap to Play Video
+        –¶ Tap to Play Video
     </button>
 </div>
 
@@ -4146,7 +4157,8 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
     href="kk-portal.html"
     class="portal-button"
 >
-    ACCESS KK DIGITAL PORTAL &rarr;</a>
+    ACCESS KK DIGITAL PORTAL †’
+</a>
 
 
 </div>
@@ -4235,7 +4247,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
 
 
 <div class="sample-note">
-    SAMPLE ID &bull; NOT VALID FOR OFFICIAL USE
+    SAMPLE ID ¢ NOT VALID FOR OFFICIAL USE
 </div>
 
 
@@ -4303,9 +4315,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
     class="core-card"
 >
 
-<div class="core-icon">
-    â€”Ë†
-</div>
+
 
 <div>
 
@@ -4334,9 +4344,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
     class="core-card"
 >
 
-<div class="core-icon">
-    â€”Â«
-</div>
+
 
 <div>
 
@@ -4365,9 +4373,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
     class="core-card"
 >
 
-<div class="core-icon">
-    â€”Å½
-</div>
+
 
 <div>
 
@@ -4659,7 +4665,7 @@ function updateMusicButton() {
     ) {
 
         musicButton.textContent =
-            "â€“Â¶";
+            "–¶";
 
         musicStatus.textContent =
             "Standby";
@@ -4669,7 +4675,7 @@ function updateMusicButton() {
     else {
 
         musicButton.textContent =
-            "ÂÅ¡ÂÅ¡";
+            "šš";
 
         musicStatus.textContent =
             "Playing";
@@ -4749,3 +4755,16 @@ updateMusicButton();
 
 </html>
 
+
+<style>
+/* FINAL CORE SYSTEMS CLEANUP: text-only cards, no device-dependent decorative glyphs */
+.core-card {
+    grid-template-columns: 1fr !important;
+}
+.core-card .core-icon {
+    display: none !important;
+}
+.core-card > div:not(.core-icon) {
+    min-width: 0;
+}
+</style>
