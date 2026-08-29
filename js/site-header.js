@@ -42,19 +42,15 @@
                 >
 
                     <img
-                        src="images/sk-logo.svg"
+                        src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
                         alt="SK Sapilang Logo"
                     >
 
                     <div class="sk-brand-text">
 
-                        <strong>
-                            SK SAPILANG
-                        </strong>
+                        <strong>SK SAPILANG</strong>
 
-                        <small>
-                            Kabataan. Serbisyo. Pag-asa.
-                        </small>
+                        <small>Official Digital Youth Governance Portal</small>
 
                     </div>
 
@@ -313,3 +309,4 @@
     }
 
 });
+
