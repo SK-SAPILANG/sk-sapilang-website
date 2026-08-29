@@ -79,13 +79,13 @@
                     </li>
 
                     <li>
-                        <a href="programs.html">
+                        <a href="home.html#activities">
                             Activities
                         </a>
                     </li>
 
                     <li>
-                        <a href="digital-id.html">
+                        <a href="home.html#digital-id">
                             Digital ID
                         </a>
                     </li>
@@ -309,4 +309,5 @@
     }
 
 });
+
 
