@@ -3,1635 +3,1085 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        SK Sapilang | Sangguniang Kabataan of Barangay Sapilang
-    </title>
+<title>SK Sapilang | Sangguniang Kabataan of Barangay Sapilang</title>
 
-    <meta
-        name="description"
-        content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Access SK programs, announcements, KK Digital Portal, youth services, transparency records, and activities."
-    >
+<meta
+    name="description"
+    content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Discover SK activities, access the KK Digital Portal, and view public transparency information."
+>
 
-    <meta
-        name="keywords"
-        content="SK Sapilang, Sangguniang Kabataan Sapilang, Barangay Sapilang, Bacnotan La Union, KK Digital Portal, SK Bacnotan"
-    >
+<style>
 
-    <meta
-        name="author"
-        content="Sangguniang Kabataan of Barangay Sapilang"
-    >
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+html {
+    scroll-behavior: smooth;
+}
 
-    <style>
+body {
 
-        /* =========================================================
-           RESET
-        ========================================================= */
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(0,184,255,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 35%,
+            rgba(54,105,255,.07),
+            transparent 30%
+        ),
+        #04111e;
 
+    color: #ffffff;
 
-        html {
-            scroll-behavior: smooth;
-        }
+    overflow-x: hidden;
+}
 
+body::before {
 
-        body {
+    content: "";
 
-            min-height: 100vh;
+    position: fixed;
 
-            font-family:
-                Inter,
-                "Segoe UI",
-                Arial,
-                Helvetica,
-                sans-serif;
+    inset: 0;
 
-            background:
-                radial-gradient(
-                    circle at 15% 15%,
-                    rgba(0, 184, 255, 0.09),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 85% 30%,
-                    rgba(42, 102, 255, 0.08),
-                    transparent 30%
-                ),
-                #04111e;
+    pointer-events: none;
 
-            color: #ffffff;
+    z-index: -1;
 
-            overflow-x: hidden;
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
 
-        }
+    background-size: 45px 45px;
+}
 
+a {
+    color: inherit;
+}
 
-        body::before {
+img {
+    display: block;
+    width: 100%;
+}
 
-            content: "";
+button {
+    font: inherit;
+}
 
-            position: fixed;
+.container {
 
-            inset: 0;
+    width: min(
+        1180px,
+        calc(100% - 40px)
+    );
 
-            pointer-events: none;
-
-            z-index: -1;
-
-            background-image:
-                linear-gradient(
-                    rgba(255,255,255,0.018) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(255,255,255,0.018) 1px,
-                    transparent 1px
-                );
-
-            background-size: 45px 45px;
-
-            mask-image:
-                linear-gradient(
-                    to bottom,
-                    rgba(0,0,0,.85),
-                    transparent
-                );
-
-        }
+    margin: 0 auto;
+}
 
 
-        a {
-            color: inherit;
-        }
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background:
+        rgba(4,17,30,.86);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    border-bottom:
+        1px solid rgba(109,215,255,.12);
+}
+
+.navbar {
+
+    min-height: 78px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+}
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    text-decoration: none;
+}
+
+.logo-box {
+
+    width: 44px;
+
+    height: 44px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #76dcff,
+            #438fff
+        );
+
+    color: #04111e;
+
+    font-weight: 900;
+}
+
+.brand-text strong {
+
+    display: block;
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+.brand-text span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #8ca7b9;
+
+    font-size: 11px;
+}
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    list-style: none;
+}
+
+.nav-links a {
+
+    display: block;
+
+    padding: 10px 12px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    color: #b3c9d7;
+
+    font-size: 14px;
+
+    transition: .25s;
+}
+
+.nav-links a:hover {
+
+    color: #ffffff;
+
+    background:
+        rgba(105,216,255,.08);
+}
+
+.nav-links .portal-link {
+
+    padding-left: 17px;
+
+    padding-right: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #74dcff,
+            #4ba9ff
+        );
+
+    color: #04111e;
+
+    font-weight: 750;
+}
+
+.menu-button {
+
+    display: none;
+
+    width: 44px;
+
+    height: 44px;
+
+    border:
+        1px solid rgba(111,216,255,.18);
+
+    border-radius: 11px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
 
 
-        img {
-            max-width: 100%;
-        }
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    position: relative;
+
+    min-height:
+        calc(100vh - 78px);
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+}
+
+.hero-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -4;
+}
+
+.hero-background img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -3;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(2,13,24,.97) 0%,
+            rgba(2,13,24,.87) 43%,
+            rgba(2,13,24,.40) 100%
+        ),
+
+        linear-gradient(
+            0deg,
+            #04111e 0%,
+            transparent 48%
+        );
+}
+
+.hero-content {
+
+    max-width: 800px;
+
+    padding:
+        115px 0 125px;
+}
+
+.hero-tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 22px;
+
+    padding:
+        8px 13px;
+
+    border-radius: 999px;
+
+    border:
+        1px solid rgba(111,220,255,.25);
+
+    background:
+        rgba(70,194,248,.08);
+
+    color: #79ddff;
+
+    font-size: 13px;
+
+    font-weight: 650;
+}
+
+.hero h1 {
+
+    max-width: 850px;
+
+    margin-bottom: 24px;
+
+    font-size:
+        clamp(
+            48px,
+            7vw,
+            88px
+        );
+
+    line-height: .98;
+
+    letter-spacing: -3px;
+
+    font-weight: 820;
+}
+
+.hero h1 span {
+
+    color: #70dcff;
+}
+
+.hero p {
+
+    max-width: 690px;
+
+    margin-bottom: 33px;
+
+    color: #afc5d3;
+
+    font-size: 18px;
+
+    line-height: 1.75;
+}
+
+.hero-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+.btn {
+
+    min-height: 49px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        0 21px;
+
+    border-radius: 11px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: .25s;
+}
+
+.btn:hover {
+
+    transform:
+        translateY(-2px);
+}
+
+.btn-primary {
+
+    color: #04111e;
+
+    background:
+        linear-gradient(
+            135deg,
+            #73dcff,
+            #4da5ff
+        );
+}
+
+.btn-secondary {
+
+    color: #ffffff;
+
+    border:
+        1px solid rgba(132,218,255,.25);
+
+    background:
+        rgba(255,255,255,.04);
+
+    backdrop-filter:
+        blur(12px);
+}
 
 
-        button,
-        input {
-            font: inherit;
-        }
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section {
+
+    padding:
+        100px 0;
+}
+
+.section-header {
+
+    max-width: 800px;
+
+    margin-bottom: 45px;
+}
+
+.section-label {
+
+    display: inline-block;
+
+    margin-bottom: 11px;
+
+    color: #6edcff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.section-header h2 {
+
+    margin-bottom: 16px;
+
+    font-size:
+        clamp(
+            35px,
+            5vw,
+            56px
+        );
+
+    line-height: 1.07;
+
+    letter-spacing: -2px;
+}
+
+.section-header p {
+
+    max-width: 720px;
+
+    color: #91aabd;
+
+    line-height: 1.8;
+}
 
 
-        .container {
+/* =========================================================
+   SK ACTIVITIES VIDEO
+========================================================= */
 
-            width: min(
-                calc(100% - 40px),
-                1200px
+.activity-video-wrapper {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 28px;
+
+    border:
+        1px solid rgba(111,214,255,.15);
+
+    background: #020a11;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.35);
+}
+
+.activity-video-wrapper::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 3;
+
+    border-radius: inherit;
+
+    box-shadow:
+        inset 0 0 70px rgba(0,0,0,.18);
+}
+
+.activity-video {
+
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    max-height: 720px;
+
+    object-fit: contain;
+
+    background: #000000;
+}
+
+.video-badge {
+
+    position: absolute;
+
+    top: 18px;
+
+    left: 18px;
+
+    z-index: 5;
+
+    padding:
+        9px 13px;
+
+    border-radius: 999px;
+
+    border:
+        1px solid rgba(113,220,255,.22);
+
+    background:
+        rgba(4,17,30,.68);
+
+    backdrop-filter:
+        blur(15px);
+
+    color: #d7f4ff;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+.video-info {
+
+    position: absolute;
+
+    left: 25px;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    z-index: 4;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    pointer-events: none;
+}
+
+.video-info-text {
+
+    max-width: 620px;
+
+    padding:
+        15px 18px;
+
+    border-radius: 15px;
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    background:
+        rgba(3,14,24,.60);
+
+    backdrop-filter:
+        blur(14px);
+}
+
+.video-info-text strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 15px;
+}
+
+.video-info-text span {
+
+    color: #9ab2c2;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   QUICK ACCESS
+========================================================= */
+
+.access-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.access-card {
+
+    min-height: 280px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    border:
+        1px solid rgba(108,211,255,.13);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,43,64,.70),
+            rgba(6,23,38,.68)
+        );
+
+    text-decoration: none;
+
+    transition: .3s;
+}
+
+.access-card:hover {
+
+    transform:
+        translateY(-7px);
+
+    border-color:
+        rgba(105,218,255,.35);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.22);
+}
+
+.access-icon {
+
+    width: 54px;
+
+    height: 54px;
+
+    display: grid;
+
+    place-items: center;
+
+    margin-bottom: 29px;
+
+    border-radius: 14px;
+
+    border:
+        1px solid rgba(112,217,255,.22);
+
+    background:
+        rgba(75,188,238,.09);
+
+    color: #72dcff;
+
+    font-weight: 800;
+}
+
+.access-card h3 {
+
+    margin-bottom: 12px;
+
+    font-size: 22px;
+}
+
+.access-card p {
+
+    margin-bottom: 25px;
+
+    color: #91aabd;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.access-link {
+
+    margin-top: auto;
+
+    color: #70dcff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    padding:
+        50px 0 90px;
+
+    background:
+        rgba(2,12,22,.60);
+
+    border-top:
+        1px solid rgba(108,209,255,.10);
+}
+
+.footer-layout {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 40px;
+}
+
+.footer-layout strong {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 18px;
+}
+
+.footer-layout p {
+
+    color: #819cad;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+.footer-links {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+
+    gap: 17px;
+}
+
+.footer-links a {
+
+    color: #8ea8b9;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+.footer-links a:hover {
+
+    color: #6edcff;
+}
+
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+.music-player {
+
+    position: fixed;
+
+    left: 18px;
+
+    bottom: 18px;
+
+    z-index: 1500;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        10px 14px 10px 10px;
+
+    border-radius: 15px;
+
+    border:
+        1px solid rgba(109,214,255,.18);
+
+    background:
+        rgba(4,17,30,.86);
+
+    backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.30);
+}
+
+.music-button {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: grid;
+
+    place-items: center;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #70dcff,
+            #4b9fff
+        );
+
+    color: #04111e;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.music-text strong {
+
+    display: block;
+
+    font-size: 12px;
+}
+
+.music-text span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #819cac;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px) {
+
+    .menu-button {
+        display: grid;
+        place-items: center;
+    }
+
+    .nav-links {
+
+        position: absolute;
+
+        top: 78px;
+
+        left: 20px;
+
+        right: 20px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 13px;
+
+        border-radius: 15px;
+
+        border:
+            1px solid rgba(108,212,255,.15);
+
+        background:
+            rgba(4,17,30,.98);
+
+        box-shadow:
+            0 20px 50px rgba(0,0,0,.35);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .access-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media(max-width:650px) {
+
+    .container {
+
+        width:
+            min(
+                calc(100% - 28px),
+                1180px
             );
+    }
 
-            margin: 0 auto;
+    .hero {
 
-        }
+        min-height:
+            calc(100vh - 78px);
+    }
 
+    .hero-content {
 
-        /* =========================================================
-           TOP STRIP
-        ========================================================= */
+        padding:
+            90px 0 110px;
+    }
 
-        .top-strip {
+    .hero h1 {
+        letter-spacing: -2px;
+    }
 
-            min-height: 38px;
+    .hero-buttons {
+        flex-direction: column;
+    }
 
-            display: flex;
-            align-items: center;
+    .btn {
+        width: 100%;
+    }
 
-            background:
-                rgba(2, 15, 27, 0.95);
+    .section {
+        padding: 75px 0;
+    }
 
-            border-bottom:
-                1px solid rgba(119, 210, 255, 0.12);
+    .activity-video-wrapper {
+        border-radius: 18px;
+    }
 
-            color: #9fb8ca;
+    .video-badge {
 
-            font-size: 13px;
+        top: 10px;
 
-        }
+        left: 10px;
 
+        padding:
+            7px 10px;
 
-        .top-strip-inner {
+        font-size: 10px;
+    }
 
-            width: 100%;
+    .video-info {
 
-            display: flex;
+        left: 10px;
 
-            justify-content: space-between;
+        right: 10px;
 
-            align-items: center;
+        bottom: 10px;
+    }
 
-            gap: 20px;
+    .video-info-text {
 
-        }
+        padding:
+            10px 12px;
+    }
 
+    .video-info-text strong {
+        font-size: 12px;
+    }
 
-        .top-strip strong {
+    .video-info-text span {
+        display: none;
+    }
 
-            color: #ffffff;
+    .footer-layout {
+        flex-direction: column;
+    }
 
-            font-weight: 700;
+    .footer-links {
+        justify-content: flex-start;
+    }
 
-        }
+    .music-text {
+        display: none;
+    }
+}
 
-
-        /* =========================================================
-           HEADER
-        ========================================================= */
-
-        .site-header {
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 1000;
-
-            background:
-                rgba(4, 17, 30, 0.80);
-
-            backdrop-filter:
-                blur(20px);
-
-            -webkit-backdrop-filter:
-                blur(20px);
-
-            border-bottom:
-                1px solid rgba(126, 213, 255, 0.12);
-
-        }
-
-
-        .navbar {
-
-            min-height: 78px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 24px;
-
-        }
-
-
-        .brand {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 13px;
-
-            text-decoration: none;
-
-        }
-
-
-        .brand-mark {
-
-            width: 44px;
-
-            height: 44px;
-
-            display: grid;
-
-            place-items: center;
-
-            border-radius: 13px;
-
-            border:
-                1px solid rgba(104, 211, 255, .34);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(54, 199, 255, .22),
-                    rgba(31, 82, 191, .18)
-                );
-
-            box-shadow:
-                0 0 28px rgba(31, 177, 255, .10);
-
-            font-weight: 800;
-
-            color: #6edcff;
-
-        }
-
-
-        .brand-text {
-
-            display: flex;
-
-            flex-direction: column;
-
-            line-height: 1.15;
-
-        }
-
-
-        .brand-text strong {
-
-            font-size: 17px;
-
-            font-weight: 750;
-
-            letter-spacing: -0.2px;
-
-        }
-
-
-        .brand-text span {
-
-            margin-top: 4px;
-
-            font-size: 11px;
-
-            color: #8daabd;
-
-            font-weight: 400;
-
-        }
-
-
-        .nav-links {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 5px;
-
-            list-style: none;
-
-        }
-
-
-        .nav-links a {
-
-            display: block;
-
-            padding: 10px 12px;
-
-            border-radius: 9px;
-
-            text-decoration: none;
-
-            color: #b7ccda;
-
-            font-size: 14px;
-
-            font-weight: 500;
-
-            transition: .2s ease;
-
-        }
-
-
-        .nav-links a:hover {
-
-            color: #ffffff;
-
-            background:
-                rgba(87, 202, 255, .08);
-
-        }
-
-
-        .nav-links .portal-link {
-
-            color: #04111e;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #76dcff,
-                    #4daeff
-                );
-
-            font-weight: 700;
-
-            padding-left: 16px;
-
-            padding-right: 16px;
-
-        }
-
-
-        .nav-links .portal-link:hover {
-
-            color: #04111e;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #92e5ff,
-                    #68bbff
-                );
-
-        }
-
-
-        .menu-button {
-
-            width: 44px;
-
-            height: 44px;
-
-            display: none;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 11px;
-
-            border:
-                1px solid rgba(126, 213, 255, .18);
-
-            background:
-                rgba(255,255,255,.03);
-
-            color: #ffffff;
-
-            cursor: pointer;
-
-            font-size: 21px;
-
-        }
-
-
-        /* =========================================================
-           HERO
-        ========================================================= */
-
-        .hero {
-
-            position: relative;
-
-            min-height:
-                calc(100vh - 116px);
-
-            display: flex;
-
-            align-items: center;
-
-            overflow: hidden;
-
-            isolation: isolate;
-
-        }
-
-
-        .hero-slides {
-
-            position: absolute;
-
-            inset: 0;
-
-            z-index: -4;
-
-        }
-
-
-        .hero-slide {
-
-            position: absolute;
-
-            inset: 0;
-
-            opacity: 0;
-
-            transform: scale(1.06);
-
-            transition:
-                opacity 1.1s ease,
-                transform 7s linear;
-
-        }
-
-
-        .hero-slide.active {
-
-            opacity: 1;
-
-            transform: scale(1);
-
-        }
-
-
-        .hero-slide img {
-
-            width: 100%;
-
-            height: 100%;
-
-            object-fit: cover;
-
-            object-position: center;
-
-        }
-
-
-        .hero-overlay {
-
-            position: absolute;
-
-            inset: 0;
-
-            z-index: -3;
-
-            background:
-
-                linear-gradient(
-                    90deg,
-                    rgba(2, 13, 24, .97) 0%,
-                    rgba(2, 13, 24, .88) 35%,
-                    rgba(2, 13, 24, .55) 65%,
-                    rgba(2, 13, 24, .30) 100%
-                ),
-
-                linear-gradient(
-                    0deg,
-                    #04111e 0%,
-                    transparent 34%
-                );
-
-        }
-
-
-        .hero-glow {
-
-            position: absolute;
-
-            width: 520px;
-
-            height: 520px;
-
-            border-radius: 50%;
-
-            filter: blur(110px);
-
-            background:
-                rgba(0, 174, 255, .12);
-
-            right: -180px;
-
-            top: 10%;
-
-            z-index: -2;
-
-        }
-
-
-        .hero-content {
-
-            width: min(
-                760px,
-                100%
-            );
-
-            padding:
-                110px 0 125px;
-
-        }
-
-
-        .eyebrow {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 9px;
-
-            margin-bottom: 22px;
-
-            padding:
-                8px 12px;
-
-            border:
-                1px solid rgba(110, 220, 255, .25);
-
-            border-radius: 999px;
-
-            background:
-                rgba(43, 158, 210, .08);
-
-            color: #86dfff;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
-        }
-
-
-        .eyebrow-dot {
-
-            width: 7px;
-
-            height: 7px;
-
-            border-radius: 50%;
-
-            background: #65dbff;
-
-            box-shadow:
-                0 0 15px #65dbff;
-
-        }
-
-
-        .hero h1 {
-
-            max-width: 800px;
-
-            margin-bottom: 24px;
-
-            font-size:
-                clamp(
-                    46px,
-                    7vw,
-                    88px
-                );
-
-            line-height: .98;
-
-            letter-spacing:
-                -3.2px;
-
-            font-weight: 800;
-
-        }
-
-
-        .hero h1 span {
-
-            color: #6edcff;
-
-        }
-
-
-        .hero-description {
-
-            max-width: 670px;
-
-            margin-bottom: 32px;
-
-            color: #adc4d3;
-
-            font-size:
-                clamp(
-                    16px,
-                    1.8vw,
-                    19px
-                );
-
-            line-height: 1.75;
-
-            font-weight: 400;
-
-        }
-
-
-        .hero-buttons {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 12px;
-
-        }
-
-
-        .btn {
-
-            min-height: 48px;
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 8px;
-
-            padding:
-                0 20px;
-
-            border-radius: 11px;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            font-weight: 700;
-
-            transition:
-                transform .2s ease,
-                border-color .2s ease,
-                background .2s ease;
-
-        }
-
-
-        .btn:hover {
-
-            transform:
-                translateY(-2px);
-
-        }
-
-
-        .btn-primary {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #73dcff,
-                    #4dacf8
-                );
-
-            color: #04111e;
-
-            box-shadow:
-                0 10px 35px rgba(47, 177, 255, .15);
-
-        }
-
-
-        .btn-secondary {
-
-            border:
-                1px solid rgba(139, 215, 248, .25);
-
-            background:
-                rgba(255,255,255,.04);
-
-            color: #ffffff;
-
-            backdrop-filter:
-                blur(12px);
-
-        }
-
-
-        .btn-secondary:hover {
-
-            border-color:
-                rgba(139, 215, 248, .5);
-
-            background:
-                rgba(255,255,255,.07);
-
-        }
-
-
-        /* =========================================================
-           HERO ARROWS
-        ========================================================= */
-
-        .hero-arrow {
-
-            position: absolute;
-
-            top: 50%;
-
-            transform:
-                translateY(-50%);
-
-            width: 47px;
-
-            height: 47px;
-
-            display: grid;
-
-            place-items: center;
-
-            border-radius: 50%;
-
-            border:
-                1px solid rgba(255,255,255,.18);
-
-            background:
-                rgba(4, 17, 30, .38);
-
-            backdrop-filter:
-                blur(14px);
-
-            color: #ffffff;
-
-            font-size: 28px;
-
-            cursor: pointer;
-
-            z-index: 5;
-
-            transition: .2s ease;
-
-        }
-
-
-        .hero-arrow:hover {
-
-            background:
-                rgba(43, 164, 219, .25);
-
-            border-color:
-                rgba(109, 217, 255, .4);
-
-        }
-
-
-        .hero-prev {
-            left: 25px;
-        }
-
-
-        .hero-next {
-            right: 25px;
-        }
-
-
-        /* =========================================================
-           SLIDER UI
-        ========================================================= */
-
-        .hero-slider-ui {
-
-            position: absolute;
-
-            bottom: 36px;
-
-            left: 50%;
-
-            transform:
-                translateX(-50%);
-
-            width:
-                min(
-                    calc(100% - 110px),
-                    560px
-                );
-
-            z-index: 6;
-
-        }
-
-
-        .hero-dots {
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 7px;
-
-            margin-bottom: 10px;
-
-        }
-
-
-        .hero-dot {
-
-            width: 8px;
-
-            height: 8px;
-
-            border: 0;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255,255,255,.30);
-
-            cursor: pointer;
-
-            transition: .25s ease;
-
-        }
-
-
-        .hero-dot.active {
-
-            width: 27px;
-
-            border-radius: 999px;
-
-            background: #69dbff;
-
-        }
-
-
-        .hero-progress {
-
-            height: 2px;
-
-            overflow: hidden;
-
-            background:
-                rgba(255,255,255,.14);
-
-        }
-
-
-        .hero-progress-bar {
-
-            width: 0%;
-
-            height: 100%;
-
-            background: #6bdcff;
-
-        }
-
-
-        .hero-progress-bar.run {
-
-            animation:
-                progressAnimation
-                6s
-                linear
-                forwards;
-
-        }
-
-
-        @keyframes progressAnimation {
-
-            from {
-                width: 0%;
-            }
-
-            to {
-                width: 100%;
-            }
-
-        }
-
-
-        .slide-counter {
-
-            position: absolute;
-
-            right: 28px;
-
-            bottom: 30px;
-
-            z-index: 6;
-
-            color:
-                rgba(255,255,255,.64);
-
-            font-size: 12px;
-
-            letter-spacing: 1px;
-
-        }
-
-
-        /* =========================================================
-           MAIN SECTION
-        ========================================================= */
-
-        .section {
-
-            padding:
-                105px 0;
-
-        }
-
-
-        .section-head {
-
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1.2fr)
-                minmax(280px, .8fr);
-
-            gap: 60px;
-
-            align-items: end;
-
-            margin-bottom: 50px;
-
-        }
-
-
-        .section-label {
-
-            display: inline-block;
-
-            margin-bottom: 13px;
-
-            color: #6bdcff;
-
-            font-size: 13px;
-
-            font-weight: 650;
-
-        }
-
-
-        .section-head h2 {
-
-            max-width: 700px;
-
-            font-size:
-                clamp(
-                    33px,
-                    4vw,
-                    53px
-                );
-
-            line-height: 1.08;
-
-            letter-spacing:
-                -1.8px;
-
-            font-weight: 760;
-
-        }
-
-
-        .section-head > p {
-
-            color: #8fa9bb;
-
-            font-size: 15px;
-
-            line-height: 1.8;
-
-        }
-
-
-        /* =========================================================
-           FEATURES
-        ========================================================= */
-
-        .feature-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 18px;
-
-        }
-
-
-        .feature-card {
-
-            min-height: 310px;
-
-            position: relative;
-
-            display: flex;
-
-            flex-direction: column;
-
-            padding:
-                30px;
-
-            overflow: hidden;
-
-            border-radius: 22px;
-
-            border:
-                1px solid rgba(126, 213, 255, .12);
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(17, 44, 65, .68),
-                    rgba(7, 24, 39, .62)
-                );
-
-            text-decoration: none;
-
-            backdrop-filter:
-                blur(16px);
-
-            transition:
-                transform .28s ease,
-                border-color .28s ease,
-                box-shadow .28s ease;
-
-        }
-
-
-        .feature-card::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 170px;
-
-            height: 170px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(48, 188, 255, .07);
-
-            filter: blur(40px);
-
-            top: -85px;
-
-            right: -60px;
-
-        }
-
-
-        .feature-card:hover {
-
-            transform:
-                translateY(-7px);
-
-            border-color:
-                rgba(101, 216, 255, .32);
-
-            box-shadow:
-                0 24px 60px
-                rgba(0, 0, 0, .22);
-
-        }
-
-
-        .feature-symbol {
-
-            width: 52px;
-
-            height: 52px;
-
-            display: grid;
-
-            place-items: center;
-
-            margin-bottom: 32px;
-
-            border-radius: 14px;
-
-            border:
-                1px solid rgba(115, 219, 255, .23);
-
-            background:
-                rgba(77, 178, 227, .08);
-
-            color: #78dcff;
-
-            font-size: 14px;
-
-            font-weight: 750;
-
-        }
-
-
-        .feature-card h3 {
-
-            margin-bottom: 14px;
-
-            font-size: 22px;
-
-            font-weight: 720;
-
-            letter-spacing: -.4px;
-
-        }
-
-
-        .feature-card p {
-
-            margin-bottom: 27px;
-
-            color: #91aabd;
-
-            line-height: 1.7;
-
-            font-size: 14px;
-
-            font-weight: 400;
-
-        }
-
-
-        .feature-action {
-
-            margin-top: auto;
-
-            color: #74dcff;
-
-            font-size: 13px;
-
-            font-weight: 650;
-
-        }
-
-
-        /* =========================================================
-           FOOTER
-        ========================================================= */
-
-        footer {
-
-            border-top:
-                1px solid rgba(129, 211, 250, .1);
-
-            background:
-                rgba(2, 12, 22, .55);
-
-            padding:
-                45px 0 90px;
-
-        }
-
-
-        .footer-layout {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            gap: 40px;
-
-            align-items: flex-start;
-
-        }
-
-
-        footer strong {
-
-            display: block;
-
-            margin-bottom: 7px;
-
-            font-size: 18px;
-
-            font-weight: 750;
-
-        }
-
-
-        footer p {
-
-            color: #7895a8;
-
-            line-height: 1.7;
-
-            font-size: 13px;
-
-        }
-
-
-        .footer-links {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            justify-content: flex-end;
-
-            gap: 16px;
-
-        }
-
-
-        .footer-links a {
-
-            color: #8ba8ba;
-
-            text-decoration: none;
-
-            font-size: 13px;
-
-        }
-
-
-        .footer-links a:hover {
-
-            color: #6bdcff;
-
-        }
-
-
-        /* =========================================================
-           MUSIC PLAYER
-        ========================================================= */
-
-        .music-panel {
-
-            position: fixed;
-
-            left: 20px;
-
-            bottom: 20px;
-
-            z-index: 1200;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-            min-width: 210px;
-
-            padding:
-                10px 13px 10px 10px;
-
-            border-radius: 14px;
-
-            border:
-                1px solid rgba(113, 213, 255, .16);
-
-            background:
-                rgba(5, 21, 35, .82);
-
-            backdrop-filter:
-                blur(18px);
-
-            box-shadow:
-                0 15px 40px
-                rgba(0, 0, 0, .25);
-
-        }
-
-
-        .music-button {
-
-            width: 39px;
-
-            height: 39px;
-
-            flex: 0 0 auto;
-
-            display: grid;
-
-            place-items: center;
-
-            border: 0;
-
-            border-radius: 11px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #73dcff,
-                    #4dacf8
-                );
-
-            color: #04111e;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            font-weight: 800;
-
-        }
-
-
-        .music-info {
-
-            min-width: 0;
-
-        }
-
-
-        .music-info strong {
-
-            display: block;
-
-            color: #ffffff;
-
-            font-size: 12px;
-
-            font-weight: 650;
-
-        }
-
-
-        .music-info span {
-
-            display: block;
-
-            margin-top: 2px;
-
-            color: #7f9bad;
-
-            font-size: 10px;
-
-        }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @media (max-width: 950px) {
-
-            .menu-button {
-                display: flex;
-            }
-
-
-            .nav-links {
-
-                position: absolute;
-
-                top: 78px;
-
-                left: 20px;
-
-                right: 20px;
-
-                display: none;
-
-                flex-direction: column;
-
-                align-items: stretch;
-
-                padding: 12px;
-
-                border-radius: 15px;
-
-                border:
-                    1px solid rgba(126, 213, 255, .15);
-
-                background:
-                    rgba(4, 17, 30, .97);
-
-                box-shadow:
-                    0 20px 50px
-                    rgba(0,0,0,.35);
-
-            }
-
-
-            .nav-links.open {
-                display: flex;
-            }
-
-
-            .nav-links a {
-                padding: 12px 13px;
-            }
-
-
-            .section-head {
-
-                grid-template-columns: 1fr;
-
-                gap: 20px;
-
-            }
-
-
-            .feature-grid {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-            }
-
-        }
-
-
-        @media (max-width: 700px) {
-
-            .container {
-
-                width:
-                    min(
-                        calc(100% - 30px),
-                        1200px
-                    );
-
-            }
-
-
-            .top-strip {
-                display: none;
-            }
-
-
-            .hero {
-
-                min-height:
-                    calc(100vh - 78px);
-
-            }
-
-
-            .hero-content {
-
-                padding:
-                    85px 0 130px;
-
-            }
-
-
-            .hero h1 {
-
-                letter-spacing:
-                    -2px;
-
-            }
-
-
-            .hero-overlay {
-
-                background:
-
-                    linear-gradient(
-                        90deg,
-                        rgba(2,13,24,.94),
-                        rgba(2,13,24,.70)
-                    ),
-
-                    linear-gradient(
-                        0deg,
-                        #04111e,
-                        transparent 55%
-                    );
-
-            }
-
-
-            .hero-arrow {
-
-                width: 40px;
-
-                height: 40px;
-
-                font-size: 24px;
-
-            }
-
-
-            .hero-prev {
-                left: 10px;
-            }
-
-
-            .hero-next {
-                right: 10px;
-            }
-
-
-            .feature-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
-
-            .feature-card {
-
-                min-height: 270px;
-
-            }
-
-
-            .section {
-
-                padding:
-                    75px 0;
-
-            }
-
-
-            .footer-layout {
-
-                flex-direction: column;
-
-            }
-
-
-            .footer-links {
-
-                justify-content: flex-start;
-
-            }
-
-
-            .music-panel {
-
-                left: 12px;
-
-                bottom: 12px;
-
-                min-width: 0;
-
-            }
-
-
-            .music-info {
-                display: none;
-            }
-
-
-            .slide-counter {
-                display: none;
-            }
-
-        }
-
-
-        @media (max-width: 480px) {
-
-            .brand-text span {
-                display: none;
-            }
-
-
-            .hero-buttons {
-
-                flex-direction: column;
-
-            }
-
-
-            .btn {
-
-                width: 100%;
-
-            }
-
-
-            .hero-slider-ui {
-
-                width:
-                    calc(100% - 80px);
-
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
@@ -1639,1145 +1089,800 @@
 <body>
 
 
-    <!-- =========================================================
-         TOP STRIP
-    ========================================================== -->
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
-    <div class="top-strip">
+<header class="header">
 
-        <div class="container top-strip-inner">
+<div class="container navbar">
 
-            <span>
-                Official Website of the
-                <strong>Sangguniang Kabataan</strong>
-            </span>
+<a href="index.html" class="brand">
 
-            <span>
-                Barangay Sapilang • Bacnotan, La Union
-            </span>
+<div class="logo-box">
+SK
+</div>
 
-        </div>
+<div class="brand-text">
 
-    </div>
+<strong>
+SK Sapilang
+</strong>
 
+<span>
+Official Website
+</span>
 
+</div>
 
-    <!-- =========================================================
-         HEADER
-    ========================================================== -->
+</a>
 
-    <header class="site-header">
 
-        <div class="container navbar">
+<button
+    id="menuButton"
+    class="menu-button"
+    type="button"
+    aria-label="Open menu"
+>
+☰
+</button>
 
-            <a
-                href="index.html"
-                class="brand"
-                aria-label="SK Sapilang Homepage"
-            >
 
-                <div class="brand-mark">
-                    SK
-                </div>
+<ul
+    id="navLinks"
+    class="nav-links"
+>
 
-                <div class="brand-text">
+<li>
 
-                    <strong>
-                        SK Sapilang
-                    </strong>
+<a href="#home">
+Home
+</a>
 
-                    <span>
-                        Official Website
-                    </span>
+</li>
 
-                </div>
 
-            </a>
+<li>
 
+<a href="#activities">
+SK Activities
+</a>
 
-            <button
-                id="menuButton"
-                class="menu-button"
-                type="button"
-                aria-label="Open navigation"
-            >
-                ☰
-            </button>
+</li>
 
 
-            <nav>
+<li>
 
-                <ul
-                    id="navLinks"
-                    class="nav-links"
-                >
+<a href="about.html">
+About
+</a>
 
-                    <li>
-                        <a href="index.html">
-                            Home
-                        </a>
-                    </li>
+</li>
 
-                    <li>
-                        <a href="about.html">
-                            About
-                        </a>
-                    </li>
 
-                    <li>
-                        <a href="programs.html">
-                            Programs
-                        </a>
-                    </li>
+<li>
 
-                    <li>
-                        <a href="events.html">
-                            Events
-                        </a>
-                    </li>
+<a href="transparency.html">
+Transparency
+</a>
 
-                    <li>
-                        <a href="announcements.html">
-                            Announcements
-                        </a>
-                    </li>
+</li>
 
-                    <li>
-                        <a href="transparency.html">
-                            Transparency
-                        </a>
-                    </li>
 
-                    <li>
-                        <a href="contact.html">
-                            Contact
-                        </a>
-                    </li>
+<li>
 
-                    <li>
+<a href="contact.html">
+Contact
+</a>
 
-                        <a
-                            href="kk-portal.html"
-                            class="portal-link"
-                        >
-                            KK Portal
-                        </a>
+</li>
 
-                    </li>
 
-                </ul>
+<li>
 
-            </nav>
+<a
+    href="kk-portal.html"
+    class="portal-link"
+>
+KK Portal
+</a>
 
-        </div>
+</li>
 
-    </header>
+</ul>
 
+</div>
 
+</header>
 
-    <!-- =========================================================
-         HERO
-    ========================================================== -->
 
-    <main>
 
-        <section class="hero">
+<!-- =========================================================
+     HERO
+========================================================= -->
 
+<main>
 
-            <!-- CHANGE / ADD PHOTOS HERE -->
 
-            <div
-                id="heroSlides"
-                class="hero-slides"
-            >
+<section
+    id="home"
+    class="hero"
+>
 
 
-                <div class="hero-slide active">
+<div class="hero-background">
 
-                    <img
-                        src="images/hero1.jpg"
-                        alt="SK Sapilang youth program"
-                    >
+<img
+    src="images/hero1.jpg"
+    alt="SK Sapilang youth and community activities"
+>
 
-                </div>
+</div>
 
 
-                <div class="hero-slide">
+<div class="hero-overlay"></div>
 
-                    <img
-                        src="images/hero2.jpg"
-                        alt="SK Sapilang community activity"
-                    >
 
-                </div>
+<div class="container">
 
+<div class="hero-content">
 
-                <div class="hero-slide">
 
-                    <img
-                        src="images/hero3.jpg"
-                        alt="SK Sapilang youth services"
-                    >
+<div class="hero-tag">
 
-                </div>
+✦ SK Sapilang Official Website
 
+</div>
 
-                <div class="hero-slide">
 
-                    <img
-                        src="images/hero4.jpg"
-                        alt="SK Sapilang activities"
-                    >
+<h1>
 
-                </div>
+Building a Future
+<span>
+Worth Belonging To.
+</span>
 
+</h1>
 
-                <div class="hero-slide">
 
-                    <img
-                        src="images/hero5.jpg"
-                        alt="SK Sapilang programs"
-                    >
+<p>
 
-                </div>
+Welcome to the official digital home of the
+Sangguniang Kabataan of Barangay Sapilang,
+Bacnotan, La Union. Discover our activities,
+access youth digital services, view public
+information, and become part of a more
+connected community.
 
+</p>
 
-            </div>
 
+<div class="hero-buttons">
 
-            <div class="hero-overlay"></div>
 
-            <div class="hero-glow"></div>
+<a
+    href="#activities"
+    class="btn btn-primary"
+>
+Watch SK Activities ↓
+</a>
 
 
-            <div class="container">
+<a
+    href="kk-portal.html"
+    class="btn btn-secondary"
+>
+Enter KK Digital Portal
+</a>
 
-                <div class="hero-content">
 
+</div>
 
-                    <div class="eyebrow">
 
-                        <span class="eyebrow-dot"></span>
+</div>
 
-                        SK Sapilang Official Website
+</div>
 
-                    </div>
 
+</section>
 
-                    <h1>
 
-                        Building a Future
-                        <span>
-                            Worth Belonging To.
-                        </span>
 
-                    </h1>
+<!-- =========================================================
+     SK ACTIVITIES VIDEO
+========================================================= -->
 
+<section
+    id="activities"
+    class="section"
+>
 
-                    <p class="hero-description">
 
-                        Welcome to the official digital home of the
-                        Sangguniang Kabataan of Barangay Sapilang,
-                        Bacnotan, La Union. Discover programs,
-                        participate in activities, access public
-                        information, and connect with youth services
-                        in one digital space.
+<div class="container">
 
-                    </p>
 
+<div class="section-header">
 
-                    <div class="hero-buttons">
 
-                        <a
-                            href="programs.html"
-                            class="btn btn-primary"
-                        >
-                            Explore Programs →
-                        </a>
+<span class="section-label">
+Our Work in Action
+</span>
 
 
-                        <a
-                            href="kk-portal.html"
-                            class="btn btn-secondary"
-                        >
-                            Enter KK Digital Portal
-                        </a>
+<h2>
+SK Sapilang Activities
+</h2>
 
-                    </div>
 
+<p>
 
-                </div>
+Watch our visual presentation featuring the programs,
+projects, partnerships, community activities, and youth
+initiatives of the Sangguniang Kabataan of Barangay Sapilang.
 
-            </div>
+</p>
 
 
+</div>
 
-            <!-- SLIDER CONTROLS -->
 
-            <button
-                id="heroPrev"
-                class="hero-arrow hero-prev"
-                type="button"
-                aria-label="Previous image"
-            >
-                ‹
-            </button>
 
+<div class="activity-video-wrapper">
 
-            <button
-                id="heroNext"
-                class="hero-arrow hero-next"
-                type="button"
-                aria-label="Next image"
-            >
-                ›
-            </button>
 
+<div class="video-badge">
+SK Sapilang • Activities Showcase
+</div>
 
-            <div class="hero-slider-ui">
 
-                <div
-                    id="heroDots"
-                    class="hero-dots"
-                ></div>
+<video
+    id="activitiesVideo"
+    class="activity-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    controls
+    preload="metadata"
+>
 
-                <div class="hero-progress">
+<source
+    src="videos/sk-activities.mp4"
+    type="video/mp4"
+>
 
-                    <div
-                        id="heroProgress"
-                        class="hero-progress-bar"
-                    ></div>
+Your browser does not support HTML5 video.
 
-                </div>
+</video>
 
-            </div>
 
+<div class="video-info">
 
-            <div
-                id="slideCounter"
-                class="slide-counter"
-            >
-                01 / 01
-            </div>
+<div class="video-info-text">
 
+<strong>
+SK Sapilang Activities Showcase
+</strong>
 
-        </section>
+<span>
 
+A visual presentation of our youth programs,
+activities, projects, partnerships, and community
+initiatives.
 
+</span>
 
-        <!-- =====================================================
-             MAIN SERVICES
+</div>
 
-             NO EXTRA KK PORTAL SECTION BELOW.
-             THIS REMOVES THE REDUNDANCY.
-        ====================================================== -->
+</div>
 
-        <section class="section">
 
-            <div class="container">
+</div>
 
 
-                <div class="section-head">
+</div>
 
 
-                    <div>
+</section>
 
-                        <span class="section-label">
-                            Explore SK Sapilang
-                        </span>
 
-                        <h2>
-                            Youth services and governance in one digital space.
-                        </h2>
 
-                    </div>
+<!-- =========================================================
+     ESSENTIAL SERVICES
+========================================================= -->
 
+<section class="section">
 
-                    <p>
 
-                        Discover programs and activities, access the
-                        KK Digital Portal, and view official
-                        transparency and governance resources.
+<div class="container">
 
-                    </p>
 
+<div class="section-header">
 
-                </div>
 
+<span class="section-label">
+Digital Services
+</span>
 
 
-                <div class="feature-grid">
+<h2>
+Access SK Sapilang
+</h2>
 
 
-                    <!-- PROGRAMS -->
+<p>
 
-                    <a
-                        href="programs.html"
-                        class="feature-card"
-                    >
+Access the essential digital services, public records,
+and official information of SK Sapilang.
 
-                        <div class="feature-symbol">
-                            P
-                        </div>
+</p>
 
-                        <h3>
-                            Programs
-                        </h3>
 
-                        <p>
+</div>
 
-                            Explore education, sports, leadership,
-                            health, environment, digital innovation,
-                            and community development programs.
 
-                        </p>
 
-                        <span class="feature-action">
-                            Explore Programs →
-                        </span>
+<div class="access-grid">
 
-                    </a>
 
+<!-- KK PORTAL -->
 
+<a
+    href="kk-portal.html"
+    class="access-card"
+>
 
-                    <!-- KK DIGITAL PORTAL -->
 
-                    <a
-                        href="kk-portal.html"
-                        class="feature-card"
-                    >
+<div class="access-icon">
+KK
+</div>
 
-                        <div class="feature-symbol">
-                            KK
-                        </div>
 
-                        <h3>
-                            KK Digital Portal
-                        </h3>
+<h3>
+KK Digital Portal
+</h3>
 
-                        <p>
 
-                            Complete KK Profiling, access your
-                            Digital ID, verify membership status,
-                            and use official youth digital services.
+<p>
 
-                        </p>
+Complete KK Profiling, access your Digital ID,
+verify membership status, and use official
+Katipunan ng Kabataan digital services.
 
-                        <span class="feature-action">
-                            Enter KK Portal →
-                        </span>
+</p>
 
-                    </a>
 
+<span class="access-link">
+Enter KK Portal →
+</span>
 
 
-                    <!-- TRANSPARENCY -->
+</a>
 
-                    <a
-                        href="transparency.html"
-                        class="feature-card"
-                    >
 
-                        <div class="feature-symbol">
-                            T
-                        </div>
 
-                        <h3>
-                            Transparency
-                        </h3>
+<!-- TRANSPARENCY -->
 
-                        <p>
+<a
+    href="transparency.html"
+    class="access-card"
+>
 
-                            View resolutions, reports, financial
-                            information, public documents, and
-                            accountability resources.
 
-                        </p>
+<div class="access-icon">
+T
+</div>
 
-                        <span class="feature-action">
-                            View Public Records →
-                        </span>
 
-                    </a>
+<h3>
+Transparency
+</h3>
 
 
-                </div>
+<p>
 
-            </div>
+Access resolutions, financial information,
+accomplishment reports, public documents,
+and accountability records.
 
-        </section>
+</p>
 
 
-    </main>
+<span class="access-link">
+View Public Records →
+</span>
 
 
+</a>
 
-    <!-- =========================================================
-         FOOTER
-    ========================================================== -->
 
-    <footer>
 
-        <div class="container footer-layout">
+<!-- ABOUT -->
 
+<a
+    href="about.html"
+    class="access-card"
+>
 
-            <div>
 
-                <strong>
-                    SK Sapilang
-                </strong>
+<div class="access-icon">
+SK
+</div>
 
-                <p>
 
-                    Official Website of the Sangguniang Kabataan
-                    of Barangay Sapilang
-                    <br>
-                    Bacnotan, La Union
+<h3>
+About SK Sapilang
+</h3>
 
-                </p>
 
-            </div>
+<p>
 
+Learn about the SK Council, its leadership,
+mandate, vision, mission, and commitment
+to the youth of Barangay Sapilang.
 
-            <div class="footer-links">
+</p>
 
-                <a href="about.html">
-                    About
-                </a>
 
-                <a href="programs.html">
-                    Programs
-                </a>
+<span class="access-link">
+Learn More →
+</span>
 
-                <a href="announcements.html">
-                    Announcements
-                </a>
 
-                <a href="transparency.html">
-                    Transparency
-                </a>
+</a>
 
-                <a href="contact.html">
-                    Contact
-                </a>
 
-                <a href="kk-portal.html">
-                    KK Portal
-                </a>
+</div>
 
-            </div>
 
+</div>
 
-        </div>
 
-    </footer>
+</section>
 
 
+</main>
 
-    <!-- =========================================================
-         OFFICIAL MUSIC
 
-         Put your MP3 here:
 
-         audio/official-music.mp3
-    ========================================================== -->
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 
-    <audio
-        id="officialMusic"
-        loop
-        preload="metadata"
-    >
+<footer>
 
-        <source
-            src="audio/official-music.mp3"
-            type="audio/mpeg"
-        >
 
-    </audio>
+<div class="container footer-layout">
 
 
+<div>
 
-    <!-- =========================================================
-         MUSIC PLAYER
-    ========================================================== -->
 
-    <div
-        id="musicPanel"
-        class="music-panel"
-    >
+<strong>
+SK Sapilang
+</strong>
 
-        <button
-            id="musicButton"
-            class="music-button"
-            type="button"
-            aria-label="Play official music"
-        >
-            ▶
-        </button>
 
+<p>
 
-        <div class="music-info">
+Official Website of the Sangguniang Kabataan
+of Barangay Sapilang
+<br>
+Bacnotan, La Union
 
-            <strong>
-                Official Music
-            </strong>
+</p>
 
-            <span id="musicStatus">
-                Tap to play
-            </span>
 
-        </div>
+</div>
 
-    </div>
 
 
+<div class="footer-links">
 
-    <!-- =========================================================
-         JAVASCRIPT
-    ========================================================== -->
 
-    <script>
+<a href="#home">
+Home
+</a>
 
 
-        /* =========================================================
-           MOBILE NAVIGATION
-        ========================================================= */
+<a href="#activities">
+SK Activities
+</a>
 
-        const menuButton =
-            document.getElementById(
-                "menuButton"
-            );
 
+<a href="about.html">
+About
+</a>
 
-        const navLinks =
-            document.getElementById(
-                "navLinks"
-            );
 
+<a href="transparency.html">
+Transparency
+</a>
 
-        menuButton.addEventListener(
+
+<a href="contact.html">
+Contact
+</a>
+
+
+<a href="kk-portal.html">
+KK Portal
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</footer>
+
+
+
+<!-- =========================================================
+     OFFICIAL MUSIC
+========================================================= -->
+
+<audio
+    id="officialMusic"
+    loop
+    preload="metadata"
+>
+
+
+<source
+    src="audio/official-music.mp3"
+    type="audio/mpeg"
+>
+
+
+</audio>
+
+
+
+<div class="music-player">
+
+
+<button
+    id="musicButton"
+    class="music-button"
+    type="button"
+    aria-label="Play official music"
+>
+▶
+</button>
+
+
+<div class="music-text">
+
+
+<strong>
+Official Music
+</strong>
+
+
+<span id="musicStatus">
+Tap to play
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menuButton =
+    document.getElementById(
+        "menuButton"
+    );
+
+
+const navLinks =
+    document.getElementById(
+        "navLinks"
+    );
+
+
+menuButton.addEventListener(
+    "click",
+    function () {
+
+        navLinks.classList.toggle(
+            "open"
+        );
+
+    }
+);
+
+
+document
+.querySelectorAll(
+    ".nav-links a"
+)
+.forEach(
+    function (link) {
+
+        link.addEventListener(
             "click",
             function () {
 
-                navLinks.classList.toggle(
+                navLinks.classList.remove(
                     "open"
                 );
 
             }
         );
 
+    }
+);
 
-        navLinks
-            .querySelectorAll("a")
-            .forEach(
-                function (link) {
 
-                    link.addEventListener(
-                        "click",
-                        function () {
 
-                            navLinks.classList.remove(
-                                "open"
-                            );
+/* =========================================================
+   ACTIVITY VIDEO
+========================================================= */
 
-                        }
-                    );
+const activitiesVideo =
+    document.getElementById(
+        "activitiesVideo"
+    );
 
-                }
-            );
 
+/*
+Browsers usually allow autoplay only while muted.
+The visitor can turn sound on through the video controls.
+*/
 
+activitiesVideo
+    .play()
+    .catch(
+        function () {
 
-        /* =========================================================
-           HERO SLIDER
-        ========================================================= */
-
-        const slides =
-            Array.from(
-                document.querySelectorAll(
-                    ".hero-slide"
-                )
-            );
-
-
-        const heroDots =
-            document.getElementById(
-                "heroDots"
-            );
-
-
-        const heroProgress =
-            document.getElementById(
-                "heroProgress"
-            );
-
-
-        const slideCounter =
-            document.getElementById(
-                "slideCounter"
-            );
-
-
-        const heroPrev =
-            document.getElementById(
-                "heroPrev"
-            );
-
-
-        const heroNext =
-            document.getElementById(
-                "heroNext"
-            );
-
-
-        const hero =
-            document.querySelector(
-                ".hero"
-            );
-
-
-        let currentSlide = 0;
-
-        let sliderTimer = null;
-
-        const SLIDE_DURATION = 6000;
-
-
-
-        /* CREATE DOTS */
-
-        slides.forEach(
-            function (_, index) {
-
-                const dot =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                dot.className =
-                    "hero-dot";
-
-
-                dot.type =
-                    "button";
-
-
-                dot.setAttribute(
-                    "aria-label",
-                    "Go to slide " +
-                    (index + 1)
-                );
-
-
-                dot.addEventListener(
-                    "click",
-                    function () {
-
-                        showSlide(index);
-
-                        restartSlider();
-
-                    }
-                );
-
-
-                heroDots.appendChild(
-                    dot
-                );
-
-            }
-        );
-
-
-        const dots =
-            Array.from(
-                document.querySelectorAll(
-                    ".hero-dot"
-                )
-            );
-
-
-
-        /* DISPLAY SLIDE */
-
-        function showSlide(index) {
-
-
-            if (slides.length === 0) {
-                return;
-            }
-
-
-            currentSlide =
-                (
-                    index +
-                    slides.length
-                )
-                %
-                slides.length;
-
-
-            slides.forEach(
-                function (slide, i) {
-
-                    slide.classList.toggle(
-                        "active",
-                        i === currentSlide
-                    );
-
-                }
-            );
-
-
-            dots.forEach(
-                function (dot, i) {
-
-                    dot.classList.toggle(
-                        "active",
-                        i === currentSlide
-                    );
-
-                }
-            );
-
-
-            slideCounter.textContent =
-
-                String(
-                    currentSlide + 1
-                ).padStart(
-                    2,
-                    "0"
-                )
-
-                +
-
-                " / "
-
-                +
-
-                String(
-                    slides.length
-                ).padStart(
-                    2,
-                    "0"
-                );
-
-
-            restartProgress();
-
-        }
-
-
-
-        /* NEXT */
-
-        function nextSlide() {
-
-            showSlide(
-                currentSlide + 1
+            console.log(
+                "Video autoplay requires user interaction."
             );
 
         }
+    );
 
 
 
-        /* PREVIOUS */
+/* =========================================================
+   OFFICIAL MUSIC
+========================================================= */
 
-        function previousSlide() {
+const officialMusic =
+    document.getElementById(
+        "officialMusic"
+    );
 
-            showSlide(
-                currentSlide - 1
-            );
 
-        }
+const musicButton =
+    document.getElementById(
+        "musicButton"
+    );
 
 
+const musicStatus =
+    document.getElementById(
+        "musicStatus"
+    );
 
-        /* PROGRESS */
 
-        function restartProgress() {
+function updateMusicPlayer() {
 
-            heroProgress.classList.remove(
-                "run"
-            );
 
+    if (
+        officialMusic.paused
+    ) {
 
-            void heroProgress.offsetWidth;
+        musicButton.textContent =
+            "▶";
 
 
-            heroProgress.classList.add(
-                "run"
-            );
+        musicStatus.textContent =
+            "Tap to play";
 
-        }
+    }
 
+    else {
 
+        musicButton.textContent =
+            "❚❚";
 
-        /* AUTO SLIDER */
 
-        function startSlider() {
+        musicStatus.textContent =
+            "Now playing";
 
-            clearInterval(
-                sliderTimer
-            );
+    }
 
+}
 
-            sliderTimer =
-                setInterval(
-                    nextSlide,
-                    SLIDE_DURATION
-                );
 
-        }
 
+musicButton.addEventListener(
+    "click",
+    async function () {
 
+        try {
 
-        function stopSlider() {
-
-            clearInterval(
-                sliderTimer
-            );
-
-        }
-
-
-
-        function restartSlider() {
-
-            stopSlider();
-
-            startSlider();
-
-        }
-
-
-
-        heroNext.addEventListener(
-            "click",
-            function () {
-
-                nextSlide();
-
-                restartSlider();
-
-            }
-        );
-
-
-        heroPrev.addEventListener(
-            "click",
-            function () {
-
-                previousSlide();
-
-                restartSlider();
-
-            }
-        );
-
-
-
-        /* PAUSE WHILE HOVERING */
-
-        hero.addEventListener(
-            "mouseenter",
-            stopSlider
-        );
-
-
-        hero.addEventListener(
-            "mouseleave",
-            startSlider
-        );
-
-
-
-        /* PAUSE IF BROWSER TAB IS HIDDEN */
-
-        document.addEventListener(
-            "visibilitychange",
-            function () {
-
-                if (
-                    document.hidden
-                ) {
-
-                    stopSlider();
-
-                }
-
-                else {
-
-                    restartSlider();
-
-                }
-
-            }
-        );
-
-
-
-        /* KEYBOARD CONTROLS */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key ===
-                    "ArrowRight"
-                ) {
-
-                    nextSlide();
-
-                    restartSlider();
-
-                }
-
-
-                if (
-                    event.key ===
-                    "ArrowLeft"
-                ) {
-
-                    previousSlide();
-
-                    restartSlider();
-
-                }
-
-            }
-        );
-
-
-
-        /* START */
-
-        showSlide(0);
-
-        startSlider();
-
-
-
-        /* =========================================================
-           MUSIC PLAYER
-        ========================================================= */
-
-        const officialMusic =
-            document.getElementById(
-                "officialMusic"
-            );
-
-
-        const musicButton =
-            document.getElementById(
-                "musicButton"
-            );
-
-
-        const musicStatus =
-            document.getElementById(
-                "musicStatus"
-            );
-
-
-        function updateMusicDisplay() {
 
             if (
                 officialMusic.paused
             ) {
 
-                musicButton.textContent =
-                    "▶";
+                /*
+                Pause video sound if the official
+                website music starts playing.
+                */
 
-                musicButton.setAttribute(
-                    "aria-label",
-                    "Play official music"
-                );
+                activitiesVideo.muted = true;
 
-                musicStatus.textContent =
-                    "Tap to play";
+
+                await officialMusic.play();
 
             }
 
             else {
 
-                musicButton.textContent =
-                    "❚❚";
-
-                musicButton.setAttribute(
-                    "aria-label",
-                    "Pause official music"
-                );
-
-                musicStatus.textContent =
-                    "Now playing";
+                officialMusic.pause();
 
             }
+
+
+            updateMusicPlayer();
+
 
         }
 
+        catch (error) {
 
 
-        musicButton.addEventListener(
-            "click",
-            async function () {
-
-                try {
-
-                    if (
-                        officialMusic.paused
-                    ) {
-
-                        await officialMusic.play();
-
-                    }
-
-                    else {
-
-                        officialMusic.pause();
-
-                    }
+            console.log(
+                "Music playback requires user interaction.",
+                error
+            );
 
 
-                    updateMusicDisplay();
+            musicStatus.textContent =
+                "Tap again to play";
 
-                }
+        }
 
-                catch (error) {
-
-                    console.log(
-                        "Music playback requires user interaction.",
-                        error
-                    );
-
-                    musicStatus.textContent =
-                        "Tap again to play";
-
-                }
-
-            }
-        );
+    }
+);
 
 
-        officialMusic.addEventListener(
-            "play",
-            updateMusicDisplay
-        );
+officialMusic.addEventListener(
+    "play",
+    updateMusicPlayer
+);
 
 
-        officialMusic.addEventListener(
-            "pause",
-            updateMusicDisplay
-        );
+officialMusic.addEventListener(
+    "pause",
+    updateMusicPlayer
+);
 
 
-        updateMusicDisplay();
+updateMusicPlayer();
 
 
-    </script>
+</script>
 
 
 </body>
