@@ -11,7 +11,7 @@ cat > js/music-player.js <<'EOF'
 
   if (document.getElementById("skGlobalMusicPlayer")) return;
 
-  const MUSIC_FILE = "audio/sk-sapilang-official-music.mp3";
+  const MUSIC_FILE = "images/KABATAAN.mp3";
 
   const START_VOLUME = 0.01;
   const NORMAL_VOLUME = 0.20;
