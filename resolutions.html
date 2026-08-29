@@ -2,59 +2,157 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official website of Sangguniang Kabataan Barangay Sapilang, Bacnotan, La Union.">
-<title>Resolutions | SK Sapilang</title>
-<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Public legislative library of SK Sapilang resolutions and ordinances.">
+<meta name="theme-color" content="#020b14">
+<title>Resolutions & Ordinances | SK Sapilang</title>
+<link rel="stylesheet" href="css/site-pages.css">
 </head>
 <body>
+<div class="future-bg"><div class="orb one"></div><div class="orb two"></div></div>
 
-<header>
-  <div class="topbar"><div class="container"><span>OFFICIAL WEBSITE • SANGGUNIANG KABATAAN SAPILANG</span><span>Barangay Sapilang • Bacnotan, La Union</span></div></div>
-  <nav class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img src="images/sk-logo.svg" alt="SK Sapilang Logo">
-        <div><strong>SK SAPILANG</strong><small>Kabataan. Serbisyo. Pag-asa.</small></div>
-      </a>
-      <button class="menu-toggle" aria-label="Open navigation">☰</button>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="programs.html">Programs</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="announcements.html">News</a></li>
-        <li><a href="organization.html">Officials</a></li>
-        <li><a href="kk-portal.html">KK Portal</a></li>
-        <li><a href="transparency.html">Transparency</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <div class="logo">
+        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+      </div>
+      <div class="brand-text">
+        <strong>SK SAPILANG</strong>
+        <span>DIGITAL YOUTH NETWORK</span>
+      </div>
+    </a>
+    <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#activities">Activities</a></li>
+      <li><a href="index.html#digital-id">Digital ID</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="awards.html" data-nav="awards">Awards</a></li>
+      <li><a href="resolutions.html" data-nav="resolutions">Resolutions</a></li>
+      <li><a href="transparency.html">Transparency</a></li>
+      <li><a href="feedback.html" data-nav="feedback">Feedback</a></li>
+      <li><a href="contact.html" data-nav="contact">Contact</a></li>
+      <li><a href="kk-portal.html">KK Portal</a></li>
+    </ul>
+  </div>
 </header>
 
+<main>
 
-<section class="page-hero"><div class="container"><span class="eyebrow">Governance</span><h1>SK Resolutions</h1><p>Access official resolutions and legislative documents of SK Sapilang.</p></div></section>
-<section class="section"><div class="container">
-<div class="notice">Place your approved PDF resolutions inside <strong>documents/resolutions/</strong> and add their links below.</div>
-<div class="grid">
-<article class="card document reveal"><div class="icon">PDF</div><div><h3>SK Resolution No. ____</h3><p>Resolution title and brief description.</p><a class="btn btn-primary" href="documents/resolutions/">Open Documents</a></div></article>
-<article class="card document reveal"><div class="icon">PDF</div><div><h3>Annual Youth Investment Documents</h3><p>ABYIP and related youth development documents.</p><a class="btn btn-primary" href="documents/reports/">Open Reports</a></div></article>
-</div></div></section>
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Legislative Records</span>
+    <h1>Resolutions & <span>Ordinances.</span></h1>
+    <p class="hero-description">A searchable public library of measures passed by the Sangguniang Kabataan of Barangay Sapilang. Add the official PDF file for each record once available.</p>
+  </div>
+</section>
 
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="section-label">Public Legislative Library</span>
+      <h2>Search official measures.</h2>
+      <p>Filter records by keyword, year or type.</p>
+    </div>
+
+    <div class="filter-bar reveal">
+      <input id="recordSearch" type="search" placeholder="Search number, title or keyword...">
+      <select id="yearFilter">
+        <option value="all">All Years</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+      </select>
+      <select id="typeFilter">
+        <option value="all">All Types</option>
+        <option value="resolution">Resolutions</option>
+        <option value="ordinance">Ordinances</option>
+      </select>
+    </div>
+
+    <div class="record-grid" id="recordGrid">
+      <article class="record-card reveal" data-year="2026" data-type="resolution" data-search="resolution 11 2026 e-library reading corner starbooks">
+        <div class="record-top">
+          <span class="badge">Resolution</span>
+          <span class="meta">2026</span>
+        </div>
+        <h3>Resolution No. 11, Series of 2026</h3>
+        <p>Supporting the conversion of the Barangay Reading Corner into an E-Library and related youth learning initiatives.</p>
+        <div class="record-footer">
+          <span>Status: Passed / Approved</span>
+          <a href="#" aria-label="Document not yet linked">Add PDF →</a>
+        </div>
+      </article>
+
+      <article class="record-card reveal" data-year="2026" data-type="resolution" data-search="resolution 15 2026 farmers park covered court improvement full enclosure disaster resilient">
+        <div class="record-top">
+          <span class="badge">Resolution</span>
+          <span class="meta">2026</span>
+        </div>
+        <h3>Resolution No. 15, Series of 2026</h3>
+        <p>Requesting support for the improvement, full enclosure and disaster-resilient upgrading of the Farmer’s Park Center / Covered Court.</p>
+        <div class="record-footer">
+          <span>Status: Passed / Approved</span>
+          <a href="#" aria-label="Document not yet linked">Add PDF →</a>
+        </div>
+      </article>
+
+      <article class="record-card reveal" data-year="2026" data-type="ordinance" data-search="ordinance sample 2026">
+        <div class="record-top">
+          <span class="badge yellow">Ordinance</span>
+          <span class="meta">2026</span>
+        </div>
+        <h3>Add Official SK Ordinance Here</h3>
+        <p>Replace this sample entry with the ordinance number, series, full title, approval date and official document link.</p>
+        <div class="record-footer">
+          <span>Status: Replace with official status</span>
+          <a href="#" aria-label="Document not yet linked">Add PDF →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <footer>
- <div class="container">
-  <div class="footer-grid">
-   <div><h3>SK SAPILANG</h3><p>The official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.</p></div>
-   <div><h4>Explore</h4><ul><li><a href="about.html">About Us</a></li><li><a href="programs.html">Programs</a></li><li><a href="events.html">Events</a></li><li><a href="awards.html">Awards</a></li></ul></div>
-   <div><h4>Governance</h4><ul><li><a href="resolutions.html">Resolutions</a></li><li><a href="transparency.html">Transparency</a></li><li><a href="organization.html">Officials</a></li></ul></div>
-   <div><h4>Youth</h4><ul><li><a href="kk-portal.html">KK Portal</a></li><li><a href="contact.html">Feedback</a></li><li><a href="announcements.html">Announcements</a></li></ul></div>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+      </div>
+      <div>
+        <strong>SK SAPILANG</strong>
+        <span>DIGITAL YOUTH NETWORK</span>
+      </div>
+    </div>
+    <div class="copyright">© <span data-year></span> SK Sapilang. All Rights Reserved.</div>
   </div>
-  <div class="footer-bottom">© <span data-year></span> SK Sapilang. All rights reserved. • Official youth governance website.</div>
- </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/site-pages.js"></script>
+
+<script>
+document.querySelectorAll('[data-nav="resolutions"]').forEach(a=>a.classList.add("active"));
+</script>
+
+<script>
+const search=document.getElementById("recordSearch");
+const year=document.getElementById("yearFilter");
+const type=document.getElementById("typeFilter");
+const records=[...document.querySelectorAll(".record-card")];
+function filterRecords(){
+  const q=search.value.trim().toLowerCase();
+  records.forEach(card=>{
+    const okQ=!q||card.dataset.search.includes(q)||card.innerText.toLowerCase().includes(q);
+    const okY=year.value==="all"||card.dataset.year===year.value;
+    const okT=type.value==="all"||card.dataset.type===type.value;
+    card.style.display=okQ&&okY&&okT?"block":"none";
+  });
+}
+[search,year,type].forEach(el=>el.addEventListener("input",filterRecords));
+[year,type].forEach(el=>el.addEventListener("change",filterRecords));
+</script>
+
 </body>
 </html>

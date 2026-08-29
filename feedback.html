@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="SK Sapilang client feedback, activity evaluation, suggestions and recommendations center.">
+<meta name="theme-color" content="#020b14">
+<title>Feedback Center | SK Sapilang</title>
+<link rel="stylesheet" href="css/site-pages.css">
+</head>
+<body>
+<div class="future-bg"><div class="orb one"></div><div class="orb two"></div></div>
+
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <div class="logo">
+        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+      </div>
+      <div class="brand-text">
+        <strong>SK SAPILANG</strong>
+        <span>DIGITAL YOUTH NETWORK</span>
+      </div>
+    </a>
+    <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#activities">Activities</a></li>
+      <li><a href="index.html#digital-id">Digital ID</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="awards.html" data-nav="awards">Awards</a></li>
+      <li><a href="resolutions.html" data-nav="resolutions">Resolutions</a></li>
+      <li><a href="transparency.html">Transparency</a></li>
+      <li><a href="feedback.html" data-nav="feedback">Feedback</a></li>
+      <li><a href="contact.html" data-nav="contact">Contact</a></li>
+      <li><a href="kk-portal.html">KK Portal</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Quality Management System</span>
+    <h1>Your Voice. <span>Our Commitment.</span></h1>
+    <p class="hero-description">Evaluate SK services and activities, or submit suggestions that can help improve youth programs, public service and community engagement.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="section-label">Feedback Center</span>
+      <h2>Choose the appropriate form.</h2>
+      <p>Each submission receives an automatic reference number. Satisfaction forms also calculate an instant rating result.</p>
+    </div>
+
+    <div class="qms-shell reveal">
+      <div class="form-tabs">
+        <button class="form-tab active" type="button" data-form="client"><strong>Client / Service Feedback</strong><span>Evaluate an SK service</span></button>
+        <button class="form-tab" type="button" data-form="activity"><strong>Activity / Program Evaluation</strong><span>Evaluate an SK activity</span></button>
+        <button class="form-tab" type="button" data-form="suggestion"><strong>Suggestions & Recommendations</strong><span>Share ideas or concerns</span></button>
+      </div>
+
+      <div class="form-panel active" id="clientPanel">
+        <div class="form-intro">
+          <h3>Client / Service Feedback Form</h3>
+          <p>Use this form after receiving an SK service or assistance.</p>
+        </div>
+        <form id="clientForm">
+          <div class="form-grid">
+            <div class="form-group"><label>Full Name</label><input name="name" type="text"></div>
+            <div class="form-group"><label>Email Address</label><input name="email" type="email"></div>
+            <div class="form-group">
+              <label>Service Availed *</label>
+              <select name="service" required>
+                <option value="">Select Service</option>
+                <option>KK Profiling</option>
+                <option>KK Digital ID</option>
+                <option>KK ID Verification</option>
+                <option>Printing / Educational Support</option>
+                <option>Program Registration</option>
+                <option>Request for Information</option>
+                <option>General SK Assistance</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Date of Service</label><input name="date" type="date"></div>
+          </div>
+
+          <div class="rating-title">
+            <h4>Overall Satisfaction *</h4>
+            <p>Rate your overall experience from 1 to 5.</p>
+          </div>
+
+          <div class="rating-grid">
+            <div class="rating-option"><input id="cf1" type="radio" name="rating" value="1" required><label for="cf1"><strong>1</strong><span>Very Dissatisfied</span></label></div>
+            <div class="rating-option"><input id="cf2" type="radio" name="rating" value="2"><label for="cf2"><strong>2</strong><span>Dissatisfied</span></label></div>
+            <div class="rating-option"><input id="cf3" type="radio" name="rating" value="3"><label for="cf3"><strong>3</strong><span>Satisfactory</span></label></div>
+            <div class="rating-option"><input id="cf4" type="radio" name="rating" value="4"><label for="cf4"><strong>4</strong><span>Very Satisfied</span></label></div>
+            <div class="rating-option"><input id="cf5" type="radio" name="rating" value="5"><label for="cf5"><strong>5</strong><span>Excellent</span></label></div>
+          </div>
+
+          <div class="form-grid" style="margin-top:20px">
+            <div class="form-group full"><label>Comments / Areas for Improvement</label><textarea name="comments" placeholder="Tell us what worked well or what can be improved."></textarea></div>
+          </div>
+          <div class="consent"><input id="clientConsent" type="checkbox" required><label for="clientConsent">I confirm that this feedback reflects my actual experience and may be used for service quality assessment and continuous improvement.</label></div>
+          <button class="submit-button" type="submit">Submit Client Feedback</button>
+        </form>
+        <div class="result-box" id="clientResult"></div>
+      </div>
+
+      <div class="form-panel" id="activityPanel">
+        <div class="form-intro">
+          <h3>Activity / Program Evaluation Form</h3>
+          <p>Use this form after participating in an SK activity, training, seminar, sports event or community program.</p>
+        </div>
+        <form id="activityForm">
+          <div class="form-grid">
+            <div class="form-group"><label>Activity / Program Name *</label><input name="activity" type="text" required></div>
+            <div class="form-group"><label>Activity Date</label><input name="date" type="date"></div>
+            <div class="form-group"><label>Participant Name</label><input name="participant" type="text"></div>
+            <div class="form-group">
+              <label>Participant Classification</label>
+              <select name="classification">
+                <option value="">Select Classification</option>
+                <option>Katipunan ng Kabataan Member</option>
+                <option>Student</option>
+                <option>Volunteer</option>
+                <option>Parent / Guardian</option>
+                <option>Community Member</option>
+                <option>Partner / Stakeholder</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rating-title">
+            <h4>Overall Activity Rating *</h4>
+            <p>Rate your overall experience from 1 to 5.</p>
+          </div>
+
+          <div class="rating-grid">
+            <div class="rating-option"><input id="ae1" type="radio" name="rating" value="1" required><label for="ae1"><strong>1</strong><span>Poor</span></label></div>
+            <div class="rating-option"><input id="ae2" type="radio" name="rating" value="2"><label for="ae2"><strong>2</strong><span>Needs Improvement</span></label></div>
+            <div class="rating-option"><input id="ae3" type="radio" name="rating" value="3"><label for="ae3"><strong>3</strong><span>Satisfactory</span></label></div>
+            <div class="rating-option"><input id="ae4" type="radio" name="rating" value="4"><label for="ae4"><strong>4</strong><span>Very Good</span></label></div>
+            <div class="rating-option"><input id="ae5" type="radio" name="rating" value="5"><label for="ae5"><strong>5</strong><span>Excellent</span></label></div>
+          </div>
+
+          <div class="form-grid" style="margin-top:20px">
+            <div class="form-group full"><label>What did you learn or benefit from?</label><textarea name="learning"></textarea></div>
+            <div class="form-group full"><label>What can we improve?</label><textarea name="improvement"></textarea></div>
+            <div class="form-group full"><label>Suggested future programs</label><textarea name="future"></textarea></div>
+          </div>
+          <div class="consent"><input id="activityConsent" type="checkbox" required><label for="activityConsent">I confirm that this evaluation reflects my experience as a participant or beneficiary and may be consolidated for program assessment and improvement.</label></div>
+          <button class="submit-button" type="submit">Submit Program Evaluation</button>
+        </form>
+        <div class="result-box" id="activityResult"></div>
+      </div>
+
+      <div class="form-panel" id="suggestionPanel">
+        <div class="form-intro">
+          <h3>Suggestions & Recommendations</h3>
+          <p>Share an idea, recommendation, concern, commendation or proposed youth initiative.</p>
+        </div>
+        <form id="suggestionForm">
+          <div class="form-grid">
+            <div class="form-group"><label>Full Name</label><input name="name" type="text"></div>
+            <div class="form-group"><label>Email Address</label><input name="email" type="email"></div>
+            <div class="form-group">
+              <label>Category *</label>
+              <select name="category" required>
+                <option value="">Select Category</option>
+                <option>Suggestion</option>
+                <option>Recommendation</option>
+                <option>Youth Concern</option>
+                <option>Program Proposal</option>
+                <option>Service Improvement</option>
+                <option>Website / Digital Service</option>
+                <option>Commendation</option>
+                <option>General Inquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Development Area</label>
+              <select name="area">
+                <option value="">Select Area</option>
+                <option>Education</option>
+                <option>Health & Well-Being</option>
+                <option>Sports & Recreation</option>
+                <option>Leadership & Governance</option>
+                <option>Environment</option>
+                <option>Employment / Livelihood</option>
+                <option>Digital Services</option>
+                <option>Inclusion & Community Service</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group full"><label>Subject *</label><input name="subject" type="text" required></div>
+            <div class="form-group full"><label>Message / Recommendation *</label><textarea name="message" required></textarea></div>
+            <div class="form-group full"><label>Proposed Solution or Action</label><textarea name="solution"></textarea></div>
+          </div>
+          <div class="consent"><input id="suggestionConsent" type="checkbox" required><label for="suggestionConsent">I understand that this submission may be reviewed for legitimate youth governance, service improvement and program development purposes.</label></div>
+          <button class="submit-button" type="submit">Submit Suggestion</button>
+        </form>
+        <div class="result-box" id="suggestionResult"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <article class="card reveal">
+      <span class="section-label">Important</span>
+      <h3>Current version provides instant results only.</h3>
+      <p>This GitHub Pages version generates a reference number and satisfaction result in the browser. It does not yet save responses to a central database. Connect it to Google Apps Script and Google Sheets before using it as the official records system.</p>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+      </div>
+      <div>
+        <strong>SK SAPILANG</strong>
+        <span>DIGITAL YOUTH NETWORK</span>
+      </div>
+    </div>
+    <div class="copyright">© <span data-year></span> SK Sapilang. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script src="js/site-pages.js"></script>
+
+<script>
+document.querySelectorAll('[data-nav="feedback"]').forEach(a=>a.classList.add("active"));
+</script>
+
+<script>
+const tabs=document.querySelectorAll(".form-tab");
+const panels={client:document.getElementById("clientPanel"),activity:document.getElementById("activityPanel"),suggestion:document.getElementById("suggestionPanel")};
+tabs.forEach(tab=>tab.addEventListener("click",()=>{
+  tabs.forEach(t=>t.classList.remove("active"));
+  Object.values(panels).forEach(p=>p.classList.remove("active"));
+  tab.classList.add("active");
+  panels[tab.dataset.form].classList.add("active");
+}));
+function ref(prefix){
+  const d=new Date().toISOString().slice(0,10).replaceAll("-","");
+  return `${prefix}-${d}-${Math.floor(1000+Math.random()*9000)}`;
+}
+function label(score){
+  if(score>=4.5)return"Excellent";
+  if(score>=3.5)return"Very Satisfactory";
+  if(score>=2.5)return"Satisfactory";
+  if(score>=1.5)return"Needs Improvement";
+  return"Poor";
+}
+function result(el,reference,score,type){
+  el.innerHTML=`<h4>Submission completed.</h4>
+  <p>Your ${type} has been processed by the SK Sapilang Feedback Center. Keep the reference number for your records.</p>
+  <div class="result-row">
+    <div class="result-item"><small>Reference Number</small><strong>${reference}</strong></div>
+    ${score!==null?`<div class="result-item"><small>Score</small><strong>${score.toFixed(2)} / 5</strong></div>
+    <div class="result-item"><small>Result</small><strong>${label(score)}</strong></div>`:""}
+  </div>`;
+  el.classList.add("show");
+  el.scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.getElementById("clientForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const score=Number(new FormData(e.currentTarget).get("rating"));
+  result(document.getElementById("clientResult"),ref("SKS-CF"),score,"client feedback");
+  e.currentTarget.reset();
+});
+document.getElementById("activityForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const score=Number(new FormData(e.currentTarget).get("rating"));
+  result(document.getElementById("activityResult"),ref("SKS-AE"),score,"activity or program evaluation");
+  e.currentTarget.reset();
+});
+document.getElementById("suggestionForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  result(document.getElementById("suggestionResult"),ref("SKS-SR"),null,"suggestion or recommendation");
+  e.currentTarget.reset();
+});
+</script>
+
+</body>
+</html>
