@@ -450,6 +450,88 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:40px}
 }
 
 
+
+/* =========================================================
+   RESPONSIVE AWARD GALLERY — DESKTOP / TABLET / PHONE
+   Keeps the complete photo visible without cropping.
+========================================================= */
+.award-image{
+  position:relative;
+  width:100%;
+  height:auto !important;
+  aspect-ratio:4 / 3;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at center,rgba(69,220,255,.06),transparent 55%),
+    #030b13;
+}
+
+.award-slider,
+.award-slides{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+.award-slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  padding:10px;
+  object-fit:contain !important;
+  object-position:center center !important;
+  opacity:0;
+  transform:scale(.985);
+  transition:opacity .55s ease,transform .65s ease;
+  pointer-events:none;
+  background:#030b13;
+}
+
+.award-slide.active{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+}
+
+@media (min-width:1200px){
+  .award-image{aspect-ratio:4 / 3}
+}
+
+@media (min-width:768px) and (max-width:1199px){
+  .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .award-image{aspect-ratio:4 / 3}
+}
+
+@media (max-width:767px){
+  .grid-3{grid-template-columns:1fr}
+  .award-card{width:100%}
+  .award-image{aspect-ratio:4 / 3}
+  .award-slide{padding:6px}
+  .award-slide-button{
+    width:40px;
+    height:40px;
+  }
+}
+
+@media (max-width:430px){
+  .container{width:min(94%,1180px)}
+  .award-image{aspect-ratio:1 / 1}
+  .award-content{padding:19px}
+  .award-slide{padding:4px}
+}
+
+@supports not (aspect-ratio:4 / 3){
+  .award-image{height:360px !important}
+  @media(max-width:767px){
+    .award-image{height:330px !important}
+  }
+  @media(max-width:430px){
+    .award-image{height:300px !important}
+  }
+}
+
 </style>
 </head>
 
@@ -687,6 +769,10 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 <script>
 function driveImageURL(fileId){
+  return "https://lh3.googleusercontent.com/d/" + encodeURIComponent(fileId) + "=w1600";
+}
+
+function driveImageFallback(fileId){
   return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(fileId) + "&sz=w1600";
 }
 
@@ -703,7 +789,13 @@ document.querySelectorAll(".award-slider").forEach(slider=>{
   let touchStartX=0;
 
   slides.forEach((slide,i)=>{
-    slide.src=driveImageURL(slide.dataset.driveId);
+    const fileId = slide.dataset.driveId;
+    slide.src = driveImageURL(fileId);
+    slide.onerror = function(){
+      if(this.dataset.fallbackApplied === "1") return;
+      this.dataset.fallbackApplied = "1";
+      this.src = driveImageFallback(fileId);
+    };
 
     const dot=document.createElement("button");
     dot.type="button";
