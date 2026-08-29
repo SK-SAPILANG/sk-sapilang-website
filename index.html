@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -11,12 +12,15 @@
 
 <meta name="theme-color" content="#020b14">
 
-<title>SK Sapilang | Digital Youth Network</title>
+<title>
+    SK Sapilang | Sangguniang Kabataan of Barangay Sapilang
+</title>
 
 <meta
     name="description"
-    content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union."
+    content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Access SK programs, activities, KK Digital Portal, youth services and public information."
 >
+
 
 <style>
 
@@ -25,21 +29,34 @@
 ========================================================= */
 
 :root {
+
     --bg: #020a12;
-    --panel: rgba(4, 22, 34, .82);
-    --panel2: rgba(5, 31, 47, .90);
+
+    --panel:
+        rgba(4, 22, 34, .82);
+
+    --panel2:
+        rgba(5, 31, 47, .90);
 
     --cyan: #37dcff;
     --cyan2: #78ebff;
+
     --blue: #327cff;
+
     --green: #75ef78;
 
     --white: #f2fbff;
+
     --text: #cde2eb;
+
     --muted: #7794a3;
 
-    --line: rgba(67, 215, 255, .18);
-    --line2: rgba(67, 215, 255, .36);
+    --line:
+        rgba(67, 215, 255, .18);
+
+    --line2:
+        rgba(67, 215, 255, .36);
+
 }
 
 
@@ -58,7 +75,9 @@ html {
 }
 
 body {
+
     min-height: 100vh;
+
     overflow-x: hidden;
 
     font-family:
@@ -70,11 +89,13 @@ body {
     color: var(--text);
 
     background:
+
         radial-gradient(
             circle at 50% 0%,
             rgba(11, 94, 139, .16),
             transparent 38%
         ),
+
         var(--bg);
 }
 
@@ -93,7 +114,13 @@ button {
 }
 
 .container {
-    width: min(1440px, calc(100% - 48px));
+
+    width:
+        min(
+            1440px,
+            calc(100% - 48px)
+        );
+
     margin: 0 auto;
 }
 
@@ -103,57 +130,73 @@ button {
 ========================================================= */
 
 .future-bg {
+
     position: fixed;
+
     inset: 0;
 
     z-index: -10;
 
     pointer-events: none;
+
     overflow: hidden;
 }
 
 .future-bg::before {
+
     content: "";
 
     position: absolute;
+
     inset: 0;
 
     background-image:
+
         linear-gradient(
             rgba(59, 204, 255, .025) 1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
             rgba(59, 204, 255, .025) 1px,
             transparent 1px
         );
 
-    background-size: 48px 48px;
+    background-size:
+        48px 48px;
 }
 
 .orb {
+
     position: absolute;
 
     width: 500px;
     height: 500px;
 
     border-radius: 50%;
+
     filter: blur(110px);
 
-    background: rgba(0, 161, 255, .10);
+    background:
+        rgba(0, 161, 255, .10);
 }
 
 .orb.one {
+
     left: -200px;
+
     top: 100px;
 }
 
 .orb.two {
+
     right: -200px;
+
     top: 300px;
 
-    background: rgba(80, 62, 255, .09);
+    background:
+        rgba(80, 62, 255, .09);
 }
 
 
@@ -162,96 +205,159 @@ button {
 ========================================================= */
 
 .header {
+
     position: sticky;
+
     top: 0;
 
     z-index: 1000;
 
-    background: rgba(2, 11, 19, .93);
+    background:
+        rgba(2, 11, 19, .93);
 
     border-bottom:
         1px solid
         rgba(67, 215, 255, .12);
 
-    backdrop-filter: blur(18px);
+    backdrop-filter:
+        blur(18px);
 }
 
 .nav {
+
     min-height: 76px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     gap: 30px;
 }
 
 .brand {
+
     display: flex;
+
     align-items: center;
 
-    gap: 12px;
+    gap: 14px;
 }
 
+
+/* =========================================================
+   OFFICIAL SK SAPILANG LOGO
+========================================================= */
+
 .logo {
+
     position: relative;
 
-    width: 47px;
-    height: 47px;
+    width: 54px;
+    height: 54px;
 
-    display: grid;
-    place-items: center;
+    flex: 0 0 54px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     border-radius: 50%;
 
-    border:
-        1px solid
-        rgba(65, 218, 255, .48);
-
-    color: var(--cyan);
-
-    font-weight: 900;
-    font-size: 13px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(52, 215, 255, .17),
-            rgba(3, 20, 31, .88)
-        );
+    background: transparent;
 }
 
-.logo::after {
+.logo img {
+
+    position: relative;
+
+    z-index: 3;
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    object-position: center;
+
+    border-radius: 50%;
+}
+
+.logo::before {
+
     content: "";
 
     position: absolute;
-    inset: -5px;
+
+    inset: -3px;
 
     border:
-        1px dashed
-        rgba(61, 215, 255, .25);
+
+        1px solid
+
+        rgba(65, 218, 255, .38);
 
     border-radius: 50%;
 
-    animation: spin 10s linear infinite;
+    box-shadow:
+
+        0 0 16px
+
+        rgba(55, 220, 255, .12);
 }
+
+.logo::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -7px;
+
+    border:
+
+        1px dashed
+
+        rgba(61, 215, 255, .30);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    animation:
+        spin 10s linear infinite;
+}
+
 
 @keyframes spin {
+
     to {
-        transform: rotate(360deg);
+        transform:
+            rotate(360deg);
     }
+
 }
 
+
 .brand-text strong {
+
     display: block;
 
     color: white;
 
     font-size: 15px;
+
     letter-spacing: .5px;
 }
 
 .brand-text span {
+
     display: block;
 
     margin-top: 2px;
@@ -259,22 +365,32 @@ button {
     color: #6f8997;
 
     font-size: 8px;
+
     letter-spacing: 1px;
 }
 
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
 .nav-links {
+
     list-style: none;
 
     display: flex;
+
     align-items: center;
 
     gap: 2px;
 }
 
 .nav-links a {
+
     display: block;
 
-    padding: 10px 13px;
+    padding:
+        10px 13px;
 
     border-radius: 8px;
 
@@ -282,34 +398,36 @@ button {
 
     font-size: 12px;
 
-    transition: .2s ease;
+    transition:
+        .2s ease;
 }
 
 .nav-links a:hover {
+
     color: white;
 
     background:
         rgba(55, 215, 255, .07);
 }
 
-/*
-KK PORTAL IS NORMAL.
-NO PERMANENT BLUE HIGHLIGHT.
-*/
-
 .nav-links .portal-link {
+
     color: #afc2cb;
+
     background: transparent;
 }
 
 .menu-button {
+
     display: none;
 
     width: 42px;
+
     height: 42px;
 
     border:
-        1px solid var(--line);
+        1px solid
+        var(--line);
 
     border-radius: 9px;
 
@@ -327,16 +445,21 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 .hero {
+
     position: relative;
 
-    padding: 55px 0 35px;
+    padding:
+        55px 0 35px;
 }
 
 .hero-grid {
+
     display: grid;
 
     grid-template-columns:
+
         minmax(0, 1.03fr)
+
         minmax(460px, .97fr);
 
     gap: 60px;
@@ -345,33 +468,44 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .eyebrow {
+
     margin-bottom: 12px;
 
     color: var(--cyan);
 
     font-size: 10px;
+
     letter-spacing: 1.4px;
 
     text-transform: uppercase;
 }
 
 .hero h1 {
+
     max-width: 680px;
 
     color: white;
 
-    font-size: clamp(48px, 5vw, 74px);
+    font-size:
+        clamp(
+            48px,
+            5vw,
+            74px
+        );
+
     line-height: .96;
 
     letter-spacing: -3px;
 }
 
 .hero h1 span {
+
     display: block;
 
     color: transparent;
 
     background:
+
         linear-gradient(
             90deg,
             #38dcff,
@@ -379,10 +513,12 @@ NO PERMANENT BLUE HIGHLIGHT.
         );
 
     background-clip: text;
+
     -webkit-background-clip: text;
 }
 
 .hero-description {
+
     max-width: 610px;
 
     margin-top: 20px;
@@ -390,11 +526,14 @@ NO PERMANENT BLUE HIGHLIGHT.
     color: #a8bdc7;
 
     font-size: 13px;
+
     line-height: 1.65;
 }
 
 .hero-buttons {
+
     display: flex;
+
     flex-wrap: wrap;
 
     gap: 12px;
@@ -403,12 +542,16 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .button {
+
     min-height: 48px;
 
-    padding: 0 22px;
+    padding:
+        0 22px;
 
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
     gap: 10px;
@@ -416,21 +559,27 @@ NO PERMANENT BLUE HIGHLIGHT.
     border-radius: 8px;
 
     font-size: 10px;
+
     font-weight: 800;
 
     text-transform: uppercase;
 
-    transition: .25s ease;
+    transition:
+        .25s ease;
 }
 
 .button:hover {
-    transform: translateY(-3px);
+
+    transform:
+        translateY(-3px);
 }
 
 .button-primary {
+
     color: white;
 
     background:
+
         linear-gradient(
             135deg,
             #27d3f6,
@@ -439,10 +588,13 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .button-secondary {
+
     color: white;
 
     border:
+
         1px solid
+
         rgba(65, 218, 255, .36);
 
     background:
@@ -455,6 +607,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 .network-panel {
+
     position: relative;
 
     min-height: 340px;
@@ -464,17 +617,21 @@ NO PERMANENT BLUE HIGHLIGHT.
     overflow: hidden;
 
     border:
+
         1px solid
+
         rgba(61, 214, 255, .32);
 
     border-radius: 18px;
 
     background:
+
         radial-gradient(
             circle at 30% 50%,
             rgba(25, 172, 235, .12),
             transparent 35%
         ),
+
         linear-gradient(
             145deg,
             rgba(6, 37, 55, .85),
@@ -482,25 +639,31 @@ NO PERMANENT BLUE HIGHLIGHT.
         );
 
     box-shadow:
+
         0 30px 80px
+
         rgba(0,0,0,.32);
 }
 
 .network-label {
+
     position: absolute;
 
     top: 14px;
+
     left: 25px;
 
     color: #9cbac7;
 
     font-size: 8px;
+
     letter-spacing: 1.2px;
 
     text-transform: uppercase;
 }
 
 .network-grid {
+
     min-height: 280px;
 
     display: grid;
@@ -514,24 +677,33 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .radar {
+
     position: relative;
 
-    width: min(260px, 100%);
+    width:
+        min(
+            260px,
+            100%
+        );
 
     aspect-ratio: 1;
 
     margin: auto;
 
     display: grid;
+
     place-items: center;
 
     border:
+
         1px solid
+
         rgba(60, 218, 255, .18);
 
     border-radius: 50%;
 
     background:
+
         radial-gradient(
             circle,
             rgba(39, 197, 255, .12),
@@ -540,6 +712,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .radar::before {
+
     content: "";
 
     position: absolute;
@@ -547,15 +720,19 @@ NO PERMANENT BLUE HIGHLIGHT.
     inset: 13%;
 
     border:
+
         1px dashed
+
         rgba(63, 217, 255, .23);
 
     border-radius: 50%;
 
-    animation: spin 15s linear infinite;
+    animation:
+        spin 15s linear infinite;
 }
 
 .radar::after {
+
     content: "";
 
     position: absolute;
@@ -563,46 +740,59 @@ NO PERMANENT BLUE HIGHLIGHT.
     inset: 28%;
 
     border:
+
         1px solid
+
         rgba(64, 218, 255, .19);
 
     border-radius: 50%;
 }
 
 .radar-line {
+
     position: absolute;
 
     top: 2%;
+
     left: 2%;
 
     width: 48%;
+
     height: 48%;
 
-    transform-origin: bottom right;
+    transform-origin:
+        bottom right;
 
     background:
+
         linear-gradient(
             40deg,
             rgba(56, 218, 255, .22),
             transparent 70%
         );
 
-    animation: spin 5s linear infinite;
+    animation:
+        spin 5s linear infinite;
 }
 
 .radar-core {
+
     position: relative;
 
     z-index: 4;
 
     width: 92px;
+
     height: 92px;
 
     display: grid;
+
     place-items: center;
 
     border:
+
         1px solid
+
         rgba(61, 218, 255, .42);
 
     border-radius: 50%;
@@ -614,15 +804,18 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .radar-core strong {
+
     display: block;
 
     color: var(--cyan);
 
     font-size: 31px;
+
     line-height: 1;
 }
 
 .radar-core span {
+
     display: block;
 
     margin-top: 4px;
@@ -630,19 +823,26 @@ NO PERMANENT BLUE HIGHLIGHT.
     color: white;
 
     font-size: 9px;
+
     font-weight: 700;
 }
 
 .network-stats {
+
     display: grid;
+
     gap: 10px;
 }
 
 .network-stat {
-    padding: 13px 15px;
+
+    padding:
+        13px 15px;
 
     border:
+
         1px solid
+
         rgba(61, 215, 255, .23);
 
     border-radius: 9px;
@@ -652,6 +852,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .network-stat small {
+
     display: block;
 
     color: #829ca9;
@@ -662,6 +863,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .network-stat strong {
+
     display: block;
 
     margin-top: 3px;
@@ -672,6 +874,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .network-stat span {
+
     display: block;
 
     margin-top: 2px;
@@ -687,10 +890,12 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 .status-section {
+
     padding-bottom: 22px;
 }
 
 .status-grid {
+
     display: grid;
 
     grid-template-columns:
@@ -700,17 +905,22 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .status-item {
+
     display: flex;
+
     align-items: center;
 
     gap: 10px;
 }
 
 .status-icon {
+
     width: 32px;
+
     height: 32px;
 
     display: grid;
+
     place-items: center;
 
     border:
@@ -722,6 +932,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .status-item span {
+
     display: block;
 
     color: #819aa7;
@@ -732,6 +943,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .status-item strong {
+
     display: block;
 
     margin-top: 2px;
@@ -739,6 +951,7 @@ NO PERMANENT BLUE HIGHLIGHT.
     color: var(--green);
 
     font-size: 9px;
+
     letter-spacing: 1px;
 }
 
@@ -748,10 +961,13 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 .ticker {
+
     overflow: hidden;
 
     border:
+
         1px solid
+
         rgba(61, 215, 255, .25);
 
     border-radius: 12px;
@@ -761,17 +977,20 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .ticker-track {
+
     width: max-content;
 
     display: flex;
 
     gap: 60px;
 
-    padding: 11px 25px;
+    padding:
+        11px 25px;
 
     color: #8da8b4;
 
     font-size: 7px;
+
     letter-spacing: 1px;
 
     text-transform: uppercase;
@@ -781,29 +1000,38 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .ticker-track strong {
+
     color: var(--cyan);
 }
 
 @keyframes ticker {
+
     to {
-        transform: translateX(-50%);
+        transform:
+            translateX(-50%);
     }
+
 }
 
 
 /* =========================================================
-   MAIN SHOWCASE
+   SHOWCASE
 ========================================================= */
 
 .showcase {
-    padding: 15px 0 20px;
+
+    padding:
+        15px 0 20px;
 }
 
 .showcase-shell {
+
     overflow: hidden;
 
     border:
+
         1px solid
+
         rgba(59, 214, 255, .27);
 
     border-radius: 16px;
@@ -813,10 +1041,13 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .showcase-grid {
+
     display: grid;
 
     grid-template-columns:
+
         minmax(0, 1fr)
+
         minmax(0, 1.1fr);
 }
 
@@ -826,14 +1057,18 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 .activities {
+
     padding: 25px;
 
     border-right:
+
         1px solid
+
         rgba(58, 213, 255, .17);
 }
 
 .section-label {
+
     display: block;
 
     margin-bottom: 5px;
@@ -841,19 +1076,23 @@ NO PERMANENT BLUE HIGHLIGHT.
     color: var(--cyan);
 
     font-size: 8px;
+
     letter-spacing: 1px;
 
     text-transform: uppercase;
 }
 
 .section-title {
+
     color: white;
 
     font-size: 25px;
+
     letter-spacing: -.8px;
 }
 
 .section-description {
+
     max-width: 480px;
 
     margin-top: 7px;
@@ -861,15 +1100,17 @@ NO PERMANENT BLUE HIGHLIGHT.
     color: #819aa7;
 
     font-size: 9px;
+
     line-height: 1.5;
 }
 
 
 /* =========================================================
-   THE ONLY VIDEO ON THE PAGE
+   ACTIVITIES VIDEO
 ========================================================= */
 
 .video-frame {
+
     position: relative;
 
     width: 100%;
@@ -879,7 +1120,9 @@ NO PERMANENT BLUE HIGHLIGHT.
     overflow: hidden;
 
     border:
+
         1px solid
+
         rgba(61, 218, 255, .30);
 
     border-radius: 10px;
@@ -888,9 +1131,11 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .video-frame video {
+
     display: block;
 
     width: 100%;
+
     height: auto;
 
     max-height: 430px;
@@ -898,15 +1143,18 @@ NO PERMANENT BLUE HIGHLIGHT.
     margin: auto;
 
     object-fit: contain;
+
     object-position: center;
 
     background: #000;
 }
 
 .video-tags {
+
     position: absolute;
 
     top: 8px;
+
     right: 8px;
 
     z-index: 5;
@@ -919,10 +1167,14 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .video-tag {
-    padding: 5px 7px;
+
+    padding:
+        5px 7px;
 
     border:
+
         1px solid
+
         rgba(61, 216, 255, .15);
 
     border-radius: 5px;
@@ -932,32 +1184,36 @@ NO PERMANENT BLUE HIGHLIGHT.
 
     color: #91aab5;
 
-    font-size: 6px;
+    font-size: 7px;
 }
 
 .video-note {
+
     margin-top: 8px;
 
     display: flex;
+
     justify-content: space-between;
 
     gap: 10px;
 
     color: #6d8997;
 
-    font-size: 7px;
+    font-size: 8px;
 }
 
 
 /* =========================================================
-   DIGITAL ID SECTION
+   DIGITAL ID
 ========================================================= */
 
 .digital {
+
     padding: 25px;
 }
 
 .digital-grid {
+
     display: grid;
 
     grid-template-columns:
@@ -969,28 +1225,34 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .digital-copy h2 {
+
     color: white;
 
     font-size: 27px;
+
     line-height: 1;
 }
 
 .digital-copy h2 span {
+
     display: block;
 
     color: var(--cyan);
 }
 
 .digital-copy > p {
+
     margin-top: 8px;
 
     color: #849da9;
 
     font-size: 9px;
+
     line-height: 1.5;
 }
 
 .features {
+
     display: grid;
 
     gap: 7px;
@@ -999,6 +1261,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .feature {
+
     display: grid;
 
     grid-template-columns:
@@ -1011,7 +1274,9 @@ NO PERMANENT BLUE HIGHLIGHT.
     padding: 8px;
 
     border:
+
         1px solid
+
         rgba(60, 214, 255, .15);
 
     border-radius: 7px;
@@ -1021,14 +1286,19 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .feature-number {
+
     width: 29px;
+
     height: 29px;
 
     display: grid;
+
     place-items: center;
 
     border:
+
         1px solid
+
         rgba(60, 218, 255, .36);
 
     border-radius: 50%;
@@ -1039,6 +1309,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .feature strong {
+
     display: block;
 
     color: white;
@@ -1047,6 +1318,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .feature span {
+
     display: block;
 
     margin-top: 2px;
@@ -1057,6 +1329,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .portal-button {
+
     width: 100%;
 
     min-height: 40px;
@@ -1064,7 +1337,9 @@ NO PERMANENT BLUE HIGHLIGHT.
     margin-top: 13px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     border-radius: 7px;
@@ -1072,6 +1347,7 @@ NO PERMANENT BLUE HIGHLIGHT.
     color: white;
 
     background:
+
         linear-gradient(
             135deg,
             #28d4f6,
@@ -1079,6 +1355,7 @@ NO PERMANENT BLUE HIGHLIGHT.
         );
 
     font-size: 8px;
+
     font-weight: 800;
 
     text-transform: uppercase;
@@ -1086,45 +1363,44 @@ NO PERMANENT BLUE HIGHLIGHT.
 
 
 /* =========================================================
-   SAMPLE KK DIGITAL ID
+   SAMPLE DIGITAL ID
 ========================================================= */
 
-.preview-label {
-    margin-bottom: 7px;
+.id-preview {
 
-    color: #94adba;
-
-    font-size: 7px;
-
-    text-transform: uppercase;
-}
-
-.kk-id {
     position: relative;
 
     width: 100%;
 
-    aspect-ratio: 85.6 / 53.98;
+    aspect-ratio:
+        85.6 / 53.98;
 
     overflow: hidden;
 
+    padding: 22px;
+
     border:
+
         1px solid
+
         rgba(106, 205, 255, .32);
 
-    border-radius: 13px;
+    border-radius: 14px;
 
     background:
+
         radial-gradient(
             circle at 95% 5%,
-            rgba(129, 63, 255, .43),
+            rgba(129, 63, 255, .40),
             transparent 28%
         ),
+
         radial-gradient(
             circle at 10% 95%,
-            rgba(25, 194, 255, .19),
+            rgba(25, 194, 255, .18),
             transparent 30%
         ),
+
         linear-gradient(
             135deg,
             #0a3c68,
@@ -1133,391 +1409,147 @@ NO PERMANENT BLUE HIGHLIGHT.
         );
 
     box-shadow:
+
         0 20px 50px
+
         rgba(0,0,0,.32);
-
-    transition:
-        transform .15s ease;
 }
 
-.kk-id::before {
-    content: "";
+.id-preview::after {
+
+    content: "SAMPLE";
 
     position: absolute;
-    inset: 0;
 
-    opacity: .18;
-
-    background:
-        repeating-linear-gradient(
-            125deg,
-            transparent 0 25px,
-            rgba(111, 221, 255, .25) 26px,
-            transparent 27px 52px
-        );
-}
-
-.sample {
-    position: absolute;
+    left: 50%;
 
     top: 50%;
-    left: 50%;
 
     transform:
         translate(-50%, -50%)
-        rotate(-14deg);
+        rotate(-15deg);
 
     color:
-        rgba(255,255,255,.04);
+        rgba(255,255,255,.05);
 
-    font-size: 55px;
+    font-size: 56px;
+
     font-weight: 900;
-    letter-spacing: 7px;
+
+    letter-spacing: 8px;
 }
 
-.id-header {
+.id-preview-header {
+
     position: relative;
 
     z-index: 2;
 
-    height: 21%;
-
-    padding: 3% 4%;
-
-    display: grid;
-
-    grid-template-columns:
-        auto 1fr auto;
-
-    gap: 8px;
+    display: flex;
 
     align-items: center;
 
-    border-bottom:
-        1px solid
-        rgba(111,213,255,.15);
+    gap: 10px;
 }
 
-.id-logo {
-    width: 34px;
-    height: 34px;
+.id-preview-logo {
 
-    display: grid;
-    place-items: center;
+    width: 42px;
 
-    border:
-        1px solid
-        rgba(111,225,255,.43);
+    height: 42px;
+
+    flex: 0 0 42px;
+}
+
+.id-preview-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
 
     border-radius: 50%;
-
-    color: var(--cyan);
-
-    font-size: 8px;
-    font-weight: 900;
 }
 
-.id-title span {
+.id-preview-title strong {
+
     display: block;
+
+    color: white;
+
+    font-size: 10px;
+}
+
+.id-preview-title span {
+
+    display: block;
+
+    margin-top: 2px;
 
     color: #9bb6c3;
 
-    font-size: 5px;
+    font-size: 6px;
 }
 
-.id-title strong {
-    display: block;
+.id-data {
 
-    margin-top: 1px;
-
-    color: white;
-
-    font-size: 9px;
-}
-
-.id-title small {
-    display: block;
-
-    margin-top: 1px;
-
-    color: #91aab7;
-
-    font-size: 5px;
-}
-
-.id-badge {
-    padding: 5px 8px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.5);
-
-    border-radius: 7px;
-
-    color: white;
-
-    font-size: 8px;
-    font-weight: 900;
-}
-
-.id-body {
     position: relative;
 
     z-index: 2;
 
-    height: 61%;
-
-    padding: 3% 4%;
-
-    display: grid;
-
-    grid-template-columns:
-        25% 1fr;
-
-    gap: 4%;
-}
-
-.id-photo {
-    display: flex;
-    flex-direction: column;
-}
-
-.photo {
-    flex: 1;
-
-    display: grid;
-    place-items: center;
-
-    overflow: hidden;
-
-    border:
-        1px solid
-        rgba(190,225,240,.35);
-
-    background:
-        linear-gradient(
-            #a8bec8,
-            #718e9b
-        );
-}
-
-.person {
-    position: relative;
-
-    width: 48%;
-    height: 70%;
-}
-
-.person::before {
-    content: "";
-
-    position: absolute;
-
-    width: 50%;
-    aspect-ratio: 1;
-
-    top: 0;
-    left: 25%;
-
-    border-radius: 50%;
-
-    background: #263b45;
-}
-
-.person::after {
-    content: "";
-
-    position: absolute;
-
-    width: 100%;
-    height: 55%;
-
-    bottom: 0;
-
-    border-radius:
-        50% 50% 8% 8%;
-
-    background: #263b45;
-}
-
-.signature {
-    height: 23%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #c8e0ea;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.32);
-
-    font-family:
-        "Segoe Script",
-        cursive;
-
-    font-size: 7px;
-}
-
-.id-type {
-    color: #96afbc;
-
-    font-size: 5px;
+    margin-top: 22px;
 }
 
 .id-number {
-    margin-top: 2px;
 
-    color: white;
+    color: var(--cyan);
 
-    font-size: 11px;
+    font-size: 10px;
+
     font-weight: 800;
 }
 
-.id-field {
-    margin-top: 6px;
-}
+.id-name {
 
-.id-field span {
-    display: block;
-
-    color: #8da8b5;
-
-    font-size: 5px;
-
-    text-transform: uppercase;
-}
-
-.id-field strong {
-    display: block;
-
-    margin-top: 1px;
+    margin-top: 12px;
 
     color: white;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.id-address {
+
+    margin-top: 5px;
+
+    color: #a7c0cc;
 
     font-size: 8px;
 }
 
-.id-field.name strong {
-    font-size: 11px;
-}
+.id-status {
 
-.id-validity {
-    display: grid;
+    margin-top: 15px;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+    display: flex;
 
-    gap: 5px;
+    justify-content: space-between;
 
-    margin-top: 7px;
-}
-
-.id-validity strong {
-    font-size: 7px;
-}
-
-.id-validity .active {
-    color: #77f27d;
-}
-
-.id-footer {
-    position: relative;
-
-    z-index: 2;
-
-    height: 18%;
-
-    padding: 1.5% 4%;
-
-    display: grid;
-
-    grid-template-columns:
-        auto 1fr auto;
-
-    gap: 8px;
-
-    align-items: center;
-
-    border-top:
-        1px solid
-        rgba(111,213,255,.15);
-}
-
-.qr {
-    width: 34px;
-    height: 34px;
-
-    padding: 3px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, 1fr);
-
-    grid-template-rows:
-        repeat(5, 1fr);
-
-    gap: 1px;
-
-    background: white;
-}
-
-.qr span {
-    background: #020b14;
-}
-
-.qr span:nth-child(2),
-.qr span:nth-child(4),
-.qr span:nth-child(7),
-.qr span:nth-child(9),
-.qr span:nth-child(12),
-.qr span:nth-child(14),
-.qr span:nth-child(18),
-.qr span:nth-child(22) {
-    opacity: 0;
-}
-
-.verify-copy span {
-    display: block;
-
-    color: #86a2b0;
-
-    font-size: 5px;
-}
-
-.verify-copy strong {
-    display: block;
-
-    margin-top: 2px;
-
-    color: #b5d0dc;
-
-    font-size: 5px;
-}
-
-.id-brand {
-    text-align: right;
-}
-
-.id-brand strong {
-    display: block;
-
-    color: var(--cyan);
+    gap: 10px;
 
     font-size: 7px;
 }
 
-.id-brand span {
-    display: block;
+.id-status strong {
 
-    color: #7893a0;
-
-    font-size: 4px;
+    color: var(--green);
 }
 
 .sample-note {
+
     margin-top: 7px;
 
     color: #708a98;
@@ -1531,26 +1563,32 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 .core {
+
     padding-bottom: 22px;
 }
 
 .core-heading {
+
     margin-bottom: 11px;
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: end;
 
     gap: 20px;
 }
 
 .core-heading h2 {
+
     color: white;
 
     font-size: 22px;
 }
 
 .core-heading p {
+
     max-width: 390px;
 
     color: #728d9a;
@@ -1559,6 +1597,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .core-grid {
+
     display: grid;
 
     grid-template-columns:
@@ -1568,49 +1607,62 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .core-card {
+
     min-height: 112px;
 
     padding: 17px;
 
     display: flex;
+
     align-items: center;
 
     gap: 15px;
 
     border:
+
         1px solid
+
         rgba(58, 213, 255, .27);
 
     border-radius: 10px;
 
     background:
+
         linear-gradient(
             145deg,
             rgba(5, 38, 56, .78),
             rgba(3, 20, 32, .86)
         );
 
-    transition: .25s ease;
+    transition:
+        .25s ease;
 }
 
 .core-card:hover {
-    transform: translateY(-4px);
+
+    transform:
+        translateY(-4px);
 
     border-color:
         rgba(61, 218, 255, .48);
 }
 
 .core-icon {
+
     width: 65px;
+
     height: 65px;
 
     flex: 0 0 65px;
 
     display: grid;
+
     place-items: center;
 
     border:
+
         1px solid
+
         rgba(60, 215, 255, .29);
 
     border-radius: 50%;
@@ -1621,6 +1673,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .core-card small {
+
     display: block;
 
     color: var(--cyan);
@@ -1631,6 +1684,7 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .core-card h3 {
+
     margin-top: 3px;
 
     color: white;
@@ -1639,11 +1693,13 @@ NO PERMANENT BLUE HIGHLIGHT.
 }
 
 .core-card p {
+
     margin-top: 4px;
 
     color: #7d96a2;
 
     font-size: 8px;
+
     line-height: 1.4;
 }
 
@@ -1653,10 +1709,14 @@ NO PERMANENT BLUE HIGHLIGHT.
 ========================================================= */
 
 footer {
-    padding: 17px 0 24px;
+
+    padding:
+        17px 0 24px;
 
     border-top:
+
         1px solid
+
         rgba(57, 210, 255, .14);
 
     background:
@@ -1664,6 +1724,7 @@ footer {
 }
 
 .footer-grid {
+
     display: grid;
 
     grid-template-columns:
@@ -1675,18 +1736,36 @@ footer {
 }
 
 .footer-brand {
+
     display: flex;
+
     align-items: center;
 
     gap: 10px;
 }
 
-.footer-brand .logo {
-    width: 39px;
-    height: 39px;
+.footer-logo {
+
+    width: 42px;
+
+    height: 42px;
+}
+
+.footer-logo img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
 }
 
 .footer-brand strong {
+
     display: block;
 
     color: white;
@@ -1695,6 +1774,7 @@ footer {
 }
 
 .footer-brand span {
+
     display: block;
 
     margin-top: 2px;
@@ -1705,23 +1785,28 @@ footer {
 }
 
 .footer-links {
+
     display: flex;
+
     flex-wrap: wrap;
 
     gap: 20px;
 }
 
 .footer-links a {
+
     color: #a6bbc4;
 
     font-size: 8px;
 }
 
 .footer-links a:hover {
+
     color: var(--cyan);
 }
 
 .copyright {
+
     color: #6d8592;
 
     font-size: 7px;
@@ -1735,14 +1820,17 @@ footer {
 ========================================================= */
 
 .music-player {
+
     position: fixed;
 
     right: 14px;
+
     bottom: 14px;
 
     z-index: 1100;
 
     display: flex;
+
     align-items: center;
 
     gap: 8px;
@@ -1750,7 +1838,9 @@ footer {
     padding: 7px;
 
     border:
+
         1px solid
+
         rgba(60, 214, 255, .18);
 
     border-radius: 10px;
@@ -1758,11 +1848,14 @@ footer {
     background:
         rgba(3, 22, 34, .92);
 
-    backdrop-filter: blur(16px);
+    backdrop-filter:
+        blur(16px);
 }
 
 .music-button {
+
     width: 36px;
+
     height: 36px;
 
     border: 0;
@@ -1772,6 +1865,7 @@ footer {
     color: #02111b;
 
     background:
+
         linear-gradient(
             135deg,
             #37dcff,
@@ -1784,10 +1878,12 @@ footer {
 }
 
 .music-copy {
+
     padding-right: 5px;
 }
 
 .music-copy strong {
+
     display: block;
 
     color: white;
@@ -1796,6 +1892,7 @@ footer {
 }
 
 .music-copy span {
+
     display: block;
 
     margin-top: 2px;
@@ -1807,64 +1904,39 @@ footer {
 
 
 /* =========================================================
-   LAPTOP
-========================================================= */
-
-@media
-(min-width: 1101px)
-and
-(max-height: 850px) {
-
-    .hero {
-        padding-top: 38px;
-        padding-bottom: 25px;
-    }
-
-    .network-panel {
-        min-height: 300px;
-    }
-
-    .network-grid {
-        min-height: 245px;
-    }
-
-    .radar {
-        width: 220px;
-    }
-
-    .video-frame video {
-        max-height: 340px;
-    }
-}
-
-
-/* =========================================================
    TABLET
 ========================================================= */
 
 @media(max-width:1100px) {
 
     .menu-button {
+
         display: grid;
+
         place-items: center;
     }
 
     .nav-links {
+
         position: absolute;
 
         top: 76px;
+
         left: 20px;
+
         right: 20px;
 
         display: none;
 
         flex-direction: column;
+
         align-items: stretch;
 
         padding: 10px;
 
         border:
-            1px solid var(--line);
+            1px solid
+            var(--line);
 
         border-radius: 11px;
 
@@ -1873,36 +1945,48 @@ and
     }
 
     .nav-links.open {
+
         display: flex;
     }
 
     .hero-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
     }
 
     .network-panel {
+
         max-width: 760px;
     }
 
     .showcase-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
     }
 
     .activities {
+
         border-right: 0;
 
         border-bottom:
+
             1px solid
+
             rgba(58,213,255,.17);
     }
 
     .digital-grid {
+
         grid-template-columns:
             .75fr 1.25fr;
     }
 
     .core-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
     }
 }
 
@@ -1914,80 +1998,111 @@ and
 @media(max-width:700px) {
 
     .container {
-        width: calc(100% - 24px);
+
+        width:
+            calc(100% - 24px);
     }
 
     .nav {
+
         min-height: 65px;
     }
 
     .logo {
-        width: 40px;
-        height: 40px;
+
+        width: 44px;
+
+        height: 44px;
+
+        flex:
+            0 0 44px;
+    }
+
+    .brand-text strong {
+
+        font-size: 13px;
     }
 
     .brand-text span {
+
         display: none;
     }
 
     .nav-links {
+
         top: 65px;
     }
 
     .hero {
-        padding: 42px 0 25px;
+
+        padding:
+            42px 0 25px;
     }
 
     .hero h1 {
-        font-size: clamp(43px, 14vw, 60px);
+
+        font-size:
+            clamp(
+                43px,
+                14vw,
+                60px
+            );
 
         letter-spacing: -2px;
     }
 
     .hero-description {
+
         font-size: 12px;
     }
 
     .hero-buttons {
+
         flex-direction: column;
     }
 
     .button {
+
         width: 100%;
     }
 
     .network-panel {
+
         min-height: 450px;
 
-        padding: 25px 18px;
+        padding:
+            25px 18px;
     }
 
     .network-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
     }
 
     .radar {
+
         width: 190px;
     }
 
     .status-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
 
         gap: 13px;
     }
 
     .activities,
     .digital {
+
         padding: 17px;
     }
 
-    /*
-    ONLY VIDEO.
-    FULL VIDEO FIT.
-    */
-
     .video-frame video {
+
         width: 100%;
+
         height: auto;
 
         max-height: 70svh;
@@ -1996,41 +2111,48 @@ and
     }
 
     .video-tags {
+
         display: none;
     }
 
     .video-note {
+
         flex-direction: column;
     }
 
     .digital-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
     }
 
-    .kk-id {
-        width: 100%;
-    }
+    .id-preview {
 
-    .sample {
-        font-size: 34px;
+        min-height: 240px;
     }
 
     .core-heading {
+
         flex-direction: column;
+
         align-items: flex-start;
 
         gap: 4px;
     }
 
     .footer-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
     }
 
     .copyright {
+
         text-align: left;
     }
 
     .music-copy {
+
         display: none;
     }
 }
@@ -2046,7 +2168,9 @@ and
 (orientation:landscape) {
 
     .video-frame video {
-        max-height: calc(100svh - 80px);
+
+        max-height:
+            calc(100svh - 80px);
 
         object-fit: contain;
     }
@@ -2062,9 +2186,15 @@ and
     *,
     *::before,
     *::after {
-        animation-duration: .001ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
+
+        animation-duration:
+            .001ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        scroll-behavior:
+            auto !important;
     }
 }
 
@@ -2077,8 +2207,11 @@ and
 
 
 <div class="future-bg">
+
     <div class="orb one"></div>
+
     <div class="orb two"></div>
+
 </div>
 
 
@@ -2091,15 +2224,31 @@ and
 <div class="container nav">
 
 
-<a href="#home" class="brand">
+<a
+    href="#home"
+    class="brand"
+>
 
     <div class="logo">
-        SK
+
+        <img
+            src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+            alt="SK Sapilang Official Logo"
+        >
+
     </div>
 
+
     <div class="brand-text">
-        <strong>SK SAPILANG</strong>
-        <span>DIGITAL YOUTH NETWORK</span>
+
+        <strong>
+            SK SAPILANG
+        </strong>
+
+        <span>
+            DIGITAL YOUTH NETWORK
+        </span>
+
     </div>
 
 </a>
@@ -2109,12 +2258,16 @@ and
     class="menu-button"
     id="menuButton"
     type="button"
+    aria-label="Open navigation menu"
 >
     ☰
 </button>
 
 
-<ul class="nav-links" id="navLinks">
+<ul
+    class="nav-links"
+    id="navLinks"
+>
 
     <li>
         <a href="#home">
@@ -2153,12 +2306,14 @@ and
     </li>
 
     <li>
+
         <a
             href="kk-portal.html"
             class="portal-link"
         >
             KK Portal
         </a>
+
     </li>
 
 </ul>
@@ -2186,96 +2341,155 @@ and
 
 <div class="hero-copy">
 
-    <div class="eyebrow">
-        Sangguniang Kabataan of Barangay Sapilang
-    </div>
 
-    <h1>
-        Building a Future
-        <span>
-            Worth Belonging To.
-        </span>
-    </h1>
+<div class="eyebrow">
+    Sangguniang Kabataan of Barangay Sapilang
+</div>
 
-    <p class="hero-description">
-        Welcome to the official digital home of the
-        Sangguniang Kabataan of Barangay Sapilang,
-        Bacnotan, La Union. Explore youth activities,
-        access digital services, verify your KK identity,
-        view public information, and connect with the
-        community through one integrated platform.
-    </p>
 
-    <div class="hero-buttons">
+<h1>
 
-        <a
-            href="#activities"
-            class="button button-primary"
-        >
-            EXPLORE SK ACTIVITIES →
-        </a>
+    Building a Future
 
-        <a
-            href="kk-portal.html"
-            class="button button-secondary"
-        >
-            LAUNCH KK DIGITAL PORTAL →
-        </a>
+    <span>
+        Worth Belonging To.
+    </span>
+
+</h1>
+
+
+<p class="hero-description">
+
+    Welcome to the official digital home of the
+    Sangguniang Kabataan of Barangay Sapilang,
+    Bacnotan, La Union. Explore youth activities,
+    access digital services, verify your KK identity,
+    view public information, and connect with the
+    community through one integrated platform.
+
+</p>
+
+
+<div class="hero-buttons">
+
+
+<a
+    href="#activities"
+    class="button button-primary"
+>
+    EXPLORE SK ACTIVITIES →
+</a>
+
+
+<a
+    href="kk-portal.html"
+    class="button button-secondary"
+>
+    LAUNCH KK DIGITAL PORTAL →
+</a>
+
+
+</div>
+
+
+</div>
+
+
+<!-- NETWORK PANEL -->
+
+<div class="network-panel">
+
+
+<div class="network-label">
+    Youth Network Interface
+</div>
+
+
+<div class="network-grid">
+
+
+<div class="radar">
+
+    <div class="radar-line"></div>
+
+    <div class="radar-core">
+
+        <div>
+
+            <strong>
+                SK
+            </strong>
+
+            <span>
+                SAPILANG
+            </span>
+
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- NETWORK -->
-
-<div class="network-panel">
-
-    <div class="network-label">
-        Youth Network Interface
-    </div>
-
-    <div class="network-grid">
-
-        <div class="radar">
-
-            <div class="radar-line"></div>
-
-            <div class="radar-core">
-
-                <div>
-                    <strong>SK</strong>
-                    <span>SAPILANG</span>
-                </div>
-
-            </div>
-
-        </div>
+<div class="network-stats">
 
 
-        <div class="network-stats">
+<div class="network-stat">
 
-            <div class="network-stat">
-                <small>Network</small>
-                <strong>STABLE</strong>
-                <span>● 100%</span>
-            </div>
+    <small>
+        Network
+    </small>
 
-            <div class="network-stat">
-                <small>Youth Engagement</small>
-                <strong>ACTIVE</strong>
-                <span>● 100%</span>
-            </div>
+    <strong>
+        STABLE
+    </strong>
 
-            <div class="network-stat">
-                <small>Digital Services</small>
-                <strong>OPERATIONAL</strong>
-                <span>● 100%</span>
-            </div>
+    <span>
+        ● 100%
+    </span>
 
-        </div>
+</div>
 
-    </div>
+
+<div class="network-stat">
+
+    <small>
+        Youth Engagement
+    </small>
+
+    <strong>
+        ACTIVE
+    </strong>
+
+    <span>
+        ● 100%
+    </span>
+
+</div>
+
+
+<div class="network-stat">
+
+    <small>
+        Digital Services
+    </small>
+
+    <strong>
+        OPERATIONAL
+    </strong>
+
+    <span>
+        ● 100%
+    </span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
 
 </div>
 
@@ -2303,8 +2517,15 @@ and
     </div>
 
     <div>
-        <span>System Status</span>
-        <strong>ONLINE</strong>
+
+        <span>
+            System Status
+        </span>
+
+        <strong>
+            ONLINE
+        </strong>
+
     </div>
 
 </div>
@@ -2317,8 +2538,15 @@ and
     </div>
 
     <div>
-        <span>KK Portal</span>
-        <strong>READY</strong>
+
+        <span>
+            KK Portal
+        </span>
+
+        <strong>
+            READY
+        </strong>
+
     </div>
 
 </div>
@@ -2331,8 +2559,15 @@ and
     </div>
 
     <div>
-        <span>Community</span>
-        <strong>CONNECTED</strong>
+
+        <span>
+            Community
+        </span>
+
+        <strong>
+            CONNECTED
+        </strong>
+
     </div>
 
 </div>
@@ -2355,47 +2590,64 @@ and
 
 <div class="ticker-track">
 
-    <span>
-        <strong>SK SAPILANG</strong>
-        • DIGITAL GOVERNANCE
-    </span>
 
-    <span>
-        YOUTH PARTICIPATION
-        • COMMUNITY DEVELOPMENT
-    </span>
+<span>
+    <strong>
+        SK SAPILANG
+    </strong>
+    • DIGITAL GOVERNANCE
+</span>
 
-    <span>
-        <strong>KK DIGITAL ID</strong>
-        • DIGITAL SERVICES
-    </span>
 
-    <span>
-        TRANSPARENCY
-        • ACCOUNTABILITY
-        • INNOVATION
-    </span>
+<span>
+    YOUTH PARTICIPATION
+    • COMMUNITY DEVELOPMENT
+</span>
 
-    <span>
-        <strong>SK SAPILANG</strong>
-        • DIGITAL GOVERNANCE
-    </span>
 
-    <span>
-        YOUTH PARTICIPATION
-        • COMMUNITY DEVELOPMENT
-    </span>
+<span>
+    <strong>
+        KK DIGITAL ID
+    </strong>
+    • DIGITAL SERVICES
+</span>
 
-    <span>
-        <strong>KK DIGITAL ID</strong>
-        • DIGITAL SERVICES
-    </span>
 
-    <span>
-        TRANSPARENCY
-        • ACCOUNTABILITY
-        • INNOVATION
-    </span>
+<span>
+    TRANSPARENCY
+    • ACCOUNTABILITY
+    • INNOVATION
+</span>
+
+
+<span>
+    <strong>
+        SK SAPILANG
+    </strong>
+    • DIGITAL GOVERNANCE
+</span>
+
+
+<span>
+    YOUTH PARTICIPATION
+    • COMMUNITY DEVELOPMENT
+</span>
+
+
+<span>
+    <strong>
+        KK DIGITAL ID
+    </strong>
+    • DIGITAL SERVICES
+</span>
+
+
+<span>
+    TRANSPARENCY
+    • ACCOUNTABILITY
+    • INNOVATION
+</span>
+
 
 </div>
 
@@ -2417,429 +2669,310 @@ and
 <div class="showcase-grid">
 
 
-<!-- =====================================================
+<!-- =========================================================
      ACTIVITIES
-===================================================== -->
+========================================================= -->
 
 <div
     class="activities"
     id="activities"
 >
 
-    <span class="section-label">
-        Visual Archive // SK Sapilang
-    </span>
 
-    <h2 class="section-title">
-        Our Work in Motion.
-    </h2>
-
-    <p class="section-description">
-        Watch a visual presentation of SK Sapilang's
-        programs, projects, partnerships, activities,
-        and youth development initiatives.
-    </p>
+<span class="section-label">
+    Visual Archive // SK Sapilang
+</span>
 
 
-    <!--
-        THIS IS THE ONLY VIDEO ELEMENT
-        IN THE ENTIRE WEBSITE.
-    -->
-
-    <div class="video-frame">
-
-        <div class="video-tags">
-
-            <div class="video-tag">
-                ● SK ACTIVITY FEED
-            </div>
-
-            <div class="video-tag">
-                DIGITAL MEDIA ARCHIVE
-            </div>
-
-        </div>
+<h2 class="section-title">
+    Our Work in Motion.
+</h2>
 
 
-        <video
-            id="activitiesVideo"
-            autoplay
-            muted
-            loop
-            playsinline
-            webkit-playsinline
-            controls
-            preload="metadata"
-        >
+<p class="section-description">
 
-            <source
-                src="images/final-mobile.mp4"
-                type="video/mp4"
-            >
+    Watch a visual presentation of SK Sapilang's
+    programs, projects, partnerships, activities,
+    and youth development initiatives.
 
-            Your browser does not support HTML5 video.
+</p>
 
-        </video>
 
+<div class="video-frame">
+
+
+<div class="video-tags">
+
+    <div class="video-tag">
+        ● SK ACTIVITY FEED
     </div>
 
-
-    <div class="video-note">
-
-        <span>
-            Full presentation scales to fit the available screen.
-        </span>
-
-        <span>
-            SK SAPILANG // ACTIVITIES SHOWCASE
-        </span>
-
+    <div class="video-tag">
+        DIGITAL MEDIA ARCHIVE
     </div>
 
 </div>
 
 
-<!-- =====================================================
+<video
+    id="activitiesVideo"
+    autoplay
+    muted
+    loop
+    playsinline
+    webkit-playsinline
+    controls
+    preload="metadata"
+>
+
+    <source
+        src="images/final-mobile.mp4"
+        type="video/mp4"
+    >
+
+    Your browser does not support HTML5 video.
+
+</video>
+
+
+</div>
+
+
+<div class="video-note">
+
+    <span>
+        SK Sapilang Programs, Projects and Activities
+    </span>
+
+    <span>
+        SK SAPILANG // ACTIVITIES SHOWCASE
+    </span>
+
+</div>
+
+
+</div>
+
+
+<!-- =========================================================
      DIGITAL ID
-===================================================== -->
+========================================================= -->
 
 <div
     class="digital"
     id="digital-id"
 >
 
+
 <div class="digital-grid">
 
 
 <div class="digital-copy">
 
-    <span class="section-label">
-        Digital Identity // KK System
+
+<span class="section-label">
+    Digital Identity // KK System
+</span>
+
+
+<h2>
+
+    Your Youth Identity.
+
+    <span>
+        Reimagined.
     </span>
 
-    <h2>
-        Your Youth Identity.
-        <span>
-            Reimagined.
-        </span>
-    </h2>
-
-    <p>
-        A digital identity experience for registered
-        members of the Katipunan ng Kabataan
-        of Barangay Sapilang.
-    </p>
+</h2>
 
 
-    <div class="features">
+<p>
 
-        <div class="feature">
+    A digital identity experience for registered
+    members of the Katipunan ng Kabataan
+    of Barangay Sapilang.
 
-            <div class="feature-number">
-                01
-            </div>
-
-            <div>
-                <strong>
-                    Digital Identification
-                </strong>
-
-                <span>
-                    Access your KK Digital ID online.
-                </span>
-            </div>
-
-        </div>
+</p>
 
 
-        <div class="feature">
-
-            <div class="feature-number">
-                02
-            </div>
-
-            <div>
-                <strong>
-                    Verification System
-                </strong>
-
-                <span>
-                    Verify issued KK IDs through the official portal.
-                </span>
-            </div>
-
-        </div>
+<div class="features">
 
 
-        <div class="feature">
+<div class="feature">
 
-            <div class="feature-number">
-                03
-            </div>
-
-            <div>
-                <strong>
-                    Member Information
-                </strong>
-
-                <span>
-                    View identification and validity information.
-                </span>
-            </div>
-
-        </div>
-
+    <div class="feature-number">
+        01
     </div>
 
+    <div>
 
-    <a
-        href="kk-portal.html"
-        class="portal-button"
-    >
-        ACCESS KK DIGITAL PORTAL →
-    </a>
+        <strong>
+            Digital Identification
+        </strong>
+
+        <span>
+            Access your KK Digital ID online.
+        </span>
+
+    </div>
 
 </div>
 
 
-<!-- SAMPLE ID -->
+<div class="feature">
+
+    <div class="feature-number">
+        02
+    </div>
+
+    <div>
+
+        <strong>
+            Verification System
+        </strong>
+
+        <span>
+            Verify issued KK IDs through the official portal.
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="feature">
+
+    <div class="feature-number">
+        03
+    </div>
+
+    <div>
+
+        <strong>
+            Member Information
+        </strong>
+
+        <span>
+            View identification and validity information.
+        </span>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<a
+    href="kk-portal.html"
+    class="portal-button"
+>
+    ACCESS KK DIGITAL PORTAL →
+</a>
+
+
+</div>
+
 
 <div>
 
-    <div class="preview-label">
-        ● KK Digital ID Sample Preview
-    </div>
+
+<div class="id-preview">
 
 
-    <div
-        class="kk-id"
-        id="sampleDigitalId"
+<div class="id-preview-header">
+
+
+<div class="id-preview-logo">
+
+    <img
+        src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+        alt="SK Sapilang Logo"
     >
 
-        <div class="sample">
-            SAMPLE
-        </div>
+</div>
 
 
-        <div class="id-header">
+<div class="id-preview-title">
 
-            <div class="id-logo">
-                SK
-            </div>
+    <strong>
+        SANGGUNIANG KABATAAN
+    </strong>
 
-
-            <div class="id-title">
-
-                <span>
-                    REPUBLIC OF THE PHILIPPINES
-                </span>
-
-                <strong>
-                    SANGGUNIANG KABATAAN
-                </strong>
-
-                <small>
-                    BARANGAY SAPILANG • BACNOTAN, LA UNION
-                </small>
-
-            </div>
-
-
-            <div class="id-badge">
-                KK ID
-            </div>
-
-        </div>
-
-
-        <div class="id-body">
-
-
-            <div class="id-photo">
-
-                <div class="photo">
-                    <div class="person"></div>
-                </div>
-
-                <div class="signature">
-                    Juan D. Cruz
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <div class="id-type">
-                    KATIPUNAN NG KABATAAN DIGITAL ID
-                </div>
-
-                <div class="id-number">
-                    KK-SAP-2026-00000000
-                </div>
-
-
-                <div class="id-field name">
-
-                    <span>
-                        Complete Name
-                    </span>
-
-                    <strong>
-                        JUAN DELA CRUZ
-                    </strong>
-
-                </div>
-
-
-                <div class="id-field">
-
-                    <span>
-                        Complete Address
-                    </span>
-
-                    <strong>
-                        Barangay Sapilang,
-                        Bacnotan, La Union
-                    </strong>
-
-                </div>
-
-
-                <div class="id-validity">
-
-
-                    <div class="id-field">
-
-                        <span>
-                            ID Status
-                        </span>
-
-                        <strong class="active">
-                            ACTIVE
-                        </strong>
-
-                    </div>
-
-
-                    <div class="id-field">
-
-                        <span>
-                            Issued On
-                        </span>
-
-                        <strong>
-                            MM/DD/YYYY
-                        </strong>
-
-                    </div>
-
-
-                    <div class="id-field">
-
-                        <span>
-                            Expires On
-                        </span>
-
-                        <strong>
-                            MM/DD/YYYY
-                        </strong>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="id-footer">
-
-
-            <div class="qr">
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </div>
-
-
-            <div class="verify-copy">
-
-                <span>
-                    DIGITAL VERIFICATION
-                </span>
-
-                <strong>
-                    SAMPLE ID • NOT VALID FOR OFFICIAL USE
-                </strong>
-
-            </div>
-
-
-            <div class="id-brand">
-
-                <strong>
-                    SK SAPILANG
-                </strong>
-
-                <span>
-                    DIGITAL YOUTH SYSTEM
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-    <div class="sample-note">
-        ● Sample preview only. Actual KK Digital IDs display
-        verified member information from the official system.
-    </div>
+    <span>
+        BARANGAY SAPILANG • BACNOTAN, LA UNION
+    </span>
 
 </div>
 
 
 </div>
 
+
+<div class="id-data">
+
+
+<div class="id-number">
+    KK-SAP-2026-00000000
+</div>
+
+
+<div class="id-name">
+    JUAN DELA CRUZ
+</div>
+
+
+<div class="id-address">
+
+    Barangay Sapilang,
+    Bacnotan, La Union
+
+</div>
+
+
+<div class="id-status">
+
+    <span>
+        ID STATUS:
+        <strong>ACTIVE</strong>
+    </span>
+
+    <span>
+        ISSUED:
+        MM/DD/YYYY
+    </span>
+
+    <span>
+        EXPIRES:
+        MM/DD/YYYY
+    </span>
+
 </div>
 
 
 </div>
+
+
+</div>
+
+
+<div class="sample-note">
+    SAMPLE ID • NOT VALID FOR OFFICIAL USE
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
 
 </div>
 
@@ -2859,23 +2992,28 @@ and
 
 <div class="core-heading">
 
-    <div>
 
-        <span class="section-label">
-            Core Systems
-        </span>
+<div>
 
-        <h2>
-            Enter the SK Digital Network.
-        </h2>
+<span class="section-label">
+    Digital Infrastructure
+</span>
 
-    </div>
+<h2>
+    Core Systems
+</h2>
+
+</div>
 
 
-    <p>
-        Access SK Sapilang's key digital services,
-        public information, and youth governance resources.
-    </p>
+<p>
+
+    Access the official digital services,
+    public information and institutional
+    resources of SK Sapilang.
+
+</p>
+
 
 </div>
 
@@ -2888,27 +3026,28 @@ and
     class="core-card"
 >
 
-    <div class="core-icon">
-        KK
-    </div>
+<div class="core-icon">
+    ◈
+</div>
 
-    <div>
+<div>
 
-        <small>
-            Module 01 // Digital Identity
-        </small>
+    <small>
+        Youth Services
+    </small>
 
-        <h3>
-            KK Digital Portal
-        </h3>
+    <h3>
+        KK Digital Portal
+    </h3>
 
-        <p>
-            Complete KK Profiling, access your KK Digital ID,
-            verify membership information, and connect with
-            Katipunan ng Kabataan digital services.
-        </p>
+    <p>
 
-    </div>
+        Access profiling, digital identification,
+        verification and KK services.
+
+    </p>
+
+</div>
 
 </a>
 
@@ -2918,27 +3057,28 @@ and
     class="core-card"
 >
 
-    <div class="core-icon">
-        ▤
-    </div>
+<div class="core-icon">
+    ◫
+</div>
 
-    <div>
+<div>
 
-        <small>
-            Module 02
-        </small>
+    <small>
+        Public Information
+    </small>
 
-        <h3>
-            Transparency
-        </h3>
+    <h3>
+        Transparency
+    </h3>
 
-        <p>
-            Access public documents, resolutions,
-            financial information, accomplishment reports,
-            and accountability records.
-        </p>
+    <p>
 
-    </div>
+        Access public documents,
+        resolutions and accountability information.
+
+    </p>
+
+</div>
 
 </a>
 
@@ -2948,32 +3088,34 @@ and
     class="core-card"
 >
 
-    <div class="core-icon">
-        ◎
-    </div>
+<div class="core-icon">
+    ◎
+</div>
 
-    <div>
+<div>
 
-        <small>
-            Module 03
-        </small>
+    <small>
+        Organization
+    </small>
 
-        <h3>
-            About SK Sapilang
-        </h3>
+    <h3>
+        About SK Sapilang
+    </h3>
 
-        <p>
-            Learn about the council, leadership,
-            mandate, vision, mission, and commitment
-            to the youth of Barangay Sapilang.
-        </p>
+    <p>
 
-    </div>
+        Learn about the organization,
+        leadership and youth development mission.
+
+    </p>
+
+</div>
 
 </a>
 
 
 </div>
+
 
 </div>
 
@@ -2994,61 +3136,71 @@ and
 
 <div class="footer-brand">
 
-    <div class="logo">
-        SK
-    </div>
 
-    <div>
+<div class="footer-logo">
 
-        <strong>
-            SK SAPILANG
-        </strong>
+    <img
+        src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+        alt="SK Sapilang Official Logo"
+    >
 
-        <span>
-            Official Digital Platform of the
-            Sangguniang Kabataan of Barangay Sapilang
-        </span>
+</div>
 
-    </div>
+
+<div>
+
+    <strong>
+        SK SAPILANG
+    </strong>
+
+    <span>
+        DIGITAL YOUTH NETWORK
+    </span>
+
+</div>
+
 
 </div>
 
 
 <div class="footer-links">
 
-    <a href="#home">
-        Home
-    </a>
+<a href="#home">
+    Home
+</a>
 
-    <a href="#activities">
-        Activities
-    </a>
+<a href="#activities">
+    Activities
+</a>
 
-    <a href="#digital-id">
-        Digital ID
-    </a>
+<a href="#digital-id">
+    Digital ID
+</a>
 
-    <a href="about.html">
-        About
-    </a>
+<a href="about.html">
+    About
+</a>
 
-    <a href="transparency.html">
-        Transparency
-    </a>
+<a href="transparency.html">
+    Transparency
+</a>
 
-    <a href="contact.html">
-        Contact
-    </a>
+<a href="contact.html">
+    Contact
+</a>
 
-    <a href="kk-portal.html">
-        KK Portal
-    </a>
+<a href="kk-portal.html">
+    KK Portal
+</a>
 
 </div>
 
 
 <div class="copyright">
-    © 2026 SK Sapilang. All Rights Reserved.
+
+    © 2026 SK Sapilang.
+    All Rights Reserved.
+
 </div>
 
 
@@ -3077,100 +3229,124 @@ and
 
 <div class="music-player">
 
-    <button
-        class="music-button"
-        id="musicButton"
-        type="button"
-    >
-        ▶
-    </button>
 
-    <div class="music-copy">
+<button
+    class="music-button"
+    id="musicButton"
+    type="button"
+    aria-label="Play official SK Sapilang music"
+>
+    ▶
+</button>
 
-        <strong>
-            SK Audio System
-        </strong>
 
-        <span id="musicStatus">
-            Standby
-        </span>
+<div class="music-copy">
 
-    </div>
+    <strong>
+        Official Music
+    </strong>
+
+    <span id="musicStatus">
+        Standby
+    </span>
 
 </div>
 
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
+</div>
+
 
 <script>
-
 
 /* =========================================================
    MOBILE MENU
 ========================================================= */
 
 const menuButton =
-    document.getElementById("menuButton");
+    document.getElementById(
+        "menuButton"
+    );
 
 const navLinks =
-    document.getElementById("navLinks");
+    document.getElementById(
+        "navLinks"
+    );
 
 
 menuButton.addEventListener(
     "click",
     function () {
 
-        navLinks.classList.toggle("open");
+        navLinks.classList.toggle(
+            "open"
+        );
 
     }
 );
 
 
-document
-.querySelectorAll(".nav-links a")
-.forEach(function (link) {
+navLinks
+    .querySelectorAll("a")
+    .forEach(function (link) {
 
-    link.addEventListener(
-        "click",
-        function () {
+        link.addEventListener(
+            "click",
+            function () {
 
-            navLinks.classList.remove("open");
+                navLinks.classList.remove(
+                    "open"
+                );
 
-        }
-    );
+            }
+        );
 
-});
+    });
 
 
 /* =========================================================
    ACTIVITIES VIDEO
-   MOBILE + DESKTOP COMPATIBILITY
 ========================================================= */
 
 const activitiesVideo =
-    document.getElementById("activitiesVideo");
+    document.getElementById(
+        "activitiesVideo"
+    );
+
 
 if (activitiesVideo) {
 
     activitiesVideo.muted = true;
+
     activitiesVideo.defaultMuted = true;
+
     activitiesVideo.playsInline = true;
 
-    activitiesVideo.setAttribute("muted", "");
-    activitiesVideo.setAttribute("playsinline", "");
+
+    activitiesVideo.setAttribute(
+        "muted",
+        ""
+    );
+
+    activitiesVideo.setAttribute(
+        "playsinline",
+        ""
+    );
+
     activitiesVideo.setAttribute(
         "webkit-playsinline",
         ""
     );
+
 
     function playActivitiesVideo() {
 
         const playPromise =
             activitiesVideo.play();
 
-        if (playPromise !== undefined) {
+
+        if (
+            playPromise !== undefined
+        ) {
 
             playPromise.catch(
                 function () {
@@ -3186,7 +3362,10 @@ if (activitiesVideo) {
 
     }
 
-    if (activitiesVideo.readyState >= 2) {
+
+    if (
+        activitiesVideo.readyState >= 2
+    ) {
 
         playActivitiesVideo();
 
@@ -3204,15 +3383,19 @@ if (activitiesVideo) {
 
     }
 
+
     function mobileVideoFallback() {
 
-        if (activitiesVideo.paused) {
+        if (
+            activitiesVideo.paused
+        ) {
 
             playActivitiesVideo();
 
         }
 
     }
+
 
     document.addEventListener(
         "touchstart",
@@ -3223,6 +3406,7 @@ if (activitiesVideo) {
         }
     );
 
+
     document.addEventListener(
         "pointerdown",
         mobileVideoFallback,
@@ -3231,6 +3415,7 @@ if (activitiesVideo) {
             passive: true
         }
     );
+
 
     document.addEventListener(
         "visibilitychange",
@@ -3252,102 +3437,35 @@ if (activitiesVideo) {
 
 
 /* =========================================================
-   SAMPLE ID 3D EFFECT
-========================================================= */
-
-const sampleDigitalId =
-    document.getElementById("sampleDigitalId");
-
-
-if (sampleDigitalId) {
-
-    sampleDigitalId.addEventListener(
-        "mousemove",
-        function (event) {
-
-            if (window.innerWidth < 1000) {
-                return;
-            }
-
-
-            const rect =
-                sampleDigitalId
-                .getBoundingClientRect();
-
-
-            const x =
-                event.clientX -
-                rect.left;
-
-
-            const y =
-                event.clientY -
-                rect.top;
-
-
-            const rotateY =
-                (
-                    x /
-                    rect.width -
-                    .5
-                ) * 5;
-
-
-            const rotateX =
-                (
-                    .5 -
-                    y /
-                    rect.height
-                ) * 5;
-
-
-            sampleDigitalId.style.transform =
-                "perspective(1000px) " +
-                "rotateX(" +
-                rotateX +
-                "deg) " +
-                "rotateY(" +
-                rotateY +
-                "deg)";
-
-        }
-    );
-
-
-    sampleDigitalId.addEventListener(
-        "mouseleave",
-        function () {
-
-            sampleDigitalId.style.transform =
-                "perspective(1000px) rotateX(0deg) rotateY(0deg)";
-
-        }
-    );
-
-}
-
-
-/* =========================================================
    OFFICIAL MUSIC
 ========================================================= */
 
 const officialMusic =
-    document.getElementById("officialMusic");
+    document.getElementById(
+        "officialMusic"
+    );
 
 
 const musicButton =
-    document.getElementById("musicButton");
+    document.getElementById(
+        "musicButton"
+    );
 
 
 const musicStatus =
-    document.getElementById("musicStatus");
+    document.getElementById(
+        "musicStatus"
+    );
 
 
 function updateMusicButton() {
 
-    if (officialMusic.paused) {
+    if (
+        officialMusic.paused
+    ) {
 
-        musicButton.textContent = "▶";
+        musicButton.textContent =
+            "▶";
 
         musicStatus.textContent =
             "Standby";
@@ -3356,7 +3474,8 @@ function updateMusicButton() {
 
     else {
 
-        musicButton.textContent = "❚❚";
+        musicButton.textContent =
+            "❚❚";
 
         musicStatus.textContent =
             "Playing";
@@ -3372,15 +3491,17 @@ musicButton.addEventListener(
 
         try {
 
-            if (officialMusic.paused) {
+            if (
+                officialMusic.paused
+            ) {
 
-                /*
-                Prevent homepage video and music
-                from competing for sound.
-                */
+                if (
+                    activitiesVideo
+                ) {
 
-                if (activitiesVideo) {
-                    activitiesVideo.muted = true;
+                    activitiesVideo.muted =
+                        true;
+
                 }
 
                 await officialMusic.play();
@@ -3400,7 +3521,9 @@ musicButton.addEventListener(
 
         catch (error) {
 
-            console.log(error);
+            console.log(
+                error
+            );
 
             musicStatus.textContent =
                 "Tap Again";
@@ -3425,9 +3548,9 @@ officialMusic.addEventListener(
 
 updateMusicButton();
 
-
 </script>
 
 
 </body>
+
 </html>
