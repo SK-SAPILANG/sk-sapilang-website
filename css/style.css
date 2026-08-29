@@ -323,4 +323,49 @@
     }
 
 }
+<nav class="navbar">
+  <div class="container nav-inner">
 
+    <a class="brand" href="home.html">
+      <img src="images/sk-logo.svg" alt="SK Sapilang Logo">
+
+      <div>
+        <strong>SK SAPILANG</strong>
+        <small>Kabataan. Serbisyo. Pag-asa.</small>
+      </div>
+    </a>
+
+    <button
+      class="menu-toggle"
+      aria-label="Open navigation"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+    <ul class="nav-links">
+
+      <li><a href="home.html">Home</a></li>
+
+      <li><a href="programs.html">Activities</a></li>
+
+      <li><a href="digital-id.html">Digital ID</a></li>
+
+      <li><a href="about.html">About</a></li>
+
+      <li><a href="awards.html">Awards</a></li>
+
+      <li><a href="resolutions.html">Resolutions</a></li>
+
+      <li><a href="transparency.html">Transparency</a></li>
+
+      <li><a href="contact.html#feedback">Feedback</a></li>
+
+      <li><a href="contact.html">Contact</a></li>
+
+      <li><a href="kk-portal.html">KK Portal</a></li>
+
+    </ul>
+
+  </div>
+</nav>
