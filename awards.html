@@ -449,31 +449,6 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:40px}
   }
 }
 
-.drive-folder{
-  height:250px;
-  background:#06111b;
-}
-.drive-folder iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  background:#06111b;
-}
-.folder-link{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  margin-top:17px;
-  color:var(--cyan);
-  font-size:.76rem;
-  font-weight:800;
-  letter-spacing:.02em;
-  transition:.2s ease;
-}
-.folder-link:hover{
-  color:#fff;
-  transform:translateX(3px);
-}
 
 </style>
 </head>
@@ -561,60 +536,69 @@ footer{border-top:1px solid rgba(255,255,255,.05);margin-top:40px}
     <div class="grid-3">
 
       <article class="award-card reveal">
-        <div class="award-image drive-folder">
-          <iframe
-            src="https://drive.google.com/embeddedfolderview?id=1e8dDFD0wOYD-Ic7kxWzPnqv_7XQNO4KD#grid"
-            title="Top 5 Recognition Photos"
-            loading="lazy">
-          </iframe>
+        <div class="award-image">
+          <div class="award-slider" data-award-slider="outstanding">
+            <div class="award-slides">
+              <img class="award-slide active" data-drive-id="1VCefIzLPwEZd7DsnWyqvLGAozoACWNbF" alt="Most Outstanding recognition photo 1">
+              <img class="award-slide" data-drive-id="1hWfx9owB2_Y8pbHTHcTlkkqA4k9oWTVo" alt="Most Outstanding recognition photo 2">
+              <img class="award-slide" data-drive-id="1tJfdx8jl6Sbsvp0DjG49fX5D-AhqUOfE" alt="Most Outstanding recognition photo 3">
+            </div>
+            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">‹</button>
+            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">›</button>
+            <div class="award-slide-counter"><span class="current">1</span>/<span class="total">3</span></div>
+            <div class="award-slide-dots"></div>
+          </div>
         </div>
         <div class="award-content">
-          <span class="badge">2025</span>
-          <h3>Top 5 — SGYG / SYGLG Bacnotan</h3>
-          <p>Recognized among Bacnotan’s Top 5 Sangguniang Kabataan councils for youth governance performance.</p>
-          <a class="folder-link"
-             href="https://drive.google.com/drive/folders/1e8dDFD0wOYD-Ic7kxWzPnqv_7XQNO4KD?usp=drive_link"
-             target="_blank" rel="noopener">View Photo Archive ↗</a>
+          <span class="badge">Recognition</span>
+          <h3>Most Outstanding Recognition</h3>
+          <p>A distinguished recognition reflecting SK Sapilang’s commitment to effective youth governance and public service.</p>
         </div>
       </article>
 
       <article class="award-card reveal">
-        <div class="award-image drive-folder">
-          <iframe
-            src="https://drive.google.com/embeddedfolderview?id=1kqR6tpWSdLqdemlhAYq060zq1s68E8NY#grid"
-            title="Best Booth Recognition Photos"
-            loading="lazy">
-          </iframe>
+        <div class="award-image">
+          <div class="award-slider" data-award-slider="booth">
+            <div class="award-slides">
+              <img class="award-slide active" data-drive-id="1Ir1irnCy2T-bt4vdgsFa5eR-T85sAfS8" alt="Best Booth recognition photo 1">
+              <img class="award-slide" data-drive-id="157QMzgyU2xAyTI7NVaOcrl7QnEsWt12C" alt="Best Booth recognition photo 2">
+              <img class="award-slide" data-drive-id="1zBxVB1ZE9pN3617lScJyAG8PYbV5-Zm8" alt="Best Booth recognition photo 3">
+            </div>
+            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">‹</button>
+            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">›</button>
+            <div class="award-slide-counter"><span class="current">1</span>/<span class="total">3</span></div>
+            <div class="award-slide-dots"></div>
+          </div>
         </div>
         <div class="award-content">
           <span class="badge">2025</span>
           <h3>Best Booth — SYGLG Bacnotan</h3>
           <p>Recognized for Best Booth during the 2025 SYGLG Bacnotan recognition activities.</p>
-          <a class="folder-link"
-             href="https://drive.google.com/drive/folders/1kqR6tpWSdLqdemlhAYq060zq1s68E8NY?usp=drive_link"
-             target="_blank" rel="noopener">View Photo Archive ↗</a>
         </div>
       </article>
 
       <article class="award-card reveal">
-        <div class="award-image drive-folder">
-          <iframe
-            src="https://drive.google.com/embeddedfolderview?id=1qGRy8oH4Yn1tzF8GHag0O6BCbTFjjqM2#grid"
-            title="Pickleball Program Photos"
-            loading="lazy">
-          </iframe>
+        <div class="award-image">
+          <div class="award-slider" data-award-slider="pickleball">
+            <div class="award-slides">
+              <img class="award-slide active" data-drive-id="1QMZ9b4mwj8wBn9luS2tmLGECjhCy2z7d" alt="Pickleball program photo 1">
+              <img class="award-slide" data-drive-id="1zr1rFj2LmhXJuR5ndB7etPbNYpOcZiGh" alt="Pickleball program photo 2">
+              <img class="award-slide" data-drive-id="1cjcsJKBgssopiFN-wYo4lUyp5g3JpgNB" alt="Pickleball program photo 3">
+            </div>
+            <button class="award-slide-button award-slide-prev" type="button" aria-label="Previous photo">‹</button>
+            <button class="award-slide-button award-slide-next" type="button" aria-label="Next photo">›</button>
+            <div class="award-slide-counter"><span class="current">1</span>/<span class="total">3</span></div>
+            <div class="award-slide-dots"></div>
+          </div>
         </div>
         <div class="award-content">
           <span class="badge">Program Milestone</span>
           <h3>Localized Pickleball Program</h3>
           <p>A community-based youth sports initiative supported through local partnerships, facilities and accessible equipment.</p>
-          <a class="folder-link"
-             href="https://drive.google.com/drive/folders/1qGRy8oH4Yn1tzF8GHag0O6BCbTFjjqM2?usp=drive_link"
-             target="_blank" rel="noopener">View Photo Archive ↗</a>
         </div>
       </article>
 
-    </div></div>
+    </div>
   </div>
 </section>
 
@@ -698,6 +682,78 @@ const observer = new IntersectionObserver(entries=>{
 
 document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+
+<script>
+function driveImageURL(fileId){
+  return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(fileId) + "&sz=w1600";
+}
+
+document.querySelectorAll(".award-slider").forEach(slider=>{
+  const slides=[...slider.querySelectorAll(".award-slide")];
+  const prev=slider.querySelector(".award-slide-prev");
+  const next=slider.querySelector(".award-slide-next");
+  const dotsWrap=slider.querySelector(".award-slide-dots");
+  const current=slider.querySelector(".current");
+  const total=slider.querySelector(".total");
+
+  let index=0;
+  let timer=null;
+  let touchStartX=0;
+
+  slides.forEach((slide,i)=>{
+    slide.src=driveImageURL(slide.dataset.driveId);
+
+    const dot=document.createElement("button");
+    dot.type="button";
+    dot.className="award-slide-dot";
+    dot.setAttribute("aria-label",`View photo ${i+1}`);
+    dot.addEventListener("click",()=>{
+      index=i;
+      show();
+      restart();
+    });
+    dotsWrap.appendChild(dot);
+  });
+
+  total.textContent=slides.length;
+
+  function show(){
+    slides.forEach((slide,i)=>slide.classList.toggle("active",i===index));
+    [...dotsWrap.children].forEach((dot,i)=>dot.classList.toggle("active",i===index));
+    current.textContent=index+1;
+  }
+
+  function move(direction){
+    index=(index+direction+slides.length)%slides.length;
+    show();
+  }
+
+  function start(){ timer=setInterval(()=>move(1),4500); }
+  function stop(){ clearInterval(timer); }
+  function restart(){ stop(); start(); }
+
+  prev.addEventListener("click",()=>{move(-1);restart()});
+  next.addEventListener("click",()=>{move(1);restart()});
+
+  slider.addEventListener("mouseenter",stop);
+  slider.addEventListener("mouseleave",start);
+
+  slider.addEventListener("touchstart",e=>{
+    touchStartX=e.changedTouches[0].clientX;
+    stop();
+  },{passive:true});
+
+  slider.addEventListener("touchend",e=>{
+    const delta=e.changedTouches[0].clientX-touchStartX;
+    if(Math.abs(delta)>45) move(delta<0?1:-1);
+    restart();
+  },{passive:true});
+
+  show();
+  start();
+});
 </script>
 
 <script src="js/frame-bridge.js"></script>
