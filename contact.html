@@ -322,7 +322,8 @@ button{
 
   color:#fff;
 
-  font-size:1.1rem;
+  font-size:.96rem;
+  line-height:1.25;
 
   cursor:pointer;
 }
@@ -1248,6 +1249,16 @@ button{
 
 @media(max-width:720px){
 
+  .government-highlight{
+    grid-template-columns:1fr;
+  }
+
+  .government-highlight-divider{
+    width:100%;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,213,101,.3),transparent);
+  }
+
   .section{
     padding:
       70px 0;
@@ -1320,6 +1331,207 @@ button{
     text-align:left;
   }
 
+}
+
+
+/* =========================================================
+   SPLIT CONTACT / GOVERNMENT LAYOUT
+========================================================= */
+
+.contact-command{
+  display:grid;
+  grid-template-columns:minmax(300px,.55fr) minmax(0,1fr);
+  gap:22px;
+  align-items:start;
+}
+
+.contact-side{
+  min-width:0;
+}
+
+.contact-side-panel{
+  padding:20px;
+  border-radius:24px;
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(8,24,39,.88),rgba(3,13,23,.88));
+  box-shadow:var(--shadow);
+}
+
+.contact-side-panel.sk-panel{
+  position:sticky;
+  top:100px;
+}
+
+.side-heading{
+  margin-bottom:14px;
+}
+
+.side-heading h2{
+  margin-top:5px;
+  font-size:clamp(1.35rem,2vw,1.9rem);
+  line-height:1.06;
+  letter-spacing:-.035em;
+}
+
+.side-heading p{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:.82rem;
+  line-height:1.55;
+}
+
+.sk-contact-stack{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.sk-contact-stack .contact-card{
+  min-height:0;
+  padding:14px;
+  border-radius:16px;
+}
+
+.sk-contact-stack .contact-card small{
+  margin-top:9px;
+}
+
+.sk-contact-stack .contact-card h3{
+  font-size:.92rem;
+  line-height:1.25;
+}
+
+.sk-contact-stack .contact-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  font-size:1rem;
+}
+
+.sk-contact-stack .contact-card p{
+  margin-top:7px;
+  font-size:.75rem;
+  line-height:1.45;
+}
+
+.sk-contact-stack .contact-actions{
+  gap:6px;
+  margin-top:10px;
+}
+
+.sk-contact-stack .small-button{
+  min-height:34px;
+  padding:0 10px;
+  border-radius:9px;
+  font-size:.69rem;
+}
+
+.office-compact{
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.025);
+}
+
+.office-compact h3{
+  font-size:.95rem;
+}
+
+.office-compact p{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:.76rem;
+}
+
+.office-compact .office-details{
+  margin-top:10px;
+}
+
+.government-panel{
+  border-color:rgba(255,196,89,.18);
+  background:
+    radial-gradient(circle at top right,rgba(255,213,101,.08),transparent 34%),
+    linear-gradient(145deg,rgba(19,21,23,.9),rgba(3,13,23,.9));
+}
+
+.gov-intro{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid rgba(255,213,101,.12);
+  background:rgba(255,213,101,.035);
+  color:#c7d4dc;
+  font-size:.8rem;
+}
+
+.gov-intro strong{
+  color:var(--yellow);
+}
+
+.government-directory{
+  display:grid;
+  gap:20px;
+}
+
+.government-directory .emergency-card{
+  border-color:rgba(255,213,101,.14);
+}
+
+.level-strip{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.02);
+}
+
+.level-strip strong{
+  font-size:.82rem;
+  letter-spacing:.04em;
+}
+
+.level-strip span{
+  color:var(--yellow);
+  font-size:.64rem;
+  font-weight:800;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+
+@media(max-width:980px){
+  .contact-command{
+    grid-template-columns:1fr;
+  }
+
+  .contact-side-panel.sk-panel{
+    position:static;
+  }
+}
+
+@media(max-width:620px){
+  .sk-contact-stack{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:520px){
+  .contact-side-panel{
+    padding:20px;
+    border-radius:24px;
+  }
+
+  .gov-intro,
+  .level-strip{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 
 </style>
@@ -1504,560 +1716,139 @@ button{
 
 
 <!-- =========================================================
-     CONTACT OPTIONS
+     CONTACT + GOVERNMENT SPLIT
 ========================================================= -->
 
 <section class="section">
-
   <div class="container">
+    <div class="contact-command">
 
-    <div class="section-heading">
+      <!-- LEFT: SK SAPILANG -->
+      <div class="contact-side">
+        <section class="contact-side-panel sk-panel">
+          <div class="side-heading">
+            <span class="section-label">Connect With Us</span>
+            <h2>SK Sapilang Contacts</h2>
+            <p>Official channels for inquiries, coordination and youth services.</p>
+          </div>
 
-      <span class="section-label">
-        Connect With Us
-      </span>
+          <div class="sk-contact-stack">
+            <article class="contact-card">
+              <div class="contact-icon">☎</div>
+              <small>Temporary Contact Number</small>
+              <h3>Call or message us</h3>
+              <p><strong>0909-305-5789</strong><br>Calls, SMS and general concerns.</p>
+              <div class="contact-actions">
+                <a class="small-button primary" href="tel:09093055789">Call Now</a>
+                <a class="small-button" href="sms:09093055789">Send SMS</a>
+              </div>
+            </article>
 
-      <h2>
-        Choose the easiest way to reach us.
-      </h2>
+            <article class="contact-card">
+              <div class="contact-icon">✉</div>
+              <small>Official Email</small>
+              <h3>Send us an email</h3>
+              <p>sksapilangbacnotanlaunion@gmail.com<br>Formal correspondence and documents.</p>
+              <div class="contact-actions">
+                <a class="small-button primary" href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">Compose Email</a>
+                <button class="small-button" type="button" onclick="copyEmail()">Copy Email</button>
+              </div>
+            </article>
 
-      <p>
-        Use our verified communication channels for official
-        SK-related inquiries, coordination and assistance.
-      </p>
+            <article class="contact-card">
+              <div class="contact-icon">f</div>
+              <small>Official Facebook</small>
+              <h3>Connect on Facebook</h3>
+              <p>Official announcements and community updates.</p>
+              <div class="contact-actions">
+                <a class="small-button primary" href="https://www.facebook.com/profile.php?id=61555692615847" target="_blank" rel="noopener noreferrer">Open Facebook Page</a>
+              </div>
+            </article>
+
+            <article class="contact-card">
+              <div class="contact-icon">✦</div>
+              <small>Feedback & Evaluation</small>
+              <h3>Share your feedback</h3>
+              <p>Evaluations, suggestions and recommendations.</p>
+              <div class="contact-actions">
+                <a class="small-button primary" href="feedback.html">Open Feedback Center</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="office-compact">
+            <span class="section-label">SK Office</span>
+            <h3>Barangay Sapilang Youth Office</h3>
+            <p>Barangay Sapilang • Bacnotan • La Union</p>
+            <div style="margin-top:16px">
+              <a class="button button-secondary" href="https://maps.google.com/?q=Barangay+Sapilang+Bacnotan+La+Union" target="_blank" rel="noopener noreferrer">View Location</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT: MUNICIPAL + PROVINCIAL -->
+      <div class="contact-side">
+        <section class="contact-side-panel government-panel">
+          <div class="side-heading">
+            <span class="section-label">Government & Emergency</span>
+            <h2>Bacnotan & La Union official contacts.</h2>
+            <p>Use these government directories for urgent public-safety, disaster-response and emergency concerns beyond SK services.</p>
+          </div>
+
+          <div class="gov-intro">
+            <span><strong>Separate from SK Sapilang.</strong> These contacts belong to the municipal and provincial government response network.</span>
+          </div>
+
+          <div class="government-directory">
+            <article class="emergency-card">
+              <div class="level-strip">
+                <strong>Municipality of Bacnotan</strong>
+                <span>Municipal Level</span>
+              </div>
+              <img class="emergency-image" src="images/754068979_1059814589894173_8643446816999775764_n.jpg" alt="Municipality of Bacnotan Emergency Contact Directory">
+              <div class="emergency-content">
+                <small>Municipality of Bacnotan</small>
+                <h3>Municipal Emergency & Public Safety</h3>
+                <p>Official local emergency, disaster-response and public-safety contact information for Bacnotan.</p>
+              </div>
+            </article>
+
+            <article class="emergency-card">
+              <div class="level-strip">
+                <strong>Province of La Union</strong>
+                <span>Provincial Level</span>
+              </div>
+              <div class="provincial-slider" id="provincialSlider">
+                <div class="provincial-slides">
+                  <img class="provincial-slide active" src="images/pglu.jpg" alt="La Union Emergency Contact 1">
+                  <img class="provincial-slide" src="images/pglu 1.jpg" alt="La Union Emergency Contact 2">
+                  <img class="provincial-slide" src="images/pglu 2.jpg" alt="La Union Emergency Contact 3">
+                  <img class="provincial-slide" src="images/pglu 3.jpg" alt="La Union Emergency Contact 4">
+                  <img class="provincial-slide" src="images/pglu 5.jpg" alt="La Union Emergency Contact 5">
+                </div>
+                <button class="slider-button slider-prev" type="button" id="prevProvincial" aria-label="Previous image">‹</button>
+                <button class="slider-button slider-next" type="button" id="nextProvincial" aria-label="Next image">›</button>
+                <div class="slide-counter"><span id="provincialCurrent">1</span> / <span id="provincialTotal">5</span></div>
+              </div>
+              <div class="emergency-content">
+                <small>Province of La Union</small>
+                <h3>Provincial Emergency & Public Safety</h3>
+                <p>Browse the official province-wide emergency and public-safety information of the Provincial Government of La Union.</p>
+                <div class="slider-dots" id="provincialDots"></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="emergency-note">
+            <strong>Emergency reminder:</strong> SK Sapilang is not an emergency response agency. For urgent emergencies, use the appropriate municipal or provincial police, fire, medical or disaster-response contact shown in these official directories.
+          </div>
+        </section>
+      </div>
 
     </div>
-
-
-
-    <div class="contact-grid">
-
-
-      <!-- PHONE -->
-
-      <article class="contact-card">
-
-        <div class="contact-icon">
-          ☎
-        </div>
-
-        <small>
-          Temporary Contact Number
-        </small>
-
-        <h3>
-          Call or message us
-        </h3>
-
-        <p>
-
-          <strong>
-            0909-305-5789
-          </strong>
-
-          <br><br>
-
-          For general inquiries,
-          coordination and SK-related concerns.
-
-        </p>
-
-        <div class="contact-actions">
-
-          <a
-            class="small-button primary"
-            href="tel:09093055789">
-
-            Call Now
-
-          </a>
-
-          <a
-            class="small-button"
-            href="sms:09093055789">
-
-            Send SMS
-
-          </a>
-
-        </div>
-
-      </article>
-
-
-
-      <!-- EMAIL -->
-
-      <article class="contact-card">
-
-        <div class="contact-icon">
-          ✉
-        </div>
-
-        <small>
-          Official Email
-        </small>
-
-        <h3>
-          Send us an email
-        </h3>
-
-        <p>
-
-          sksapilangbacnotanlaunion@gmail.com
-
-          <br><br>
-
-          Best for formal inquiries,
-          letters, documents and official correspondence.
-
-        </p>
-
-        <div class="contact-actions">
-
-          <a
-            class="small-button primary"
-            href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
-
-            Compose Email
-
-          </a>
-
-          <button
-            class="small-button"
-            type="button"
-            onclick="copyEmail()">
-
-            Copy Email
-
-          </button>
-
-        </div>
-
-      </article>
-
-
-
-      <!-- FACEBOOK -->
-
-      <article class="contact-card">
-
-        <div class="contact-icon">
-          f
-        </div>
-
-        <small>
-          Official Facebook
-        </small>
-
-        <h3>
-          Connect on Facebook
-        </h3>
-
-        <p>
-          Follow SK Sapilang for official announcements,
-          activities, programs and community updates.
-        </p>
-
-        <div class="contact-actions">
-
-          <a
-            class="small-button primary"
-            href="https://www.facebook.com/profile.php?id=61555692615847"
-            target="_blank"
-            rel="noopener noreferrer">
-
-            Open Facebook Page
-
-          </a>
-
-        </div>
-
-      </article>
-
-
-
-      <!-- FEEDBACK -->
-
-      <article class="contact-card">
-
-        <div class="contact-icon">
-          ✦
-        </div>
-
-        <small>
-          Feedback & Evaluation
-        </small>
-
-        <h3>
-          Share your feedback
-        </h3>
-
-        <p>
-          Submit program evaluations,
-          service feedback, suggestions
-          and recommendations.
-        </p>
-
-        <div class="contact-actions">
-
-          <a
-            class="small-button primary"
-            href="feedback.html">
-
-            Open Feedback Center
-
-          </a>
-
-        </div>
-
-      </article>
-
-
-    </div>
-
   </div>
-
 </section>
-
-
-
-<!-- =========================================================
-     OFFICE
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-    <article class="office-box">
-
-
-      <div class="office-info">
-
-        <span class="section-label">
-          SK Office
-        </span>
-
-        <h3>
-          Visit or coordinate with us.
-        </h3>
-
-        <p>
-          The Sangguniang Kabataan Office serves as the
-          local youth coordination point for programs,
-          activities, official concerns and youth-related services.
-        </p>
-
-        <div style="margin-top:22px">
-
-          <a
-            class="button button-secondary"
-            href="https://maps.google.com/?q=Barangay+Sapilang+Bacnotan+La+Union"
-            target="_blank"
-            rel="noopener noreferrer">
-
-            View Location
-
-          </a>
-
-        </div>
-
-      </div>
-
-
-
-      <div class="office-details">
-
-        <div class="office-row">
-
-          <span>
-            Office
-          </span>
-
-          <span>
-            Sangguniang Kabataan of Barangay Sapilang
-          </span>
-
-        </div>
-
-
-        <div class="office-row">
-
-          <span>
-            Barangay
-          </span>
-
-          <span>
-            Sapilang
-          </span>
-
-        </div>
-
-
-        <div class="office-row">
-
-          <span>
-            Municipality
-          </span>
-
-          <span>
-            Bacnotan
-          </span>
-
-        </div>
-
-
-        <div class="office-row">
-
-          <span>
-            Province
-          </span>
-
-          <span>
-            La Union
-          </span>
-
-        </div>
-
-      </div>
-
-
-    </article>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     EMERGENCY CONTACTS
-========================================================= -->
-
-<section class="section">
-
-  <div class="container">
-
-    <article class="emergency-box">
-
-
-      <div class="section-heading">
-
-        <span class="section-label">
-          Emergency Information
-        </span>
-
-        <h2>
-          Important contacts when you need help quickly.
-        </h2>
-
-        <p>
-          Official emergency contact information from the
-          Municipality of Bacnotan and the Province of La Union.
-        </p>
-
-      </div>
-
-
-
-      <div class="emergency-grid">
-
-
-        <!-- =================================================
-             BACNOTAN
-        ================================================== -->
-
-        <article class="emergency-card">
-
-          <img
-            class="emergency-image"
-            src="images/754068979_1059814589894173_8643446816999775764_n.jpg"
-            alt="Municipality of Bacnotan Emergency Contact Directory">
-
-          <div class="emergency-content">
-
-            <small>
-              Municipality of Bacnotan
-            </small>
-
-            <h3>
-              Municipal Emergency Contacts
-            </h3>
-
-            <p>
-              Official emergency and public safety
-              information from the Municipality of Bacnotan.
-            </p>
-
-          </div>
-
-        </article>
-
-
-
-        <!-- =================================================
-             PROVINCE OF LA UNION
-             5 AUTOMATIC PICTURES
-        ================================================== -->
-
-        <article class="emergency-card">
-
-
-          <div
-            class="provincial-slider"
-            id="provincialSlider">
-
-
-            <div class="provincial-slides">
-
-
-              <!-- PICTURE 1 -->
-
-              <img
-                class="provincial-slide active"
-                src="images/pglu.jpg"
-                alt="La Union Emergency Contact 1">
-
-
-              <!-- PICTURE 2 -->
-
-              <img
-                class="provincial-slide"
-                src="images/pglu 1.jpg"
-                alt="La Union Emergency Contact 2">
-
-
-              <!-- PICTURE 3 -->
-
-              <img
-                class="provincial-slide"
-                src="images/pglu 2.jpg"
-                alt="La Union Emergency Contact 3">
-
-
-              <!-- PICTURE 4 -->
-
-              <img
-                class="provincial-slide"
-                src="images/pglu 3.jpg"
-                alt="La Union Emergency Contact 4">
-
-
-              <!-- PICTURE 5 -->
-
-              <img
-                class="provincial-slide"
-                src="images/pglu 5.jpg"
-                alt="La Union Emergency Contact 5">
-
-
-            </div>
-
-
-
-            <!-- PREVIOUS -->
-
-            <button
-              class="slider-button slider-prev"
-              type="button"
-              id="prevProvincial"
-              aria-label="Previous image">
-
-              ‹
-
-            </button>
-
-
-
-            <!-- NEXT -->
-
-            <button
-              class="slider-button slider-next"
-              type="button"
-              id="nextProvincial"
-              aria-label="Next image">
-
-              ›
-
-            </button>
-
-
-
-            <!-- COUNTER -->
-
-            <div class="slide-counter">
-
-              <span id="provincialCurrent">
-                1
-              </span>
-
-              /
-
-              <span id="provincialTotal">
-                5
-              </span>
-
-            </div>
-
-
-          </div>
-
-
-
-          <div class="emergency-content">
-
-            <small>
-              Province of La Union
-            </small>
-
-            <h3>
-              Provincial Emergency Contacts
-            </h3>
-
-            <p>
-              Swipe through official emergency and
-              public safety information provided by
-              the Provincial Government of La Union.
-            </p>
-
-
-            <div
-              class="slider-dots"
-              id="provincialDots">
-            </div>
-
-
-          </div>
-
-
-        </article>
-
-
-      </div>
-
-
-
-      <div class="emergency-note">
-
-        <strong>
-          Emergency reminder:
-        </strong>
-
-        SK Sapilang is not an emergency response agency.
-        For urgent emergencies, contact the appropriate
-        police, fire, medical or disaster-response service
-        listed in the official directories.
-
-      </div>
-
-
-    </article>
-
-  </div>
-
-</section>
-
 
 
 <!-- =========================================================
