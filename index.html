@@ -3385,6 +3385,73 @@ main,
 }
 
 
+
+/* =========================================================
+   MOBILE VIDEO PLAY FALLBACK
+========================================================= */
+
+.video-frame {
+    position: relative;
+}
+
+.mobile-video-play {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            rgba(0, 8, 14, .30),
+            rgba(0, 8, 14, .72)
+        );
+}
+
+.mobile-video-play.show {
+    display: flex;
+}
+
+.mobile-video-play button {
+    min-width: 160px;
+    min-height: 50px;
+
+    padding: 0 20px;
+
+    border: 1px solid rgba(55, 220, 255, .55);
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #27d3f6,
+            #337aff
+        );
+
+    box-shadow:
+        0 10px 35px
+        rgba(0, 0, 0, .35);
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .video-frame video {
+        min-height: 210px;
+    }
+}
+
 </style>
 
 </head>
@@ -3909,17 +3976,32 @@ main,
     playsinline
     webkit-playsinline
     controls
-    preload="metadata"
+    preload="auto"
 >
-
     <source
         src="images/final-mobile.mp4"
         type="video/mp4"
     >
 
-    Your browser does not support HTML5 video.
+    <source
+        src="images/final.mp4"
+        type="video/mp4"
+    >
 
+    Your browser does not support HTML5 video.
 </video>
+
+<div
+    class="mobile-video-play"
+    id="mobileVideoPlay"
+>
+    <button
+        type="button"
+        id="mobileVideoPlayButton"
+    >
+        ▶ Tap to Play Video
+    </button>
+</div>
 
 
 </div>
@@ -4458,117 +4540,116 @@ navLinks
 
 /* =========================================================
    ACTIVITIES VIDEO
+   MOBILE-SAFE AUTOPLAY + TAP FALLBACK
 ========================================================= */
 
 const activitiesVideo =
-    document.getElementById(
-        "activitiesVideo"
-    );
+    document.getElementById("activitiesVideo");
 
+const mobileVideoPlay =
+    document.getElementById("mobileVideoPlay");
+
+const mobileVideoPlayButton =
+    document.getElementById("mobileVideoPlayButton");
 
 if (activitiesVideo) {
 
     activitiesVideo.muted = true;
-
     activitiesVideo.defaultMuted = true;
-
     activitiesVideo.playsInline = true;
 
+    activitiesVideo.setAttribute("muted", "");
+    activitiesVideo.setAttribute("playsinline", "");
+    activitiesVideo.setAttribute("webkit-playsinline", "");
 
-    activitiesVideo.setAttribute(
-        "muted",
-        ""
-    );
+    function showMobileVideoButton() {
+        if (mobileVideoPlay) {
+            mobileVideoPlay.classList.add("show");
+        }
+    }
 
-    activitiesVideo.setAttribute(
-        "playsinline",
-        ""
-    );
+    function hideMobileVideoButton() {
+        if (mobileVideoPlay) {
+            mobileVideoPlay.classList.remove("show");
+        }
+    }
 
-    activitiesVideo.setAttribute(
-        "webkit-playsinline",
-        ""
-    );
+    async function tryPlayActivitiesVideo() {
 
+        try {
 
-    function playActivitiesVideo() {
+            activitiesVideo.muted = true;
 
-        const playPromise =
-            activitiesVideo.play();
+            await activitiesVideo.play();
 
+            hideMobileVideoButton();
 
-        if (
-            playPromise !== undefined
-        ) {
+        } catch (error) {
 
-            playPromise.catch(
-                function () {
-
-                    console.log(
-                        "Video waiting for user interaction."
-                    );
-
-                }
+            console.log(
+                "Mobile autoplay was blocked:",
+                error
             );
 
+            showMobileVideoButton();
         }
-
     }
 
+    activitiesVideo.addEventListener(
+        "loadeddata",
+        tryPlayActivitiesVideo,
+        { once: true }
+    );
 
-    if (
-        activitiesVideo.readyState >= 2
-    ) {
+    activitiesVideo.addEventListener(
+        "canplay",
+        tryPlayActivitiesVideo,
+        { once: true }
+    );
 
-        playActivitiesVideo();
+    activitiesVideo.addEventListener(
+        "playing",
+        hideMobileVideoButton
+    );
 
-    }
+    activitiesVideo.addEventListener(
+        "error",
+        function () {
+            console.log(
+                "Activities video error:",
+                activitiesVideo.error
+            );
 
-    else {
+            showMobileVideoButton();
+        }
+    );
 
-        activitiesVideo.addEventListener(
-            "canplay",
-            playActivitiesVideo,
-            {
-                once: true
+    if (mobileVideoPlayButton) {
+
+        mobileVideoPlayButton.addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    activitiesVideo.muted = true;
+
+                    await activitiesVideo.play();
+
+                    hideMobileVideoButton();
+
+                } catch (error) {
+
+                    console.log(
+                        "Video could not play after tap:",
+                        error
+                    );
+
+                    showMobileVideoButton();
+                }
             }
         );
-
     }
-
-
-    function mobileVideoFallback() {
-
-        if (
-            activitiesVideo.paused
-        ) {
-
-            playActivitiesVideo();
-
-        }
-
-    }
-
-
-    document.addEventListener(
-        "touchstart",
-        mobileVideoFallback,
-        {
-            once: true,
-            passive: true
-        }
-    );
-
-
-    document.addEventListener(
-        "pointerdown",
-        mobileVideoFallback,
-        {
-            once: true,
-            passive: true
-        }
-    );
-
 
     document.addEventListener(
         "visibilitychange",
@@ -4578,14 +4659,13 @@ if (activitiesVideo) {
                 !document.hidden &&
                 activitiesVideo.paused
             ) {
-
-                playActivitiesVideo();
-
+                tryPlayActivitiesVideo();
             }
-
         }
     );
 
+    /* First autoplay attempt */
+    tryPlayActivitiesVideo();
 }
 
 
