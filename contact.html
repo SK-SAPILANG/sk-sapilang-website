@@ -11,32 +11,39 @@
 
 <meta
   name="description"
-  content="Official contact channels and local emergency hotlines of SK Sapilang, Bacnotan, La Union.">
+  content="Contact the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
 
-<meta name="theme-color" content="#020b14">
+<meta
+  name="theme-color"
+  content="#03111d">
 
-<title>Contact | SK Sapilang</title>
+<title>Contact Us | SK Sapilang</title>
 
-<link rel="stylesheet" href="css/site-pages.css">
+<link
+  rel="stylesheet"
+  href="css/site-pages.css">
 
 
 <style>
 
 /* =========================================================
-   SK SAPILANG CONTACT PAGE
-   CLEAN FUTURISTIC DESIGN
+   CONTACT PAGE
 ========================================================= */
 
 :root{
-  --cyan:#42dcff;
-  --blue:#168cff;
-  --green:#59f59d;
+  --contact-cyan:#38ddff;
+  --contact-blue:#1677ff;
+  --contact-green:#65f2ad;
+  --contact-yellow:#ffd865;
 
-  --border:rgba(117,220,255,.15);
-  --border-hover:rgba(80,220,255,.42);
+  --contact-panel:
+    rgba(7,22,37,.80);
 
-  --glass:rgba(5,17,29,.72);
-  --glass-strong:rgba(5,18,31,.92);
+  --contact-border:
+    rgba(112,219,255,.16);
+
+  --contact-muted:
+    #91a9b9;
 }
 
 
@@ -47,807 +54,669 @@
 .contact-hero{
   position:relative;
   overflow:hidden;
-  min-height:520px;
-  display:flex;
-  align-items:center;
-}
-
-.contact-hero::before{
-  content:"";
-  position:absolute;
-  width:650px;
-  height:650px;
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,208,255,.16),
-      rgba(0,140,255,.05) 38%,
-      transparent 70%
-    );
-
-  top:-300px;
-  right:-160px;
-
-  pointer-events:none;
 }
 
 .contact-hero::after{
   content:"";
+
   position:absolute;
-  inset:0;
 
-  background-image:
-    linear-gradient(
-      rgba(66,220,255,.025) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(66,220,255,.025) 1px,
-      transparent 1px
-    );
+  width:520px;
+  height:520px;
 
-  background-size:50px 50px;
+  border-radius:50%;
 
-  mask-image:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,.7),
-      transparent
+  top:-300px;
+  right:-180px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0,203,255,.15),
+      transparent 67%
     );
 
   pointer-events:none;
 }
 
-.contact-hero .container{
-  position:relative;
-  z-index:2;
+.contact-hero-content{
+  max-width:800px;
 }
-
-.contact-hero h1{
-  max-width:850px;
-}
-
-.contact-hero .hero-description{
-  max-width:680px;
-}
-
-
-/* =========================================================
-   SYSTEM STATUS
-========================================================= */
 
 .contact-status{
   display:inline-flex;
+
   align-items:center;
-  gap:10px;
 
-  margin-top:24px;
+  gap:8px;
 
-  padding:9px 14px;
+  margin-top:22px;
 
-  border-radius:100px;
+  padding:8px 13px;
 
-  border:1px solid rgba(89,245,157,.18);
+  border-radius:999px;
+
+  border:
+    1px solid rgba(91,224,255,.19);
 
   background:
-    rgba(89,245,157,.045);
+    rgba(0,190,255,.045);
+
+  color:#a9eaff;
 
   font-size:.72rem;
 
-  text-transform:uppercase;
-  letter-spacing:.12em;
+  font-weight:700;
 
-  color:rgba(255,255,255,.78);
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
 }
 
-.status-dot{
+.contact-status-dot{
   width:8px;
   height:8px;
 
   border-radius:50%;
 
-  background:var(--green);
+  background:
+    var(--contact-green);
 
   box-shadow:
-    0 0 7px var(--green),
-    0 0 17px rgba(89,245,157,.6);
-
-  animation:statusPulse 1.8s infinite;
-}
-
-@keyframes statusPulse{
-
-  0%,100%{
-    opacity:1;
-  }
-
-  50%{
-    opacity:.4;
-  }
-
+    0 0 12px
+    var(--contact-green);
 }
 
 
 /* =========================================================
-   CONTACT CHANNELS
+   FRIENDLY INTRO
 ========================================================= */
 
-.contact-grid{
-
+.contact-welcome{
   display:grid;
 
   grid-template-columns:
-    repeat(4,1fr);
+    1.2fr .8fr;
 
-  gap:18px;
+  gap:24px;
 
-  margin-top:34px;
-
+  align-items:stretch;
 }
 
-
-.contact-card{
-
+.welcome-card{
   position:relative;
 
-  display:flex;
-  flex-direction:column;
+  padding:34px;
 
-  min-height:285px;
-
-  padding:27px;
-
-  overflow:hidden;
-
-  border-radius:24px;
+  border-radius:30px;
 
   border:
-    1px solid var(--border);
+    1px solid
+    var(--contact-border);
 
   background:
     linear-gradient(
       145deg,
-      rgba(11,29,46,.83),
-      rgba(3,11,19,.93)
+      rgba(9,27,44,.88),
+      rgba(3,14,24,.82)
     );
 
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.2);
-
-  transition:
-    transform .28s ease,
-    border-color .28s ease,
-    box-shadow .28s ease;
-
+  overflow:hidden;
 }
 
-
-.contact-card::after{
-
+.welcome-card::before{
   content:"";
 
   position:absolute;
 
-  width:130px;
-  height:130px;
+  width:180px;
+  height:180px;
+
+  right:-80px;
+  top:-80px;
 
   border-radius:50%;
-
-  top:-65px;
-  right:-55px;
 
   background:
     radial-gradient(
       circle,
-      rgba(0,210,255,.16),
+      rgba(0,202,255,.16),
       transparent 70%
     );
-
-  pointer-events:none;
-
 }
 
+.welcome-card h2{
+  font-size:
+    clamp(1.8rem,4vw,2.8rem);
 
-.contact-card:hover{
-
-  transform:translateY(-5px);
-
-  border-color:
-    var(--border-hover);
-
-  box-shadow:
-    0 25px 65px rgba(0,0,0,.32),
-    0 0 30px rgba(0,200,255,.04);
-
+  line-height:1.06;
 }
 
+.welcome-card p{
+  margin-top:16px;
 
-.contact-icon{
+  max-width:680px;
 
-  width:50px;
-  height:50px;
+  color:
+    var(--contact-muted);
 
-  display:grid;
-  place-items:center;
+  line-height:1.8;
+}
 
-  margin-bottom:24px;
+.help-card{
+  padding:30px;
 
-  border-radius:15px;
+  border-radius:30px;
 
   border:
-    1px solid rgba(83,219,255,.2);
+    1px solid
+    rgba(96,226,255,.13);
 
   background:
-    rgba(0,197,255,.07);
+    rgba(5,17,29,.78);
 
-  font-size:1.2rem;
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+}
+
+.help-card small{
+  color:
+    var(--contact-cyan);
+
+  font-size:.7rem;
 
   font-weight:800;
 
-}
-
-
-.contact-card small{
-
-  display:block;
-
-  margin-bottom:7px;
-
-  font-size:.66rem;
-
   text-transform:uppercase;
 
   letter-spacing:.12em;
-
-  opacity:.52;
-
 }
 
+.help-card h3{
+  margin-top:10px;
 
-.contact-card h3{
-
-  margin:0 0 12px;
-
-  font-size:1.08rem;
-
+  font-size:1.4rem;
 }
 
+.help-card p{
+  margin-top:10px;
 
-.contact-card p{
+  color:
+    var(--contact-muted);
 
-  margin:0;
-
-  line-height:1.65;
-
-  opacity:.7;
-
-  font-size:.9rem;
-
-}
-
-
-.contact-value{
-
-  word-break:break-word;
-
-}
-
-
-.contact-actions{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:9px;
-
-  margin-top:auto;
-
-  padding-top:22px;
-
-}
-
-
-.contact-link{
-
-  display:inline-flex;
-
-  justify-content:center;
-  align-items:center;
-
-  min-height:42px;
-
-  padding:10px 14px;
-
-  border-radius:11px;
-
-  text-decoration:none;
-
-  font-size:.8rem;
-
-  font-weight:700;
-
-  border:
-    1px solid rgba(77,216,255,.2);
-
-  background:
-    rgba(0,190,255,.06);
-
-  transition:.25s ease;
-
-}
-
-
-.contact-link:hover{
-
-  transform:translateY(-2px);
-
-  border-color:
-    rgba(77,216,255,.45);
-
-  background:
-    rgba(0,190,255,.11);
-
-}
-
-
-.contact-link.primary{
-
-  color:white;
-
-  border-color:transparent;
-
-  background:
-    linear-gradient(
-      135deg,
-      #16c8ff,
-      #156cff
-    );
-
+  font-size:.88rem;
 }
 
 
 /* =========================================================
-   LOCAL HOTLINE COMMAND CENTER
+   CONTACT CARDS
 ========================================================= */
 
-.hotline-section{
-
-  position:relative;
-
-  overflow:hidden;
-
-}
-
-
-.hotline-section::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:600px;
-  height:600px;
-
-  left:-300px;
-  bottom:-350px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,145,255,.1),
-      transparent 70%
-    );
-
-  pointer-events:none;
-
-}
-
-
-.hotline-header{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:flex-end;
-
-  gap:30px;
-
-  margin-bottom:32px;
-
-}
-
-
-.hotline-header-copy{
-
-  max-width:760px;
-
-}
-
-
-.hotline-indicator{
-
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  padding:8px 12px;
-
-  border-radius:100px;
-
-  border:
-    1px solid rgba(65,217,255,.18);
-
-  background:
-    rgba(0,190,255,.045);
-
-  font-size:.67rem;
-
-  text-transform:uppercase;
-
-  letter-spacing:.12em;
-
-  opacity:.75;
-
-  white-space:nowrap;
-
-}
-
-
-.hotline-indicator::before{
-
-  content:"";
-
-  width:7px;
-  height:7px;
-
-  border-radius:50%;
-
-  background:var(--cyan);
-
-  box-shadow:
-    0 0 12px rgba(66,220,255,.85);
-
-}
-
-
-/* =========================================================
-   HOTLINE CARDS
-========================================================= */
-
-.hotline-grid{
-
+.contact-options{
   display:grid;
 
   grid-template-columns:
     repeat(2,1fr);
 
-  gap:24px;
+  gap:18px;
 
+  margin-top:32px;
 }
 
-
-.hotline-card{
-
+.contact-option{
   position:relative;
 
-  overflow:hidden;
+  min-height:250px;
 
-  border-radius:28px;
+  padding:28px;
+
+  border-radius:27px;
 
   border:
-    1px solid rgba(102,221,255,.14);
+    1px solid
+    var(--contact-border);
 
   background:
-    rgba(4,15,25,.86);
-
-  box-shadow:
-    0 22px 65px rgba(0,0,0,.26);
-
-  transition:
-    transform .3s ease,
-    border-color .3s ease,
-    box-shadow .3s ease;
-
-}
-
-
-.hotline-card:hover{
-
-  transform:translateY(-5px);
-
-  border-color:
-    rgba(75,216,255,.4);
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.38),
-    0 0 38px rgba(0,180,255,.05);
-
-}
-
-
-.hotline-image-wrap{
-
-  position:relative;
+    linear-gradient(
+      145deg,
+      rgba(8,24,40,.87),
+      rgba(3,13,23,.76)
+    );
 
   overflow:hidden;
 
-  margin:14px;
-
-  border-radius:20px;
-
-  background:
-    rgba(255,255,255,.025);
-
-}
-
-
-.hotline-image{
-
-  width:100%;
-
-  height:auto;
-
-  min-height:330px;
-
-  max-height:580px;
-
-  display:block;
-
-  object-fit:contain;
-
-  object-position:center;
-
   transition:
-    transform .45s ease;
-
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
 }
 
+.contact-option:hover{
+  transform:
+    translateY(-4px);
 
-.hotline-card:hover
-.hotline-image{
+  border-color:
+    rgba(79,218,255,.36);
 
-  transform:scale(1.015);
-
+  box-shadow:
+    0 22px 50px
+    rgba(0,0,0,.25);
 }
 
-
-.hotline-image-wrap::after{
-
+.contact-option::after{
   content:"";
 
   position:absolute;
 
-  inset:0;
+  width:140px;
+  height:140px;
 
-  border-radius:inherit;
+  bottom:-70px;
+  right:-70px;
 
-  pointer-events:none;
-
-  box-shadow:
-    inset 0 0 0 1px
-    rgba(255,255,255,.03);
-
-}
-
-
-/* =========================================================
-   HOTLINE INFORMATION
-========================================================= */
-
-.hotline-info{
-
-  padding:
-    14px 25px 27px;
-
-}
-
-
-.hotline-agency{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  margin-bottom:9px;
-
-  font-size:.67rem;
-
-  text-transform:uppercase;
-
-  letter-spacing:.12em;
-
-  color:var(--cyan);
-
-}
-
-
-.hotline-agency::before{
-
-  content:"";
-
-  width:18px;
-  height:1px;
+  border-radius:50%;
 
   background:
-    var(--cyan);
-
-  opacity:.7;
-
-}
-
-
-.hotline-info h3{
-
-  margin:
-    0 0 10px;
-
-  font-size:
-    clamp(1.25rem,2vw,1.6rem);
-
-}
-
-
-.hotline-info p{
-
-  margin:0;
-
-  line-height:1.7;
-
-  opacity:.65;
-
-  font-size:.9rem;
-
-}
-
-
-/* =========================================================
-   EMERGENCY NOTICE
-========================================================= */
-
-.emergency-notice{
-
-  display:flex;
-
-  gap:17px;
-
-  align-items:flex-start;
-
-  margin-top:25px;
-
-  padding:20px 22px;
-
-  border-radius:17px;
-
-  border:
-    1px solid rgba(255,186,74,.13);
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,174,48,.055),
-      rgba(255,174,48,.015)
+    radial-gradient(
+      circle,
+      rgba(0,195,255,.15),
+      transparent 70%
     );
-
 }
 
-
-.emergency-notice-icon{
-
-  width:34px;
-  height:34px;
-
-  min-width:34px;
+.contact-icon{
+  width:52px;
+  height:52px;
 
   display:grid;
 
   place-items:center;
 
-  border-radius:10px;
-
-  background:
-    rgba(255,176,54,.09);
+  border-radius:16px;
 
   border:
-    1px solid rgba(255,185,68,.16);
+    1px solid
+    rgba(99,222,255,.19);
 
+  background:
+    rgba(0,190,255,.06);
+
+  font-size:1.3rem;
 }
 
+.contact-option small{
+  display:block;
 
-.emergency-notice p{
+  margin-top:22px;
 
-  margin:0;
+  color:
+    var(--contact-muted);
+
+  font-size:.69rem;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+  text-transform:uppercase;
+}
+
+.contact-option h3{
+  margin-top:7px;
+
+  font-size:1.35rem;
+}
+
+.contact-option p{
+  margin-top:10px;
+
+  color:
+    var(--contact-muted);
 
   line-height:1.7;
 
-  opacity:.76;
+  font-size:.88rem;
 
-  font-size:.87rem;
+  word-break:break-word;
+}
 
+.contact-actions{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin-top:20px;
+
+  position:relative;
+
+  z-index:2;
+}
+
+.contact-action{
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  padding:11px 15px;
+
+  min-height:43px;
+
+  border-radius:12px;
+
+  text-decoration:none;
+
+  font-size:.83rem;
+
+  font-weight:800;
+
+  border:
+    1px solid
+    rgba(105,220,255,.21);
+
+  background:
+    rgba(0,193,255,.06);
+
+  transition:.2s ease;
+}
+
+.contact-action:hover{
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(0,193,255,.11);
+}
+
+.contact-action.primary{
+  background:
+    linear-gradient(
+      135deg,
+      var(--contact-cyan),
+      var(--contact-blue)
+    );
+
+  border-color:transparent;
+
+  color:#fff;
 }
 
 
 /* =========================================================
-   SMALL CONTACT STRIP
+   OFFICE SECTION
 ========================================================= */
 
-.contact-strip{
+.office-box{
+  display:grid;
 
+  grid-template-columns:
+    .9fr 1.1fr;
+
+  gap:24px;
+
+  padding:34px;
+
+  border-radius:30px;
+
+  border:
+    1px solid
+    var(--contact-border);
+
+  background:
+    rgba(5,17,29,.76);
+}
+
+.office-info h3{
+  font-size:1.6rem;
+}
+
+.office-info p{
+  margin-top:13px;
+
+  color:
+    var(--contact-muted);
+
+  line-height:1.8;
+}
+
+.office-details{
+  display:grid;
+
+  gap:10px;
+}
+
+.office-row{
   display:flex;
 
   justify-content:space-between;
 
-  align-items:center;
+  gap:25px;
 
-  gap:30px;
+  padding:15px 16px;
 
-  padding:30px;
-
-  border-radius:25px;
+  border-radius:13px;
 
   border:
-    1px solid rgba(77,218,255,.13);
+    1px solid
+    rgba(255,255,255,.05);
 
   background:
-    linear-gradient(
-      135deg,
-      rgba(9,27,43,.88),
-      rgba(3,12,21,.9)
-    );
+    rgba(255,255,255,.02);
 
+  font-size:.82rem;
 }
 
-
-.contact-strip-copy{
-
-  max-width:680px;
-
+.office-row span:first-child{
+  color:
+    var(--contact-muted);
 }
 
+.office-row span:last-child{
+  text-align:right;
 
-.contact-strip h3{
-
-  margin:
-    5px 0 8px;
-
-  font-size:
-    clamp(1.35rem,3vw,2rem);
-
-}
-
-
-.contact-strip p{
-
-  margin:0;
-
-  opacity:.67;
-
-  line-height:1.7;
-
+  font-weight:700;
 }
 
 
 /* =========================================================
-   TABLET
+   EMERGENCY SECTION
 ========================================================= */
 
-@media(max-width:1050px){
+.emergency-wrapper{
+  position:relative;
 
-  .contact-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
+  padding:36px;
 
+  border-radius:32px;
+
+  border:
+    1px solid
+    rgba(255,191,85,.15);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(33,20,8,.65),
+      rgba(5,16,27,.88)
+    );
+}
+
+.emergency-heading{
+  max-width:750px;
+}
+
+.emergency-heading h2{
+  font-size:
+    clamp(1.9rem,4vw,3rem);
+}
+
+.emergency-heading p{
+  margin-top:14px;
+
+  color:
+    var(--contact-muted);
+
+  line-height:1.8;
+}
+
+.emergency-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:20px;
+
+  margin-top:30px;
+}
+
+.emergency-card{
+  overflow:hidden;
+
+  border-radius:24px;
+
+  border:
+    1px solid
+    rgba(255,196,90,.13);
+
+  background:
+    rgba(3,14,24,.8);
+}
+
+.emergency-card img{
+  width:100%;
+
+  height:330px;
+
+  display:block;
+
+  object-fit:cover;
+
+  background:
+    rgba(255,255,255,.02);
+}
+
+.emergency-info{
+  padding:22px;
+}
+
+.emergency-info small{
+  color:
+    var(--contact-yellow);
+
+  font-size:.68rem;
+
+  font-weight:800;
+
+  letter-spacing:.1em;
+
+  text-transform:uppercase;
+}
+
+.emergency-info h3{
+  margin-top:7px;
+
+  font-size:1.25rem;
+}
+
+.emergency-info p{
+  margin-top:10px;
+
+  color:
+    var(--contact-muted);
+
+  font-size:.84rem;
+
+  line-height:1.7;
+}
+
+.emergency-note{
+  margin-top:24px;
+
+  padding:17px 19px;
+
+  border-radius:15px;
+
+  border-left:
+    3px solid
+    var(--contact-yellow);
+
+  background:
+    rgba(255,191,70,.045);
+
+  color:#b9c8d2;
+
+  font-size:.84rem;
+
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   FEEDBACK CTA
+========================================================= */
+
+.feedback-cta{
+  text-align:center;
+
+  padding:50px 30px;
+
+  border-radius:32px;
+
+  border:
+    1px solid
+    rgba(80,218,255,.16);
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(0,193,255,.11),
+      transparent 35%
+    ),
+    rgba(5,17,29,.78);
+}
+
+.feedback-cta h2{
+  max-width:720px;
+
+  margin:auto;
+
+  font-size:
+    clamp(2rem,4.5vw,3.5rem);
+
+  line-height:1.05;
+}
+
+.feedback-cta p{
+  max-width:650px;
+
+  margin:
+    17px auto 0;
+
+  color:
+    var(--contact-muted);
+
+  line-height:1.8;
+}
+
+.feedback-buttons{
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  gap:12px;
+
+  margin-top:25px;
 }
 
 
@@ -855,61 +724,58 @@
    MOBILE
 ========================================================= */
 
-@media(max-width:760px){
+@media(max-width:900px){
 
-  .contact-hero{
-    min-height:auto;
-  }
-
-  .contact-grid,
-  .hotline-grid{
+  .contact-welcome,
+  .office-box{
     grid-template-columns:1fr;
-  }
-
-  .contact-card{
-    min-height:245px;
-    padding:23px;
-  }
-
-  .hotline-header{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .hotline-image{
-    min-height:220px;
-  }
-
-  .contact-strip{
-    flex-direction:column;
-    align-items:flex-start;
   }
 
 }
 
 
-@media(max-width:480px){
+@media(max-width:720px){
 
-  .contact-grid{
-    gap:14px;
+  .contact-options,
+  .emergency-grid{
+    grid-template-columns:1fr;
   }
 
-  .hotline-card{
-    border-radius:22px;
+  .emergency-wrapper{
+    padding:24px;
   }
 
-  .hotline-image-wrap{
-    margin:10px;
-    border-radius:16px;
+  .welcome-card,
+  .help-card{
+    padding:24px;
   }
 
-  .hotline-info{
-    padding:
-      12px 19px 23px;
+  .emergency-card img{
+    height:auto;
+    min-height:220px;
   }
 
-  .emergency-notice{
-    padding:17px;
+}
+
+
+@media(max-width:520px){
+
+  .contact-actions,
+  .feedback-buttons{
+    flex-direction:column;
+  }
+
+  .contact-action{
+    width:100%;
+  }
+
+  .office-row{
+    flex-direction:column;
+    gap:5px;
+  }
+
+  .office-row span:last-child{
+    text-align:left;
   }
 
 }
@@ -923,14 +789,9 @@
 <body>
 
 
-<!-- =========================================================
-     FUTURISTIC BACKGROUND
-========================================================= -->
-
 <div class="future-bg">
 
   <div class="orb one"></div>
-
   <div class="orb two"></div>
 
 </div>
@@ -994,11 +855,13 @@
       class="nav-links"
       id="navLinks">
 
+
       <li>
         <a href="index.html">
           Home
         </a>
       </li>
+
 
       <li>
         <a href="index.html#activities">
@@ -1006,11 +869,13 @@
         </a>
       </li>
 
+
       <li>
         <a href="index.html#digital-id">
           Digital ID
         </a>
       </li>
+
 
       <li>
         <a href="about.html">
@@ -1018,21 +883,28 @@
         </a>
       </li>
 
+
       <li>
         <a
           href="awards.html"
           data-nav="awards">
+
           Awards
+
         </a>
       </li>
+
 
       <li>
         <a
           href="resolutions.html"
           data-nav="resolutions">
+
           Resolutions
+
         </a>
       </li>
+
 
       <li>
         <a href="transparency.html">
@@ -1040,27 +912,35 @@
         </a>
       </li>
 
+
       <li>
         <a
           href="feedback.html"
           data-nav="feedback">
+
           Feedback
+
         </a>
       </li>
+
 
       <li>
         <a
           href="contact.html"
           data-nav="contact">
+
           Contact
+
         </a>
       </li>
+
 
       <li>
         <a href="kk-portal.html">
           KK Portal
         </a>
       </li>
+
 
     </ul>
 
@@ -1070,10 +950,6 @@
 </header>
 
 
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
 
 <main>
 
@@ -1088,61 +964,69 @@
   <div class="container">
 
 
-    <span class="eyebrow">
-
-      SK Sapilang Communication Network
-
-    </span>
+    <div class="contact-hero-content">
 
 
-    <h1>
-
-      Connect With
-      <span>SK Sapilang.</span>
-
-    </h1>
+      <span class="eyebrow">
+        We're Here to Help
+      </span>
 
 
-    <p class="hero-description">
+      <h1>
 
-      Official communication channels for youth concerns,
-      community coordination, public services and assistance.
+        Get in touch with
 
-    </p>
+        <span>
+          SK Sapilang.
+        </span>
 
-
-    <div class="actions">
-
-
-      <a
-        class="button button-primary"
-        href="tel:09093055789">
-
-        Call SK Sapilang
-
-      </a>
+      </h1>
 
 
-      <a
-        class="button button-secondary"
-        href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
+      <p class="hero-description">
 
-        Email Us
+        Have a question, concern, request or idea?
+        Reach us through our official communication channels
+        and we'll help connect you to the right information
+        or service.
 
-      </a>
+      </p>
+
+
+      <div class="actions">
+
+
+        <a
+          class="button button-primary"
+          href="tel:09093055789">
+
+          Call Us
+
+        </a>
+
+
+        <a
+          class="button button-secondary"
+          href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
+
+          Send an Email
+
+        </a>
+
+
+      </div>
+
+
+      <div class="contact-status">
+
+        <span class="contact-status-dot"></span>
+
+        Official SK Communication Channels
+
+      </div>
 
 
     </div>
-
-
-    <div class="contact-status">
-
-      <span class="status-dot"></span>
-
-      Official Channels Active
-
-    </div>
-
 
   </div>
 
@@ -1151,7 +1035,92 @@
 
 
 <!-- =========================================================
-     OFFICIAL CONTACT CHANNELS
+     FRIENDLY INTRO
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+
+    <div class="contact-welcome">
+
+
+      <article class="welcome-card reveal">
+
+
+        <span class="section-label">
+          Connect With Us
+        </span>
+
+
+        <h2>
+          We want communication to be simple.
+        </h2>
+
+
+        <p>
+
+          Whether you're asking about an SK activity,
+          requesting information, coordinating with the council,
+          accessing youth services or simply reaching out,
+          you can use any of the official channels below.
+
+        </p>
+
+
+      </article>
+
+
+
+      <article class="help-card reveal">
+
+
+        <small>
+          Need to give feedback?
+        </small>
+
+
+        <h3>
+          Use the Feedback Center.
+        </h3>
+
+
+        <p>
+
+          Program evaluations, service feedback,
+          suggestions and recommendations are handled
+          separately for proper documentation.
+
+        </p>
+
+
+        <div class="actions">
+
+          <a
+            class="button button-secondary"
+            href="feedback.html">
+
+            Open Feedback Center
+
+          </a>
+
+        </div>
+
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CONTACT OPTIONS
 ========================================================= -->
 
 <section class="section">
@@ -1163,23 +1132,18 @@
 
 
       <span class="section-label">
-
-        Official Channels
-
+        Contact Options
       </span>
 
 
       <h2>
-
-        Reach SK Sapilang.
-
+        Choose how you'd like to reach us.
       </h2>
 
 
       <p>
 
-        Use our verified communication channels
-        for official concerns and coordination.
+        Use the option that is most convenient for you.
 
       </p>
 
@@ -1188,40 +1152,40 @@
 
 
 
-    <div class="contact-grid">
+    <div class="contact-options">
 
 
 
       <!-- PHONE -->
 
-      <article class="contact-card reveal">
+      <article class="contact-option reveal">
 
 
         <div class="contact-icon">
-
           ☎
-
         </div>
 
 
         <small>
-
-          Temporary Contact
-
+          Temporary Contact Number
         </small>
 
 
         <h3>
-
-          0909-305-5789
-
+          Call or send us a message
         </h3>
 
 
         <p>
 
-          For official inquiries,
-          coordination and SK-related concerns.
+          <strong>
+            0909-305-5789
+          </strong>
+
+          <br>
+
+          For SK-related inquiries, coordination
+          and general concerns.
 
         </p>
 
@@ -1230,19 +1194,19 @@
 
 
           <a
-            class="contact-link primary"
+            class="contact-action primary"
             href="tel:09093055789">
 
-            Call
+            ☎ Call Now
 
           </a>
 
 
           <a
-            class="contact-link"
+            class="contact-action"
             href="sms:09093055789">
 
-            Message
+            Send SMS
 
           </a>
 
@@ -1254,36 +1218,34 @@
 
 
 
-
       <!-- EMAIL -->
 
-      <article class="contact-card reveal">
+      <article class="contact-option reveal">
 
 
         <div class="contact-icon">
-
           ✉
-
         </div>
 
 
         <small>
-
           Official Email
-
         </small>
 
 
         <h3>
-
-          Email SK Sapilang
-
+          Send us an email
         </h3>
 
 
-        <p class="contact-value">
+        <p>
 
           sksapilangbacnotanlaunion@gmail.com
+
+          <br><br>
+
+          Recommended for formal inquiries,
+          documents and official correspondence.
 
         </p>
 
@@ -1292,20 +1254,20 @@
 
 
           <a
-            class="contact-link primary"
+            class="contact-action primary"
             href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
 
-            Compose Email
+            ✉ Compose Email
 
           </a>
 
 
           <button
+            class="contact-action"
             type="button"
-            class="contact-link"
             onclick="copyEmail()">
 
-            Copy
+            Copy Email
 
           </button>
 
@@ -1317,37 +1279,31 @@
 
 
 
-
       <!-- FACEBOOK -->
 
-      <article class="contact-card reveal">
+      <article class="contact-option reveal">
 
 
         <div class="contact-icon">
-
           f
-
         </div>
 
 
         <small>
-
-          Official Facebook
-
+          Official Facebook Page
         </small>
 
 
         <h3>
-
-          SK Sapilang
-
+          Connect with us on Facebook
         </h3>
 
 
         <p>
 
-          Follow official announcements,
-          activities and community updates.
+          Follow SK Sapilang for announcements,
+          youth activities, community updates
+          and official information.
 
         </p>
 
@@ -1356,12 +1312,12 @@
 
 
           <a
-            class="contact-link primary"
+            class="contact-action primary"
             href="https://www.facebook.com/profile.php?id=61555692615847"
             target="_blank"
             rel="noopener noreferrer">
 
-            Open Facebook
+            Open Facebook Page
 
           </a>
 
@@ -1373,38 +1329,31 @@
 
 
 
+      <!-- FEEDBACK -->
 
-      <!-- OFFICE -->
-
-      <article class="contact-card reveal">
+      <article class="contact-option reveal">
 
 
         <div class="contact-icon">
-
-          ⌂
-
+          ✦
         </div>
 
 
         <small>
-
-          SK Office
-
+          Feedback & Evaluation
         </small>
 
 
         <h3>
-
-          Barangay Sapilang
-
+          Share your experience
         </h3>
 
 
         <p>
 
-          Barangay Sapilang<br>
-          Bacnotan, La Union<br>
-          Philippines
+          Submit feedback about an SK service,
+          activity or program through our dedicated
+          feedback system.
 
         </p>
 
@@ -1413,7 +1362,67 @@
 
 
           <a
-            class="contact-link primary"
+            class="contact-action primary"
+            href="feedback.html">
+
+            Open Feedback Center
+
+          </a>
+
+
+        </div>
+
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     OFFICE INFORMATION
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+
+    <article class="office-box reveal">
+
+
+      <div class="office-info">
+
+
+        <span class="section-label">
+          SK Office
+        </span>
+
+
+        <h3>
+          Visit or coordinate with us.
+        </h3>
+
+
+        <p>
+
+          The Sangguniang Kabataan Office serves the youth
+          of Barangay Sapilang and coordinates official
+          SK programs, activities and youth-related services.
+
+        </p>
+
+
+        <div class="actions">
+
+
+          <a
+            class="button button-secondary"
             href="https://maps.google.com/?q=Barangay+Sapilang+Bacnotan+La+Union"
             target="_blank"
             rel="noopener noreferrer">
@@ -1426,231 +1435,82 @@
         </div>
 
 
-      </article>
-
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     LOCAL HOTLINES
-========================================================= -->
-
-<section class="section hotline-section">
-
-  <div class="container">
-
-
-    <div class="hotline-header reveal">
-
-
-      <div class="hotline-header-copy">
-
-
-        <span class="section-label">
-
-          Emergency & Public Assistance
-
-        </span>
-
-
-        <h2>
-
-          Local Hotlines
-
-        </h2>
-
-
-        <p>
-
-          Keep important municipal and provincial
-          emergency contact information within reach.
-
-        </p>
-
-
       </div>
 
 
-      <div class="hotline-indicator">
 
-        Local Response Network
-
-      </div>
+      <div class="office-details">
 
 
-    </div>
+        <div class="office-row">
 
-
-
-    <div class="hotline-grid">
-
-
-
-      <!-- =====================================================
-           MUNICIPALITY OF BACNOTAN
-      ====================================================== -->
-
-      <article class="hotline-card reveal">
-
-
-        <div class="hotline-image-wrap">
-
-
-          <!--
-          =======================================================
-          BACNOTAN HOTLINE IMAGE
-
-          Put your picture inside the images folder and name it:
-
-          bacnotan-hotlines.jpg
-          =======================================================
-          -->
-
-
-          <img
-            class="hotline-image"
-            src="images/bacnotan-hotlines.jpg"
-            alt="Municipality of Bacnotan Emergency and Public Assistance Hotlines">
-
-
-        </div>
-
-
-        <div class="hotline-info">
-
-
-          <span class="hotline-agency">
-
-            Municipality of Bacnotan
-
+          <span>
+            Office
           </span>
 
-
-          <h3>
-
-            Bacnotan Local Hotlines
-
-          </h3>
-
-
-          <p>
-
-            Emergency, disaster response,
-            public safety and municipal assistance
-            contact information.
-
-          </p>
-
-
-        </div>
-
-
-      </article>
-
-
-
-
-      <!-- =====================================================
-           PROVINCE OF LA UNION
-      ====================================================== -->
-
-      <article class="hotline-card reveal">
-
-
-        <div class="hotline-image-wrap">
-
-
-          <!--
-          =======================================================
-          LA UNION HOTLINE IMAGE
-
-          Put your picture inside the images folder and name it:
-
-          la-union-hotlines.jpg
-          =======================================================
-          -->
-
-
-          <img
-            class="hotline-image"
-            src="images/la-union-hotlines.jpg"
-            alt="Province of La Union Emergency and Public Assistance Hotlines">
-
-
-        </div>
-
-
-        <div class="hotline-info">
-
-
-          <span class="hotline-agency">
-
-            Province of La Union
-
+          <span>
+            Sangguniang Kabataan of Barangay Sapilang
           </span>
 
-
-          <h3>
-
-            La Union Provincial Hotlines
-
-          </h3>
+        </div>
 
 
-          <p>
+        <div class="office-row">
 
-            Provincial emergency,
-            disaster response and public assistance
-            contact information.
+          <span>
+            Barangay
+          </span>
 
-          </p>
-
+          <span>
+            Sapilang
+          </span>
 
         </div>
 
 
-      </article>
+        <div class="office-row">
+
+          <span>
+            Municipality
+          </span>
+
+          <span>
+            Bacnotan
+          </span>
+
+        </div>
 
 
+        <div class="office-row">
 
-    </div>
+          <span>
+            Province
+          </span>
+
+          <span>
+            La Union
+          </span>
+
+        </div>
 
 
+        <div class="office-row">
 
-    <!-- =====================================================
-         EMERGENCY NOTICE
-    ====================================================== -->
+          <span>
+            Country
+          </span>
 
-    <div class="emergency-notice reveal">
+          <span>
+            Philippines
+          </span>
 
+        </div>
 
-      <div class="emergency-notice-icon">
-
-        !
 
       </div>
 
 
-      <p>
-
-        <strong>Emergency Notice:</strong>
-
-        SK Sapilang is not an emergency response agency.
-        During urgent situations, contact the appropriate
-        municipal, provincial or national emergency service
-        directly using the official hotline information above.
-
-      </p>
-
-
-    </div>
+    </article>
 
 
   </div>
@@ -1660,7 +1520,7 @@
 
 
 <!-- =========================================================
-     SIMPLE CONTACT CTA
+     EMERGENCY CONTACTS
 ========================================================= -->
 
 <section class="section">
@@ -1668,30 +1528,28 @@
   <div class="container">
 
 
-    <div class="contact-strip reveal">
+    <article class="emergency-wrapper reveal">
 
 
-      <div class="contact-strip-copy">
+      <div class="emergency-heading">
 
 
         <span class="section-label">
-
-          SK Sapilang
-
+          Emergency Information
         </span>
 
 
-        <h3>
-
-          Have a youth or community concern?
-
-        </h3>
+        <h2>
+          Important contacts when you need help quickly.
+        </h2>
 
 
         <p>
 
-          Send us an official message and our communication
-          channels will help direct your concern appropriately.
+          For emergencies and urgent public safety concerns,
+          refer to the official emergency directories
+          provided by the Municipality of Bacnotan
+          and the Province of La Union.
 
         </p>
 
@@ -1699,14 +1557,162 @@
       </div>
 
 
-      <div class="actions">
+
+      <div class="emergency-grid">
+
+
+
+        <!-- BACNOTAN IMAGE -->
+
+        <article class="emergency-card">
+
+
+          <img
+            src="images/bacnotan-emergency-contacts.jpg"
+            alt="Emergency Contact Directory of the Municipality of Bacnotan">
+
+
+          <div class="emergency-info">
+
+
+            <small>
+              Municipality of Bacnotan
+            </small>
+
+
+            <h3>
+              Municipal Emergency Contacts
+            </h3>
+
+
+            <p>
+
+              Add the official emergency hotline image
+              provided by the Municipality of Bacnotan here.
+
+            </p>
+
+
+          </div>
+
+
+        </article>
+
+
+
+        <!-- LA UNION IMAGE -->
+
+        <article class="emergency-card">
+
+
+          <img
+            src="images/la-union-emergency-contacts.jpg"
+            alt="Emergency Contact Directory of the Province of La Union">
+
+
+          <div class="emergency-info">
+
+
+            <small>
+              Province of La Union
+            </small>
+
+
+            <h3>
+              Provincial Emergency Contacts
+            </h3>
+
+
+            <p>
+
+              Add the official emergency hotline image
+              provided by the Provincial Government
+              of La Union here.
+
+            </p>
+
+
+          </div>
+
+
+        </article>
+
+
+      </div>
+
+
+
+      <div class="emergency-note">
+
+        <strong>
+          Emergency reminder:
+        </strong>
+
+        SK Sapilang is not an emergency response agency.
+        For emergencies, contact the appropriate police,
+        fire, medical, disaster response or other emergency
+        service listed in the official directories above.
+
+      </div>
+
+
+    </article>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FRIENDLY FEEDBACK CTA
+========================================================= -->
+
+<section class="section">
+
+  <div class="container">
+
+
+    <article class="feedback-cta reveal">
+
+
+      <span class="section-label">
+        We Value Your Voice
+      </span>
+
+
+      <h2>
+        Have something you'd like us to improve?
+      </h2>
+
+
+      <p>
+
+        Your feedback helps us understand what is working,
+        what can be improved and how SK programs and services
+        can better respond to the needs of the youth.
+
+      </p>
+
+
+      <div class="feedback-buttons">
 
 
         <a
           class="button button-primary"
-          href="mailto:sksapilangbacnotanlaunion@gmail.com?subject=Inquiry%20to%20SK%20Sapilang">
+          href="feedback.html">
 
-          Contact SK
+          Give Feedback
+
+        </a>
+
+
+        <a
+          class="button button-secondary"
+          href="kk-portal.html">
+
+          Access KK Portal
 
         </a>
 
@@ -1714,7 +1720,7 @@
       </div>
 
 
-    </div>
+    </article>
 
 
   </div>
@@ -1741,31 +1747,22 @@
 
       <div class="footer-logo">
 
-
         <img
           src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
           alt="SK Sapilang Official Logo">
-
 
       </div>
 
 
       <div>
 
-
         <strong>
-
           SK SAPILANG
-
         </strong>
 
-
         <span>
-
           DIGITAL YOUTH NETWORK
-
         </span>
-
 
       </div>
 
@@ -1776,7 +1773,8 @@
 
     <div class="copyright">
 
-      © <span data-year></span>
+      ©
+      <span data-year></span>
       SK Sapilang.
       All Rights Reserved.
 
@@ -1789,10 +1787,6 @@
 
 
 
-<!-- =========================================================
-     SITE JAVASCRIPT
-========================================================= -->
-
 <script src="js/site-pages.js"></script>
 
 
@@ -1803,10 +1797,14 @@
 ========================================================= */
 
 document
-  .querySelectorAll('[data-nav="contact"]')
+  .querySelectorAll(
+    '[data-nav="contact"]'
+  )
   .forEach(link => {
 
-    link.classList.add("active");
+    link.classList.add(
+      "active"
+    );
 
   });
 
@@ -1824,14 +1822,16 @@ function copyEmail(){
 
   if(
     navigator.clipboard &&
-    window.isSecureContext
+    navigator.clipboard.writeText
   ){
 
     navigator.clipboard
       .writeText(email)
       .then(()=>{
 
-        showCopyMessage();
+        alert(
+          "SK Sapilang email address copied."
+        );
 
       })
       .catch(()=>{
@@ -1840,7 +1840,9 @@ function copyEmail(){
 
       });
 
-  }else{
+  }
+
+  else{
 
     fallbackCopyEmail(email);
 
@@ -1851,144 +1853,36 @@ function copyEmail(){
 
 
 /* =========================================================
-   FALLBACK COPY
+   COPY FALLBACK
 ========================================================= */
 
 function fallbackCopyEmail(email){
 
-  const input =
-    document.createElement("textarea");
+  const text =
+    document.createElement(
+      "textarea"
+    );
 
-
-  input.value =
+  text.value =
     email;
 
-
-  input.style.position =
-    "fixed";
-
-  input.style.opacity =
-    "0";
-
-
-  document.body
-    .appendChild(input);
-
-
-  input.focus();
-  input.select();
-
-
-  try{
-
-    document.execCommand("copy");
-
-    showCopyMessage();
-
-  }catch(error){
-
-    alert(
-      "Email: " + email
-    );
-
-  }
-
-
-  document.body
-    .removeChild(input);
-
-}
-
-
-
-/* =========================================================
-   COPY CONFIRMATION
-========================================================= */
-
-function showCopyMessage(){
-
-  const oldNotice =
-    document.querySelector(
-      ".copy-notice"
-    );
-
-
-  if(oldNotice){
-
-    oldNotice.remove();
-
-  }
-
-
-  const notice =
-    document.createElement("div");
-
-
-  notice.className =
-    "copy-notice";
-
-
-  notice.textContent =
-    "Email copied";
-
-
-  Object.assign(
-    notice.style,
-    {
-
-      position:"fixed",
-
-      right:"20px",
-
-      bottom:"20px",
-
-      zIndex:"9999",
-
-      padding:"12px 17px",
-
-      borderRadius:"12px",
-
-      background:
-        "rgba(5,20,32,.95)",
-
-      border:
-        "1px solid rgba(65,220,255,.3)",
-
-      color:"#ffffff",
-
-      boxShadow:
-        "0 15px 45px rgba(0,0,0,.35)",
-
-      fontSize:".82rem",
-
-      fontWeight:"700",
-
-      backdropFilter:"blur(15px)"
-
-    }
+  document.body.appendChild(
+    text
   );
 
+  text.select();
 
-  document.body
-    .appendChild(notice);
+  document.execCommand(
+    "copy"
+  );
 
+  document.body.removeChild(
+    text
+  );
 
-  setTimeout(()=>{
-
-    notice.style.opacity =
-      "0";
-
-    notice.style.transition =
-      "opacity .3s ease";
-
-  },1800);
-
-
-  setTimeout(()=>{
-
-    notice.remove();
-
-  },2200);
+  alert(
+    "SK Sapilang email address copied."
+  );
 
 }
 
