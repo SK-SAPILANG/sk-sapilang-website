@@ -2398,7 +2398,7 @@ button {
 
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
-   85.60 mm Ã— 53.98 mm
+   85.60 mm × 53.98 mm
    FRONT + BACK STAY TOGETHER ON ONE PAGE
 ========================================================= */
 
@@ -2495,11 +2495,9 @@ button {
 }
 
 </style>
-  <link rel="stylesheet" href="css/nav-universal.css">
 </head>
 
 <body>
-<header id="site-header"></header>
 
 <div id="app">
 
@@ -2711,7 +2709,7 @@ async function loadID(id) {
 function formatPhilippineDate(value) {
 
   if (!value) {
-    return "â€”";
+    return "—";
   }
 
   const date =
@@ -2744,7 +2742,7 @@ function formatPhilippineDate(value) {
 function formatPhilippineDateOnly(value) {
 
   if (!value) {
-    return "â€”";
+    return "—";
   }
 
   const date = new Date(value);
@@ -2766,9 +2764,9 @@ function formatPhilippineDateOnly(value) {
 
 
 function getExpirationDate(value) {
-  if (!value) return "â€”";
+  if (!value) return "—";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "â€”";
+  if (Number.isNaN(date.getTime())) return "—";
   date.setFullYear(date.getFullYear() + 1);
   return formatPhilippineDateOnly(date);
 }
@@ -2777,7 +2775,7 @@ function getDisplaySex(value) {
   const sex = String(value || "").trim().toUpperCase();
   if (sex === "MALE" || sex === "M") return "Male";
   if (sex === "FEMALE" || sex === "F") return "Female";
-  return "â€”";
+  return "—";
 }
 
 /* =========================================================
@@ -2961,17 +2959,17 @@ function displayID(person) {
               <div class="label">REGISTERED MEMBER</div>
 
               <div class="member-name">
-                ${escapeHTML(person.FULL_NAME || "â€”")}
+                ${escapeHTML(person.FULL_NAME || "—")}
               </div>
 
               <div class="kk-number">
-                ${escapeHTML(person.KK_ID || "â€”")}
+                ${escapeHTML(person.KK_ID || "—")}
               </div>
 
               <div class="address-box">
                 <div class="label">COMPLETE ADDRESS</div>
                 <div class="address-value">
-                  ${escapeHTML(person.COMPLETE_ADDRESS || "â€”")}
+                  ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
                 </div>
               </div>
 
@@ -2997,7 +2995,7 @@ function displayID(person) {
           <div class="status-row">
             <div class="active-status">
               <span class="status-dot"></span>
-              VERIFIED â€¢ ACTIVE
+              VERIFIED • ACTIVE
             </div>
           </div>
 
@@ -3085,14 +3083,14 @@ function displayID(person) {
             <div class="back-extra-item">
               <div class="label">BLOOD TYPE</div>
               <div class="back-extra-value">
-                ${escapeHTML(person.BLOOD_TYPE || "â€”")}
+                ${escapeHTML(person.BLOOD_TYPE || "—")}
               </div>
             </div>
 
             <div class="back-extra-item">
               <div class="label">PLACE OF BIRTH</div>
               <div class="back-extra-value">
-                ${escapeHTML(person.PLACE_OF_BIRTH || "â€”")}
+                ${escapeHTML(person.PLACE_OF_BIRTH || "—")}
               </div>
             </div>
 
@@ -3109,28 +3107,28 @@ function displayID(person) {
             <div class="emergency-item">
               <div class="label">CONTACT PERSON</div>
               <div class="emergency-value">
-                ${escapeHTML(person.EMERGENCY_CONTACT_NAME || "â€”")}
+                ${escapeHTML(person.EMERGENCY_CONTACT_NAME || "—")}
               </div>
             </div>
 
             <div class="emergency-item">
               <div class="label">RELATIONSHIP</div>
               <div class="emergency-value">
-                ${escapeHTML(person.EMERGENCY_CONTACT_RELATIONSHIP || "â€”")}
+                ${escapeHTML(person.EMERGENCY_CONTACT_RELATIONSHIP || "—")}
               </div>
             </div>
 
             <div class="emergency-item">
               <div class="label">CONTACT NUMBER</div>
               <div class="emergency-value">
-                ${escapeHTML(person.EMERGENCY_CONTACT_NUMBER || "â€”")}
+                ${escapeHTML(person.EMERGENCY_CONTACT_NUMBER || "—")}
               </div>
             </div>
 
             <div class="emergency-item emergency-address">
               <div class="label">ADDRESS</div>
               <div class="emergency-value">
-                ${escapeHTML(person.COMPLETE_ADDRESS || "â€”")}
+                ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
               </div>
             </div>
 
@@ -3394,7 +3392,6 @@ function escapeHTML(value) {
 
 </script>
 <script src="js/frame-bridge.js"></script>
-  <script src="js/site-header.js"></script>
 </body>
 
 </html>
