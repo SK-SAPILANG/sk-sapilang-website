@@ -7,7 +7,7 @@
 
 <title>Digital KK ID | Barangay Sapilang</title>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js?v=20260830-ENCODING-FIX"></script>
 
 <style>
 
@@ -2398,7 +2398,7 @@ button {
 
 /* =========================================================
    PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
-   85.60 mm ÃƒÆ’Ã¢â‚¬â€ 53.98 mm
+   85.60 mm Ã— 53.98 mm
    FRONT + BACK STAY TOGETHER ON ONE PAGE
 ========================================================= */
 
@@ -2524,7 +2524,7 @@ button {
 
 </div>
 
-<script src="config.js"></script>
+<script src="config.js?v=20260830-ENCODING-FIX"></script>
 
 <script>
 
@@ -2709,7 +2709,7 @@ async function loadID(id) {
 function formatPhilippineDate(value) {
 
   if (!value) {
-    return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â";
+    return "â€”";
   }
 
   const date =
@@ -2742,7 +2742,7 @@ function formatPhilippineDate(value) {
 function formatPhilippineDateOnly(value) {
 
   if (!value) {
-    return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â";
+    return "â€”";
   }
 
   const date = new Date(value);
@@ -2764,9 +2764,9 @@ function formatPhilippineDateOnly(value) {
 
 
 function getExpirationDate(value) {
-  if (!value) return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â";
+  if (!value) return "â€”";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â";
+  if (Number.isNaN(date.getTime())) return "â€”";
   date.setFullYear(date.getFullYear() + 1);
   return formatPhilippineDateOnly(date);
 }
@@ -2775,7 +2775,7 @@ function getDisplaySex(value) {
   const sex = String(value || "").trim().toUpperCase();
   if (sex === "MALE" || sex === "M") return "Male";
   if (sex === "FEMALE" || sex === "F") return "Female";
-  return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â";
+  return "â€”";
 }
 
 /* =========================================================
@@ -2959,17 +2959,17 @@ function displayID(person) {
               <div class="label">REGISTERED MEMBER</div>
 
               <div class="member-name">
-                ${escapeHTML(person.FULL_NAME || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.FULL_NAME || "â€”")}
               </div>
 
               <div class="kk-number">
-                ${escapeHTML(person.KK_ID || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.KK_ID || "â€”")}
               </div>
 
               <div class="address-box">
                 <div class="label">COMPLETE ADDRESS</div>
                 <div class="address-value">
-                  ${escapeHTML(person.COMPLETE_ADDRESS || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                  ${escapeHTML(person.COMPLETE_ADDRESS || "â€”")}
                 </div>
               </div>
 
@@ -2995,7 +2995,7 @@ function displayID(person) {
           <div class="status-row">
             <div class="active-status">
               <span class="status-dot"></span>
-              VERIFIED ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ ACTIVE
+              VERIFIED â€¢ ACTIVE
             </div>
           </div>
 
@@ -3083,14 +3083,14 @@ function displayID(person) {
             <div class="back-extra-item">
               <div class="label">BLOOD TYPE</div>
               <div class="back-extra-value">
-                ${escapeHTML(person.BLOOD_TYPE || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.BLOOD_TYPE || "â€”")}
               </div>
             </div>
 
             <div class="back-extra-item">
               <div class="label">PLACE OF BIRTH</div>
               <div class="back-extra-value">
-                ${escapeHTML(person.PLACE_OF_BIRTH || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.PLACE_OF_BIRTH || "â€”")}
               </div>
             </div>
 
@@ -3107,28 +3107,28 @@ function displayID(person) {
             <div class="emergency-item">
               <div class="label">CONTACT PERSON</div>
               <div class="emergency-value">
-                ${escapeHTML(person.EMERGENCY_CONTACT_NAME || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.EMERGENCY_CONTACT_NAME || "â€”")}
               </div>
             </div>
 
             <div class="emergency-item">
               <div class="label">RELATIONSHIP</div>
               <div class="emergency-value">
-                ${escapeHTML(person.EMERGENCY_CONTACT_RELATIONSHIP || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.EMERGENCY_CONTACT_RELATIONSHIP || "â€”")}
               </div>
             </div>
 
             <div class="emergency-item">
               <div class="label">CONTACT NUMBER</div>
               <div class="emergency-value">
-                ${escapeHTML(person.EMERGENCY_CONTACT_NUMBER || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.EMERGENCY_CONTACT_NUMBER || "â€”")}
               </div>
             </div>
 
             <div class="emergency-item emergency-address">
               <div class="label">ADDRESS</div>
               <div class="emergency-value">
-                ${escapeHTML(person.COMPLETE_ADDRESS || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â")}
+                ${escapeHTML(person.COMPLETE_ADDRESS || "â€”")}
               </div>
             </div>
 
@@ -3391,7 +3391,7 @@ function escapeHTML(value) {
 }
 
 </script>
-<script src="js/frame-bridge.js?v=20260830-ALL"></script>
+<script src="js/frame-bridge.js?v=20260830-ENCODING-FIX"></script>
 </body>
 
 </html>

@@ -1,8 +1,8 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KK Admin</title><link rel="stylesheet" href="styles.css"></head><body>
-<div class="container"><div class="center"><h1>KK Verification Dashboard</h1><p class="muted">Barangay Sapilang ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ Bacnotan, La Union</p></div>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KK Admin</title><link rel="stylesheet" href="styles.css?v=20260830-ENCODING-FIX"></head><body>
+<div class="container"><div class="center"><h1>KK Verification Dashboard</h1><p class="muted">Barangay Sapilang â€¢ Bacnotan, La Union</p></div>
 <div id="login" class="panel card"><h2>Administrator Login</h2><div class="row"><input id="pw" type="password" placeholder="Admin password"><button class="primary" onclick="login()">Sign In</button></div><div id="loginMsg"></div></div>
 <div id="dash" class="hidden"><div id="msg"></div><div class="panel"><div class="row"><input id="search" placeholder="Search name or KK ID" oninput="render()"><select id="filter" onchange="render()"><option value="">All status</option><option>PENDING</option><option>VERIFIED</option><option>REJECTED</option></select><button class="secondary" onclick="load()">Refresh</button><button class="danger" onclick="logout()">Logout</button></div><div class="table-wrap"><table><thead><tr><th>KK ID</th><th>Name</th><th>Purok</th><th>Status</th><th>ID</th><th>Action</th></tr></thead><tbody id="rows"></tbody></table></div></div></div></div>
-<script src="config.js"></script><script>
+<script src="config.js?v=20260830-ENCODING-FIX"></script><script>
 let password="",data=[];
 async function api(obj){const p=new URLSearchParams();Object.entries(obj).forEach(([k,v])=>p.append(k,v));const r=await fetch(KK_CONFIG.API_URL,{method:"POST",body:p});return r.json()}
 function note(id,t,ok=false){document.getElementById(id).innerHTML=`<div class="message ${ok?"ok":"error"}">${esc(t)}</div>`}
@@ -14,5 +14,5 @@ async function act(action,id){if(!confirm(`Continue with ${id}?`))return;try{let
 function logout(){password="";data=[];document.getElementById("dash").classList.add("hidden");document.getElementById("login").classList.remove("hidden")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}function js(v){return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'")}
 </script>
-<script src="js/frame-bridge.js?v=20260830-ALL"></script>
+<script src="js/frame-bridge.js?v=20260830-ENCODING-FIX"></script>
 </body></html>
