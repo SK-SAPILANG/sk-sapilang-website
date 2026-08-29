@@ -1,66 +1,4177 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official website of Sangguniang Kabataan Barangay Sapilang, Bacnotan, La Union.">
-<title>Contact | SK Sapilang</title>
-<link rel="stylesheet" href="css/style.css">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta
+    name="description"
+    content="Contact the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Submit inquiries, client feedback, activity evaluations, suggestions and recommendations."
+>
+
+<meta name="theme-color" content="#020b14">
+
+<title>Contact & Feedback | SK Sapilang</title>
+
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+
+    --bg: #020a12;
+    --panel: rgba(5, 27, 42, .82);
+    --panel2: rgba(5, 34, 51, .94);
+
+    --cyan: #37dcff;
+    --cyan2: #78ebff;
+    --blue: #327cff;
+    --green: #75ef78;
+    --yellow: #ffd166;
+    --red: #ff6b6b;
+
+    --white: #f2fbff;
+    --text: #cde2eb;
+    --muted: #7794a3;
+
+    --line: rgba(67, 215, 255, .18);
+    --line2: rgba(67, 215, 255, .36);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(0, 149, 255, .12),
+            transparent 32%
+        ),
+
+        radial-gradient(
+            circle at 90% 30%,
+            rgba(52, 82, 255, .08),
+            transparent 30%
+        ),
+
+        var(--bg);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+.container {
+
+    width:
+        min(
+            1400px,
+            calc(100% - 48px)
+        );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.future-bg {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -20;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.future-bg::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+
+        linear-gradient(
+            rgba(59, 204, 255, .024) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(59, 204, 255, .024) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        48px 48px;
+}
+
+.orb {
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    border-radius: 50%;
+
+    filter: blur(115px);
+
+    background:
+        rgba(0, 161, 255, .09);
+}
+
+.orb.one {
+
+    left: -230px;
+    top: 80px;
+}
+
+.orb.two {
+
+    right: -250px;
+    top: 750px;
+
+    background:
+        rgba(66, 69, 255, .08);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    border-bottom:
+        1px solid rgba(67, 215, 255, .12);
+
+    background:
+        rgba(2, 11, 19, .94);
+
+    backdrop-filter:
+        blur(18px);
+}
+
+.nav {
+
+    min-height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.logo {
+
+    position: relative;
+
+    width: 54px;
+    height: 54px;
+
+    flex: 0 0 54px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+}
+
+.logo img {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+.logo::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -3px;
+
+    border:
+        1px solid rgba(65, 218, 255, .38);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 16px rgba(55, 220, 255, .12);
+}
+
+.logo::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -7px;
+
+    border:
+        1px dashed rgba(61, 215, 255, .30);
+
+    border-radius: 50%;
+
+    animation:
+        spin 10s linear infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.brand-text strong {
+
+    display: block;
+
+    color: white;
+
+    font-size: 15px;
+
+    letter-spacing: .5px;
+}
+
+.brand-text span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6f8997;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav-links {
+
+    list-style: none;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+}
+
+.nav-links a {
+
+    display: block;
+
+    padding:
+        10px 13px;
+
+    border-radius: 8px;
+
+    color: #afc2cb;
+
+    font-size: 12px;
+
+    transition:
+        .2s ease;
+}
+
+.nav-links a:hover {
+
+    color: white;
+
+    background:
+        rgba(55, 215, 255, .07);
+}
+
+.nav-links a.active {
+
+    color: var(--cyan);
+
+    background:
+        rgba(55, 215, 255, .07);
+
+    border:
+        1px solid rgba(55, 215, 255, .13);
+}
+
+.menu-button {
+
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 9px;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.02);
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.page-hero {
+
+    padding:
+        78px 0 62px;
+}
+
+.hero-copy {
+
+    max-width: 900px;
+}
+
+.eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+
+    color: var(--cyan);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.eyebrow::before {
+
+    content: "";
+
+    width: 27px;
+    height: 1px;
+
+    background:
+        var(--cyan);
+}
+
+.hero-copy h1 {
+
+    max-width: 850px;
+
+    color: white;
+
+    font-size:
+        clamp(
+            50px,
+            6vw,
+            80px
+        );
+
+    line-height: .96;
+
+    letter-spacing: -3px;
+}
+
+.hero-copy h1 span {
+
+    display: block;
+
+    color: transparent;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #38dcff,
+            #42a9ff
+        );
+
+    background-clip: text;
+
+    -webkit-background-clip: text;
+}
+
+.hero-description {
+
+    max-width: 760px;
+
+    margin-top: 22px;
+
+    color: #a8bdc7;
+
+    font-size: 14px;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section {
+
+    padding:
+        25px 0 68px;
+}
+
+.section-heading {
+
+    max-width: 800px;
+
+    margin-bottom: 28px;
+}
+
+.section-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--cyan);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+
+    color: white;
+
+    font-size:
+        clamp(
+            30px,
+            4vw,
+            46px
+        );
+
+    line-height: 1.05;
+
+    letter-spacing: -1.6px;
+}
+
+.section-heading p {
+
+    margin-top: 11px;
+
+    color: #819aa7;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CONTACT CARDS
+========================================================= */
+
+.contact-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+.contact-card {
+
+    min-height: 175px;
+
+    padding: 22px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 14px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(5, 31, 47, .80),
+            rgba(3, 20, 31, .86)
+        );
+
+    transition:
+        .25s ease;
+}
+
+.contact-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        var(--line2);
+}
+
+.contact-code {
+
+    display: block;
+
+    color: var(--cyan);
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.contact-card h3 {
+
+    margin-top: 12px;
+
+    color: white;
+
+    font-size: 16px;
+}
+
+.contact-card p,
+.contact-card a {
+
+    display: block;
+
+    margin-top: 8px;
+
+    color: #8fa7b3;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+.contact-card a:hover {
+
+    color: var(--cyan);
+}
+
+.temporary {
+
+    display: inline-flex;
+
+    margin-top: 10px;
+
+    padding:
+        5px 8px;
+
+    border:
+        1px solid rgba(255, 209, 102, .24);
+
+    border-radius: 999px;
+
+    color: var(--yellow);
+
+    font-size: 6px;
+
+    letter-spacing: .7px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   QUALITY MANAGEMENT SYSTEM
+========================================================= */
+
+.qms-shell {
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(60, 216, 255, .25);
+
+    border-radius: 18px;
+
+    background:
+        rgba(3, 20, 31, .82);
+
+    box-shadow:
+        0 28px 80px rgba(0,0,0,.25);
+}
+
+.qms-header {
+
+    padding:
+        27px;
+
+    border-bottom:
+        1px solid rgba(60, 216, 255, .13);
+}
+
+.qms-header small {
+
+    color: var(--cyan);
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.qms-header h3 {
+
+    margin-top: 7px;
+
+    color: white;
+
+    font-size: 25px;
+}
+
+.qms-header p {
+
+    max-width: 800px;
+
+    margin-top: 8px;
+
+    color: #819aa7;
+
+    font-size: 10px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.form-tabs {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 1px;
+
+    background:
+        rgba(60, 216, 255, .10);
+}
+
+.form-tab {
+
+    min-height: 66px;
+
+    padding:
+        12px 18px;
+
+    border: 0;
+
+    color: #8aa3af;
+
+    background:
+        #041723;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+}
+
+.form-tab strong {
+
+    display: block;
+
+    color: inherit;
+
+    font-size: 10px;
+}
+
+.form-tab span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 7px;
+}
+
+.form-tab:hover {
+
+    color: white;
+}
+
+.form-tab.active {
+
+    color: var(--cyan);
+
+    background:
+        rgba(12, 48, 67, .98);
+
+    box-shadow:
+        inset 0 -2px 0 var(--cyan);
+}
+
+
+/* =========================================================
+   FORM PANELS
+========================================================= */
+
+.form-panel {
+
+    display: none;
+
+    padding: 30px;
+}
+
+.form-panel.active {
+
+    display: block;
+}
+
+.form-intro {
+
+    margin-bottom: 25px;
+
+    padding-bottom: 20px;
+
+    border-bottom:
+        1px solid rgba(60, 216, 255, .10);
+}
+
+.form-intro h3 {
+
+    color: white;
+
+    font-size: 22px;
+}
+
+.form-intro p {
+
+    max-width: 760px;
+
+    margin-top: 7px;
+
+    color: #829aa7;
+
+    font-size: 10px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+.form-group {
+
+    min-width: 0;
+}
+
+.form-group.full {
+
+    grid-column:
+        1 / -1;
+}
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #b7cad3;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: .35px;
+
+    text-transform: uppercase;
+}
+
+.required {
+
+    color: var(--cyan);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+    width: 100%;
+
+    min-height: 46px;
+
+    padding:
+        12px 13px;
+
+    border:
+        1px solid rgba(60, 216, 255, .16);
+
+    outline: none;
+
+    border-radius: 8px;
+
+    color: white;
+
+    background:
+        rgba(2, 16, 25, .78);
+
+    transition:
+        .2s ease;
+}
+
+.form-group textarea {
+
+    min-height: 125px;
+
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    border-color:
+        rgba(60, 216, 255, .56);
+
+    box-shadow:
+        0 0 0 3px rgba(60, 216, 255, .06);
+}
+
+.form-group select option {
+
+    color: black;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.rating-title {
+
+    margin:
+        30px 0 15px;
+
+    padding-top: 23px;
+
+    border-top:
+        1px solid rgba(60,216,255,.10);
+}
+
+.rating-title small {
+
+    display: block;
+
+    color: var(--cyan);
+
+    font-size: 7px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.rating-title h4 {
+
+    margin-top: 5px;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+.rating-title p {
+
+    margin-top: 6px;
+
+    color: #78929e;
+
+    font-size: 9px;
+}
+
+.rating-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 8px;
+}
+
+.rating-option input {
+
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.rating-option label {
+
+    min-height: 65px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    border:
+        1px solid rgba(60, 216, 255, .16);
+
+    border-radius: 9px;
+
+    color: #839ba7;
+
+    background:
+        rgba(3, 22, 34, .72);
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+}
+
+.rating-option label strong {
+
+    color: white;
+
+    font-size: 15px;
+}
+
+.rating-option label span {
+
+    font-size: 7px;
+}
+
+.rating-option input:checked + label {
+
+    color: var(--cyan);
+
+    border-color:
+        var(--cyan);
+
+    background:
+        rgba(55, 220, 255, .10);
+
+    box-shadow:
+        0 0 18px rgba(55, 220, 255, .08);
+}
+
+
+/* =========================================================
+   MATRIX RATINGS
+========================================================= */
+
+.matrix {
+
+    display: grid;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+.matrix-row {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(150px, 1fr)
+        minmax(250px, 1.4fr);
+
+    gap: 18px;
+
+    align-items: center;
+
+    padding:
+        13px 0;
+
+    border-bottom:
+        1px solid rgba(60,216,255,.08);
+}
+
+.matrix-label {
+
+    color: #a9bec8;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+}
+
+.matrix-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 5px;
+}
+
+.matrix-option {
+
+    position: relative;
+}
+
+.matrix-option input {
+
+    position: absolute;
+
+    opacity: 0;
+}
+
+.matrix-option label {
+
+    height: 37px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid rgba(60,216,255,.13);
+
+    border-radius: 7px;
+
+    color: #718c99;
+
+    background:
+        rgba(2,17,26,.72);
+
+    cursor: pointer;
+
+    font-size: 8px;
+}
+
+.matrix-option input:checked + label {
+
+    color: var(--cyan);
+
+    border-color: var(--cyan);
+
+    background:
+        rgba(55,220,255,.10);
+}
+
+
+/* =========================================================
+   CONSENT
+========================================================= */
+
+.consent {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border:
+        1px solid rgba(60,216,255,.12);
+
+    border-radius: 9px;
+
+    background:
+        rgba(3,20,31,.57);
+}
+
+.consent input {
+
+    margin-top: 3px;
+}
+
+.consent label {
+
+    color: #8099a5;
+
+    font-size: 8px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.submit-button {
+
+    min-height: 50px;
+
+    margin-top: 20px;
+
+    padding:
+        0 26px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    color: white;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #27d3f6,
+            #337aff
+        );
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .5px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        .25s ease;
+}
+
+.submit-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(37, 160, 255, .18);
+}
+
+
+/* =========================================================
+   AUTOMATIC RESULT
+========================================================= */
+
+.result-box {
+
+    display: none;
+
+    margin-top: 25px;
+
+    padding: 22px;
+
+    border:
+        1px solid rgba(117,239,120,.30);
+
+    border-radius: 12px;
+
+    background:
+        rgba(27, 76, 48, .13);
+}
+
+.result-box.show {
+
+    display: block;
+}
+
+.result-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: var(--green);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.result-status::before {
+
+    content: "";
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 12px rgba(117,239,120,.65);
+}
+
+.result-box h4 {
+
+    margin-top: 10px;
+
+    color: white;
+
+    font-size: 18px;
+}
+
+.result-box p {
+
+    margin-top: 7px;
+
+    color: #95acb6;
+
+    font-size: 9px;
+
+    line-height: 1.6;
+}
+
+.result-data {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+
+    margin-top: 15px;
+}
+
+.result-item {
+
+    padding: 12px;
+
+    border:
+        1px solid rgba(117,239,120,.15);
+
+    border-radius: 8px;
+
+    background:
+        rgba(3,22,30,.55);
+}
+
+.result-item small {
+
+    display: block;
+
+    color: #748e99;
+
+    font-size: 6px;
+
+    text-transform: uppercase;
+}
+
+.result-item strong {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: white;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   QUALITY STATEMENT
+========================================================= */
+
+.quality-card {
+
+    padding: 30px;
+
+    border:
+        1px solid rgba(60,216,255,.23);
+
+    border-radius: 16px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(5,35,52,.88),
+            rgba(3,19,31,.9)
+        );
+}
+
+.quality-card h3 {
+
+    color: white;
+
+    font-size: 24px;
+}
+
+.quality-card p {
+
+    max-width: 1000px;
+
+    margin-top: 11px;
+
+    color: #91a8b3;
+
+    font-size: 11px;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    padding:
+        18px 0 25px;
+
+    border-top:
+        1px solid rgba(57, 210, 255, .14);
+
+    background:
+        rgba(2, 12, 20, .75);
+}
+
+.footer-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr auto;
+
+    gap: 25px;
+
+    align-items: center;
+}
+
+.footer-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.footer-logo {
+
+    width: 42px;
+    height: 42px;
+}
+
+.footer-logo img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+.footer-brand strong {
+
+    display: block;
+
+    color: white;
+
+    font-size: 10px;
+}
+
+.footer-brand span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6d8794;
+
+    font-size: 6px;
+}
+
+.copyright {
+
+    color: #6d8592;
+
+    font-size: 7px;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+        translateY(20px);
+
+    transition:
+        opacity .65s ease,
+        transform .65s ease;
+}
+
+.reveal.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .menu-button {
+
+        display: grid;
+
+        place-items: center;
+    }
+
+    .nav-links {
+
+        position: absolute;
+
+        top: 76px;
+
+        left: 20px;
+        right: 20px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 4px;
+
+        padding: 12px;
+
+        border:
+            1px solid var(--line);
+
+        border-radius: 12px;
+
+        background:
+            rgba(2,14,23,.98);
+
+        box-shadow:
+            0 20px 50px rgba(0,0,0,.42);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+
+        width: 100%;
+
+        padding:
+            13px 14px;
+    }
+
+    .contact-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .container {
+
+        width:
+            calc(100% - 20px);
+    }
+
+    .nav {
+
+        min-height: 64px;
+
+        gap: 10px;
+    }
+
+    .logo {
+
+        width: 42px;
+        height: 42px;
+
+        flex: 0 0 42px;
+    }
+
+    .logo::after {
+        inset: -4px;
+    }
+
+    .brand {
+        gap: 9px;
+    }
+
+    .brand-text strong {
+        font-size: 12px;
+    }
+
+    .brand-text span {
+        display: none;
+    }
+
+    .menu-button {
+
+        width: 39px;
+        height: 39px;
+    }
+
+    .nav-links {
+
+        top: 64px;
+
+        left: 10px;
+        right: 10px;
+    }
+
+    .page-hero {
+
+        padding:
+            46px 0 50px;
+    }
+
+    .hero-copy h1 {
+
+        font-size:
+            clamp(
+                39px,
+                12vw,
+                53px
+            );
+
+        line-height: .98;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-description {
+
+        margin-top: 17px;
+
+        font-size: 11px;
+    }
+
+    .section {
+
+        padding:
+            18px 0 50px;
+    }
+
+    .section-heading h2 {
+
+        font-size: 31px;
+    }
+
+    .contact-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .form-tabs {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .form-tab {
+
+        text-align: left;
+    }
+
+    .form-panel {
+
+        padding:
+            21px 15px;
+    }
+
+    .qms-header {
+
+        padding:
+            21px 17px;
+    }
+
+    .form-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .form-group.full {
+
+        grid-column: auto;
+    }
+
+    .rating-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .rating-option label {
+
+        min-height: 48px;
+
+        flex-direction: row;
+    }
+
+    .matrix-row {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 8px;
+    }
+
+    .matrix-options {
+
+        grid-template-columns:
+            repeat(5, 1fr);
+    }
+
+    .result-data {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .submit-button {
+
+        width: 100%;
+    }
+
+    .footer-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 15px;
+    }
+
+    .copyright {
+
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .001ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .001ms !important;
+
+        scroll-behavior:
+            auto !important;
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
 
-<header>
-  <div class="topbar"><div class="container"><span>OFFICIAL WEBSITE • SANGGUNIANG KABATAAN SAPILANG</span><span>Barangay Sapilang • Bacnotan, La Union</span></div></div>
-  <nav class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img src="images/sk-logo.svg" alt="SK Sapilang Logo">
-        <div><strong>SK SAPILANG</strong><small>Kabataan. Serbisyo. Pag-asa.</small></div>
-      </a>
-      <button class="menu-toggle" aria-label="Open navigation">☰</button>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="programs.html">Programs</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="announcements.html">News</a></li>
-        <li><a href="organization.html">Officials</a></li>
-        <li><a href="kk-portal.html">KK Portal</a></li>
-        <li><a href="transparency.html">Transparency</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+
+<div class="future-bg">
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+</div>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="header">
+
+    <div class="container nav">
+
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <div class="logo">
+
+                <img
+                    src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+                    alt="SK Sapilang Official Logo"
+                >
+
+            </div>
+
+
+            <div class="brand-text">
+
+                <strong>
+                    SK SAPILANG
+                </strong>
+
+                <span>
+                    DIGITAL YOUTH NETWORK
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+
+        <ul
+            class="nav-links"
+            id="navLinks"
+        >
+
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="index.html#activities">
+                    Activities
+                </a>
+            </li>
+
+            <li>
+                <a href="index.html#digital-id">
+                    Digital ID
+                </a>
+            </li>
+
+            <li>
+                <a href="about.html">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="transparency.html">
+                    Transparency
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="contact.html"
+                    class="active"
+                >
+                    Contact
+                </a>
+            </li>
+
+            <li>
+                <a href="kk-portal.html">
+                    KK Portal
+                </a>
+            </li>
+
+        </ul>
+
     </div>
-  </nav>
+
 </header>
 
 
-<section class="page-hero"><div class="container"><span class="eyebrow">Connect With Us</span><h1>Contact & Feedback</h1><p>Have a suggestion, question or youth-related concern? Send us a message.</p></div></section>
-<section class="section"><div class="container grid grid-3">
-<div class="card reveal"><h3>SK Office</h3><p>Barangay Sapilang<br>Bacnotan, La Union<br>Philippines</p><br><h3>Office Hours</h3><p>Add your official office schedule here.</p></div>
-<div class="card reveal" style="grid-column:span 2">
-<form id="contactForm"><div class="form-grid">
-<div class="form-group"><label for="name">Full Name</label><input id="name" required></div>
-<div class="form-group"><label for="email">Email</label><input id="email" type="email" required></div>
-<div class="form-group full"><label for="subject">Subject</label><input id="subject" required></div>
-<div class="form-group full"><label for="message">Message</label><textarea id="message" required></textarea></div>
-<div class="form-group full"><button class="btn btn-primary" type="submit">Send Message</button></div>
-</div></form><div id="formMessage"></div>
-</div>
-</div></section>
+<main>
 
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="page-hero">
+
+    <div class="container">
+
+        <div class="hero-copy">
+
+            <span class="eyebrow">
+                Contact • Feedback • Quality
+            </span>
+
+            <h1>
+                Your Voice.
+                <span>
+                    Our Commitment.
+                </span>
+            </h1>
+
+            <p class="hero-description">
+
+                Connect with the Sangguniang Kabataan of
+                Barangay Sapilang. Send an inquiry, evaluate
+                our services and activities, or share suggestions
+                that can help us continuously improve youth
+                programs and public service.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     CONTACT INFORMATION
+======================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Official Contact Channels
+            </span>
+
+            <h2>
+                Connect with SK Sapilang.
+            </h2>
+
+            <p>
+
+                Use our official communication channels for
+                inquiries, coordination, feedback and youth-related
+                concerns.
+
+            </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+
+            <article class="contact-card reveal">
+
+                <span class="contact-code">
+                    CONTACT // 01
+                </span>
+
+                <h3>
+                    SK Office
+                </h3>
+
+                <p>
+                    Barangay Sapilang<br>
+                    Bacnotan, La Union<br>
+                    Philippines
+                </p>
+
+            </article>
+
+
+            <article class="contact-card reveal">
+
+                <span class="contact-code">
+                    CONTACT // 02
+                </span>
+
+                <h3>
+                    Contact Number
+                </h3>
+
+                <a href="tel:090930557893">
+                    0909-3055-7893
+                </a>
+
+                <span class="temporary">
+                    Temporary Contact Number
+                </span>
+
+            </article>
+
+
+            <article class="contact-card reveal">
+
+                <span class="contact-code">
+                    CONTACT // 03
+                </span>
+
+                <h3>
+                    Official Email
+                </h3>
+
+                <a
+                    href="mailto:sksapilangbacnotanlaunion@gmail.com"
+                >
+                    sksapilangbacnotanlaunion@gmail.com
+                </a>
+
+            </article>
+
+
+            <article class="contact-card reveal">
+
+                <span class="contact-code">
+                    CONTACT // 04
+                </span>
+
+                <h3>
+                    Official Facebook
+                </h3>
+
+                <a
+                    href="https://www.facebook.com/profile.php?id=61555692615847"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    SK, Sapilang, Bacnotan, La Union
+                </a>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     QMS
+======================================================= -->
+
+<section
+    class="section"
+    id="feedback"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading reveal">
+
+            <span class="section-label">
+                Quality Management System
+            </span>
+
+            <h2>
+                Feedback & Evaluation Center.
+            </h2>
+
+            <p>
+
+                Your feedback helps SK Sapilang evaluate
+                service quality, measure program effectiveness,
+                identify areas for improvement and plan more
+                responsive youth initiatives.
+
+            </p>
+
+        </div>
+
+
+        <div class="qms-shell reveal">
+
+
+            <div class="qms-header">
+
+                <small>
+                    SK Sapilang • Quality Management System
+                </small>
+
+                <h3>
+                    Choose a feedback form.
+                </h3>
+
+                <p>
+
+                    Select the form that best matches your
+                    concern or experience. Information provided
+                    will be used for service improvement,
+                    program evaluation and organizational learning.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORM TABS
+            ================================================== -->
+
+            <div class="form-tabs">
+
+
+                <button
+                    class="form-tab active"
+                    type="button"
+                    data-form="client"
+                >
+
+                    <strong>
+                        Client / Service Feedback
+                    </strong>
+
+                    <span>
+                        Evaluate SK services and assistance
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="form-tab"
+                    type="button"
+                    data-form="activity"
+                >
+
+                    <strong>
+                        Activity / Program Evaluation
+                    </strong>
+
+                    <span>
+                        Evaluate an SK activity or program
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="form-tab"
+                    type="button"
+                    data-form="suggestion"
+                >
+
+                    <strong>
+                        Suggestions & Recommendations
+                    </strong>
+
+                    <span>
+                        Share ideas, concerns or recommendations
+                    </span>
+
+                </button>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 CLIENT FEEDBACK
+            ================================================== -->
+
+            <div
+                class="form-panel active"
+                id="clientFormPanel"
+            >
+
+
+                <div class="form-intro">
+
+                    <h3>
+                        Client / Service Feedback Form
+                    </h3>
+
+                    <p>
+
+                        Use this form to evaluate your experience
+                        when accessing an SK Sapilang service,
+                        requesting assistance or communicating
+                        with the SK Office.
+
+                    </p>
+
+                </div>
+
+
+                <form id="clientFeedbackForm">
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="clientName">
+                                Full Name
+                            </label>
+
+                            <input
+                                id="clientName"
+                                name="fullName"
+                                type="text"
+                                autocomplete="name"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="clientEmail">
+                                Email Address
+                            </label>
+
+                            <input
+                                id="clientEmail"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="clientService">
+                                Service Availed
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="clientService"
+                                name="service"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Service
+                                </option>
+
+                                <option>
+                                    KK Profiling
+                                </option>
+
+                                <option>
+                                    KK Digital ID
+                                </option>
+
+                                <option>
+                                    KK ID Verification
+                                </option>
+
+                                <option>
+                                    Printing / Educational Support
+                                </option>
+
+                                <option>
+                                    Program Registration
+                                </option>
+
+                                <option>
+                                    Request for Information
+                                </option>
+
+                                <option>
+                                    Document / Certification Inquiry
+                                </option>
+
+                                <option>
+                                    General SK Assistance
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="clientDate">
+                                Date of Service
+                            </label>
+
+                            <input
+                                id="clientDate"
+                                name="serviceDate"
+                                type="date"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="rating-title">
+
+                        <small>
+                            Client Satisfaction Measurement
+                        </small>
+
+                        <h4>
+                            Overall Satisfaction
+                        </h4>
+
+                        <p>
+                            Rate your overall experience with
+                            the service you received.
+                        </p>
+
+                    </div>
+
+
+                    <div class="rating-grid">
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="clientOverall"
+                                id="clientRate1"
+                                value="1"
+                                required
+                            >
+
+                            <label for="clientRate1">
+
+                                <strong>1</strong>
+                                <span>Very Dissatisfied</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="clientOverall"
+                                id="clientRate2"
+                                value="2"
+                            >
+
+                            <label for="clientRate2">
+
+                                <strong>2</strong>
+                                <span>Dissatisfied</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="clientOverall"
+                                id="clientRate3"
+                                value="3"
+                            >
+
+                            <label for="clientRate3">
+
+                                <strong>3</strong>
+                                <span>Satisfactory</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="clientOverall"
+                                id="clientRate4"
+                                value="4"
+                            >
+
+                            <label for="clientRate4">
+
+                                <strong>4</strong>
+                                <span>Very Satisfied</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="clientOverall"
+                                id="clientRate5"
+                                value="5"
+                            >
+
+                            <label for="clientRate5">
+
+                                <strong>5</strong>
+                                <span>Excellent</span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="rating-title">
+
+                        <small>
+                            Service Quality Indicators
+                        </small>
+
+                        <h4>
+                            Evaluate the service.
+                        </h4>
+
+                    </div>
+
+
+                    <div class="matrix">
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Responsiveness and timeliness
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="clientTimeliness"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Courtesy and professionalism
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="clientCourtesy"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Clarity of information provided
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="clientClarity"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Accessibility of the service
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="clientAccessibility"
+                            ></div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-grid"
+                         style="margin-top:22px">
+
+
+                        <div class="form-group full">
+
+                            <label for="clientComments">
+                                Comments / Areas for Improvement
+                            </label>
+
+                            <textarea
+                                id="clientComments"
+                                name="comments"
+                                placeholder="Tell us what worked well or what we can improve."
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="consent">
+
+                        <input
+                            type="checkbox"
+                            id="clientConsent"
+                            required
+                        >
+
+                        <label for="clientConsent">
+
+                            I confirm that the information
+                            provided reflects my actual experience.
+                            I understand that this feedback may be
+                            used by SK Sapilang for service quality
+                            assessment and improvement.
+
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        class="submit-button"
+                        type="submit"
+                    >
+                        Submit Client Feedback
+                    </button>
+
+
+                </form>
+
+
+                <div
+                    class="result-box"
+                    id="clientResult"
+                ></div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIVITY / PROGRAM EVALUATION
+            ================================================== -->
+
+            <div
+                class="form-panel"
+                id="activityFormPanel"
+            >
+
+
+                <div class="form-intro">
+
+                    <h3>
+                        Activity & Program Evaluation Form
+                    </h3>
+
+                    <p>
+
+                        This evaluation is intended for
+                        participants and beneficiaries of SK
+                        Sapilang activities, programs, seminars,
+                        sports events, training sessions and
+                        community initiatives.
+
+                    </p>
+
+                </div>
+
+
+                <form id="activityFeedbackForm">
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="activityName">
+                                Activity / Program Name
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                id="activityName"
+                                name="activity"
+                                type="text"
+                                placeholder="Enter activity or program name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="activityDate">
+                                Activity Date
+                            </label>
+
+                            <input
+                                id="activityDate"
+                                name="activityDate"
+                                type="date"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="participantName">
+                                Participant Name
+                            </label>
+
+                            <input
+                                id="participantName"
+                                name="participantName"
+                                type="text"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="participantType">
+                                Participant Classification
+                            </label>
+
+                            <select
+                                id="participantType"
+                                name="participantType"
+                            >
+
+                                <option value="">
+                                    Select Classification
+                                </option>
+
+                                <option>
+                                    Katipunan ng Kabataan Member
+                                </option>
+
+                                <option>
+                                    Student
+                                </option>
+
+                                <option>
+                                    Volunteer
+                                </option>
+
+                                <option>
+                                    Parent / Guardian
+                                </option>
+
+                                <option>
+                                    Community Member
+                                </option>
+
+                                <option>
+                                    Partner / Stakeholder
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="rating-title">
+
+                        <small>
+                            Program Effectiveness
+                        </small>
+
+                        <h4>
+                            Overall Activity Rating
+                        </h4>
+
+                    </div>
+
+
+                    <div class="rating-grid">
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="activityOverall"
+                                id="activityRate1"
+                                value="1"
+                                required
+                            >
+
+                            <label for="activityRate1">
+
+                                <strong>1</strong>
+                                <span>Poor</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="activityOverall"
+                                id="activityRate2"
+                                value="2"
+                            >
+
+                            <label for="activityRate2">
+
+                                <strong>2</strong>
+                                <span>Needs Improvement</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="activityOverall"
+                                id="activityRate3"
+                                value="3"
+                            >
+
+                            <label for="activityRate3">
+
+                                <strong>3</strong>
+                                <span>Satisfactory</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="activityOverall"
+                                id="activityRate4"
+                                value="4"
+                            >
+
+                            <label for="activityRate4">
+
+                                <strong>4</strong>
+                                <span>Very Good</span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="rating-option">
+
+                            <input
+                                type="radio"
+                                name="activityOverall"
+                                id="activityRate5"
+                                value="5"
+                            >
+
+                            <label for="activityRate5">
+
+                                <strong>5</strong>
+                                <span>Excellent</span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="rating-title">
+
+                        <small>
+                            Evaluation Indicators
+                        </small>
+
+                        <h4>
+                            Rate the following aspects.
+                        </h4>
+
+                    </div>
+
+
+                    <div class="matrix">
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Relevance of the activity to youth needs
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="activityRelevance"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Organization and implementation
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="activityOrganization"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Quality of facilitators / resource persons
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="activityFacilitators"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Venue, materials and logistical support
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="activityLogistics"
+                            ></div>
+
+                        </div>
+
+
+                        <div class="matrix-row">
+
+                            <div class="matrix-label">
+                                Overall learning / benefit received
+                            </div>
+
+                            <div
+                                class="matrix-options"
+                                data-matrix="activityBenefit"
+                            ></div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div
+                        class="form-grid"
+                        style="margin-top:22px"
+                    >
+
+
+                        <div class="form-group full">
+
+                            <label for="activityLearned">
+                                What did you learn or benefit from?
+                            </label>
+
+                            <textarea
+                                id="activityLearned"
+                                name="learning"
+                                placeholder="Share the most valuable learning, experience or benefit you received."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="activityImprove">
+                                What can we improve?
+                            </label>
+
+                            <textarea
+                                id="activityImprove"
+                                name="improvement"
+                                placeholder="Share recommendations for future activities."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="futureProgram">
+                                Programs you would like SK Sapilang to conduct
+                            </label>
+
+                            <textarea
+                                id="futureProgram"
+                                name="futurePrograms"
+                                placeholder="Suggest future activities, projects or programs."
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="consent">
+
+                        <input
+                            type="checkbox"
+                            id="activityConsent"
+                            required
+                        >
+
+                        <label for="activityConsent">
+
+                            I confirm that this evaluation reflects
+                            my experience as a participant or
+                            beneficiary. I understand that the results
+                            may be consolidated for program assessment
+                            and continuous improvement.
+
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        class="submit-button"
+                        type="submit"
+                    >
+                        Submit Program Evaluation
+                    </button>
+
+
+                </form>
+
+
+                <div
+                    class="result-box"
+                    id="activityResult"
+                ></div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 SUGGESTIONS
+            ================================================== -->
+
+            <div
+                class="form-panel"
+                id="suggestionFormPanel"
+            >
+
+
+                <div class="form-intro">
+
+                    <h3>
+                        Suggestions & Recommendations
+                    </h3>
+
+                    <p>
+
+                        Share an idea, recommendation, concern,
+                        commendation or proposed youth initiative.
+                        Constructive feedback helps guide future
+                        SK planning and decision-making.
+
+                    </p>
+
+                </div>
+
+
+                <form id="suggestionForm">
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionName">
+                                Full Name
+                            </label>
+
+                            <input
+                                id="suggestionName"
+                                name="name"
+                                type="text"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionEmail">
+                                Email Address
+                            </label>
+
+                            <input
+                                id="suggestionEmail"
+                                name="email"
+                                type="email"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionCategory">
+                                Category
+                                <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="suggestionCategory"
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option>
+                                    Suggestion
+                                </option>
+
+                                <option>
+                                    Recommendation
+                                </option>
+
+                                <option>
+                                    Youth Concern
+                                </option>
+
+                                <option>
+                                    Program Proposal
+                                </option>
+
+                                <option>
+                                    Service Improvement
+                                </option>
+
+                                <option>
+                                    Website / Digital Service
+                                </option>
+
+                                <option>
+                                    Commendation
+                                </option>
+
+                                <option>
+                                    General Inquiry
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="suggestionArea">
+                                Development Area
+                            </label>
+
+                            <select
+                                id="suggestionArea"
+                                name="developmentArea"
+                            >
+
+                                <option value="">
+                                    Select Area
+                                </option>
+
+                                <option>
+                                    Education
+                                </option>
+
+                                <option>
+                                    Health & Well-Being
+                                </option>
+
+                                <option>
+                                    Sports & Recreation
+                                </option>
+
+                                <option>
+                                    Leadership & Governance
+                                </option>
+
+                                <option>
+                                    Environment
+                                </option>
+
+                                <option>
+                                    Employment / Livelihood
+                                </option>
+
+                                <option>
+                                    Digital Services
+                                </option>
+
+                                <option>
+                                    Inclusion & Community Service
+                                </option>
+
+                                <option>
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="suggestionSubject">
+                                Subject
+                                <span class="required">*</span>
+                            </label>
+
+                            <input
+                                id="suggestionSubject"
+                                name="subject"
+                                type="text"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="suggestionMessage">
+                                Message / Recommendation
+                                <span class="required">*</span>
+                            </label>
+
+                            <textarea
+                                id="suggestionMessage"
+                                name="message"
+                                required
+                                placeholder="Describe your suggestion, recommendation or concern."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="suggestionSolution">
+                                Proposed Solution or Action
+                            </label>
+
+                            <textarea
+                                id="suggestionSolution"
+                                name="proposedSolution"
+                                placeholder="If applicable, suggest how SK Sapilang may address or implement your recommendation."
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="consent">
+
+                        <input
+                            type="checkbox"
+                            id="suggestionConsent"
+                            required
+                        >
+
+                        <label for="suggestionConsent">
+
+                            I understand that submissions will be
+                            reviewed for legitimate youth governance,
+                            service improvement and program development
+                            purposes.
+
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        class="submit-button"
+                        type="submit"
+                    >
+                        Submit Suggestion
+                    </button>
+
+
+                </form>
+
+
+                <div
+                    class="result-box"
+                    id="suggestionResult"
+                ></div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     QUALITY COMMITMENT
+======================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <article class="quality-card reveal">
+
+            <span class="section-label">
+                Continuous Improvement
+            </span>
+
+            <h3>
+                Our commitment to better youth service.
+            </h3>
+
+            <p>
+
+                Feedback and evaluation results help SK Sapilang
+                identify strengths, address service gaps, improve
+                activities and programs, strengthen accountability,
+                and design initiatives that respond to the needs and
+                aspirations of the youth. Consolidated feedback may
+                be used as an internal reference for planning,
+                monitoring, evaluation and continuous improvement.
+
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
 <footer>
- <div class="container">
-  <div class="footer-grid">
-   <div><h3>SK SAPILANG</h3><p>The official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.</p></div>
-   <div><h4>Explore</h4><ul><li><a href="about.html">About Us</a></li><li><a href="programs.html">Programs</a></li><li><a href="events.html">Events</a></li><li><a href="awards.html">Awards</a></li></ul></div>
-   <div><h4>Governance</h4><ul><li><a href="resolutions.html">Resolutions</a></li><li><a href="transparency.html">Transparency</a></li><li><a href="organization.html">Officials</a></li></ul></div>
-   <div><h4>Youth</h4><ul><li><a href="kk-portal.html">KK Portal</a></li><li><a href="contact.html">Feedback</a></li><li><a href="announcements.html">Announcements</a></li></ul></div>
-  </div>
-  <div class="footer-bottom">© <span data-year></span> SK Sapilang. All rights reserved. • Official youth governance website.</div>
- </div>
+
+    <div class="container footer-grid">
+
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+
+                <img
+                    src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+                    alt="SK Sapilang Official Logo"
+                >
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    SK SAPILANG
+                </strong>
+
+                <span>
+                    DIGITAL YOUTH NETWORK
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © <span id="year"></span>
+            SK Sapilang.
+            All Rights Reserved.
+
+        </div>
+
+
+    </div>
+
 </footer>
 
-<script src="js/main.js"></script>
+
+<script>
+
+/* =========================================================
+   MOBILE NAVIGATION
+========================================================= */
+
+const menuButton =
+    document.getElementById("menuButton");
+
+const navLinks =
+    document.getElementById("navLinks");
+
+
+if (
+    menuButton &&
+    navLinks
+) {
+
+    menuButton.addEventListener(
+        "click",
+        function () {
+
+            const open =
+                navLinks.classList.toggle("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                open ? "true" : "false"
+            );
+
+            menuButton.textContent =
+                open ? "✕" : "☰";
+
+        }
+    );
+
+
+    navLinks
+        .querySelectorAll("a")
+        .forEach(function (link) {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    navLinks.classList.remove("open");
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    menuButton.textContent = "☰";
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   FORM TABS
+========================================================= */
+
+const tabs =
+    document.querySelectorAll(".form-tab");
+
+const panels = {
+
+    client:
+        document.getElementById(
+            "clientFormPanel"
+        ),
+
+    activity:
+        document.getElementById(
+            "activityFormPanel"
+        ),
+
+    suggestion:
+        document.getElementById(
+            "suggestionFormPanel"
+        )
+
+};
+
+
+tabs.forEach(function (tab) {
+
+    tab.addEventListener(
+        "click",
+        function () {
+
+            const target =
+                tab.dataset.form;
+
+
+            tabs.forEach(function (item) {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            Object.values(
+                panels
+            ).forEach(function (panel) {
+
+                panel.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            tab.classList.add(
+                "active"
+            );
+
+
+            if (panels[target]) {
+
+                panels[target]
+                    .classList
+                    .add("active");
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   CREATE MATRIX OPTIONS
+========================================================= */
+
+document
+    .querySelectorAll(
+        "[data-matrix]"
+    )
+    .forEach(function (container) {
+
+        const groupName =
+            container.dataset.matrix;
+
+
+        for (
+            let rating = 1;
+            rating <= 5;
+            rating++
+        ) {
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+            wrapper.className =
+                "matrix-option";
+
+
+            const input =
+                document.createElement(
+                    "input"
+                );
+
+            input.type =
+                "radio";
+
+            input.name =
+                groupName;
+
+            input.value =
+                rating;
+
+            input.id =
+                groupName +
+                rating;
+
+            input.required =
+                true;
+
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+            label.htmlFor =
+                input.id;
+
+            label.textContent =
+                rating;
+
+
+            wrapper.appendChild(
+                input
+            );
+
+            wrapper.appendChild(
+                label
+            );
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+
+    });
+
+
+/* =========================================================
+   REFERENCE NUMBER
+========================================================= */
+
+function createReference(
+    prefix
+) {
+
+    const now =
+        new Date();
+
+
+    const date =
+        now
+            .toISOString()
+            .slice(0, 10)
+            .replaceAll("-", "");
+
+
+    const random =
+        Math.floor(
+            1000 +
+            Math.random() *
+            9000
+        );
+
+
+    return (
+        prefix +
+        "-" +
+        date +
+        "-" +
+        random
+    );
+
+}
+
+
+/* =========================================================
+   SCORE LABEL
+========================================================= */
+
+function ratingLabel(
+    score
+) {
+
+    if (score >= 4.5) {
+        return "Excellent";
+    }
+
+    if (score >= 3.5) {
+        return "Very Satisfactory";
+    }
+
+    if (score >= 2.5) {
+        return "Satisfactory";
+    }
+
+    if (score >= 1.5) {
+        return "Needs Improvement";
+    }
+
+    return "Poor";
+
+}
+
+
+/* =========================================================
+   MATRIX AVERAGE
+========================================================= */
+
+function calculateAverage(
+    names
+) {
+
+    const scores = [];
+
+
+    names.forEach(
+        function (name) {
+
+            const selected =
+                document.querySelector(
+                    'input[name="' +
+                    name +
+                    '"]:checked'
+                );
+
+
+            if (selected) {
+
+                scores.push(
+                    Number(
+                        selected.value
+                    )
+                );
+
+            }
+
+        }
+    );
+
+
+    if (
+        scores.length === 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return (
+        scores.reduce(
+            function (total, value) {
+
+                return total + value;
+
+            },
+            0
+        ) /
+        scores.length
+    );
+
+}
+
+
+/* =========================================================
+   RESULT DISPLAY
+========================================================= */
+
+function showResult(
+    element,
+    reference,
+    score,
+    type
+) {
+
+    let scoreHTML = "";
+
+
+    if (
+        score !== null
+    ) {
+
+        scoreHTML = `
+
+            <div class="result-item">
+
+                <small>
+                    Satisfaction Result
+                </small>
+
+                <strong>
+                    ${score.toFixed(2)} / 5
+                </strong>
+
+            </div>
+
+
+            <div class="result-item">
+
+                <small>
+                    Rating
+                </small>
+
+                <strong>
+                    ${ratingLabel(score)}
+                </strong>
+
+            </div>
+
+        `;
+
+    }
+
+
+    element.innerHTML = `
+
+        <div class="result-status">
+            Submission Completed
+        </div>
+
+        <h4>
+            Thank you for your feedback.
+        </h4>
+
+        <p>
+            Your ${type} has been processed by the
+            SK Sapilang Feedback & Quality Management
+            System. Please keep your reference number
+            for your records.
+        </p>
+
+
+        <div class="result-data">
+
+            <div class="result-item">
+
+                <small>
+                    Reference Number
+                </small>
+
+                <strong>
+                    ${reference}
+                </strong>
+
+            </div>
+
+            ${scoreHTML}
+
+        </div>
+
+    `;
+
+
+    element.classList.add(
+        "show"
+    );
+
+
+    element.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}
+
+
+/* =========================================================
+   CLIENT FEEDBACK
+========================================================= */
+
+const clientForm =
+    document.getElementById(
+        "clientFeedbackForm"
+    );
+
+
+clientForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const overall =
+            Number(
+                document.querySelector(
+                    'input[name="clientOverall"]:checked'
+                ).value
+            );
+
+
+        const matrixAverage =
+            calculateAverage([
+
+                "clientTimeliness",
+
+                "clientCourtesy",
+
+                "clientClarity",
+
+                "clientAccessibility"
+
+            ]);
+
+
+        const finalScore =
+            (
+                overall +
+                matrixAverage
+            ) / 2;
+
+
+        const reference =
+            createReference(
+                "SKS-CF"
+            );
+
+
+        showResult(
+
+            document.getElementById(
+                "clientResult"
+            ),
+
+            reference,
+
+            finalScore,
+
+            "client feedback"
+
+        );
+
+
+        clientForm.reset();
+
+    }
+);
+
+
+/* =========================================================
+   ACTIVITY EVALUATION
+========================================================= */
+
+const activityForm =
+    document.getElementById(
+        "activityFeedbackForm"
+    );
+
+
+activityForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const overall =
+            Number(
+                document.querySelector(
+                    'input[name="activityOverall"]:checked'
+                ).value
+            );
+
+
+        const matrixAverage =
+            calculateAverage([
+
+                "activityRelevance",
+
+                "activityOrganization",
+
+                "activityFacilitators",
+
+                "activityLogistics",
+
+                "activityBenefit"
+
+            ]);
+
+
+        const finalScore =
+            (
+                overall +
+                matrixAverage
+            ) / 2;
+
+
+        const reference =
+            createReference(
+                "SKS-AE"
+            );
+
+
+        showResult(
+
+            document.getElementById(
+                "activityResult"
+            ),
+
+            reference,
+
+            finalScore,
+
+            "activity or program evaluation"
+
+        );
+
+
+        activityForm.reset();
+
+    }
+);
+
+
+/* =========================================================
+   SUGGESTION FORM
+========================================================= */
+
+const suggestionForm =
+    document.getElementById(
+        "suggestionForm"
+    );
+
+
+suggestionForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const reference =
+            createReference(
+                "SKS-SR"
+            );
+
+
+        showResult(
+
+            document.getElementById(
+                "suggestionResult"
+            ),
+
+            reference,
+
+            null,
+
+            "suggestion or recommendation"
+
+        );
+
+
+        suggestionForm.reset();
+
+    }
+);
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+const revealItems =
+    document.querySelectorAll(
+        ".reveal"
+    );
+
+
+if (
+    "IntersectionObserver"
+    in window
+) {
+
+    const observer =
+        new IntersectionObserver(
+
+            function (entries) {
+
+                entries.forEach(
+                    function (entry) {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            entry.target
+                                .classList
+                                .add(
+                                    "visible"
+                                );
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+
+            {
+                threshold: .10
+            }
+
+        );
+
+
+    revealItems.forEach(
+        function (item) {
+
+            observer.observe(
+                item
+            );
+
+        }
+    );
+
+}
+else {
+
+    revealItems.forEach(
+        function (item) {
+
+            item.classList.add(
+                "visible"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CURRENT YEAR
+========================================================= */
+
+const year =
+    document.getElementById(
+        "year"
+    );
+
+
+if (year) {
+
+    year.textContent =
+        new Date()
+            .getFullYear();
+
+}
+
+</script>
+
+
 </body>
 </html>
