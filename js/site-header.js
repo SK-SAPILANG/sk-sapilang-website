@@ -62,9 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     id="skMenuToggle"
                     aria-label="Open navigation"
                     aria-expanded="false"
-                >
-                    &#9776;
-                </button>
+                >&#9776;</button>
 
 
                 <ul
