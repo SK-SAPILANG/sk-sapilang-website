@@ -3,17 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Official legislative records of the Sangguniang Kabataan of Barangay Sapilang.">
+<meta name="description" content="Official legislative records of the Sangguniang Kabataan and Barangay Sapilang.">
 <meta name="theme-color" content="#020b14">
 
 <title>Resolutions & Ordinances | SK Sapilang</title>
 
 <style>
-/* =========================================================
-   SK SAPILANG
-   FUTURISTIC LEGISLATIVE DIGITAL LIBRARY
-========================================================= */
-
 *{
   margin:0;
   padding:0;
@@ -22,23 +17,15 @@
 
 :root{
   --bg:#020912;
-  --bg2:#041421;
-  --panel:rgba(5,22,36,.78);
-  --panel2:rgba(7,29,47,.92);
-
-  --cyan:#4be1ff;
-  --cyan2:#95f2ff;
+  --panel:rgba(6,22,36,.82);
+  --cyan:#49e1ff;
   --blue:#397cff;
-  --green:#60edb0;
+  --green:#65edb2;
   --gold:#ffd76a;
-
-  --text:#f5fbff;
-  --muted:#8ba7b8;
-
-  --border:rgba(80,219,255,.15);
-  --border2:rgba(80,219,255,.35);
-
-  --radius:22px;
+  --text:#f6fbff;
+  --muted:#8ca7b8;
+  --border:rgba(73,225,255,.15);
+  --border-strong:rgba(73,225,255,.34);
 }
 
 html{
@@ -47,187 +34,129 @@ html{
 
 body{
   min-height:100vh;
-  background:
-    radial-gradient(circle at 15% 15%,rgba(33,122,255,.12),transparent 28%),
-    radial-gradient(circle at 88% 45%,rgba(47,221,255,.08),transparent 30%),
-    linear-gradient(180deg,#020912 0%,#03111d 55%,#020912 100%);
-
-  color:var(--text);
-
-  font-family:
-    Inter,
-    "Segoe UI",
-    Arial,
-    sans-serif;
-
   overflow-x:hidden;
+  color:var(--text);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 12% 10%,rgba(44,128,255,.14),transparent 30%),
+    radial-gradient(circle at 90% 40%,rgba(55,220,255,.08),transparent 28%),
+    linear-gradient(180deg,#020912 0%,#03111d 55%,#020912 100%);
 }
 
-/* =========================================================
-   BACKGROUND
-========================================================= */
+.container{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+/* BACKGROUND */
 
 .future-bg{
   position:fixed;
   inset:0;
   z-index:-1;
-  overflow:hidden;
   pointer-events:none;
+  overflow:hidden;
 }
 
 .future-grid{
   position:absolute;
   inset:0;
-
   background-image:
-    linear-gradient(rgba(77,215,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(77,215,255,.025) 1px,transparent 1px);
-
-  background-size:45px 45px;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,.7),
-      transparent 80%
-    );
+    linear-gradient(rgba(73,225,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(73,225,255,.025) 1px,transparent 1px);
+  background-size:46px 46px;
 }
 
 .orb{
   position:absolute;
   border-radius:50%;
-  filter:blur(100px);
-  opacity:.25;
+  filter:blur(110px);
+  opacity:.22;
 }
 
 .orb.one{
   width:400px;
   height:400px;
-  top:-170px;
-  left:-150px;
-  background:#167cff;
+  background:#197dff;
+  left:-160px;
+  top:-180px;
 }
 
 .orb.two{
-  width:430px;
-  height:430px;
-  right:-180px;
+  width:450px;
+  height:450px;
+  background:#15d8ff;
+  right:-190px;
   top:35%;
-  background:#16c8ff;
 }
 
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.container{
-  width:min(1180px,92%);
-  margin-inline:auto;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
+/* HEADER */
 
 .header{
   position:sticky;
   top:0;
-  z-index:1000;
-
+  z-index:999;
   height:76px;
-
-  background:rgba(2,9,18,.82);
+  border-bottom:1px solid rgba(73,225,255,.09);
+  background:rgba(2,9,18,.84);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
-
-  border-bottom:1px solid rgba(75,225,255,.1);
 }
 
 .nav{
   height:100%;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  gap:25px;
+  gap:22px;
 }
-
-/* =========================================================
-   BRAND
-========================================================= */
 
 .brand{
   display:flex;
   align-items:center;
   gap:11px;
-
-  min-width:max-content;
-
-  color:white;
   text-decoration:none;
+  color:#fff;
+  min-width:max-content;
 }
 
 .logo{
   width:45px;
   height:45px;
   min-width:45px;
-
+  border-radius:50%;
+  overflow:hidden;
+  border:1px solid rgba(73,225,255,.25);
   display:flex;
   align-items:center;
   justify-content:center;
-
-  overflow:hidden;
-
-  border-radius:50%;
-
-  border:1px solid rgba(75,225,255,.3);
-
-  box-shadow:
-    0 0 22px rgba(52,170,255,.12);
 }
 
 .logo img{
-  display:block;
-
   width:100%;
   height:100%;
-
   max-width:100%;
   max-height:100%;
-
   object-fit:contain;
-  object-position:center;
-}
-
-.brand-text{
-  display:flex;
-  flex-direction:column;
+  display:block;
 }
 
 .brand-text strong{
-  color:#fff;
-
-  font-size:.78rem;
+  display:block;
+  font-size:.77rem;
   letter-spacing:.12em;
 }
 
 .brand-text span{
+  display:block;
   margin-top:2px;
-
   color:var(--cyan);
-
-  font-size:.55rem;
+  font-size:.52rem;
   letter-spacing:.13em;
 }
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
 .nav-links{
   list-style:none;
-
   display:flex;
   align-items:center;
   gap:3px;
@@ -239,198 +168,120 @@ body{
 
 .nav-links a{
   display:block;
-
   padding:10px 8px;
-
-  border-radius:9px;
-
-  color:#9ab1c0;
-  text-decoration:none;
-
+  color:#98afbd;
   font-size:.68rem;
   font-weight:700;
-
+  text-decoration:none;
+  border-radius:9px;
   transition:.2s ease;
 }
 
 .nav-links a:hover{
-  color:white;
-  background:rgba(75,225,255,.05);
+  color:#fff;
+  background:rgba(73,225,255,.05);
 }
 
 .nav-links a.active{
   color:var(--cyan);
-  background:rgba(75,225,255,.08);
+  background:rgba(73,225,255,.08);
 }
-
-/* =========================================================
-   MENU BUTTON
-========================================================= */
 
 .menu-button{
   display:none;
-
   width:42px;
   height:42px;
-
   border:1px solid var(--border);
   border-radius:11px;
-
-  background:rgba(75,225,255,.05);
-
-  color:white;
-
-  font-size:1.25rem;
-
+  background:rgba(73,225,255,.05);
+  color:#fff;
+  font-size:1.2rem;
   cursor:pointer;
 }
 
-/* =========================================================
-   HERO
-========================================================= */
+/* HERO */
 
 .hero{
-  position:relative;
-
   padding:105px 0 75px;
-
-  overflow:hidden;
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-
-  max-width:900px;
 }
 
 .eyebrow{
   display:inline-flex;
   align-items:center;
   gap:9px;
-
   color:var(--cyan);
-
-  font-size:.7rem;
+  font-size:.68rem;
   font-weight:900;
-
   text-transform:uppercase;
   letter-spacing:.16em;
 }
 
 .eyebrow::before{
   content:"";
-
-  width:25px;
+  width:26px;
   height:1px;
-
   background:var(--cyan);
-
-  box-shadow:
-    0 0 8px var(--cyan);
+  box-shadow:0 0 8px var(--cyan);
 }
 
 .hero h1{
+  max-width:920px;
   margin-top:20px;
-
-  max-width:950px;
-
-  font-size:
-    clamp(3.1rem,7vw,6.3rem);
-
+  font-size:clamp(3.2rem,7vw,6.3rem);
   line-height:.92;
-
   letter-spacing:-.06em;
-
-  font-weight:850;
 }
 
 .hero h1 span{
   display:block;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ffffff,
-      #9bedff 48%,
-      #4f8cff
-    );
-
+  background:linear-gradient(90deg,#fff,#9eefff 48%,#4f8cff);
   background-clip:text;
   -webkit-background-clip:text;
-
   color:transparent;
   -webkit-text-fill-color:transparent;
 }
 
-.hero-description{
+.hero p{
   max-width:700px;
-
-  margin-top:25px;
-
+  margin-top:24px;
   color:var(--muted);
-
   line-height:1.75;
-
-  font-size:.95rem;
+  font-size:.94rem;
 }
 
-/* =========================================================
-   STATS
-========================================================= */
+/* STATS */
 
 .stats{
-  display:grid;
-  grid-template-columns:
-    repeat(3,minmax(0,1fr));
-
-  max-width:700px;
-
-  gap:12px;
-
+  max-width:840px;
   margin-top:35px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:11px;
 }
 
 .stat{
   padding:17px 18px;
-
   border:1px solid var(--border);
   border-radius:16px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.012)
-    );
-
-  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.025);
 }
 
 .stat strong{
   display:block;
-
+  color:#fff;
   font-size:1.35rem;
-
-  color:white;
 }
 
 .stat span{
   display:block;
-
   margin-top:4px;
-
-  font-size:.65rem;
-
   color:var(--muted);
-
+  font-size:.62rem;
+  letter-spacing:.1em;
   text-transform:uppercase;
-  letter-spacing:.11em;
 }
 
-/* =========================================================
-   SECTION
-========================================================= */
+/* SECTION */
 
 .section{
   padding:55px 0 100px;
@@ -438,72 +289,48 @@ body{
 
 .section-heading{
   max-width:680px;
-
-  margin-bottom:27px;
+  margin-bottom:26px;
 }
 
 .section-label{
   color:var(--cyan);
-
-  font-size:.65rem;
+  font-size:.64rem;
   font-weight:900;
-
   letter-spacing:.16em;
-
   text-transform:uppercase;
 }
 
 .section-heading h2{
   margin-top:10px;
-
-  font-size:
-    clamp(2rem,4vw,3rem);
-
+  font-size:clamp(2rem,4vw,3rem);
   letter-spacing:-.04em;
 }
 
 .section-heading p{
-  margin-top:10px;
-
+  margin-top:9px;
   color:var(--muted);
-
-  font-size:.9rem;
-
   line-height:1.7;
+  font-size:.88rem;
 }
 
-/* =========================================================
-   SEARCH PANEL
-========================================================= */
+/* LIBRARY */
 
 .library-panel{
-  position:relative;
-
   padding:17px;
-
   border:1px solid var(--border);
-
   border-radius:24px;
-
   background:
     linear-gradient(
       145deg,
-      rgba(7,29,47,.9),
-      rgba(3,15,26,.9)
+      rgba(7,29,47,.91),
+      rgba(3,15,26,.91)
     );
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.3);
+  box-shadow:0 30px 80px rgba(0,0,0,.28);
 }
 
 .filter-bar{
   display:grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    170px
-    180px;
-
+  grid-template-columns:minmax(0,1fr) 145px 160px 170px;
   gap:11px;
 }
 
@@ -513,16 +340,10 @@ body{
 
 .search-icon{
   position:absolute;
-
   left:16px;
   top:50%;
-
   transform:translateY(-50%);
-
   color:var(--cyan);
-
-  font-size:1rem;
-
   pointer-events:none;
 }
 
@@ -530,168 +351,100 @@ body{
 .filter-bar select{
   width:100%;
   min-height:52px;
-
-  outline:none;
-
-  border:1px solid rgba(75,225,255,.12);
-
+  border:1px solid rgba(73,225,255,.12);
   border-radius:14px;
-
   background:#03111c;
-
-  color:white;
-
+  color:#fff;
+  outline:none;
   font:inherit;
-
-  transition:.2s ease;
 }
 
 .filter-bar input{
-  padding:
-    0
-    16px
-    0
-    43px;
+  padding:0 16px 0 43px;
 }
 
 .filter-bar select{
-  padding:0 14px;
+  padding:0 13px;
+  cursor:pointer;
 }
 
 .filter-bar input::placeholder{
-  color:#698696;
+  color:#688495;
 }
 
 .filter-bar input:focus,
 .filter-bar select:focus{
   border-color:var(--cyan);
-
-  box-shadow:
-    0 0 0 3px rgba(75,225,255,.07);
+  box-shadow:0 0 0 3px rgba(73,225,255,.07);
 }
-
-/* =========================================================
-   RESULTS
-========================================================= */
 
 .results-bar{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-
+  align-items:center;
   gap:15px;
-
   margin:18px 2px 25px;
-
   color:var(--muted);
-
-  font-size:.75rem;
+  font-size:.74rem;
 }
 
 .results-bar strong{
-  color:white;
+  color:#fff;
 }
 
 .clear-button{
   border:0;
-
   background:none;
-
   color:var(--cyan);
-
-  font-size:.74rem;
+  font-size:.73rem;
   font-weight:800;
-
   cursor:pointer;
 }
 
-/* =========================================================
-   RECORD GRID
-========================================================= */
+/* CARDS */
 
 .record-grid{
   display:grid;
-
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:17px;
 }
 
-/* =========================================================
-   RECORD CARD
-========================================================= */
-
 .record-card{
   position:relative;
-
-  min-height:290px;
-
+  min-height:305px;
   display:flex;
   flex-direction:column;
-
   padding:24px;
-
   overflow:hidden;
-
   border:1px solid var(--border);
-
   border-radius:22px;
-
   background:
-    radial-gradient(
-      circle at 100% 0,
-      rgba(75,225,255,.08),
-      transparent 35%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(7,27,43,.88),
-      rgba(3,14,24,.9)
-    );
-
-  transition:
-    transform .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
+    radial-gradient(circle at 100% 0,rgba(73,225,255,.08),transparent 35%),
+    linear-gradient(145deg,rgba(7,27,43,.9),rgba(3,14,24,.92));
+  transition:.25s ease;
 }
 
 .record-card::before{
   content:"";
-
   position:absolute;
-
   left:0;
   top:25px;
-
   width:2px;
-  height:42px;
-
-  background:
-    linear-gradient(
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:
-    0 0 10px var(--cyan);
+  height:45px;
+  background:linear-gradient(var(--cyan),transparent);
+  box-shadow:0 0 10px var(--cyan);
 }
 
 .record-card:hover{
   transform:translateY(-5px);
-
-  border-color:var(--border2);
-
-  box-shadow:
-    0 25px 60px rgba(0,0,0,.25);
+  border-color:var(--border-strong);
+  box-shadow:0 25px 60px rgba(0,0,0,.25);
 }
 
 .record-top{
   display:flex;
-
   justify-content:space-between;
   align-items:center;
-
   gap:12px;
 }
 
@@ -699,349 +452,255 @@ body{
   display:inline-flex;
   align-items:center;
   gap:7px;
-
-  width:max-content;
-
   padding:7px 10px;
-
-  border:1px solid
-    rgba(75,225,255,.18);
-
+  border:1px solid rgba(73,225,255,.18);
   border-radius:999px;
-
-  background:
-    rgba(75,225,255,.065);
-
-  color:#a8f0ff;
-
-  font-size:.62rem;
+  background:rgba(73,225,255,.065);
+  color:#a9f0ff;
+  font-size:.61rem;
   font-weight:900;
-
-  text-transform:uppercase;
   letter-spacing:.09em;
+  text-transform:uppercase;
 }
 
 .badge::before{
   content:"";
-
   width:6px;
   height:6px;
-
   border-radius:50%;
-
   background:var(--green);
-
-  box-shadow:
-    0 0 9px var(--green);
+  box-shadow:0 0 9px var(--green);
 }
 
 .badge.ordinance{
-  color:#ffe69c;
-
-  border-color:
-    rgba(255,215,106,.18);
-
-  background:
-    rgba(255,215,106,.055);
+  color:#ffe7a1;
+  background:rgba(255,215,106,.055);
+  border-color:rgba(255,215,106,.18);
 }
 
 .badge.ordinance::before{
   background:var(--gold);
-
-  box-shadow:
-    0 0 9px var(--gold);
+  box-shadow:0 0 9px var(--gold);
 }
 
 .year{
   color:#6f8d9f;
-
   font-size:.7rem;
   font-weight:800;
 }
 
+/* LEVEL BADGES */
+
+.level-badge{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin-top:11px;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:.59rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.level-badge.sk{
+  color:#a9f0ff;
+  background:rgba(73,225,255,.07);
+  border:1px solid rgba(73,225,255,.18);
+}
+
+.level-badge.barangay{
+  color:#ffe39a;
+  background:rgba(255,215,106,.07);
+  border:1px solid rgba(255,215,106,.18);
+}
+
 .record-card h3{
-  margin-top:21px;
-
+  margin-top:18px;
   font-size:1.25rem;
-
   line-height:1.35;
-
   letter-spacing:-.025em;
 }
 
 .record-card p{
-  margin-top:11px;
-
+  margin-top:10px;
   color:var(--muted);
-
   font-size:.84rem;
-
   line-height:1.75;
 }
 
-/* =========================================================
-   RECORD FOOTER
-========================================================= */
-
 .record-footer{
   display:flex;
-
-  align-items:flex-end;
   justify-content:space-between;
-
+  align-items:flex-end;
   gap:15px;
-
   margin-top:auto;
-
   padding-top:24px;
 }
 
 .status{
   display:flex;
   flex-direction:column;
-
   gap:3px;
 }
 
 .status small{
   color:#607e90;
-
   font-size:.6rem;
-
-  text-transform:uppercase;
   letter-spacing:.1em;
+  text-transform:uppercase;
 }
 
 .status strong{
   color:#b9efd7;
-
   font-size:.72rem;
 }
 
 .document-button{
   min-height:42px;
-
   display:inline-flex;
-
   align-items:center;
   justify-content:center;
-
   padding:0 14px;
-
   border:1px solid var(--border);
-
   border-radius:11px;
-
-  background:
-    rgba(75,225,255,.04);
-
-  color:white;
-
+  background:rgba(73,225,255,.04);
+  color:#fff;
   text-decoration:none;
-
   font-size:.72rem;
   font-weight:800;
-
   transition:.2s ease;
 }
 
 .document-button:hover{
   color:var(--cyan);
-
-  border-color:var(--border2);
-
-  background:
-    rgba(75,225,255,.08);
+  border-color:var(--border-strong);
+  background:rgba(73,225,255,.08);
 }
 
 .document-button.disabled{
   opacity:.45;
-
   pointer-events:none;
 }
 
-/* =========================================================
-   EMPTY STATE
-========================================================= */
+/* EMPTY */
 
 .empty-state{
   display:none;
-
   margin-top:17px;
-
   padding:45px 20px;
-
   text-align:center;
-
-  border:
-    1px dashed var(--border);
-
+  border:1px dashed var(--border);
   border-radius:20px;
-
   color:var(--muted);
 }
 
 .empty-state strong{
   display:block;
-
-  color:white;
-
   margin-bottom:7px;
+  color:#fff;
 }
 
-/* =========================================================
-   PUBLIC RECORD NOTE
-========================================================= */
+/* NOTE */
 
 .record-note{
   display:flex;
-
   align-items:center;
-
   gap:14px;
-
   margin-top:28px;
-
   padding:17px 18px;
-
-  border:1px solid
-    rgba(75,225,255,.1);
-
+  border:1px solid rgba(73,225,255,.1);
   border-radius:16px;
-
-  background:
-    rgba(75,225,255,.025);
+  background:rgba(73,225,255,.025);
 }
 
 .record-note-icon{
   width:37px;
   height:37px;
-
   flex:0 0 37px;
-
   display:grid;
   place-items:center;
-
-  border-radius:11px;
-
   border:1px solid var(--border);
-
+  border-radius:11px;
   color:var(--cyan);
 }
 
 .record-note p{
   color:var(--muted);
-
   font-size:.77rem;
-
   line-height:1.6;
 }
 
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 footer{
-  border-top:
-    1px solid rgba(75,225,255,.08);
-
-  background:
-    rgba(2,9,18,.7);
-
   padding:30px 0;
+  border-top:1px solid rgba(73,225,255,.08);
+  background:rgba(2,9,18,.72);
 }
 
 .footer-grid{
   display:flex;
-
   align-items:center;
   justify-content:space-between;
-
   gap:20px;
 }
 
 .footer-brand{
   display:flex;
-
   align-items:center;
-
   gap:10px;
 }
 
 .footer-logo{
   width:39px;
   height:39px;
-
-  overflow:hidden;
-
   border-radius:50%;
+  overflow:hidden;
 }
 
 .footer-logo img{
-  display:block;
-
   width:100%;
   height:100%;
-
   object-fit:contain;
 }
 
 .footer-brand strong{
   display:block;
-
   font-size:.7rem;
-
   letter-spacing:.1em;
 }
 
 .footer-brand span{
   display:block;
-
   margin-top:3px;
-
   color:var(--cyan);
-
   font-size:.5rem;
-
   letter-spacing:.11em;
 }
 
 .copyright{
   color:#668394;
-
   font-size:.68rem;
 }
 
-/* =========================================================
-   RESPONSIVE TABLET
-========================================================= */
+/* RESPONSIVE */
 
-@media(max-width:1000px){
-
+@media(max-width:1050px){
   .nav-links{
     position:absolute;
-
     top:76px;
     left:4%;
     right:4%;
-
     display:none;
-
     flex-direction:column;
     align-items:stretch;
-
     padding:15px;
-
-    border:
-      1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:18px;
-
-    background:
-      rgba(3,15,25,.98);
-
-    box-shadow:
-      0 25px 50px rgba(0,0,0,.4);
+    background:rgba(3,15,25,.98);
+    box-shadow:0 25px 50px rgba(0,0,0,.4);
   }
 
   .nav-links.open{
@@ -1050,39 +709,29 @@ footer{
 
   .nav-links a{
     padding:12px 13px;
-
     font-size:.75rem;
   }
 
   .menu-button{
     display:block;
   }
-
 }
 
-/* =========================================================
-   RESPONSIVE 900
-========================================================= */
-
 @media(max-width:900px){
-
   .filter-bar{
-    grid-template-columns:
-      1fr 1fr;
+    grid-template-columns:1fr 1fr;
   }
 
   .search-wrap{
     grid-column:1/-1;
   }
 
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
-/* =========================================================
-   RESPONSIVE 760
-========================================================= */
-
 @media(max-width:760px){
-
   .hero{
     padding:85px 0 55px;
   }
@@ -1090,24 +739,9 @@ footer{
   .record-grid{
     grid-template-columns:1fr;
   }
-
-  .stats{
-    grid-template-columns:
-      repeat(3,1fr);
-  }
-
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media(max-width:560px){
-
-  .container{
-    width:92%;
-  }
-
   .header{
     height:68px;
   }
@@ -1116,14 +750,6 @@ footer{
     width:40px;
     height:40px;
     min-width:40px;
-  }
-
-  .brand-text strong{
-    font-size:.68rem;
-  }
-
-  .brand-text span{
-    font-size:.47rem;
   }
 
   .nav-links{
@@ -1135,26 +761,18 @@ footer{
   }
 
   .hero h1{
-    font-size:
-      clamp(2.75rem,15vw,4.3rem);
-  }
-
-  .hero-description{
-    font-size:.87rem;
+    font-size:clamp(2.75rem,15vw,4.3rem);
   }
 
   .stats{
     grid-template-columns:1fr;
-
     gap:8px;
   }
 
   .stat{
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     padding:13px 16px;
   }
 
@@ -1172,13 +790,11 @@ footer{
 
   .record-card{
     min-height:auto;
-
     padding:20px;
   }
 
   .record-footer{
     flex-direction:column;
-
     align-items:stretch;
   }
 
@@ -1187,9 +803,8 @@ footer{
   }
 
   .results-bar{
-    align-items:flex-start;
-
     flex-direction:column;
+    align-items:flex-start;
   }
 
   .record-note{
@@ -1198,10 +813,8 @@ footer{
 
   .footer-grid{
     flex-direction:column;
-
     align-items:flex-start;
   }
-
 }
 </style>
 </head>
@@ -1214,888 +827,735 @@ footer{
   <div class="orb two"></div>
 </div>
 
-
-<!-- ======================================================
-     HEADER
-====================================================== -->
-
 <header class="header">
 
-  <div class="container nav">
+<div class="container nav">
 
-    <a href="home.html" class="brand">
+<a href="home.html" class="brand">
 
-      <div class="logo">
+<div class="logo">
+<img
+src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+alt="SK Sapilang Official Logo">
+</div>
 
-        <img
-          src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
-          alt="SK Sapilang Official Logo">
+<div class="brand-text">
+<strong>SK SAPILANG</strong>
+<span>DIGITAL YOUTH NETWORK</span>
+</div>
 
-      </div>
+</a>
 
-      <div class="brand-text">
+<button
+class="menu-button"
+id="menuButton"
+type="button"
+aria-label="Open navigation menu">
+&#9776;
+</button>
 
-        <strong>
-          SK SAPILANG
-        </strong>
+<ul class="nav-links" id="navLinks">
 
-        <span>
-          DIGITAL YOUTH NETWORK
-        </span>
+<li><a href="home.html">Home</a></li>
+<li><a href="index.html#activities">Activities</a></li>
+<li><a href="index.html#digital-id">Digital ID</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="awards.html">Awards</a></li>
+<li><a href="resolutions.html" class="active">Resolutions</a></li>
+<li><a href="transparency.html">Transparency</a></li>
+<li><a href="feedback.html">Feedback</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="kk-portal.html">KK Portal</a></li>
 
-      </div>
+</ul>
 
-    </a>
-
-
-    <button
-      class="menu-button"
-      id="menuButton"
-      type="button"
-      aria-label="Open navigation menu">
-
-      &#9776;
-
-    </button>
-
-
-    <ul
-      class="nav-links"
-      id="navLinks">
-
-      <li>
-        <a href="home.html">
-          Home
-        </a>
-      </li>
-
-      <li>
-        <a href="index.html#activities">
-          Activities
-        </a>
-      </li>
-
-      <li>
-        <a href="index.html#digital-id">
-          Digital ID
-        </a>
-      </li>
-
-      <li>
-        <a href="about.html">
-          About
-        </a>
-      </li>
-
-      <li>
-        <a href="awards.html">
-          Awards
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="resolutions.html"
-          class="active">
-
-          Resolutions
-
-        </a>
-      </li>
-
-      <li>
-        <a href="transparency.html">
-          Transparency
-        </a>
-      </li>
-
-      <li>
-        <a href="feedback.html">
-          Feedback
-        </a>
-      </li>
-
-      <li>
-        <a href="contact.html">
-          Contact
-        </a>
-      </li>
-
-      <li>
-        <a href="kk-portal.html">
-          KK Portal
-        </a>
-      </li>
-
-    </ul>
-
-  </div>
+</div>
 
 </header>
 
-
 <main>
-
-<!-- ======================================================
-     HERO
-====================================================== -->
 
 <section class="hero">
 
-  <div class="container">
+<div class="container">
 
-    <div class="hero-content">
+<span class="eyebrow">
+Legislative Records
+</span>
 
-      <span class="eyebrow">
-        Legislative Records
-      </span>
+<h1>
+Public measures.
+<span>Open access.</span>
+</h1>
 
-      <h1>
-        Public measures.
-        <span>
-          Open access.
-        </span>
-      </h1>
+<p>
+Explore legislative records of the Sangguniang Kabataan
+and Sangguniang Barangay of Sapilang through one searchable
+digital public library.
+</p>
 
-      <p class="hero-description">
-        Explore resolutions and ordinances of the
-        Sangguniang Kabataan of Barangay Sapilang through
-        a modern, searchable digital legislative library.
-      </p>
+<div class="stats">
 
+<div class="stat">
+<strong id="totalRecords">0</strong>
+<span>Total Records</span>
+</div>
 
-      <div class="stats">
+<div class="stat">
+<strong id="skCount">0</strong>
+<span>SK Level</span>
+</div>
 
-        <div class="stat">
+<div class="stat">
+<strong id="barangayCount">0</strong>
+<span>Barangay Level</span>
+</div>
 
-          <strong id="totalRecords">
-            0
-          </strong>
+<div class="stat">
+<strong id="ordinanceCount">0</strong>
+<span>Ordinances</span>
+</div>
 
-          <span>
-            Records
-          </span>
+</div>
 
-        </div>
-
-        <div class="stat">
-
-          <strong id="resolutionCount">
-            0
-          </strong>
-
-          <span>
-            Resolutions
-          </span>
-
-        </div>
-
-        <div class="stat">
-
-          <strong id="ordinanceCount">
-            0
-          </strong>
-
-          <span>
-            Ordinances
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-
-<!-- ======================================================
-     LEGISLATIVE LIBRARY
-====================================================== -->
-
 <section class="section">
 
-  <div class="container">
+<div class="container">
 
-    <div class="section-heading">
+<div class="section-heading">
 
-      <span class="section-label">
-        Digital Legislative Library
-      </span>
+<span class="section-label">
+Digital Legislative Library
+</span>
 
-      <h2>
-        Search official measures.
-      </h2>
+<h2>
+Search official measures.
+</h2>
 
-      <p>
-        Locate legislative records by number,
-        keyword, year or document type.
-      </p>
+<p>
+Search by number, keyword, year, document type,
+or originating legislative body.
+</p>
 
-    </div>
+</div>
 
+<div class="library-panel">
 
-    <div class="library-panel">
+<div class="filter-bar">
 
-      <!-- SEARCH -->
+<div class="search-wrap">
 
-      <div class="filter-bar">
+<span class="search-icon">
+&#9906;
+</span>
 
-        <div class="search-wrap">
+<input
+id="recordSearch"
+type="search"
+autocomplete="off"
+placeholder="Search number, title or keyword...">
 
-          <span class="search-icon">
-            &#9906;
-          </span>
+</div>
 
-          <input
-            id="recordSearch"
-            type="search"
-            autocomplete="off"
-            placeholder="Search resolution number, title or keyword...">
+<select id="yearFilter">
 
-        </div>
+<option value="all">
+All Years
+</option>
 
+<option value="2026">
+2026
+</option>
 
-        <select id="yearFilter">
+<option value="2025">
+2025
+</option>
 
-          <option value="all">
-            All Years
-          </option>
+</select>
 
-          <option value="2026">
-            2026
-          </option>
+<select id="typeFilter">
 
-          <option value="2025">
-            2025
-          </option>
+<option value="all">
+All Types
+</option>
 
-        </select>
+<option value="resolution">
+Resolutions
+</option>
 
+<option value="ordinance">
+Ordinances
+</option>
 
-        <select id="typeFilter">
+</select>
 
-          <option value="all">
-            All Types
-          </option>
+<select id="levelFilter">
 
-          <option value="resolution">
-            Resolutions
-          </option>
+<option value="all">
+All Levels
+</option>
 
-          <option value="ordinance">
-            Ordinances
-          </option>
+<option value="sk">
+SK Level
+</option>
 
-        </select>
+<option value="barangay">
+Barangay Level
+</option>
 
-      </div>
+</select>
 
+</div>
 
-      <!-- RESULTS -->
+<div class="results-bar">
 
-      <div class="results-bar">
+<span>
+Showing
+<strong id="visibleCount">0</strong>
+record(s)
+</span>
 
-        <span>
-          Showing
-          <strong id="visibleCount">
-            0
-          </strong>
-          record(s)
-        </span>
+<button
+class="clear-button"
+id="clearFilters"
+type="button">
+Clear Filters
+</button>
+
+</div>
+
+<div class="record-grid" id="recordGrid">
+
+
+<!-- =====================================================
+     SK LEVEL
+===================================================== -->
+
+<article
+class="record-card"
+data-year="2026"
+data-type="resolution"
+data-level="sk"
+data-search="
+resolution 11
+series 2026
+sk level
+e-library
+reading corner
+starbooks
+education
+learning
+">
+
+<div class="record-top">
 
-        <button
-          type="button"
-          class="clear-button"
-          id="clearFilters">
+<span class="badge">
+Resolution
+</span>
 
-          Clear Filters
+<span class="year">
+2026
+</span>
 
-        </button>
+</div>
 
-      </div>
+<span class="level-badge sk">
+SK Level
+</span>
 
+<h3>
+Resolution No. 11,
+Series of 2026
+</h3>
 
-      <!-- ==================================================
-           RECORD GRID
-      ================================================== -->
+<p>
+Supporting the conversion of the Barangay Reading Corner
+into an E-Library and related youth learning initiatives.
+</p>
 
-      <div
-        class="record-grid"
-        id="recordGrid">
+<div class="record-footer">
 
+<div class="status">
 
-        <!-- ================================================
-             RESOLUTION 11
-        ================================================= -->
+<small>
+Status
+</small>
 
-        <article
-          class="record-card"
-          data-year="2026"
-          data-type="resolution"
-          data-search="
-          resolution 11
-          2026
-          e-library
-          reading corner
-          starbooks
-          learning
-          education
-          ">
+<strong>
+Passed / Approved
+</strong>
 
-          <div class="record-top">
+</div>
+
+<a
+href="#"
+class="document-button disabled"
+aria-disabled="true">
+PDF Pending
+</a>
+
+</div>
 
-            <span class="badge">
-              Resolution
-            </span>
+</article>
+
 
-            <span class="year">
-              2026
-            </span>
+<!-- =====================================================
+     BARANGAY LEVEL
+===================================================== -->
 
-          </div>
+<article
+class="record-card"
+data-year="2026"
+data-type="resolution"
+data-level="barangay"
+data-search="
+resolution 15
+series 2026
+barangay level
+farmers park
+covered court
+full enclosure
+disaster resilient
+upgrading
+">
 
+<div class="record-top">
 
-          <h3>
-            Resolution No. 11,
-            Series of 2026
-          </h3>
+<span class="badge">
+Resolution
+</span>
 
+<span class="year">
+2026
+</span>
 
-          <p>
-            Supporting the conversion of the Barangay
-            Reading Corner into an E-Library and related
-            youth learning initiatives.
-          </p>
+</div>
 
+<span class="level-badge barangay">
+Barangay Level
+</span>
 
-          <div class="record-footer">
+<h3>
+Resolution No. 15,
+Series of 2026
+</h3>
 
-            <div class="status">
+<p>
+Requesting support for the improvement, full enclosure
+and disaster-resilient upgrading of the Farmer's Park
+Center and Covered Court.
+</p>
 
-              <small>
-                Status
-              </small>
+<div class="record-footer">
 
-              <strong>
-                Passed / Approved
-              </strong>
+<div class="status">
 
-            </div>
+<small>
+Status
+</small>
 
+<strong>
+Passed / Approved
+</strong>
 
-            <a
-              href="#"
-              class="document-button disabled"
-              aria-disabled="true">
+</div>
 
-              PDF Pending
+<a
+href="#"
+class="document-button disabled"
+aria-disabled="true">
+PDF Pending
+</a>
 
-            </a>
+</div>
 
-          </div>
+</article>
 
-        </article>
 
+<!-- =====================================================
+     SAMPLE BARANGAY ORDINANCE
+===================================================== -->
 
-        <!-- ================================================
-             RESOLUTION 15
-        ================================================= -->
+<article
+class="record-card"
+data-year="2026"
+data-type="ordinance"
+data-level="barangay"
+data-search="
+ordinance
+2026
+barangay level
+official ordinance
+">
 
-        <article
-          class="record-card"
-          data-year="2026"
-          data-type="resolution"
-          data-search="
-          resolution 15
-          2026
-          farmers park
-          covered court
-          full enclosure
-          disaster resilient
-          upgrading
-          ">
+<div class="record-top">
 
-          <div class="record-top">
+<span class="badge ordinance">
+Ordinance
+</span>
 
-            <span class="badge">
-              Resolution
-            </span>
+<span class="year">
+2026
+</span>
 
-            <span class="year">
-              2026
-            </span>
+</div>
 
-          </div>
+<span class="level-badge barangay">
+Barangay Level
+</span>
 
+<h3>
+Official Ordinance Record
+</h3>
 
-          <h3>
-            Resolution No. 15,
-            Series of 2026
-          </h3>
+<p>
+This space is reserved for an official Barangay ordinance.
+Add the ordinance number, title, series and official
+document once available.
+</p>
 
+<div class="record-footer">
 
-          <p>
-            Requesting support for the improvement,
-            full enclosure and disaster-resilient
-            upgrading of the Farmer's Park Center
-            and Covered Court.
-          </p>
+<div class="status">
 
+<small>
+Status
+</small>
 
-          <div class="record-footer">
+<strong>
+Record Pending
+</strong>
 
-            <div class="status">
+</div>
 
-              <small>
-                Status
-              </small>
+<a
+href="#"
+class="document-button disabled"
+aria-disabled="true">
+Document Pending
+</a>
 
-              <strong>
-                Passed / Approved
-              </strong>
+</div>
 
-            </div>
+</article>
 
 
-            <a
-              href="#"
-              class="document-button disabled"
-              aria-disabled="true">
+</div>
 
-              PDF Pending
+<div
+class="empty-state"
+id="emptyState">
 
-            </a>
+<strong>
+No records found.
+</strong>
 
-          </div>
+Try another keyword or reset the filters.
 
-        </article>
+</div>
 
+</div>
 
-        <!-- ================================================
-             ORDINANCE PLACEHOLDER
-        ================================================= -->
+<div class="record-note">
 
-        <article
-          class="record-card"
-          data-year="2026"
-          data-type="ordinance"
-          data-search="
-          ordinance 2026
-          official ordinance
-          ">
+<div class="record-note-icon">
+&#9672;
+</div>
 
-          <div class="record-top">
+<p>
+Records are identified according to their originating
+legislative body: SK Level for measures of the
+Sangguniang Kabataan and Barangay Level for measures
+of the Sangguniang Barangay.
+</p>
 
-            <span class="badge ordinance">
-              Ordinance
-            </span>
+</div>
 
-            <span class="year">
-              2026
-            </span>
-
-          </div>
-
-
-          <h3>
-            Official Ordinance Record
-          </h3>
-
-
-          <p>
-            Reserved for an official SK ordinance.
-            The ordinance number, title, series and
-            public document may be added once available.
-          </p>
-
-
-          <div class="record-footer">
-
-            <div class="status">
-
-              <small>
-                Status
-              </small>
-
-              <strong>
-                Record Pending
-              </strong>
-
-            </div>
-
-
-            <a
-              href="#"
-              class="document-button disabled"
-              aria-disabled="true">
-
-              Document Pending
-
-            </a>
-
-          </div>
-
-        </article>
-
-
-      </div>
-
-
-      <!-- EMPTY STATE -->
-
-      <div
-        class="empty-state"
-        id="emptyState">
-
-        <strong>
-          No records found.
-        </strong>
-
-        Try another keyword or reset the filters.
-
-      </div>
-
-    </div>
-
-
-    <!-- PUBLIC RECORD INFORMATION -->
-
-    <div class="record-note">
-
-      <div class="record-note-icon">
-        &#9672;
-      </div>
-
-      <p>
-        Official PDF copies may be attached to each
-        legislative record once digitized and approved
-        for public access.
-      </p>
-
-    </div>
-
-  </div>
+</div>
 
 </section>
 
 </main>
 
-
-<!-- ======================================================
-     FOOTER
-====================================================== -->
-
 <footer>
 
-  <div class="container footer-grid">
+<div class="container footer-grid">
 
-    <div class="footer-brand">
+<div class="footer-brand">
 
-      <div class="footer-logo">
+<div class="footer-logo">
 
-        <img
-          src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
-          alt="SK Sapilang Official Logo">
+<img
+src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+alt="SK Sapilang Official Logo">
 
-      </div>
+</div>
 
+<div>
 
-      <div>
+<strong>
+SK SAPILANG
+</strong>
 
-        <strong>
-          SK SAPILANG
-        </strong>
+<span>
+DIGITAL YOUTH NETWORK
+</span>
 
-        <span>
-          DIGITAL YOUTH NETWORK
-        </span>
+</div>
 
-      </div>
+</div>
 
-    </div>
+<div class="copyright">
 
+&copy;
+<span id="currentYear"></span>
+SK Sapilang.
+All Rights Reserved.
 
-    <div class="copyright">
+</div>
 
-      &copy;
-      <span id="currentYear"></span>
-      SK Sapilang.
-      All Rights Reserved.
-
-    </div>
-
-  </div>
+</div>
 
 </footer>
 
-
 <script>
-/* =========================================================
-   MOBILE NAVIGATION
-========================================================= */
-
 const menuButton =
-  document.getElementById("menuButton");
+document.getElementById("menuButton");
 
 const navLinks =
-  document.getElementById("navLinks");
-
+document.getElementById("navLinks");
 
 menuButton.addEventListener(
-  "click",
-  function(){
+"click",
+function(){
 
-    navLinks.classList.toggle("open");
+navLinks.classList.toggle("open");
 
-    const isOpen =
-      navLinks.classList.contains("open");
+menuButton.setAttribute(
+"aria-expanded",
+navLinks.classList.contains("open")
+? "true"
+: "false"
+);
 
-    menuButton.setAttribute(
-      "aria-expanded",
-      isOpen
-        ? "true"
-        : "false"
-    );
+}
+);
 
-  }
+navLinks
+.querySelectorAll("a")
+.forEach(function(link){
+
+link.addEventListener(
+"click",
+function(){
+
+navLinks.classList.remove("open");
+
+}
+);
+
+});
+
+
+const searchInput =
+document.getElementById("recordSearch");
+
+const yearFilter =
+document.getElementById("yearFilter");
+
+const typeFilter =
+document.getElementById("typeFilter");
+
+const levelFilter =
+document.getElementById("levelFilter");
+
+const clearFilters =
+document.getElementById("clearFilters");
+
+const visibleCount =
+document.getElementById("visibleCount");
+
+const emptyState =
+document.getElementById("emptyState");
+
+const records =
+Array.from(
+document.querySelectorAll(".record-card")
 );
 
 
-/* Close mobile menu after clicking */
+const skRecords =
+records.filter(function(card){
 
-navLinks
-  .querySelectorAll("a")
-  .forEach(function(link){
+return card.dataset.level === "sk";
 
-    link.addEventListener(
-      "click",
-      function(){
+});
 
-        navLinks.classList.remove("open");
+const barangayRecords =
+records.filter(function(card){
 
-      }
-    );
+return card.dataset.level === "barangay";
 
-  });
-
-
-/* =========================================================
-   RECORDS
-========================================================= */
-
-const searchInput =
-  document.getElementById("recordSearch");
-
-const yearFilter =
-  document.getElementById("yearFilter");
-
-const typeFilter =
-  document.getElementById("typeFilter");
-
-const clearFilters =
-  document.getElementById("clearFilters");
-
-const visibleCount =
-  document.getElementById("visibleCount");
-
-const emptyState =
-  document.getElementById("emptyState");
-
-const records =
-  Array.from(
-    document.querySelectorAll(
-      ".record-card"
-    )
-  );
-
-
-/* =========================================================
-   STATISTICS
-========================================================= */
-
-const resolutionRecords =
-  records.filter(
-    function(card){
-
-      return (
-        card.dataset.type ===
-        "resolution"
-      );
-
-    }
-  );
-
+});
 
 const ordinanceRecords =
-  records.filter(
-    function(card){
+records.filter(function(card){
 
-      return (
-        card.dataset.type ===
-        "ordinance"
-      );
+return card.dataset.type === "ordinance";
 
-    }
-  );
+});
 
 
 document.getElementById(
-  "totalRecords"
+"totalRecords"
 ).textContent =
-  records.length;
-
+records.length;
 
 document.getElementById(
-  "resolutionCount"
+"skCount"
 ).textContent =
-  resolutionRecords.length;
-
+skRecords.length;
 
 document.getElementById(
-  "ordinanceCount"
+"barangayCount"
 ).textContent =
-  ordinanceRecords.length;
+barangayRecords.length;
 
+document.getElementById(
+"ordinanceCount"
+).textContent =
+ordinanceRecords.length;
 
-/* =========================================================
-   SEARCH + FILTER
-========================================================= */
 
 function filterRecords(){
 
-  const query =
-    searchInput.value
-      .trim()
-      .toLowerCase();
+const query =
+searchInput.value
+.trim()
+.toLowerCase();
 
-  let visible = 0;
+let visible = 0;
 
+records.forEach(
+function(card){
 
-  records.forEach(
-    function(card){
-
-      const searchable =
-        (
-          card.dataset.search +
-          " " +
-          card.innerText
-        ).toLowerCase();
-
-
-      const searchMatches =
-        query === "" ||
-        searchable.includes(query);
+const searchable =
+(
+card.dataset.search +
+" " +
+card.innerText
+).toLowerCase();
 
 
-      const yearMatches =
-        yearFilter.value === "all" ||
-        card.dataset.year ===
-        yearFilter.value;
+const searchMatches =
+query === "" ||
+searchable.includes(query);
+
+const yearMatches =
+yearFilter.value === "all" ||
+card.dataset.year ===
+yearFilter.value;
+
+const typeMatches =
+typeFilter.value === "all" ||
+card.dataset.type ===
+typeFilter.value;
+
+const levelMatches =
+levelFilter.value === "all" ||
+card.dataset.level ===
+levelFilter.value;
 
 
-      const typeMatches =
-        typeFilter.value === "all" ||
-        card.dataset.type ===
-        typeFilter.value;
+const show =
+searchMatches &&
+yearMatches &&
+typeMatches &&
+levelMatches;
 
 
-      const show =
-        searchMatches &&
-        yearMatches &&
-        typeMatches;
+card.style.display =
+show
+? "flex"
+: "none";
 
 
-      card.style.display =
-        show
-          ? "flex"
-          : "none";
+if(show){
+visible++;
+}
+
+}
+);
 
 
-      if(show){
-        visible++;
-      }
+visibleCount.textContent =
+visible;
 
-    }
-  );
-
-
-  visibleCount.textContent =
-    visible;
-
-
-  emptyState.style.display =
-    visible === 0
-      ? "block"
-      : "none";
+emptyState.style.display =
+visible === 0
+? "block"
+: "none";
 
 }
 
 
-/* =========================================================
-   FILTER EVENTS
-========================================================= */
-
 searchInput.addEventListener(
-  "input",
-  filterRecords
+"input",
+filterRecords
 );
 
 yearFilter.addEventListener(
-  "change",
-  filterRecords
+"change",
+filterRecords
 );
 
 typeFilter.addEventListener(
-  "change",
-  filterRecords
+"change",
+filterRecords
 );
 
+levelFilter.addEventListener(
+"change",
+filterRecords
+);
 
-/* =========================================================
-   CLEAR FILTERS
-========================================================= */
 
 clearFilters.addEventListener(
-  "click",
-  function(){
+"click",
+function(){
 
-    searchInput.value =
-      "";
+searchInput.value = "";
 
-    yearFilter.value =
-      "all";
+yearFilter.value =
+"all";
 
-    typeFilter.value =
-      "all";
+typeFilter.value =
+"all";
 
-    filterRecords();
+levelFilter.value =
+"all";
 
-    searchInput.focus();
+filterRecords();
 
-  }
+searchInput.focus();
+
+}
 );
 
 
-/* =========================================================
-   YEAR
-========================================================= */
-
 document.getElementById(
-  "currentYear"
+"currentYear"
 ).textContent =
-  new Date().getFullYear();
+new Date().getFullYear();
 
-
-/* INITIAL LOAD */
 
 filterRecords();
 </script>
 
-
-<!-- KEEP FOR CONTINUOUS MUSIC / FRAME SYSTEM -->
 <script src="js/frame-bridge.js"></script>
 
 </body>
