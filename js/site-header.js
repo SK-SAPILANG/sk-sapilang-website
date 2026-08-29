@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     aria-label="Open navigation"
                     aria-expanded="false"
                 >
-                    Ã¢ËœÂ°
+                    &#9776;
                 </button>
 
 
@@ -242,10 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                menuButton.textContent =
-                    isOpen
-                        ? "Ã¢Å“&bull;"
-                        : "Ã¢ËœÂ°";
+                menuButton.textContent = isOpen ? "\u2715" : "\u2630";
 
 
                 menuButton.setAttribute(
@@ -271,8 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             "open"
                         );
 
-                        menuButton.textContent =
-                            "Ã¢ËœÂ°";
+                        menuButton.textContent = "\u2630";
 
                         menuButton.setAttribute(
                             "aria-expanded",
