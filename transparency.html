@@ -2,59 +2,1414 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official website of Sangguniang Kabataan Barangay Sapilang, Bacnotan, La Union.">
-<title>Transparency | SK Sapilang</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Transparency and Accountability Portal of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+<meta name="theme-color" content="#020b14">
+
+<title>Transparency & Accountability | SK Sapilang</title>
+
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+/* =========================================================
+   SK SAPILANG — TRANSPARENCY PAGE
+   PROFESSIONAL • FUTURISTIC • RESPONSIVE
+========================================================= */
+
+:root {
+  --bg: #020914;
+  --bg2: #061523;
+  --card: rgba(8, 25, 41, 0.78);
+  --border: rgba(255,255,255,.09);
+  --white: #ffffff;
+  --text: #d7e4ec;
+  --muted: #8fa6b6;
+  --cyan: #36d8ff;
+  --blue: #3388ff;
+  --green: #4ce5b1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(51,136,255,.14), transparent 30%),
+    radial-gradient(circle at 85% 35%, rgba(54,216,255,.08), transparent 28%),
+    #020914;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+.trans-page {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.trans-container {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.trans-topbar {
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: rgba(2,9,20,.94);
+}
+
+.trans-topbar-inner {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: #829aaa;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.trans-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  background: rgba(2,11,22,.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.trans-nav {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.trans-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.trans-brand img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.trans-brand strong {
+  display: block;
+  font-size: 15px;
+  letter-spacing: .04em;
+}
+
+.trans-brand small {
+  display: block;
+  margin-top: 3px;
+  color: #8298a9;
+  font-size: 10px;
+}
+
+.trans-menu {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trans-menu a {
+  display: block;
+  padding: 10px 11px;
+  border-radius: 10px;
+  color: #aabcc9;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: .25s ease;
+}
+
+.trans-menu a:hover {
+  color: white;
+  background: rgba(255,255,255,.05);
+}
+
+.trans-menu a.active {
+  color: var(--cyan);
+  background: rgba(54,216,255,.08);
+  border: 1px solid rgba(54,216,255,.12);
+}
+
+.trans-menu-toggle {
+  display: none;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.trans-hero {
+  position: relative;
+  min-height: 580px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.trans-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.trans-hero::after {
+  content: "";
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  top: -220px;
+  right: -150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(54,216,255,.15), transparent 67%);
+  pointer-events: none;
+}
+
+.trans-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 100px 0;
+}
+
+.trans-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 25px;
+  padding: 9px 14px;
+  border: 1px solid rgba(54,216,255,.2);
+  border-radius: 999px;
+  background: rgba(54,216,255,.06);
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.trans-eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+}
+
+.trans-hero h1 {
+  max-width: 950px;
+  margin: 0;
+  color: white;
+  font-size: clamp(48px, 7vw, 88px);
+  line-height: .96;
+  letter-spacing: -.055em;
+}
+
+.trans-hero h1 span {
+  display: block;
+  background: linear-gradient(90deg, #fff, #5ce1ff 50%, #5e9cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.trans-hero-description {
+  max-width: 720px;
+  margin: 27px 0 0;
+  color: #9bb0be;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.trans-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.trans-status span {
+  padding: 10px 13px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  background: rgba(255,255,255,.025);
+  color: #b7c8d3;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.trans-status span:first-child {
+  color: var(--green);
+}
+
+
+/* =========================================================
+   DOCUMENT SECTION
+========================================================= */
+
+.trans-documents {
+  padding: 95px 0 110px;
+}
+
+.trans-section-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.trans-section-head {
+  max-width: 730px;
+  margin-bottom: 45px;
+}
+
+.trans-section-head h2 {
+  margin: 0;
+  color: white;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.trans-section-head p {
+  margin: 17px 0 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.trans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.trans-card {
+  position: relative;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12,36,56,.88),
+      rgba(4,16,29,.75)
+    );
+  box-shadow: 0 25px 60px rgba(0,0,0,.22);
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+
+.trans-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.trans-card::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -100px;
+  bottom: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(54,216,255,.13), transparent 70%);
+}
+
+.trans-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(54,216,255,.3);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.3),
+    0 0 40px rgba(54,216,255,.05);
+}
+
+.trans-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 27px;
+  border: 1px solid rgba(54,216,255,.17);
+  border-radius: 18px;
+  background: rgba(54,216,255,.07);
+}
+
+.trans-icon svg {
+  width: 29px;
+  height: 29px;
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trans-card-type {
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.trans-card h3 {
+  margin: 10px 0 13px;
+  color: white;
+  font-size: 24px;
+}
+
+.trans-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.trans-list {
+  display: grid;
+  gap: 9px;
+  margin: 22px 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.trans-list li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #becdd6;
+  font-size: 13px;
+}
+
+.trans-list li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  flex: 0 0 5px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(76,229,177,.55);
+}
+
+.trans-card-action {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+}
+
+.trans-button {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 0 17px;
+  border: 1px solid rgba(54,216,255,.2);
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(51,136,255,.17),
+      rgba(54,216,255,.09)
+    );
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  transition: .25s ease;
+}
+
+.trans-button:hover {
+  border-color: rgba(54,216,255,.45);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(51,136,255,.3),
+      rgba(54,216,255,.15)
+    );
+}
+
+
+/* =========================================================
+   COMMITMENT PANEL
+========================================================= */
+
+.trans-commitment {
+  padding: 0 0 110px;
+}
+
+.trans-commitment-box {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.4fr .6fr;
+  align-items: center;
+  gap: 45px;
+  padding: 45px;
+  border: 1px solid rgba(54,216,255,.14);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(7,27,44,.94),
+      rgba(4,15,27,.88)
+    );
+}
+
+.trans-commitment-box::after {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  right: -120px;
+  top: -150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(51,136,255,.15), transparent 68%);
+}
+
+.trans-commitment-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.trans-commitment-copy h2 {
+  margin: 0 0 14px;
+  color: white;
+  font-size: clamp(27px, 4vw, 40px);
+  letter-spacing: -.03em;
+}
+
+.trans-commitment-copy p {
+  max-width: 690px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.trans-public-badge {
+  position: relative;
+  z-index: 2;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  background: rgba(255,255,255,.035);
+}
+
+.trans-public-badge .badge-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.trans-public-badge .badge-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+}
+
+.trans-public-badge strong {
+  display: block;
+  margin-bottom: 7px;
+  color: white;
+  font-size: 16px;
+}
+
+.trans-public-badge p {
+  margin: 0;
+  color: #8298a8;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.trans-footer {
+  border-top: 1px solid rgba(255,255,255,.07);
+  background: #010711;
+  padding: 65px 0 25px;
+}
+
+.trans-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 45px;
+}
+
+.trans-footer h3,
+.trans-footer h4 {
+  margin-top: 0;
+  color: white;
+}
+
+.trans-footer h3 {
+  font-size: 19px;
+}
+
+.trans-footer h4 {
+  font-size: 13px;
+}
+
+.trans-footer p {
+  max-width: 390px;
+  color: #718898;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.trans-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trans-footer li {
+  margin: 10px 0;
+}
+
+.trans-footer a {
+  color: #8198a8;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color .2s ease;
+}
+
+.trans-footer a:hover {
+  color: var(--cyan);
+}
+
+.trans-footer-bottom {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  color: #586f80;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
+
+.trans-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+}
+
+.trans-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .trans-menu {
+    gap: 1px;
+  }
+
+  .trans-menu a {
+    padding: 9px 7px;
+    font-size: 11px;
+  }
+
+  .trans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trans-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .trans-footer-grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+
+@media (max-width: 850px) {
+
+  .trans-topbar-inner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .trans-topbar-inner span:last-child {
+    display: none;
+  }
+
+  .trans-menu-toggle {
+    display: grid;
+    place-items: center;
+  }
+
+  .trans-menu {
+    position: absolute;
+    top: 78px;
+    left: 20px;
+    right: 20px;
+    display: none;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 18px;
+    background: rgba(3,14,26,.98);
+    box-shadow: 0 25px 60px rgba(0,0,0,.4);
+  }
+
+  .trans-menu.open {
+    display: block;
+  }
+
+  .trans-menu li {
+    width: 100%;
+  }
+
+  .trans-menu a {
+    padding: 13px 14px;
+    font-size: 13px;
+  }
+
+  .trans-commitment-box {
+    grid-template-columns: 1fr;
+  }
+
+  .trans-footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .trans-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .trans-brand img {
+    width: 39px;
+    height: 39px;
+  }
+
+  .trans-brand small {
+    display: none;
+  }
+
+  .trans-hero {
+    min-height: auto;
+  }
+
+  .trans-hero-content {
+    padding: 75px 0;
+  }
+
+  .trans-hero h1 {
+    font-size: clamp(45px, 14vw, 66px);
+  }
+
+  .trans-hero-description {
+    font-size: 15px;
+  }
+
+  .trans-status {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .trans-documents {
+    padding: 70px 0 80px;
+  }
+
+  .trans-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trans-card,
+  .trans-card:last-child {
+    grid-column: auto;
+    min-height: auto;
+  }
+
+  .trans-commitment {
+    padding-bottom: 80px;
+  }
+
+  .trans-commitment-box {
+    padding: 28px;
+  }
+
+  .trans-footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
+
 <body>
 
+<div class="trans-page">
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
 <header>
-  <div class="topbar"><div class="container"><span>OFFICIAL WEBSITE • SANGGUNIANG KABATAAN SAPILANG</span><span>Barangay Sapilang • Bacnotan, La Union</span></div></div>
-  <nav class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="home.html">
-        <img src="images/sk-logo.svg" alt="SK Sapilang Logo">
-        <div><strong>SK SAPILANG</strong><small>Kabataan. Serbisyo. Pag-asa.</small></div>
-      </a>
-      <button class="menu-toggle" aria-label="Open navigation">☰</button>
-      <ul class="nav-links">
-        <li><a href="home.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="programs.html">Programs</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="announcements.html">News</a></li>
-        <li><a href="organization.html">Officials</a></li>
-        <li><a href="kk-portal.html">KK Portal</a></li>
-        <li><a href="transparency.html">Transparency</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+
+  <div class="trans-topbar">
+    <div class="trans-container trans-topbar-inner">
+      <span>Official Website • Sangguniang Kabataan Sapilang</span>
+      <span>Barangay Sapilang • Bacnotan, La Union</span>
     </div>
+  </div>
+
+  <nav class="trans-navbar">
+
+    <div class="trans-container trans-nav">
+
+      <a class="trans-brand" href="home.html">
+
+        <img
+          src="images/sk-logo.svg"
+          alt="SK Sapilang Logo"
+        >
+
+        <div>
+          <strong>SK SAPILANG</strong>
+          <small>Kabataan. Serbisyo. Pag-asa.</small>
+        </div>
+
+      </a>
+
+
+      <button
+        class="trans-menu-toggle"
+        id="transMenuToggle"
+        aria-label="Open navigation"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
+
+      <ul class="trans-menu" id="transMenu">
+
+        <li>
+          <a href="home.html">Home</a>
+        </li>
+
+        <li>
+          <a href="about.html">About</a>
+        </li>
+
+        <li>
+          <a href="programs.html">Programs</a>
+        </li>
+
+        <li>
+          <a href="events.html">Events</a>
+        </li>
+
+        <li>
+          <a href="announcements.html">News</a>
+        </li>
+
+        <li>
+          <a href="organization.html">Officials</a>
+        </li>
+
+        <li>
+          <a href="kk-portal.html">KK Portal</a>
+        </li>
+
+        <li>
+          <a href="transparency.html" class="active">
+            Transparency
+          </a>
+        </li>
+
+        <li>
+          <a href="contact.html">Contact</a>
+        </li>
+
+      </ul>
+
+    </div>
+
   </nav>
+
 </header>
 
 
-<section class="page-hero"><div class="container"><span class="eyebrow">Open Governance</span><h1>Transparency</h1><p>Making youth governance information accessible, organized and understandable.</p></div></section>
-<section class="section"><div class="container grid grid-3">
-<article class="card reveal"><div class="icon">📊</div><h3>Financial Documents</h3><p>Budget, utilization and related public financial information.</p><a class="btn btn-primary" href="documents/transparency/">View Documents</a></article>
-<article class="card reveal"><div class="icon">📄</div><h3>Plans & Programs</h3><p>ABYIP, CBYDP and other planning documents.</p><a class="btn btn-primary" href="documents/reports/">View Reports</a></article>
-<article class="card reveal"><div class="icon">⚖️</div><h3>Governance</h3><p>Resolutions, policies and official issuances.</p><a class="btn btn-primary" href="resolutions.html">View Resolutions</a></article>
-</div></section>
+<!-- ======================================================
+     HERO
+====================================================== -->
 
+<main>
 
-<footer>
- <div class="container">
-  <div class="footer-grid">
-   <div><h3>SK SAPILANG</h3><p>The official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.</p></div>
-   <div><h4>Explore</h4><ul><li><a href="about.html">About Us</a></li><li><a href="programs.html">Programs</a></li><li><a href="events.html">Events</a></li><li><a href="awards.html">Awards</a></li></ul></div>
-   <div><h4>Governance</h4><ul><li><a href="resolutions.html">Resolutions</a></li><li><a href="transparency.html">Transparency</a></li><li><a href="organization.html">Officials</a></li></ul></div>
-   <div><h4>Youth</h4><ul><li><a href="kk-portal.html">KK Portal</a></li><li><a href="contact.html">Feedback</a></li><li><a href="announcements.html">Announcements</a></li></ul></div>
+<section class="trans-hero">
+
+  <div class="trans-container">
+
+    <div class="trans-hero-content trans-reveal">
+
+      <div class="trans-eyebrow">
+        Open Governance Portal
+      </div>
+
+      <h1>
+        Transparency
+        <span>& Accountability.</span>
+      </h1>
+
+      <p class="trans-hero-description">
+        Access official financial records, development plans,
+        resolutions and public governance documents of the
+        Sangguniang Kabataan of Barangay Sapilang.
+      </p>
+
+      <div class="trans-status">
+        <span>● PUBLIC ACCESS</span>
+        <span>ORGANIZED RECORDS</span>
+        <span>ACCOUNTABLE GOVERNANCE</span>
+      </div>
+
+    </div>
+
   </div>
-  <div class="footer-bottom">© <span data-year></span> SK Sapilang. All rights reserved. • Official youth governance website.</div>
- </div>
+
+</section>
+
+
+<!-- ======================================================
+     DOCUMENTS
+====================================================== -->
+
+<section class="trans-documents">
+
+  <div class="trans-container">
+
+    <div class="trans-section-head trans-reveal">
+
+      <span class="trans-section-label">
+        Public Records
+      </span>
+
+      <h2>
+        Governance information,
+        made accessible.
+      </h2>
+
+      <p>
+        Explore key public documents covering financial
+        management, youth development planning and official
+        legislative actions of SK Sapilang.
+      </p>
+
+    </div>
+
+
+    <div class="trans-grid">
+
+
+      <!-- FINANCIAL DOCUMENTS -->
+
+      <article class="trans-card trans-reveal">
+
+        <div class="trans-icon">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20V10"></path>
+            <path d="M10 20V4"></path>
+            <path d="M16 20v-7"></path>
+            <path d="M22 20H2"></path>
+          </svg>
+
+        </div>
+
+        <span class="trans-card-type">
+          Financial Transparency
+        </span>
+
+        <h3>
+          Financial Documents
+        </h3>
+
+        <p>
+          Access available budget documents, financial
+          utilization records and other public financial
+          information.
+        </p>
+
+        <ul class="trans-list">
+          <li>Annual Budget Documents</li>
+          <li>Financial Reports</li>
+          <li>Utilization Records</li>
+          <li>Other Public Financial Documents</li>
+        </ul>
+
+        <div class="trans-card-action">
+
+          <a
+            class="trans-button"
+            href="documents/transparency/"
+          >
+            <span>View Financial Records</span>
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- PLANS -->
+
+      <article class="trans-card trans-reveal">
+
+        <div class="trans-icon">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+            <path d="M8 8h8"></path>
+            <path d="M8 12h8"></path>
+            <path d="M8 16h5"></path>
+          </svg>
+
+        </div>
+
+        <span class="trans-card-type">
+          Development Planning
+        </span>
+
+        <h3>
+          Plans & Programs
+        </h3>
+
+        <p>
+          Review official youth development plans and program
+          documents guiding SK Sapilang's priorities,
+          activities and initiatives.
+        </p>
+
+        <ul class="trans-list">
+          <li>Annual Barangay Youth Investment Program</li>
+          <li>Comprehensive Barangay Youth Development Plan</li>
+          <li>Program Reports</li>
+          <li>Accomplishment Reports</li>
+        </ul>
+
+        <div class="trans-card-action">
+
+          <a
+            class="trans-button"
+            href="documents/reports/"
+          >
+            <span>View Plans & Reports</span>
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- GOVERNANCE -->
+
+      <article class="trans-card trans-reveal">
+
+        <div class="trans-icon">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v18"></path>
+            <path d="M5 7h14"></path>
+            <path d="m5 7-3 6h6L5 7Z"></path>
+            <path d="m19 7-3 6h6l-3-6Z"></path>
+            <path d="M8 21h8"></path>
+          </svg>
+
+        </div>
+
+        <span class="trans-card-type">
+          Legislative Records
+        </span>
+
+        <h3>
+          Governance
+        </h3>
+
+        <p>
+          Browse official resolutions, policies and
+          legislative issuances adopted by the Sangguniang
+          Kabataan of Barangay Sapilang.
+        </p>
+
+        <ul class="trans-list">
+          <li>SK Resolutions</li>
+          <li>Official Policies</li>
+          <li>Legislative Issuances</li>
+          <li>Governance Records</li>
+        </ul>
+
+        <div class="trans-card-action">
+
+          <a
+            class="trans-button"
+            href="resolutions.html"
+          >
+            <span>View Resolutions</span>
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ======================================================
+     COMMITMENT
+====================================================== -->
+
+<section class="trans-commitment">
+
+  <div class="trans-container">
+
+    <div class="trans-commitment-box trans-reveal">
+
+      <div class="trans-commitment-copy">
+
+        <span class="trans-section-label">
+          Our Commitment
+        </span>
+
+        <h2>
+          Transparency strengthens public trust.
+        </h2>
+
+        <p>
+          SK Sapilang promotes responsible, transparent and
+          accountable youth governance by making relevant
+          public information easier for young people and the
+          community to access and understand.
+        </p>
+
+      </div>
+
+
+      <div class="trans-public-badge">
+
+        <div class="badge-status">
+          Public Information
+        </div>
+
+        <strong>
+          Open Governance Portal
+        </strong>
+
+        <p>
+          Official public information section of the
+          Sangguniang Kabataan of Barangay Sapilang.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer class="trans-footer">
+
+  <div class="trans-container">
+
+    <div class="trans-footer-grid">
+
+      <div>
+
+        <h3>SK SAPILANG</h3>
+
+        <p>
+          The official digital home of the Sangguniang
+          Kabataan of Barangay Sapilang, Bacnotan,
+          La Union.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>Explore</h4>
+
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="programs.html">Programs</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="awards.html">Awards</a></li>
+        </ul>
+
+      </div>
+
+
+      <div>
+
+        <h4>Governance</h4>
+
+        <ul>
+          <li><a href="resolutions.html">Resolutions</a></li>
+          <li><a href="transparency.html">Transparency</a></li>
+          <li><a href="organization.html">Officials</a></li>
+        </ul>
+
+      </div>
+
+
+      <div>
+
+        <h4>Youth</h4>
+
+        <ul>
+          <li><a href="kk-portal.html">KK Portal</a></li>
+          <li><a href="contact.html">Feedback</a></li>
+          <li><a href="announcements.html">Announcements</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+
+    <div class="trans-footer-bottom">
+
+      © <span id="transYear"></span> SK Sapilang.
+      All rights reserved. • Official Youth Governance Website.
+
+    </div>
+
+  </div>
+
 </footer>
 
-<script src="js/main.js"></script>
-<script src="js/frame-bridge.js"></script>
+</div>
+
+
+<!-- ======================================================
+     PAGE JAVASCRIPT
+====================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* YEAR */
+
+  const year = document.getElementById("transYear");
+
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+
+  /* MOBILE MENU */
+
+  const menuButton =
+    document.getElementById("transMenuToggle");
+
+  const menu =
+    document.getElementById("transMenu");
+
+
+  if (menuButton && menu) {
+
+    menuButton.addEventListener("click", function () {
+
+      menu.classList.toggle("open");
+
+      const opened =
+        menu.classList.contains("open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        opened
+      );
+
+      menuButton.textContent =
+        opened ? "✕" : "☰";
+
+    });
+
+
+    menu.querySelectorAll("a").forEach(function (link) {
+
+      link.addEventListener("click", function () {
+
+        menu.classList.remove("open");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        menuButton.textContent = "☰";
+
+      });
+
+    });
+
+  }
+
+
+  /* SCROLL REVEAL */
+
+  const revealItems =
+    document.querySelectorAll(".trans-reveal");
+
+
+  if ("IntersectionObserver" in window) {
+
+    const observer =
+      new IntersectionObserver(
+        function (entries) {
+
+          entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add(
+                "visible"
+              );
+
+              observer.unobserve(
+                entry.target
+              );
+
+            }
+
+          });
+
+        },
+        {
+          threshold: 0.12
+        }
+      );
+
+
+    revealItems.forEach(function (item) {
+
+      observer.observe(item);
+
+    });
+
+  } else {
+
+    revealItems.forEach(function (item) {
+
+      item.classList.add("visible");
+
+    });
+
+  }
+
+});
+
+</script>
+
 </body>
 </html>
