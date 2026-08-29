@@ -3,156 +3,1317 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Public legislative library of SK Sapilang resolutions and ordinances.">
+
+<meta
+  name="description"
+  content="Official public legislative library of resolutions and ordinances of the Sangguniang Kabataan of Barangay Sapilang."
+>
+
 <meta name="theme-color" content="#020b14">
+
 <title>Resolutions & Ordinances | SK Sapilang</title>
+
 <link rel="stylesheet" href="css/site-pages.css">
+
+<style>
+/* =========================================================
+   SK SAPILANG — LEGISLATIVE DIGITAL LIBRARY
+========================================================= */
+
+:root{
+  --leg-bg:#020812;
+  --leg-panel:rgba(6,22,36,.78);
+  --leg-panel-strong:rgba(8,28,46,.94);
+  --leg-text:#f5fbff;
+  --leg-muted:#8ba7b8;
+  --leg-cyan:#48ddff;
+  --leg-blue:#347fff;
+  --leg-green:#62ecb0;
+  --leg-gold:#ffd66d;
+  --leg-border:rgba(86,216,255,.16);
+  --leg-border-strong:rgba(86,216,255,.36);
+  --leg-shadow:0 28px 80px rgba(0,0,0,.32);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.legislative-hero{
+  position:relative;
+  overflow:hidden;
+  padding:110px 0 72px;
+}
+
+.legislative-hero::before{
+  content:"";
+  position:absolute;
+  width:560px;
+  height:560px;
+  right:-190px;
+  top:-280px;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(63,155,255,.15),
+      transparent 68%
+    );
+  pointer-events:none;
+}
+
+.legislative-hero::after{
+  content:"";
+  position:absolute;
+  left:8%;
+  bottom:0;
+  width:210px;
+  height:1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(72,221,255,.8),
+      transparent
+    );
+}
+
+.legislative-hero h1{
+  max-width:950px;
+  margin-top:20px;
+  font-size:clamp(3rem,7vw,6rem);
+  line-height:.95;
+  letter-spacing:-.055em;
+}
+
+.legislative-hero h1 span{
+  display:block;
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff,
+      #89eaff,
+      #4d8eff
+    );
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+
+.legislative-hero .hero-description{
+  max-width:730px;
+  margin-top:22px;
+  color:var(--leg-muted);
+  font-size:1rem;
+  line-height:1.8;
+}
+
+/* =========================================================
+   OVERVIEW STATS
+========================================================= */
+
+.library-overview{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:34px;
+  max-width:760px;
+}
+
+.overview-card{
+  padding:16px 18px;
+  border:1px solid var(--leg-border);
+  border-radius:16px;
+  background:rgba(255,255,255,.025);
+  backdrop-filter:blur(14px);
+}
+
+.overview-card strong{
+  display:block;
+  font-size:1.35rem;
+  color:#fff;
+}
+
+.overview-card span{
+  display:block;
+  margin-top:4px;
+  color:var(--leg-muted);
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+/* =========================================================
+   LIBRARY TOOLBAR
+========================================================= */
+
+.library-shell{
+  position:relative;
+}
+
+.library-toolbar{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 170px 180px;
+  gap:12px;
+  padding:16px;
+  border:1px solid var(--leg-border);
+  border-radius:22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(8,28,45,.88),
+      rgba(4,15,26,.84)
+    );
+  box-shadow:var(--leg-shadow);
+}
+
+.search-field{
+  position:relative;
+}
+
+.search-field::before{
+  content:"⌕";
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--leg-cyan);
+  font-size:1.25rem;
+  pointer-events:none;
+}
+
+.library-toolbar input,
+.library-toolbar select{
+  width:100%;
+  min-height:52px;
+  border-radius:14px;
+  border:1px solid rgba(86,216,255,.14);
+  background:rgba(2,11,19,.72);
+  color:#fff;
+  outline:none;
+  font:inherit;
+  transition:.2s ease;
+}
+
+.library-toolbar input{
+  padding:0 16px 0 45px;
+}
+
+.library-toolbar select{
+  padding:0 14px;
+  cursor:pointer;
+}
+
+.library-toolbar input::placeholder{
+  color:#688495;
+}
+
+.library-toolbar input:focus,
+.library-toolbar select:focus{
+  border-color:var(--leg-cyan);
+  box-shadow:0 0 0 3px rgba(72,221,255,.08);
+}
+
+.library-status{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin:18px 2px 26px;
+  color:var(--leg-muted);
+  font-size:.78rem;
+}
+
+.library-status strong{
+  color:#d9f7ff;
+}
+
+.clear-filters{
+  border:0;
+  background:none;
+  color:var(--leg-cyan);
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.clear-filters:hover{
+  color:#fff;
+}
+
+/* =========================================================
+   RECORD CARDS
+========================================================= */
+
+.record-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.record-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:285px;
+  padding:24px;
+  overflow:hidden;
+
+  border:1px solid var(--leg-border);
+  border-radius:22px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0,
+      rgba(71,217,255,.08),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(7,24,39,.88),
+      rgba(3,14,24,.88)
+    );
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.record-card::after{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  right:-70px;
+  bottom:-80px;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(72,221,255,.08),
+      transparent 70%
+    );
+  pointer-events:none;
+}
+
+.record-card:hover{
+  transform:translateY(-5px);
+  border-color:var(--leg-border-strong);
+  box-shadow:0 25px 55px rgba(0,0,0,.26);
+}
+
+.record-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(72,221,255,.075);
+  border:1px solid rgba(72,221,255,.16);
+  color:#a9efff;
+  font-size:.65rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.badge::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--leg-green);
+  box-shadow:0 0 10px var(--leg-green);
+}
+
+.badge.yellow{
+  color:#ffe8a8;
+  border-color:rgba(255,214,109,.2);
+  background:rgba(255,214,109,.06);
+}
+
+.badge.yellow::before{
+  background:var(--leg-gold);
+  box-shadow:0 0 10px rgba(255,214,109,.7);
+}
+
+.meta{
+  color:#7894a5;
+  font-size:.72rem;
+  font-weight:800;
+}
+
+.record-card h3{
+  margin-top:20px;
+  font-size:1.28rem;
+  line-height:1.3;
+}
+
+.record-card p{
+  margin-top:12px;
+  color:var(--leg-muted);
+  font-size:.88rem;
+  line-height:1.72;
+}
+
+.record-footer{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:auto;
+  padding-top:24px;
+}
+
+.record-status{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.record-status small{
+  color:#637f90;
+  font-size:.65rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.record-status strong{
+  color:#b9eed6;
+  font-size:.76rem;
+}
+
+.document-button{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 14px;
+
+  border-radius:11px;
+  border:1px solid var(--leg-border);
+
+  background:rgba(255,255,255,.03);
+  color:#fff;
+
+  font-size:.75rem;
+  font-weight:800;
+
+  transition:.2s ease;
+}
+
+.document-button:hover{
+  background:rgba(72,221,255,.08);
+  border-color:var(--leg-border-strong);
+  transform:translateY(-2px);
+}
+
+.document-button.disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state{
+  display:none;
+  padding:48px 24px;
+  margin-top:18px;
+  text-align:center;
+  border:1px dashed var(--leg-border);
+  border-radius:22px;
+  background:rgba(255,255,255,.02);
+}
+
+.empty-state strong{
+  display:block;
+  font-size:1.05rem;
+}
+
+.empty-state p{
+  margin-top:7px;
+  color:var(--leg-muted);
+  font-size:.84rem;
+}
+
+/* =========================================================
+   INFO STRIP
+========================================================= */
+
+.public-record-note{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  margin-top:28px;
+  padding:18px 20px;
+
+  border:1px solid rgba(72,221,255,.11);
+  border-radius:17px;
+
+  background:rgba(72,221,255,.035);
+}
+
+.note-icon{
+  width:38px;
+  height:38px;
+  flex:0 0 auto;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:12px;
+  background:rgba(72,221,255,.08);
+  color:var(--leg-cyan);
+}
+
+.public-record-note p{
+  color:var(--leg-muted);
+  font-size:.8rem;
+  line-height:1.6;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+  .library-toolbar{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .search-field{
+    grid-column:1 / -1;
+  }
+
+}
+
+@media(max-width:760px){
+
+  .legislative-hero{
+    padding:92px 0 58px;
+  }
+
+  .library-overview{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .record-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .library-overview{
+    grid-template-columns:1fr;
+    gap:9px;
+  }
+
+  .overview-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+
+  .overview-card span{
+    margin-top:0;
+  }
+
+  .library-toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .search-field{
+    grid-column:auto;
+  }
+
+  .library-status{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .record-card{
+    min-height:auto;
+    padding:20px;
+  }
+
+  .record-footer{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .document-button{
+    width:100%;
+  }
+
+  .public-record-note{
+    align-items:flex-start;
+  }
+
+}
+</style>
 </head>
+
 <body>
-<div class="future-bg"><div class="orb one"></div><div class="orb two"></div></div>
+
+<div class="future-bg">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+</div>
 
 <header class="header">
+
   <div class="container nav">
+
     <a href="home.html" class="brand">
+
       <div class="logo">
-        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+        <img
+          src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+          alt="SK Sapilang Official Logo">
       </div>
+
       <div class="brand-text">
         <strong>SK SAPILANG</strong>
         <span>DIGITAL YOUTH NETWORK</span>
       </div>
+
     </a>
-    <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+
+    <button
+      class="menu-button"
+      id="menuButton"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false">
+      ☰
+    </button>
+
     <ul class="nav-links" id="navLinks">
+
       <li><a href="home.html">Home</a></li>
-      <li><a href="index.html#activities">Activities</a></li>
-      <li><a href="index.html#digital-id">Digital ID</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="awards.html" data-nav="awards">Awards</a></li>
-      <li><a href="resolutions.html" data-nav="resolutions">Resolutions</a></li>
-      <li><a href="transparency.html">Transparency</a></li>
-      <li><a href="feedback.html" data-nav="feedback">Feedback</a></li>
-      <li><a href="contact.html" data-nav="contact">Contact</a></li>
-      <li><a href="kk-portal.html">KK Portal</a></li>
+
+      <li>
+        <a href="index.html#activities">
+          Activities
+        </a>
+      </li>
+
+      <li>
+        <a href="index.html#digital-id">
+          Digital ID
+        </a>
+      </li>
+
+      <li>
+        <a href="about.html">
+          About
+        </a>
+      </li>
+
+      <li>
+        <a href="awards.html" data-nav="awards">
+          Awards
+        </a>
+      </li>
+
+      <li>
+        <a
+          href="resolutions.html"
+          data-nav="resolutions"
+          class="active">
+          Resolutions
+        </a>
+      </li>
+
+      <li>
+        <a href="transparency.html">
+          Transparency
+        </a>
+      </li>
+
+      <li>
+        <a href="feedback.html">
+          Feedback
+        </a>
+      </li>
+
+      <li>
+        <a href="contact.html">
+          Contact
+        </a>
+      </li>
+
+      <li>
+        <a href="kk-portal.html">
+          KK Portal
+        </a>
+      </li>
+
     </ul>
+
   </div>
+
 </header>
 
 <main>
 
-<section class="page-hero">
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section class="legislative-hero">
+
   <div class="container">
-    <span class="eyebrow">Legislative Records</span>
-    <h1>Resolutions & <span>Ordinances.</span></h1>
-    <p class="hero-description">A searchable public library of measures passed by the Sangguniang Kabataan of Barangay Sapilang. Add the official PDF file for each record once available.</p>
+
+    <span class="eyebrow">
+      Legislative Records
+    </span>
+
+    <h1>
+      Public measures.
+      <span>Open access.</span>
+    </h1>
+
+    <p class="hero-description">
+      Explore official resolutions and ordinances of the
+      Sangguniang Kabataan of Barangay Sapilang through
+      one searchable digital legislative library.
+    </p>
+
+    <div class="library-overview">
+
+      <div class="overview-card">
+        <strong id="totalRecords">
+          0
+        </strong>
+        <span>
+          Records
+        </span>
+      </div>
+
+      <div class="overview-card">
+        <strong id="resolutionCount">
+          0
+        </strong>
+        <span>
+          Resolutions
+        </span>
+      </div>
+
+      <div class="overview-card">
+        <strong id="ordinanceCount">
+          0
+        </strong>
+        <span>
+          Ordinances
+        </span>
+      </div>
+
+    </div>
+
   </div>
+
 </section>
 
+
+<!-- ======================================================
+     DIGITAL LIBRARY
+====================================================== -->
+
 <section class="section">
-  <div class="container">
+
+  <div class="container library-shell">
+
     <div class="section-heading reveal">
-      <span class="section-label">Public Legislative Library</span>
-      <h2>Search official measures.</h2>
-      <p>Filter records by keyword, year or type.</p>
+
+      <span class="section-label">
+        Legislative Library
+      </span>
+
+      <h2>
+        Find an official record.
+      </h2>
+
+      <p>
+        Search by resolution number, title, year or document type.
+      </p>
+
     </div>
 
-    <div class="filter-bar reveal">
-      <input id="recordSearch" type="search" placeholder="Search number, title or keyword...">
-      <select id="yearFilter">
-        <option value="all">All Years</option>
-        <option value="2026">2026</option>
-        <option value="2025">2025</option>
+
+    <!-- SEARCH + FILTERS -->
+
+    <div class="library-toolbar reveal">
+
+      <div class="search-field">
+
+        <input
+          id="recordSearch"
+          type="search"
+          placeholder="Search legislative records..."
+          autocomplete="off"
+          aria-label="Search legislative records">
+
+      </div>
+
+      <select
+        id="yearFilter"
+        aria-label="Filter by year">
+
+        <option value="all">
+          All Years
+        </option>
+
+        <option value="2026">
+          2026
+        </option>
+
+        <option value="2025">
+          2025
+        </option>
+
       </select>
-      <select id="typeFilter">
-        <option value="all">All Types</option>
-        <option value="resolution">Resolutions</option>
-        <option value="ordinance">Ordinances</option>
+
+      <select
+        id="typeFilter"
+        aria-label="Filter by type">
+
+        <option value="all">
+          All Types
+        </option>
+
+        <option value="resolution">
+          Resolutions
+        </option>
+
+        <option value="ordinance">
+          Ordinances
+        </option>
+
       </select>
+
     </div>
 
-    <div class="record-grid" id="recordGrid">
-      <article class="record-card reveal" data-year="2026" data-type="resolution" data-search="resolution 11 2026 e-library reading corner starbooks">
-        <div class="record-top">
-          <span class="badge">Resolution</span>
-          <span class="meta">2026</span>
-        </div>
-        <h3>Resolution No. 11, Series of 2026</h3>
-        <p>Supporting the conversion of the Barangay Reading Corner into an E-Library and related youth learning initiatives.</p>
-        <div class="record-footer">
-          <span>Status: Passed / Approved</span>
-          <a href="#" aria-label="Document not yet linked">Add PDF →</a>
-        </div>
-      </article>
 
-      <article class="record-card reveal" data-year="2026" data-type="resolution" data-search="resolution 15 2026 farmers park covered court improvement full enclosure disaster resilient">
-        <div class="record-top">
-          <span class="badge">Resolution</span>
-          <span class="meta">2026</span>
-        </div>
-        <h3>Resolution No. 15, Series of 2026</h3>
-        <p>Requesting support for the improvement, full enclosure and disaster-resilient upgrading of the Farmer’s Park Center / Covered Court.</p>
-        <div class="record-footer">
-          <span>Status: Passed / Approved</span>
-          <a href="#" aria-label="Document not yet linked">Add PDF →</a>
-        </div>
-      </article>
+    <!-- RESULT STATUS -->
 
-      <article class="record-card reveal" data-year="2026" data-type="ordinance" data-search="ordinance sample 2026">
-        <div class="record-top">
-          <span class="badge yellow">Ordinance</span>
-          <span class="meta">2026</span>
-        </div>
-        <h3>Add Official SK Ordinance Here</h3>
-        <p>Replace this sample entry with the ordinance number, series, full title, approval date and official document link.</p>
-        <div class="record-footer">
-          <span>Status: Replace with official status</span>
-          <a href="#" aria-label="Document not yet linked">Add PDF →</a>
-        </div>
-      </article>
+    <div class="library-status">
+
+      <span>
+        Showing
+        <strong id="visibleCount">
+          0
+        </strong>
+        record(s)
+      </span>
+
+      <button
+        class="clear-filters"
+        id="clearFilters"
+        type="button">
+        Clear Filters
+      </button>
+
     </div>
+
+
+    <!-- ==================================================
+         RECORDS
+    ================================================== -->
+
+    <div
+      class="record-grid"
+      id="recordGrid">
+
+
+      <!-- RESOLUTION 11 -->
+
+      <article
+        class="record-card reveal"
+        data-year="2026"
+        data-type="resolution"
+        data-search="
+          resolution 11
+          series 2026
+          e-library
+          reading corner
+          starbooks
+          education
+          learning
+        ">
+
+        <div class="record-top">
+
+          <span class="badge">
+            Resolution
+          </span>
+
+          <span class="meta">
+            2026
+          </span>
+
+        </div>
+
+        <h3>
+          Resolution No. 11,
+          Series of 2026
+        </h3>
+
+        <p>
+          Supporting the conversion of the Barangay Reading
+          Corner into an E-Library and related youth learning
+          initiatives.
+        </p>
+
+        <div class="record-footer">
+
+          <div class="record-status">
+
+            <small>
+              Status
+            </small>
+
+            <strong>
+              Passed / Approved
+            </strong>
+
+          </div>
+
+          <a
+            class="document-button disabled"
+            href="#"
+            aria-disabled="true">
+            PDF Pending
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- RESOLUTION 15 -->
+
+      <article
+        class="record-card reveal"
+        data-year="2026"
+        data-type="resolution"
+        data-search="
+          resolution 15
+          series 2026
+          farmers park
+          covered court
+          enclosure
+          improvement
+          disaster resilient
+        ">
+
+        <div class="record-top">
+
+          <span class="badge">
+            Resolution
+          </span>
+
+          <span class="meta">
+            2026
+          </span>
+
+        </div>
+
+        <h3>
+          Resolution No. 15,
+          Series of 2026
+        </h3>
+
+        <p>
+          Requesting support for the improvement, full enclosure
+          and disaster-resilient upgrading of the Farmer’s Park
+          Center / Covered Court.
+        </p>
+
+        <div class="record-footer">
+
+          <div class="record-status">
+
+            <small>
+              Status
+            </small>
+
+            <strong>
+              Passed / Approved
+            </strong>
+
+          </div>
+
+          <a
+            class="document-button disabled"
+            href="#"
+            aria-disabled="true">
+            PDF Pending
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- ORDINANCE PLACEHOLDER -->
+
+      <article
+        class="record-card reveal"
+        data-year="2026"
+        data-type="ordinance"
+        data-search="
+          ordinance
+          2026
+        ">
+
+        <div class="record-top">
+
+          <span class="badge yellow">
+            Ordinance
+          </span>
+
+          <span class="meta">
+            2026
+          </span>
+
+        </div>
+
+        <h3>
+          Official Ordinance Record
+        </h3>
+
+        <p>
+          This space is reserved for an official SK ordinance.
+          Add the ordinance number, series, title and document
+          once officially available.
+        </p>
+
+        <div class="record-footer">
+
+          <div class="record-status">
+
+            <small>
+              Status
+            </small>
+
+            <strong>
+              Record Pending
+            </strong>
+
+          </div>
+
+          <a
+            class="document-button disabled"
+            href="#"
+            aria-disabled="true">
+            Document Pending
+          </a>
+
+        </div>
+
+      </article>
+
+
+    </div>
+
+
+    <!-- EMPTY SEARCH RESULT -->
+
+    <div
+      class="empty-state"
+      id="emptyState">
+
+      <strong>
+        No legislative records found.
+      </strong>
+
+      <p>
+        Try a different keyword or reset the filters.
+      </p>
+
+    </div>
+
+
+    <!-- PUBLIC RECORD NOTE -->
+
+    <div class="public-record-note reveal">
+
+      <div class="note-icon">
+        ◈
+      </div>
+
+      <p>
+        Official PDF copies may be linked to each record once
+        digitized and approved for public access.
+      </p>
+
+    </div>
+
   </div>
+
 </section>
 
 </main>
 
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
 <footer>
+
   <div class="container footer-grid">
+
     <div class="footer-brand">
+
       <div class="footer-logo">
-        <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+
+        <img
+          src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+          alt="SK Sapilang Official Logo">
+
       </div>
+
       <div>
-        <strong>SK SAPILANG</strong>
-        <span>DIGITAL YOUTH NETWORK</span>
+
+        <strong>
+          SK SAPILANG
+        </strong>
+
+        <span>
+          DIGITAL YOUTH NETWORK
+        </span>
+
       </div>
+
     </div>
-    <div class="copyright">© <span data-year></span> SK Sapilang. All Rights Reserved.</div>
+
+    <div class="copyright">
+
+      ©
+      <span data-year></span>
+      SK Sapilang.
+      All Rights Reserved.
+
+    </div>
+
   </div>
+
 </footer>
+
+
+<!-- ======================================================
+     SITE SCRIPT
+====================================================== -->
 
 <script src="js/site-pages.js"></script>
 
-<script>
-document.querySelectorAll('[data-nav="resolutions"]').forEach(a=>a.classList.add("active"));
-</script>
+
+<!-- ======================================================
+     ACTIVE NAV
+====================================================== -->
 
 <script>
-const search=document.getElementById("recordSearch");
-const year=document.getElementById("yearFilter");
-const type=document.getElementById("typeFilter");
-const records=[...document.querySelectorAll(".record-card")];
-function filterRecords(){
-  const q=search.value.trim().toLowerCase();
-  records.forEach(card=>{
-    const okQ=!q||card.dataset.search.includes(q)||card.innerText.toLowerCase().includes(q);
-    const okY=year.value==="all"||card.dataset.year===year.value;
-    const okT=type.value==="all"||card.dataset.type===type.value;
-    card.style.display=okQ&&okY&&okT?"block":"none";
+
+document
+  .querySelectorAll('[data-nav="resolutions"]')
+  .forEach(link=>{
+    link.classList.add("active");
   });
-}
-[search,year,type].forEach(el=>el.addEventListener("input",filterRecords));
-[year,type].forEach(el=>el.addEventListener("change",filterRecords));
+
 </script>
+
+
+<!-- ======================================================
+     LEGISLATIVE SEARCH ENGINE
+====================================================== -->
+
+<script>
+
+const searchInput =
+  document.getElementById("recordSearch");
+
+const yearFilter =
+  document.getElementById("yearFilter");
+
+const typeFilter =
+  document.getElementById("typeFilter");
+
+const clearFilters =
+  document.getElementById("clearFilters");
+
+const visibleCount =
+  document.getElementById("visibleCount");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+const records =
+  [...document.querySelectorAll(".record-card")];
+
+
+/* ======================================================
+   RECORD STATISTICS
+====================================================== */
+
+const resolutions =
+  records.filter(
+    card =>
+      card.dataset.type === "resolution"
+  );
+
+const ordinances =
+  records.filter(
+    card =>
+      card.dataset.type === "ordinance"
+  );
+
+document.getElementById("totalRecords")
+  .textContent =
+  records.length;
+
+document.getElementById("resolutionCount")
+  .textContent =
+  resolutions.length;
+
+document.getElementById("ordinanceCount")
+  .textContent =
+  ordinances.length;
+
+
+/* ======================================================
+   FILTER
+====================================================== */
+
+function filterRecords(){
+
+  const query =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  let visible = 0;
+
+  records.forEach(card=>{
+
+    const searchableText =
+      (
+        card.dataset.search +
+        " " +
+        card.innerText
+      ).toLowerCase();
+
+    const matchesSearch =
+      !query ||
+      searchableText.includes(query);
+
+    const matchesYear =
+      yearFilter.value === "all" ||
+      card.dataset.year ===
+      yearFilter.value;
+
+    const matchesType =
+      typeFilter.value === "all" ||
+      card.dataset.type ===
+      typeFilter.value;
+
+    const show =
+      matchesSearch &&
+      matchesYear &&
+      matchesType;
+
+    card.style.display =
+      show
+        ? "flex"
+        : "none";
+
+    if(show){
+      visible++;
+    }
+
+  });
+
+  visibleCount.textContent =
+    visible;
+
+  emptyState.style.display =
+    visible === 0
+      ? "block"
+      : "none";
+
+}
+
+
+/* ======================================================
+   EVENTS
+====================================================== */
+
+searchInput.addEventListener(
+  "input",
+  filterRecords
+);
+
+yearFilter.addEventListener(
+  "change",
+  filterRecords
+);
+
+typeFilter.addEventListener(
+  "change",
+  filterRecords
+);
+
+
+/* ======================================================
+   RESET
+====================================================== */
+
+clearFilters.addEventListener(
+  "click",
+  ()=>{
+
+    searchInput.value = "";
+
+    yearFilter.value =
+      "all";
+
+    typeFilter.value =
+      "all";
+
+    filterRecords();
+
+    searchInput.focus();
+
+  }
+);
+
+
+/* INITIALIZE */
+
+filterRecords();
+
+</script>
+
+
 <script src="js/frame-bridge.js"></script>
+
 </body>
 </html>
