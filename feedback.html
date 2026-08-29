@@ -562,7 +562,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
         </a>
 
         <button class="admin-header-login" id="adminHeaderLogin" type="button">QMS Admin Login</button>
-        <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">â˜°</button>
+        <button class="menu-button" id="menuButton" type="button" aria-label="Open navigation menu" aria-expanded="false">Ã¢ËœÂ°</button>
 
         <ul class="nav-links" id="navLinks">
             <li><a href="home.html">Home</a></li>
@@ -1015,7 +1015,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <div class="form-group full">
                             <div class="rating-title" style="margin-top:4px">
                                 <h4>Resource Speaker / Trainer / Facilitator Feedback</h4>
-                                <p>Provide additional feedback about the person who delivered or facilitated the session. If the activity had no resource speaker, you may write â€œNot Applicable.â€</p>
+                                <p>Provide additional feedback about the person who delivered or facilitated the session. If the activity had no resource speaker, you may write Ã¢â‚¬Å“Not Applicable.Ã¢â‚¬Â</p>
                             </div>
                         </div>
 
@@ -1232,11 +1232,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <h3>Administration Dashboard</h3>
                             <p id="integratedGeneratedText">Live evaluation, feedback and improvement monitoring.</p>
                         </div>
-                        <span class="admin-system-chip">â— QMS DATABASE CONNECTED</span>
+                        <span class="admin-system-chip">Ã¢â€”Â QMS DATABASE CONNECTED</span>
                     </div>
 
                     <div class="admin-actions">
-                        <button class="admin-action-btn primary" id="integratedRefreshBtn" type="button">â†» Refresh Dashboard</button>
+                        <button class="admin-action-btn primary" id="integratedRefreshBtn" type="button">Ã¢â€ Â» Refresh Dashboard</button>
                         <button class="admin-action-btn" id="integratedPrintBtn" type="button">Print Report</button>
                         <button class="admin-action-btn danger" id="integratedLogoutBtn" type="button">Log Out</button>
                     </div>
@@ -1441,7 +1441,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 <span>DIGITAL YOUTH NETWORK</span>
             </div>
         </div>
-        <div class="copyright">Â© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
+        <div class="copyright">Ã‚Â© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
     </div>
 </footer>
 
@@ -1453,14 +1453,14 @@ if(menuButton&&navLinks){
     menuButton.addEventListener("click",()=>{
         const open=navLinks.classList.toggle("open");
         menuButton.setAttribute("aria-expanded",open?"true":"false");
-        menuButton.textContent=open?"âœ•":"â˜°";
+        menuButton.textContent=open?"Ã¢Å“â€¢":"Ã¢ËœÂ°";
     });
 
     navLinks.querySelectorAll("a").forEach(link=>{
         link.addEventListener("click",()=>{
             navLinks.classList.remove("open");
             menuButton.setAttribute("aria-expanded","false");
-            menuButton.textContent="â˜°";
+            menuButton.textContent="Ã¢ËœÂ°";
         });
     });
 }
@@ -1852,10 +1852,10 @@ function integratedRenderDashboard(data){
         "Live QMS data generated "+integratedFormatDateTime(data.generatedAt)+".";
 
     document.getElementById("integratedSummaryGrid").innerHTML=`
-        ${integratedMetric("Client Feedback",s.clientResponses,s.averageClientSatisfaction.toFixed(2)+" / 5 â€¢ "+s.clientQuality)}
-        ${integratedMetric("Activity Evaluations",s.activityEvaluations,s.averageActivityScore.toFixed(2)+" / 5 â€¢ "+s.activityQuality)}
-        ${integratedMetric("Speaker Evaluations",s.speakerEvaluations,s.averageSpeakerScore.toFixed(2)+" / 5 â€¢ "+s.speakerQuality)}
-        ${integratedMetric("Suggestions / Concerns",s.suggestions,s.newSuggestions+" New â€¢ "+s.inProgressSuggestions+" In Progress")}
+        ${integratedMetric("Client Feedback",s.clientResponses,s.averageClientSatisfaction.toFixed(2)+" / 5 Ã¢â‚¬Â¢ "+s.clientQuality)}
+        ${integratedMetric("Activity Evaluations",s.activityEvaluations,s.averageActivityScore.toFixed(2)+" / 5 Ã¢â‚¬Â¢ "+s.activityQuality)}
+        ${integratedMetric("Speaker Evaluations",s.speakerEvaluations,s.averageSpeakerScore.toFixed(2)+" / 5 Ã¢â‚¬Â¢ "+s.speakerQuality)}
+        ${integratedMetric("Suggestions / Concerns",s.suggestions,s.newSuggestions+" New Ã¢â‚¬Â¢ "+s.inProgressSuggestions+" In Progress")}
     `;
 
     integratedRenderBars("integratedActivityTypeBars",data.activityTypes);
@@ -1927,7 +1927,7 @@ function integratedRenderActivities(rows){
         <tr data-type="${integratedEscape(row.activityType)}">
             <td>${integratedEscape(row.timestamp)}</td>
             <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} â€¢ ${integratedEscape(row.venue)}</span></td>
+            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} Ã¢â‚¬Â¢ ${integratedEscape(row.venue)}</span></td>
             <td>${integratedEscape(row.participant||"Anonymous")}<br><span class="admin-muted">${integratedEscape(row.classification)}</span></td>
             <td>${integratedEscape(row.speaker||"N/A")}</td>
             <td class="admin-rating">${Number(row.averageScore).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
@@ -1976,7 +1976,7 @@ function integratedRenderSuggestions(rows){
         <tr data-status="${integratedEscape(row.status)}">
             <td>${integratedEscape(row.timestamp)}</td>
             <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.subject)}</strong><br><span class="admin-muted">${integratedEscape(row.category)} â€¢ ${integratedEscape(row.area)}${row.name?" â€¢ "+integratedEscape(row.name):""}</span></td>
+            <td><strong>${integratedEscape(row.subject)}</strong><br><span class="admin-muted">${integratedEscape(row.category)} Ã¢â‚¬Â¢ ${integratedEscape(row.area)}${row.name?" Ã¢â‚¬Â¢ "+integratedEscape(row.name):""}</span></td>
             <td>${integratedEscape(row.message)}${row.solution?`<br><br><strong>Proposed:</strong> ${integratedEscape(row.solution)}`:""}</td>
             <td>${integratedStatusBadge(row.status)}${row.dateResolved?`<br><span class="admin-muted">${integratedEscape(row.dateResolved)}</span>`:""}</td>
             <td>
@@ -2040,7 +2040,7 @@ function integratedStatusBadge(status){
 }
 
 function integratedScoreOrDash(value){
-    if(value===""||value===null||value===undefined)return"â€”";
+    if(value===""||value===null||value===undefined)return"Ã¢â‚¬â€";
     return `${Number(value).toFixed(2)} / 5`;
 }
 
@@ -2122,7 +2122,7 @@ if("IntersectionObserver" in window){
 
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
-<script src="js/frame-bridge.js?v=20260830-1"></script>
+<script src="js/frame-bridge.js?v=20260830-2"></script>
 </body>
 </html>
 
