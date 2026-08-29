@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="sk-topbar-inner">
 
                 <span>
-                    OFFICIAL WEBSITE â€¢ SANGGUNIANG KABATAAN SAPILANG
+                    OFFICIAL WEBSITE &bull; SANGGUNIANG KABATAAN SAPILANG
                 </span>
 
                 <span>
-                    Barangay Sapilang â€¢ Bacnotan, La Union
+                    Barangay Sapilang &bull; Bacnotan, La Union
                 </span>
 
             </div>
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     aria-label="Open navigation"
                     aria-expanded="false"
                 >
-                    â˜°
+                    Ã¢ËœÂ°
                 </button>
 
 
@@ -244,8 +244,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 menuButton.textContent =
                     isOpen
-                        ? "âœ•"
-                        : "â˜°";
+                        ? "Ã¢Å“&bull;"
+                        : "Ã¢ËœÂ°";
 
 
                 menuButton.setAttribute(
@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         menuButton.textContent =
-                            "â˜°";
+                            "Ã¢ËœÂ°";
 
                         menuButton.setAttribute(
                             "aria-expanded",
