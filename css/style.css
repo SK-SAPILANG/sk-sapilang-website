@@ -186,3 +186,141 @@
     }
 
 }
+/* =========================================================
+   SK SAPILANG — UNIVERSAL LOGO SIZE FIX
+   Desktop / Laptop / Tablet / iPad / Phone
+========================================================= */
+
+.header .logo,
+.nav .logo {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+    flex: 0 0 46px !important;
+    overflow: hidden !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.header .logo img,
+.nav .logo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Prevent brand area from becoming oversized */
+
+.header .brand,
+.nav .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+}
+
+.brand-text {
+    min-width: 0 !important;
+}
+
+.brand-text strong,
+.brand-text span {
+    display: block !important;
+}
+
+/* Footer logo */
+
+.footer-logo {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+    flex: 0 0 46px !important;
+    overflow: hidden !important;
+    border-radius: 50% !important;
+}
+
+.footer-logo img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+/* =========================
+   TABLET / IPAD
+========================= */
+
+@media (max-width: 900px) {
+
+    .header .logo,
+    .nav .logo {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        max-width: 42px !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+        flex-basis: 42px !important;
+    }
+
+}
+
+/* =========================
+   PHONE
+========================= */
+
+@media (max-width: 600px) {
+
+    .header .logo,
+    .nav .logo {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        max-width: 40px !important;
+        min-height: 40px !important;
+        max-height: 40px !important;
+        flex-basis: 40px !important;
+    }
+
+    .header .brand,
+    .nav .brand {
+        gap: 8px !important;
+    }
+
+}
+
+/* =========================
+   SMALL PHONE
+========================= */
+
+@media (max-width: 380px) {
+
+    .header .logo,
+    .nav .logo {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        max-width: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
+        flex-basis: 36px !important;
+    }
+
+}
+
