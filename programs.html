@@ -1,44 +1,2459 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Official website of Sangguniang Kabataan Barangay Sapilang, Bacnotan, La Union.">
-<title>Programs & Projects | SK Sapilang</title>
-<link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/nav-universal.css">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta
+name="description"
+content="Programs and projects of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+
+<meta
+name="theme-color"
+content="#020b14">
+
+<title>
+Programs & Projects | SK Sapilang
+</title>
+
+<link
+rel="stylesheet"
+href="css/style.css">
+
+<link
+rel="stylesheet"
+href="css/nav-universal.css">
+
+
+<style>
+
+/* =========================================================
+   SK SAPILANG
+   FUTURISTIC PROGRAMS & PROJECTS PAGE
+========================================================= */
+
+*{
+box-sizing:border-box;
+}
+
+:root{
+
+--program-bg:#020912;
+
+--program-panel:
+rgba(6,22,36,.82);
+
+--program-panel-strong:
+rgba(7,29,47,.94);
+
+--program-cyan:#4be1ff;
+
+--program-blue:#397cff;
+
+--program-green:#5decb0;
+
+--program-gold:#ffd76c;
+
+--program-red:#ff6684;
+
+--program-purple:#a98cff;
+
+--program-text:#f5fbff;
+
+--program-muted:#8ba7b8;
+
+--program-border:
+rgba(75,225,255,.15);
+
+--program-border-strong:
+rgba(75,225,255,.34);
+
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body{
+
+margin:0;
+
+min-height:100vh;
+
+overflow-x:hidden;
+
+background:
+
+radial-gradient(
+circle at 15% 5%,
+rgba(39,127,255,.12),
+transparent 28%
+),
+
+radial-gradient(
+circle at 90% 48%,
+rgba(40,211,255,.08),
+transparent 28%
+),
+
+linear-gradient(
+180deg,
+#020912 0%,
+#03111d 55%,
+#020912 100%
+);
+
+color:var(--program-text);
+
+font-family:
+Inter,
+"Segoe UI",
+Arial,
+sans-serif;
+
+}
+
+
+.programs-page{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+
+/* =========================================================
+   FUTURE BACKGROUND
+========================================================= */
+
+.program-future-bg{
+
+position:fixed;
+
+inset:0;
+
+z-index:-1;
+
+pointer-events:none;
+
+overflow:hidden;
+
+}
+
+
+.program-grid-bg{
+
+position:absolute;
+
+inset:0;
+
+background-image:
+
+linear-gradient(
+rgba(75,225,255,.025) 1px,
+transparent 1px
+),
+
+linear-gradient(
+90deg,
+rgba(75,225,255,.025) 1px,
+transparent 1px
+);
+
+background-size:
+46px 46px;
+
+}
+
+
+.program-orb{
+
+position:absolute;
+
+border-radius:50%;
+
+filter:blur(110px);
+
+opacity:.22;
+
+}
+
+
+.program-orb.one{
+
+width:420px;
+
+height:420px;
+
+left:-180px;
+
+top:-160px;
+
+background:#167cff;
+
+}
+
+
+.program-orb.two{
+
+width:480px;
+
+height:480px;
+
+right:-220px;
+
+top:42%;
+
+background:#12d6ff;
+
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.program-container{
+
+width:min(
+1180px,
+92%
+);
+
+margin-inline:auto;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.program-hero{
+
+position:relative;
+
+padding:
+110px 0
+72px;
+
+}
+
+
+.program-hero-inner{
+
+max-width:920px;
+
+}
+
+
+.program-eyebrow{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:10px;
+
+color:
+var(--program-cyan);
+
+font-size:.68rem;
+
+font-weight:900;
+
+letter-spacing:.17em;
+
+text-transform:uppercase;
+
+}
+
+
+.program-eyebrow::before{
+
+content:"";
+
+width:28px;
+
+height:1px;
+
+background:
+var(--program-cyan);
+
+box-shadow:
+0 0 10px
+var(--program-cyan);
+
+}
+
+
+.program-hero h1{
+
+max-width:950px;
+
+margin:
+20px 0 0;
+
+font-size:
+clamp(
+3.1rem,
+7vw,
+6.2rem
+);
+
+line-height:.93;
+
+letter-spacing:-.06em;
+
+font-weight:850;
+
+}
+
+
+.program-hero h1 span{
+
+display:block;
+
+background:
+
+linear-gradient(
+90deg,
+#ffffff,
+#9ceeff 48%,
+#4b8cff
+);
+
+background-clip:text;
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+
+.program-hero-description{
+
+max-width:720px;
+
+margin-top:24px;
+
+color:
+var(--program-muted);
+
+font-size:.95rem;
+
+line-height:1.78;
+
+}
+
+
+/* =========================================================
+   HERO STAT CARDS
+========================================================= */
+
+.program-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+4,
+minmax(0,1fr)
+);
+
+max-width:900px;
+
+gap:11px;
+
+margin-top:34px;
+
+}
+
+
+.program-stat{
+
+padding:
+17px 18px;
+
+border:
+1px solid
+var(--program-border);
+
+border-radius:16px;
+
+background:
+rgba(
+255,
+255,
+255,
+.025
+);
+
+backdrop-filter:
+blur(12px);
+
+}
+
+
+.program-stat strong{
+
+display:block;
+
+font-size:1.3rem;
+
+color:#fff;
+
+}
+
+
+.program-stat span{
+
+display:block;
+
+margin-top:4px;
+
+color:
+var(--program-muted);
+
+font-size:.61rem;
+
+font-weight:700;
+
+letter-spacing:.1em;
+
+text-transform:uppercase;
+
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.program-section{
+
+padding:
+54px 0
+105px;
+
+}
+
+
+.program-section-heading{
+
+max-width:690px;
+
+margin-bottom:28px;
+
+}
+
+
+.program-section-label{
+
+color:
+var(--program-cyan);
+
+font-size:.64rem;
+
+font-weight:900;
+
+letter-spacing:.16em;
+
+text-transform:uppercase;
+
+}
+
+
+.program-section-heading h2{
+
+margin:
+10px 0 0;
+
+font-size:
+clamp(
+2rem,
+4vw,
+3.2rem
+);
+
+letter-spacing:-.045em;
+
+}
+
+
+.program-section-heading p{
+
+margin-top:10px;
+
+color:
+var(--program-muted);
+
+font-size:.88rem;
+
+line-height:1.7;
+
+}
+
+
+/* =========================================================
+   PROGRAM GRID
+========================================================= */
+
+.program-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+3,
+minmax(0,1fr)
+);
+
+gap:18px;
+
+}
+
+
+/* =========================================================
+   PROGRAM CARD
+========================================================= */
+
+.program-card{
+
+position:relative;
+
+min-height:330px;
+
+display:flex;
+
+flex-direction:column;
+
+overflow:hidden;
+
+padding:24px;
+
+border:
+1px solid
+var(--program-border);
+
+border-radius:23px;
+
+background:
+
+radial-gradient(
+circle at 100% 0,
+rgba(75,225,255,.09),
+transparent 35%
+),
+
+linear-gradient(
+145deg,
+rgba(7,28,45,.9),
+rgba(3,14,24,.94)
+);
+
+box-shadow:
+
+0 22px 60px
+rgba(0,0,0,.18);
+
+transition:
+transform .25s ease,
+border-color .25s ease,
+box-shadow .25s ease;
+
+}
+
+
+.program-card::before{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+top:27px;
+
+width:2px;
+
+height:50px;
+
+background:
+
+linear-gradient(
+var(--program-cyan),
+transparent
+);
+
+box-shadow:
+0 0 12px
+var(--program-cyan);
+
+}
+
+
+.program-card::after{
+
+content:"";
+
+position:absolute;
+
+width:170px;
+
+height:170px;
+
+right:-90px;
+
+bottom:-100px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(
+circle,
+rgba(75,225,255,.08),
+transparent 68%
+);
+
+pointer-events:none;
+
+}
+
+
+.program-card:hover{
+
+transform:
+translateY(-7px);
+
+border-color:
+var(--program-border-strong);
+
+box-shadow:
+
+0 32px 70px
+rgba(0,0,0,.3);
+
+}
+
+
+/* =========================================================
+   PROGRAM CARD TOP
+========================================================= */
+
+.program-card-top{
+
+display:flex;
+
+align-items:flex-start;
+
+justify-content:
+space-between;
+
+gap:15px;
+
+}
+
+
+.program-icon{
+
+width:52px;
+
+height:52px;
+
+display:grid;
+
+place-items:center;
+
+border-radius:15px;
+
+border:
+1px solid
+rgba(75,225,255,.18);
+
+background:
+rgba(75,225,255,.065);
+
+color:
+var(--program-cyan);
+
+font-size:1rem;
+
+font-weight:900;
+
+letter-spacing:.04em;
+
+box-shadow:
+inset 0 0 20px
+rgba(75,225,255,.03);
+
+}
+
+
+.program-number{
+
+color:
+rgba(255,255,255,.15);
+
+font-size:.72rem;
+
+font-weight:900;
+
+letter-spacing:.08em;
+
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.program-category{
+
+display:inline-flex;
+
+width:max-content;
+
+align-items:center;
+
+gap:7px;
+
+margin-top:19px;
+
+padding:
+6px 9px;
+
+border-radius:999px;
+
+border:
+1px solid
+rgba(75,225,255,.16);
+
+background:
+rgba(75,225,255,.055);
+
+color:
+#acf2ff;
+
+font-size:.58rem;
+
+font-weight:900;
+
+letter-spacing:.09em;
+
+text-transform:uppercase;
+
+}
+
+
+.program-category::before{
+
+content:"";
+
+width:6px;
+
+height:6px;
+
+border-radius:50%;
+
+background:
+var(--program-green);
+
+box-shadow:
+0 0 8px
+var(--program-green);
+
+}
+
+
+.program-category.sports{
+
+color:#d8ceff;
+
+border-color:
+rgba(169,140,255,.18);
+
+background:
+rgba(169,140,255,.06);
+
+}
+
+
+.program-category.sports::before{
+
+background:
+var(--program-purple);
+
+box-shadow:
+0 0 8px
+var(--program-purple);
+
+}
+
+
+.program-category.innovation{
+
+color:#9eeeff;
+
+}
+
+
+.program-category.environment{
+
+color:#b9f7cf;
+
+border-color:
+rgba(93,236,176,.18);
+
+background:
+rgba(93,236,176,.055);
+
+}
+
+
+.program-category.environment::before{
+
+background:
+var(--program-green);
+
+}
+
+
+.program-category.welfare{
+
+color:#ffc6d3;
+
+border-color:
+rgba(255,102,132,.18);
+
+background:
+rgba(255,102,132,.055);
+
+}
+
+
+.program-category.welfare::before{
+
+background:
+var(--program-red);
+
+box-shadow:
+0 0 8px
+var(--program-red);
+
+}
+
+
+.program-category.assistance{
+
+color:#ffe9a8;
+
+border-color:
+rgba(255,215,108,.18);
+
+background:
+rgba(255,215,108,.055);
+
+}
+
+
+.program-category.assistance::before{
+
+background:
+var(--program-gold);
+
+box-shadow:
+0 0 8px
+var(--program-gold);
+
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.program-card h3{
+
+margin:
+17px 0 0;
+
+font-size:1.28rem;
+
+line-height:1.34;
+
+letter-spacing:-.025em;
+
+}
+
+
+.program-card p{
+
+margin-top:11px;
+
+color:
+var(--program-muted);
+
+font-size:.84rem;
+
+line-height:1.75;
+
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.program-card-footer{
+
+display:flex;
+
+align-items:center;
+
+justify-content:
+space-between;
+
+gap:12px;
+
+margin-top:auto;
+
+padding-top:23px;
+
+border-top:
+1px solid
+rgba(75,225,255,.07);
+
+}
+
+
+.program-status{
+
+display:flex;
+
+align-items:center;
+
+gap:7px;
+
+color:
+#b9efd8;
+
+font-size:.65rem;
+
+font-weight:800;
+
+letter-spacing:.04em;
+
+}
+
+
+.program-status::before{
+
+content:"";
+
+width:6px;
+
+height:6px;
+
+border-radius:50%;
+
+background:
+var(--program-green);
+
+box-shadow:
+0 0 8px
+var(--program-green);
+
+}
+
+
+.program-arrow{
+
+width:35px;
+
+height:35px;
+
+display:grid;
+
+place-items:center;
+
+border-radius:10px;
+
+border:
+1px solid
+var(--program-border);
+
+color:
+var(--program-cyan);
+
+background:
+rgba(75,225,255,.035);
+
+font-size:.9rem;
+
+}
+
+
+/* =========================================================
+   FEATURED PROGRAM
+========================================================= */
+
+.featured-program{
+
+margin-top:20px;
+
+display:grid;
+
+grid-template-columns:
+1.1fr .9fr;
+
+overflow:hidden;
+
+border:
+1px solid
+var(--program-border);
+
+border-radius:26px;
+
+background:
+
+linear-gradient(
+135deg,
+rgba(8,34,54,.94),
+rgba(3,15,25,.96)
+);
+
+box-shadow:
+0 30px 80px
+rgba(0,0,0,.26);
+
+}
+
+
+.featured-content{
+
+padding:
+40px;
+
+}
+
+
+.featured-tag{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:8px;
+
+padding:
+7px 10px;
+
+border-radius:999px;
+
+border:
+1px solid
+rgba(75,225,255,.18);
+
+color:
+var(--program-cyan);
+
+background:
+rgba(75,225,255,.05);
+
+font-size:.59rem;
+
+font-weight:900;
+
+letter-spacing:.1em;
+
+text-transform:uppercase;
+
+}
+
+
+.featured-content h3{
+
+margin-top:18px;
+
+font-size:
+clamp(
+1.9rem,
+4vw,
+3rem
+);
+
+letter-spacing:-.04em;
+
+}
+
+
+.featured-content p{
+
+max-width:620px;
+
+margin-top:14px;
+
+color:
+var(--program-muted);
+
+font-size:.88rem;
+
+line-height:1.8;
+
+}
+
+
+.featured-points{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+2,
+minmax(0,1fr)
+);
+
+gap:10px;
+
+margin-top:24px;
+
+}
+
+
+.featured-point{
+
+padding:
+13px 14px;
+
+border:
+1px solid
+rgba(75,225,255,.09);
+
+border-radius:13px;
+
+background:
+rgba(255,255,255,.02);
+
+color:#bfd2dc;
+
+font-size:.73rem;
+
+line-height:1.5;
+
+}
+
+
+.featured-visual{
+
+position:relative;
+
+min-height:390px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+overflow:hidden;
+
+background:
+
+radial-gradient(
+circle,
+rgba(75,225,255,.12),
+transparent 55%
+),
+
+linear-gradient(
+145deg,
+rgba(20,87,153,.25),
+rgba(2,10,18,.2)
+);
+
+}
+
+
+.featured-ring{
+
+position:absolute;
+
+width:280px;
+
+height:280px;
+
+border-radius:50%;
+
+border:
+1px solid
+rgba(75,225,255,.15);
+
+box-shadow:
+
+0 0 70px
+rgba(75,225,255,.06),
+
+inset 0 0 70px
+rgba(75,225,255,.04);
+
+}
+
+
+.featured-ring::before{
+
+content:"";
+
+position:absolute;
+
+inset:28px;
+
+border-radius:50%;
+
+border:
+1px dashed
+rgba(75,225,255,.16);
+
+}
+
+
+.featured-symbol{
+
+position:relative;
+
+z-index:2;
+
+text-align:center;
+
+}
+
+
+.featured-symbol strong{
+
+display:block;
+
+font-size:4.5rem;
+
+line-height:1;
+
+letter-spacing:-.08em;
+
+background:
+
+linear-gradient(
+135deg,
+#fff,
+var(--program-cyan),
+#508cff
+);
+
+background-clip:text;
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+
+.featured-symbol span{
+
+display:block;
+
+margin-top:10px;
+
+color:
+var(--program-muted);
+
+font-size:.67rem;
+
+font-weight:800;
+
+letter-spacing:.14em;
+
+text-transform:uppercase;
+
+}
+
+
+/* =========================================================
+   CTA / INFO
+========================================================= */
+
+.program-note{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+margin-top:26px;
+
+padding:
+17px 18px;
+
+border:
+1px solid
+rgba(75,225,255,.1);
+
+border-radius:16px;
+
+background:
+rgba(75,225,255,.025);
+
+}
+
+
+.program-note-icon{
+
+width:38px;
+
+height:38px;
+
+flex:
+0 0 38px;
+
+display:grid;
+
+place-items:center;
+
+border-radius:11px;
+
+border:
+1px solid
+var(--program-border);
+
+color:
+var(--program-cyan);
+
+}
+
+
+.program-note p{
+
+margin:0;
+
+color:
+var(--program-muted);
+
+font-size:.78rem;
+
+line-height:1.65;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.program-footer{
+
+padding:
+42px 0
+28px;
+
+border-top:
+1px solid
+rgba(75,225,255,.08);
+
+background:
+rgba(2,9,18,.74);
+
+}
+
+
+.program-footer-grid{
+
+display:grid;
+
+grid-template-columns:
+1.5fr 1fr 1fr 1fr;
+
+gap:30px;
+
+}
+
+
+.program-footer h3,
+.program-footer h4{
+
+margin:0;
+
+color:#fff;
+
+}
+
+
+.program-footer h3{
+
+font-size:.9rem;
+
+letter-spacing:.08em;
+
+}
+
+
+.program-footer h4{
+
+font-size:.7rem;
+
+text-transform:uppercase;
+
+letter-spacing:.1em;
+
+color:
+var(--program-cyan);
+
+}
+
+
+.program-footer p{
+
+margin-top:10px;
+
+max-width:360px;
+
+color:
+var(--program-muted);
+
+font-size:.73rem;
+
+line-height:1.65;
+
+}
+
+
+.program-footer ul{
+
+list-style:none;
+
+padding:0;
+
+margin:
+12px 0 0;
+
+}
+
+
+.program-footer li{
+
+margin-top:8px;
+
+}
+
+
+.program-footer a{
+
+color:
+var(--program-muted);
+
+text-decoration:none;
+
+font-size:.7rem;
+
+transition:.2s ease;
+
+}
+
+
+.program-footer a:hover{
+
+color:
+var(--program-cyan);
+
+}
+
+
+.program-footer-bottom{
+
+margin-top:32px;
+
+padding-top:20px;
+
+border-top:
+1px solid
+rgba(75,225,255,.07);
+
+color:#647f90;
+
+font-size:.66rem;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+.program-grid{
+
+grid-template-columns:
+repeat(
+2,
+minmax(0,1fr)
+);
+
+}
+
+
+.program-footer-grid{
+
+grid-template-columns:
+repeat(
+2,
+1fr
+);
+
+}
+
+}
+
+
+@media(max-width:850px){
+
+.featured-program{
+
+grid-template-columns:1fr;
+
+}
+
+
+.featured-visual{
+
+min-height:300px;
+
+}
+
+
+.program-stats{
+
+grid-template-columns:
+repeat(
+2,
+1fr
+);
+
+}
+
+}
+
+
+@media(max-width:650px){
+
+.program-hero{
+
+padding:
+82px 0
+52px;
+
+}
+
+
+.program-hero h1{
+
+font-size:
+clamp(
+2.8rem,
+14vw,
+4.5rem
+);
+
+}
+
+
+.program-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.program-card{
+
+min-height:auto;
+
+}
+
+
+.featured-content{
+
+padding:
+28px 22px;
+
+}
+
+
+.featured-points{
+
+grid-template-columns:1fr;
+
+}
+
+
+.program-footer-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.program-note{
+
+align-items:flex-start;
+
+}
+
+}
+
+
+@media(max-width:480px){
+
+.program-container{
+
+width:92%;
+
+}
+
+
+.program-stats{
+
+grid-template-columns:1fr;
+
+gap:8px;
+
+}
+
+
+.program-stat{
+
+display:flex;
+
+align-items:center;
+
+justify-content:
+space-between;
+
+padding:
+13px 15px;
+
+}
+
+
+.program-stat span{
+
+margin-top:0;
+
+}
+
+
+.featured-visual{
+
+min-height:260px;
+
+}
+
+
+.featured-ring{
+
+width:220px;
+
+height:220px;
+
+}
+
+
+.featured-symbol strong{
+
+font-size:3.8rem;
+
+}
+
+}
+
+</style>
+
 </head>
+
+
 <body>
 
 <header id="site-header"></header>
 
 
-<section class="page-hero"><div class="container"><span class="eyebrow">Youth Development</span><h1>Programs & Projects</h1><p>Explore initiatives designed around education, sports, innovation, welfare, environment and leadership.</p></div></section>
-<section class="section"><div class="container">
-<div class="grid grid-3">
-<article class="card program-card reveal"><img src="images/hero.svg"><div class="card-body"><span class="tag">Education</span><h3>SK E-Library</h3><p>Digital learning resources and an accessible youth learning space.</p></div></article>
-<article class="card program-card reveal"><img src="images/hero.svg"><div class="card-body"><span class="tag">Sports</span><h3>Sports Development</h3><p>Basketball, volleyball, pickleball and other youth sports initiatives.</p></div></article>
-<article class="card program-card reveal"><img src="images/hero.svg"><div class="card-body"><span class="tag">Innovation</span><h3>SapiLearn AIgnite</h3><p>AI literacy and digital learning opportunities for young people.</p></div></article>
-<article class="card reveal"><div class="icon">ðŸŒ±</div><h3>Environmental Programs</h3><p>Seedling, seed and agricultural support initiatives promoting sustainability.</p></article>
-<article class="card reveal"><div class="icon">ðŸ¾</div><h3>Animal Welfare</h3><p>Community-based spay/neuter and anti-rabies initiatives for responsible pet ownership.</p></article>
-<article class="card reveal"><div class="icon">ðŸŽ“</div><h3>Education Assistance</h3><p>School-related support and opportunities that help young people stay engaged in learning.</p></article>
-</div></div></section>
+<div class="programs-page">
 
 
-<footer>
- <div class="container">
-  <div class="footer-grid">
-   <div><h3>SK SAPILANG</h3><p>The official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.</p></div>
-   <div><h4>Explore</h4><ul><li><a href="about.html">About Us</a></li><li><a href="programs.html">Programs</a></li><li><a href="events.html">Events</a></li><li><a href="awards.html">Awards</a></li></ul></div>
-   <div><h4>Governance</h4><ul><li><a href="resolutions.html">Resolutions</a></li><li><a href="transparency.html">Transparency</a></li><li><a href="organization.html">Officials</a></li></ul></div>
-   <div><h4>Youth</h4><ul><li><a href="kk-portal.html">KK Portal</a></li><li><a href="contact.html">Feedback</a></li><li><a href="announcements.html">Announcements</a></li></ul></div>
-  </div>
-  <div class="footer-bottom">Â© <span data-year></span> SK Sapilang. All rights reserved. â€¢ Official youth governance website.</div>
- </div>
+<!-- ======================================================
+     BACKGROUND
+====================================================== -->
+
+<div class="program-future-bg">
+
+<div class="program-grid-bg"></div>
+
+<div class="program-orb one"></div>
+
+<div class="program-orb two"></div>
+
+</div>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section class="program-hero">
+
+<div class="program-container">
+
+<div class="program-hero-inner">
+
+<span class="program-eyebrow">
+Youth Development
+</span>
+
+<h1>
+Programs built for
+<span>
+young people.
+</span>
+</h1>
+
+<p class="program-hero-description">
+Explore initiatives of SK Sapilang focused on education,
+technology, sports, environmental responsibility, community
+welfare and youth development.
+</p>
+
+
+<div class="program-stats">
+
+<div class="program-stat">
+
+<strong>
+06
+</strong>
+
+<span>
+Program Areas
+</span>
+
+</div>
+
+
+<div class="program-stat">
+
+<strong>
+EDU
+</strong>
+
+<span>
+Learning
+</span>
+
+</div>
+
+
+<div class="program-stat">
+
+<strong>
+SPORT
+</strong>
+
+<span>
+Development
+</span>
+
+</div>
+
+
+<div class="program-stat">
+
+<strong>
+DIGITAL
+</strong>
+
+<span>
+Innovation
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     PROGRAMS
+====================================================== -->
+
+<section
+class="program-section"
+id="programs">
+
+<div class="program-container">
+
+
+<div class="program-section-heading">
+
+<span class="program-section-label">
+Programs & Projects
+</span>
+
+<h2>
+Initiatives with purpose.
+</h2>
+
+<p>
+Each program is designed to respond to the evolving
+needs, interests and opportunities of the youth.
+</p>
+
+</div>
+
+
+<div class="program-grid">
+
+
+<!-- =====================================================
+     E-LIBRARY
+===================================================== -->
+
+<article class="program-card">
+
+<div class="program-card-top">
+
+<div class="program-icon">
+01
+</div>
+
+<span class="program-number">
+EDU
+</span>
+
+</div>
+
+
+<span class="program-category">
+Education
+</span>
+
+
+<h3>
+SK E-Library
+</h3>
+
+
+<p>
+A youth learning space providing access to digital
+resources, educational support, technology and
+community-based learning opportunities.
+</p>
+
+
+<div class="program-card-footer">
+
+<span class="program-status">
+Youth Learning
+</span>
+
+<span class="program-arrow">
+&#8599;
+</span>
+
+</div>
+
+</article>
+
+
+<!-- =====================================================
+     SPORTS
+===================================================== -->
+
+<article class="program-card">
+
+<div class="program-card-top">
+
+<div class="program-icon">
+02
+</div>
+
+<span class="program-number">
+SPORT
+</span>
+
+</div>
+
+
+<span class="program-category sports">
+Sports Development
+</span>
+
+
+<h3>
+Youth Sports Programs
+</h3>
+
+
+<p>
+Sports initiatives that encourage active lifestyles,
+teamwork and community participation through activities
+such as basketball and pickleball.
+</p>
+
+
+<div class="program-card-footer">
+
+<span class="program-status">
+Active Youth
+</span>
+
+<span class="program-arrow">
+&#8599;
+</span>
+
+</div>
+
+</article>
+
+
+<!-- =====================================================
+     DIGITAL INNOVATION
+===================================================== -->
+
+<article class="program-card">
+
+<div class="program-card-top">
+
+<div class="program-icon">
+03
+</div>
+
+<span class="program-number">
+TECH
+</span>
+
+</div>
+
+
+<span class="program-category innovation">
+Innovation
+</span>
+
+
+<h3>
+SapiLearn AIgnite
+</h3>
+
+
+<p>
+A digital learning initiative designed to strengthen
+AI literacy, responsible technology use and modern
+digital skills among young people.
+</p>
+
+
+<div class="program-card-footer">
+
+<span class="program-status">
+Digital Skills
+</span>
+
+<span class="program-arrow">
+&#8599;
+</span>
+
+</div>
+
+</article>
+
+
+<!-- =====================================================
+     ENVIRONMENT
+===================================================== -->
+
+<article class="program-card">
+
+<div class="program-card-top">
+
+<div class="program-icon">
+04
+</div>
+
+<span class="program-number">
+ENV
+</span>
+
+</div>
+
+
+<span class="program-category environment">
+Environment
+</span>
+
+
+<h3>
+Environmental Programs
+</h3>
+
+
+<p>
+Community initiatives promoting sustainability,
+responsible environmental practices, gardening and
+youth participation in environmental stewardship.
+</p>
+
+
+<div class="program-card-footer">
+
+<span class="program-status">
+Sustainability
+</span>
+
+<span class="program-arrow">
+&#8599;
+</span>
+
+</div>
+
+</article>
+
+
+<!-- =====================================================
+     ANIMAL WELFARE
+===================================================== -->
+
+<article class="program-card">
+
+<div class="program-card-top">
+
+<div class="program-icon">
+05
+</div>
+
+<span class="program-number">
+CARE
+</span>
+
+</div>
+
+
+<span class="program-category welfare">
+Community Welfare
+</span>
+
+
+<h3>
+Animal Welfare
+</h3>
+
+
+<p>
+Community-based initiatives supporting responsible
+pet ownership, animal health awareness and related
+public welfare activities.
+</p>
+
+
+<div class="program-card-footer">
+
+<span class="program-status">
+Community Care
+</span>
+
+<span class="program-arrow">
+&#8599;
+</span>
+
+</div>
+
+</article>
+
+
+<!-- =====================================================
+     EDUCATION ASSISTANCE
+===================================================== -->
+
+<article class="program-card">
+
+<div class="program-card-top">
+
+<div class="program-icon">
+06
+</div>
+
+<span class="program-number">
+AID
+</span>
+
+</div>
+
+
+<span class="program-category assistance">
+Education Assistance
+</span>
+
+
+<h3>
+Youth Education Support
+</h3>
+
+
+<p>
+School-related assistance and learning opportunities
+designed to help young people remain engaged,
+equipped and supported in their education.
+</p>
+
+
+<div class="program-card-footer">
+
+<span class="program-status">
+Student Support
+</span>
+
+<span class="program-arrow">
+&#8599;
+</span>
+
+</div>
+
+</article>
+
+
+</div>
+
+
+<!-- ======================================================
+     FEATURED PROGRAM
+====================================================== -->
+
+<div class="featured-program">
+
+
+<div class="featured-content">
+
+<span class="featured-tag">
+Featured Initiative
+</span>
+
+
+<h3>
+A connected youth ecosystem.
+</h3>
+
+
+<p>
+SK Sapilang's programs are designed to work together:
+education connects with technology, sports supports
+well-being, community programs build responsibility,
+and digital services improve access to youth governance.
+</p>
+
+
+<div class="featured-points">
+
+<div class="featured-point">
+Accessible youth learning opportunities
+</div>
+
+<div class="featured-point">
+Digital-first public services
+</div>
+
+<div class="featured-point">
+Sports and active community participation
+</div>
+
+<div class="featured-point">
+Community and environmental responsibility
+</div>
+
+</div>
+
+</div>
+
+
+<div class="featured-visual">
+
+<div class="featured-ring"></div>
+
+<div class="featured-symbol">
+
+<strong>
+SK
+</strong>
+
+<span>
+Youth Development Network
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ======================================================
+     NOTE
+====================================================== -->
+
+<div class="program-note">
+
+<div class="program-note-icon">
+&#9672;
+</div>
+
+<p>
+Programs may be expanded, updated or implemented in phases
+depending on approved youth development plans, available
+resources and community needs.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer class="program-footer">
+
+<div class="program-container">
+
+
+<div class="program-footer-grid">
+
+
+<div>
+
+<h3>
+SK SAPILANG
+</h3>
+
+<p>
+The official digital home of the Sangguniang Kabataan
+of Barangay Sapilang, Bacnotan, La Union.
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+Explore
+</h4>
+
+<ul>
+
+<li>
+<a href="about.html">
+About Us
+</a>
+</li>
+
+<li>
+<a href="programs.html">
+Programs
+</a>
+</li>
+
+<li>
+<a href="events.html">
+Events
+</a>
+</li>
+
+<li>
+<a href="awards.html">
+Awards
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h4>
+Governance
+</h4>
+
+<ul>
+
+<li>
+<a href="resolutions.html">
+Resolutions
+</a>
+</li>
+
+<li>
+<a href="transparency.html">
+Transparency
+</a>
+</li>
+
+<li>
+<a href="organization.html">
+Officials
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h4>
+Youth
+</h4>
+
+<ul>
+
+<li>
+<a href="kk-portal.html">
+KK Portal
+</a>
+</li>
+
+<li>
+<a href="feedback.html">
+Feedback
+</a>
+</li>
+
+<li>
+<a href="announcements.html">
+Announcements
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+</div>
+
+
+<div class="program-footer-bottom">
+
+&copy;
+<span id="programYear"></span>
+SK Sapilang.
+All Rights Reserved.
+Official Youth Governance Website.
+
+</div>
+
+
+</div>
+
 </footer>
 
+
+</div>
+
+
 <script src="js/main.js"></script>
+
+<script src="js/site-header.js"></script>
+
+<script>
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+const programYear =
+document.getElementById(
+"programYear"
+);
+
+if(programYear){
+
+programYear.textContent =
+new Date().getFullYear();
+
+}
+
+
+/* =========================================================
+   MAKE ACTIVITIES NAV ACTIVE
+========================================================= */
+
+window.addEventListener(
+"load",
+function(){
+
+const links =
+document.querySelectorAll(
+"#site-header a"
+);
+
+links.forEach(
+function(link){
+
+const text =
+link.textContent
+.trim()
+.toLowerCase();
+
+if(
+text ===
+"activities"
+){
+
+link.classList.add(
+"active"
+);
+
+}
+
+}
+);
+
+}
+);
+
+</script>
+
 <script src="js/frame-bridge.js"></script>
-  <script src="js/site-header.js"></script>
+
 </body>
+
 </html>
