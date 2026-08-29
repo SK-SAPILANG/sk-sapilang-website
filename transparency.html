@@ -95,8 +95,8 @@ href="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
 
 <style>
 /* =========================================================
-   SK SAPILANG â€” TRANSPARENCY PAGE
-   PROFESSIONAL â€¢ FUTURISTIC â€¢ RESPONSIVE
+   SK SAPILANG — TRANSPARENCY PAGE
+   PROFESSIONAL • FUTURISTIC • RESPONSIVE
 ========================================================= */
 
 :root {
@@ -910,7 +910,7 @@ img {
   }
 }
 </style>
-  <link rel="stylesheet" href="css/nav-universal.css?v=20260830-ENCODING-FIX">
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260830-FINAL">
 </head>
 
 <body>
@@ -952,7 +952,7 @@ img {
       </p>
 
       <div class="trans-status">
-        <span>â— PUBLIC ACCESS</span>
+        <span>● PUBLIC ACCESS</span>
         <span>ORGANIZED RECORDS</span>
         <span>ACCOUNTABLE GOVERNANCE</span>
       </div>
@@ -1035,10 +1035,10 @@ img {
 
           <a
             class="trans-button"
-            href="documents/transparency/"
+            href="financial-records.html"
           >
             <span>View Financial Records</span>
-            <span>â†’</span>
+            <span>→</span>
           </a>
 
         </div>
@@ -1086,10 +1086,10 @@ img {
 
           <a
             class="trans-button"
-            href="documents/reports/"
+            href="plans-reports.html"
           >
             <span>View Plans & Reports</span>
-            <span>â†’</span>
+            <span>→</span>
           </a>
 
         </div>
@@ -1141,7 +1141,7 @@ img {
             href="resolutions.html"
           >
             <span>View Resolutions</span>
-            <span>â†’</span>
+            <span>→</span>
           </a>
 
         </div>
@@ -1278,8 +1278,8 @@ img {
 
     <div class="trans-footer-bottom">
 
-      Â© <span id="transYear"></span> SK Sapilang.
-      All rights reserved. â€¢ Official Youth Governance Website.
+      © <span id="transYear"></span> SK Sapilang.
+      All rights reserved. • Official Youth Governance Website.
 
     </div>
 
@@ -1307,53 +1307,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  /* MOBILE MENU */
-
-  const menuButton =
-    document.getElementById("transMenuToggle");
-
-  const menu =
-    document.getElementById("transMenu");
-
-
-  if (menuButton && menu) {
-
-    menuButton.addEventListener("click", function () {
-
-      menu.classList.toggle("open");
-
-      const opened =
-        menu.classList.contains("open");
-
-      menuButton.setAttribute(
-        "aria-expanded",
-        opened
-      );
-
-      menuButton.textContent =
-        opened ? "âœ•" : "â˜°";
-
-    });
-
-
-    menu.querySelectorAll("a").forEach(function (link) {
-
-      link.addEventListener("click", function () {
-
-        menu.classList.remove("open");
-
-        menuButton.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-        menuButton.textContent = "â˜°";
-
-      });
-
-    });
-
-  }
 
 
   /* SCROLL REVEAL */
@@ -1411,7 +1364,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
-  <script src="js/site-header.js?v=20260830-ENCODING-FIX"></script>
+  <script src="js/site-header.js?v=20260830-FINAL"></script>
 </body>
 </html>
 

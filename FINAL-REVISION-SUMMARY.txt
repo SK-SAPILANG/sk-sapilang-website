@@ -1,0 +1,13 @@
+FINAL REVISION SUMMARY
+
+- Repaired remaining corrupted UTF-8/mojibake characters site-wide.
+- Rebuilt index.html shell routing and cache-busting for phones, tablets, iPads and laptops.
+- Removed obsolete mobile-menu JavaScript from pages using the universal header.
+- Kept the shared universal navigation from Home through KK Portal.
+- Updated shared CSS/JS cache versions to 20260830-FINAL.
+- Fixed Home activity video filename mismatch (images/final.mp4).
+- Added the missing organizational-chart.png generated from the supplied Org Chart PDF.
+- Added safe Transparency repository pages so the Financial Records and Plans & Reports buttons no longer lead to missing folders.
+- Verified local asset references: no missing local links/assets remain.
+- Verified external JavaScript files and inline JavaScript syntax with Node.
+- Confirmed no common mojibake markers remain in HTML/CSS/JS/text sources.

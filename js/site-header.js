@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <button
                     class="sk-menu-toggle"
                     id="skMenuToggle"
+                    type="button"
                     aria-label="Open navigation"
                     aria-expanded="false"
                 >&#9776;</button>

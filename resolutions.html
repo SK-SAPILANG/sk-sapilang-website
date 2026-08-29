@@ -900,7 +900,7 @@ footer{
   }
 }
 </style>
-  <link rel="stylesheet" href="css/nav-universal.css?v=20260830-ENCODING-FIX">
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260830-FINAL">
 </head>
 
 <body>
@@ -1363,44 +1363,6 @@ All Rights Reserved.
 </footer>
 
 <script>
-const menuButton =
-document.getElementById("menuButton");
-
-const navLinks =
-document.getElementById("navLinks");
-
-menuButton.addEventListener(
-"click",
-function(){
-
-navLinks.classList.toggle("open");
-
-menuButton.setAttribute(
-"aria-expanded",
-navLinks.classList.contains("open")
-? "true"
-: "false"
-);
-
-}
-);
-
-navLinks
-.querySelectorAll("a")
-.forEach(function(link){
-
-link.addEventListener(
-"click",
-function(){
-
-navLinks.classList.remove("open");
-
-}
-);
-
-});
-
-
 const searchInput =
 document.getElementById("recordSearch");
 
@@ -1596,9 +1558,9 @@ new Date().getFullYear();
 filterRecords();
 </script>
 
-<script src="js/frame-bridge.js?v=20260830-ENCODING-FIX"></script>
+<script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 
-  <script src="js/site-header.js?v=20260830-ENCODING-FIX"></script>
+  <script src="js/site-header.js?v=20260830-FINAL"></script>
 </body>
 </html>
 

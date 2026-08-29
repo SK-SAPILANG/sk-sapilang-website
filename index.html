@@ -1,142 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<title>SK Sapilang | Official Website</title>
-
-<meta
-name="description"
-content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Explore youth programs, services, governance, activities and public information.">
-
-<meta
-name="robots"
-content="index, follow">
-
-<link
-rel="canonical"
-href="https://sk-sapilang.github.io/sk-sapilang-website/">
-
-<meta
-property="og:type"
-content="website">
-
-<meta
-property="og:site_name"
-content="SK Sapilang">
-
-<meta
-property="og:title"
-content="SK Sapilang | Official Website">
-
-<meta
-property="og:description"
-content="Official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
-
-<meta
-property="og:url"
-content="https://sk-sapilang.github.io/sk-sapilang-website/">
-
-<meta
-property="og:image"
-content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
-
-<meta
-name="twitter:card"
-content="summary_large_image">
-
-<meta
-name="twitter:title"
-content="SK Sapilang | Official Website">
-
-<meta
-name="twitter:description"
-content="Official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
-
-<meta
-name="twitter:image"
-content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SK Sapilang | Official Website</title>
+  <meta name="description" content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Explore youth programs, services, governance, activities and public information.">
+  <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#020b13">
-  
+  <link rel="canonical" href="https://sk-sapilang.github.io/sk-sapilang-website/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SK Sapilang">
+  <meta property="og:title" content="SK Sapilang | Official Website">
+  <meta property="og:description" content="Official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+  <meta property="og:url" content="https://sk-sapilang.github.io/sk-sapilang-website/">
+  <meta property="og:image" content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+  <meta property="og:image:alt" content="Official SK Sapilang Logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SK Sapilang | Official Website">
+  <meta name="twitter:description" content="Official digital home of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+  <meta name="twitter:image" content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
   <style>
-    html, body { width:100%; height:100%; margin:0; background:#020b13; overflow:hidden; }
-    #skSiteFrame { position:fixed; inset:0; width:100%; height:100%; border:0; display:block; background:#020b13; }
-    #skFrameLoading { position:fixed; inset:0; z-index:999990; display:grid; place-items:center; pointer-events:none; background:#020b13; color:#43d7ff; font:800 11px/1.4 Arial,sans-serif; letter-spacing:.16em; opacity:1; transition:opacity .22s ease; }
-    #skFrameLoading.hidden { opacity:0; }
+    html,body{width:100%;height:100%;margin:0;background:#020b13;overflow:hidden}
+    #skSiteFrame{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#020b13}
+    #skFrameLoading{position:fixed;inset:0;z-index:999990;display:grid;place-items:center;pointer-events:none;background:#020b13;color:#43d7ff;font:800 11px/1.4 Arial,sans-serif;letter-spacing:.16em;opacity:1;transition:opacity .22s ease}
+    #skFrameLoading.hidden{opacity:0}
   </style>
 </head>
 <body>
   <div id="skFrameLoading">SK SAPILANG</div>
-  <iframe id="skSiteFrame" title="SK Sapilang Website" src="home.html?v=20260830-02"></iframe>
-
-  <script src="js/music-player.js?v=20260830-02"></script>
+  <iframe id="skSiteFrame" title="SK Sapilang Website" src="about:blank"></iframe>
+  <script src="js/music-player.js?v=20260830-FINAL"></script>
   <script>
-    (function () {
-      "use strict";
-      const frame = document.getElementById("skSiteFrame");
-      const loading = document.getElementById("skFrameLoading");
-      const allowed = new Set([
-        "home.html","about.html","admin.html","announcements.html","awards.html",
-        "contact.html","digital-id.html","events.html","feedback.html","kk-portal.html",
-        "organization.html","programs.html","resolutions.html","transparency.html","verify.html"
-      ]);
+  (function(){
+    "use strict";
+    const SITE_VERSION="20260830-FINAL";
+    const frame=document.getElementById("skSiteFrame");
+    const loading=document.getElementById("skFrameLoading");
+    const allowed=new Set([
+      "home.html","about.html","admin.html","announcements.html","awards.html",
+      "contact.html","digital-id.html","events.html","feedback.html","kk-portal.html",
+      "organization.html","programs.html","resolutions.html","transparency.html","verify.html",
+      "financial-records.html","plans-reports.html"
+    ]);
 
-      function safePage(value) {
-        if (!value) return "home.html";
-        let decoded;
-        try { decoded = decodeURIComponent(value); } catch (e) { return "home.html"; }
-        const base = decoded.split("?")[0].split("#")[0];
-        if (!allowed.has(base)) return "home.html";
-        return decoded;
-      }
-
-      function freshPage(page) {
-    const hashIndex = page.indexOf("#");
-    let hash = "";
-
-    if (hashIndex >= 0) {
-        hash = page.slice(hashIndex);
-        page = page.slice(0, hashIndex);
+    function normalizePage(value){
+      if(!value) return "home.html";
+      let decoded;
+      try{decoded=decodeURIComponent(value)}catch(e){return "home.html"}
+      let hash="";
+      const hi=decoded.indexOf("#");
+      if(hi>=0){hash=decoded.slice(hi);decoded=decoded.slice(0,hi)}
+      const qi=decoded.indexOf("?");
+      const base=qi>=0?decoded.slice(0,qi):decoded;
+      const query=qi>=0?decoded.slice(qi+1):"";
+      if(!allowed.has(base)) return "home.html";
+      const search=new URLSearchParams(query);
+      search.delete("v");
+      const clean=search.toString();
+      return base+(clean?"?"+clean:"")+hash;
     }
 
-    const separator = page.includes("?") ? "&" : "?";
+    function freshPage(value){
+      const page=normalizePage(value);
+      let work=page,hash="";
+      const hi=work.indexOf("#");
+      if(hi>=0){hash=work.slice(hi);work=work.slice(0,hi)}
+      const qi=work.indexOf("?");
+      const base=qi>=0?work.slice(0,qi):work;
+      const query=qi>=0?work.slice(qi+1):"";
+      const search=new URLSearchParams(query);
+      search.delete("v");
+      search.set("v",SITE_VERSION);
+      return base+"?"+search.toString()+hash;
+    }
 
-    return page + separator + "v=20260830-02" + hash;
-}
+    const initial=normalizePage(new URLSearchParams(location.search).get("page"));
+    frame.src=freshPage(initial);
 
-const params = new URLSearchParams(location.search);
-      const initial = safePage(params.get("page"));
-      frame.src = freshPage(initial);
+    frame.addEventListener("load",()=>loading.classList.add("hidden"));
 
-      frame.addEventListener("load", function () {
-        loading.classList.add("hidden");
-      });
+    window.addEventListener("message",function(event){
+      if(event.origin!==location.origin) return;
+      if(!event.data||event.data.type!=="sk-page-change") return;
+      const page=normalizePage(event.data.page);
+      const current=normalizePage(new URLSearchParams(location.search).get("page"));
+      if(page===current) return;
+      const url=new URL(location.href);
+      if(page==="home.html") url.searchParams.delete("page");
+      else url.searchParams.set("page",page);
+      history.pushState({page},"",url.pathname+url.search+url.hash);
+    });
 
-      window.addEventListener("message", function (event) {
-        if (event.origin !== location.origin) return;
-        if (!event.data || event.data.type !== "sk-page-change") return;
-        const page = safePage(event.data.page);
-        const current = safePage(new URLSearchParams(location.search).get("page"));
-        if (page === current) return;
-        const url = new URL(location.href);
-        if (page === "home.html") url.searchParams.delete("page");
-        else url.searchParams.set("page", page);
-        history.pushState({ page: page }, "", url.pathname + url.search);
-      });
-
-      window.addEventListener("popstate", function () {
-        const page = safePage(new URLSearchParams(location.search).get("page"));
-        try {
-          const inside = frame.contentWindow.location.pathname.split("/").pop() + frame.contentWindow.location.search + frame.contentWindow.location.hash;
-          if (inside === page) return;
-        } catch (e) {}
-        loading.classList.remove("hidden");
-        frame.src = freshPage(page);
-      });
-    })();
+    window.addEventListener("popstate",function(){
+      const page=normalizePage(new URLSearchParams(location.search).get("page"));
+      let inside="";
+      try{
+        inside=normalizePage(frame.contentWindow.location.pathname.split("/").pop()+frame.contentWindow.location.search+frame.contentWindow.location.hash);
+      }catch(e){}
+      if(inside===page) return;
+      loading.classList.remove("hidden");
+      frame.src=freshPage(page);
+    });
+  })();
   </script>
 </body>
 </html>
-
