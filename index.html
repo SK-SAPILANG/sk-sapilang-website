@@ -2467,12 +2467,13 @@ and
             muted
             loop
             playsinline
+            webkit-playsinline
             controls
             preload="metadata"
         >
 
             <source
-                src="images/final .mp4"
+                src="images/final-mobile.mp4"
                 type="video/mp4"
             >
 
@@ -3145,28 +3146,107 @@ document
 
 /* =========================================================
    ACTIVITIES VIDEO
-
-   IMPORTANT:
-   There is ONLY ONE activitiesVideo element.
+   MOBILE + DESKTOP COMPATIBILITY
 ========================================================= */
 
 const activitiesVideo =
     document.getElementById("activitiesVideo");
 
-
 if (activitiesVideo) {
 
     activitiesVideo.muted = true;
+    activitiesVideo.defaultMuted = true;
+    activitiesVideo.playsInline = true;
 
-    activitiesVideo
-        .play()
-        .catch(function () {
+    activitiesVideo.setAttribute("muted", "");
+    activitiesVideo.setAttribute("playsinline", "");
+    activitiesVideo.setAttribute(
+        "webkit-playsinline",
+        ""
+    );
 
-            console.log(
-                "Video autoplay may require user interaction."
+    function playActivitiesVideo() {
+
+        const playPromise =
+            activitiesVideo.play();
+
+        if (playPromise !== undefined) {
+
+            playPromise.catch(
+                function () {
+
+                    console.log(
+                        "Video waiting for user interaction."
+                    );
+
+                }
             );
 
-        });
+        }
+
+    }
+
+    if (activitiesVideo.readyState >= 2) {
+
+        playActivitiesVideo();
+
+    }
+
+    else {
+
+        activitiesVideo.addEventListener(
+            "canplay",
+            playActivitiesVideo,
+            {
+                once: true
+            }
+        );
+
+    }
+
+    function mobileVideoFallback() {
+
+        if (activitiesVideo.paused) {
+
+            playActivitiesVideo();
+
+        }
+
+    }
+
+    document.addEventListener(
+        "touchstart",
+        mobileVideoFallback,
+        {
+            once: true,
+            passive: true
+        }
+    );
+
+    document.addEventListener(
+        "pointerdown",
+        mobileVideoFallback,
+        {
+            once: true,
+            passive: true
+        }
+    );
+
+    document.addEventListener(
+        "visibilitychange",
+        function () {
+
+            if (
+                !document.hidden &&
+                activitiesVideo.paused
+            ) {
+
+                playActivitiesVideo();
+
+            }
+
+        }
+    );
 
 }
 
