@@ -3,276 +3,651 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-<meta
-  name="description"
-  content="Official public legislative library of resolutions and ordinances of the Sangguniang Kabataan of Barangay Sapilang."
->
-
+<meta name="description" content="Official legislative records of the Sangguniang Kabataan of Barangay Sapilang.">
 <meta name="theme-color" content="#020b14">
 
 <title>Resolutions & Ordinances | SK Sapilang</title>
 
-<link rel="stylesheet" href="css/site-pages.css">
-
 <style>
 /* =========================================================
-   SK SAPILANG â€” LEGISLATIVE DIGITAL LIBRARY
+   SK SAPILANG
+   FUTURISTIC LEGISLATIVE DIGITAL LIBRARY
 ========================================================= */
 
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
 :root{
-  --leg-bg:#020812;
-  --leg-panel:rgba(6,22,36,.78);
-  --leg-panel-strong:rgba(8,28,46,.94);
-  --leg-text:#f5fbff;
-  --leg-muted:#8ba7b8;
-  --leg-cyan:#48ddff;
-  --leg-blue:#347fff;
-  --leg-green:#62ecb0;
-  --leg-gold:#ffd66d;
-  --leg-border:rgba(86,216,255,.16);
-  --leg-border-strong:rgba(86,216,255,.36);
-  --leg-shadow:0 28px 80px rgba(0,0,0,.32);
+  --bg:#020912;
+  --bg2:#041421;
+  --panel:rgba(5,22,36,.78);
+  --panel2:rgba(7,29,47,.92);
+
+  --cyan:#4be1ff;
+  --cyan2:#95f2ff;
+  --blue:#397cff;
+  --green:#60edb0;
+  --gold:#ffd76a;
+
+  --text:#f5fbff;
+  --muted:#8ba7b8;
+
+  --border:rgba(80,219,255,.15);
+  --border2:rgba(80,219,255,.35);
+
+  --radius:22px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(33,122,255,.12),transparent 28%),
+    radial-gradient(circle at 88% 45%,rgba(47,221,255,.08),transparent 30%),
+    linear-gradient(180deg,#020912 0%,#03111d 55%,#020912 100%);
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  overflow-x:hidden;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.future-bg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.future-grid{
+  position:absolute;
+  inset:0;
+
+  background-image:
+    linear-gradient(rgba(77,215,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(77,215,255,.025) 1px,transparent 1px);
+
+  background-size:45px 45px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.7),
+      transparent 80%
+    );
+}
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.25;
+}
+
+.orb.one{
+  width:400px;
+  height:400px;
+  top:-170px;
+  left:-150px;
+  background:#167cff;
+}
+
+.orb.two{
+  width:430px;
+  height:430px;
+  right:-180px;
+  top:35%;
+  background:#16c8ff;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+  width:min(1180px,92%);
+  margin-inline:auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  height:76px;
+
+  background:rgba(2,9,18,.82);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+
+  border-bottom:1px solid rgba(75,225,255,.1);
+}
+
+.nav{
+  height:100%;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:25px;
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+
+  min-width:max-content;
+
+  color:white;
+  text-decoration:none;
+}
+
+.logo{
+  width:45px;
+  height:45px;
+  min-width:45px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  overflow:hidden;
+
+  border-radius:50%;
+
+  border:1px solid rgba(75,225,255,.3);
+
+  box-shadow:
+    0 0 22px rgba(52,170,255,.12);
+}
+
+.logo img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  max-width:100%;
+  max-height:100%;
+
+  object-fit:contain;
+  object-position:center;
+}
+
+.brand-text{
+  display:flex;
+  flex-direction:column;
+}
+
+.brand-text strong{
+  color:#fff;
+
+  font-size:.78rem;
+  letter-spacing:.12em;
+}
+
+.brand-text span{
+  margin-top:2px;
+
+  color:var(--cyan);
+
+  font-size:.55rem;
+  letter-spacing:.13em;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav-links{
+  list-style:none;
+
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+
+.nav-links li{
+  list-style:none;
+}
+
+.nav-links a{
+  display:block;
+
+  padding:10px 8px;
+
+  border-radius:9px;
+
+  color:#9ab1c0;
+  text-decoration:none;
+
+  font-size:.68rem;
+  font-weight:700;
+
+  transition:.2s ease;
+}
+
+.nav-links a:hover{
+  color:white;
+  background:rgba(75,225,255,.05);
+}
+
+.nav-links a.active{
+  color:var(--cyan);
+  background:rgba(75,225,255,.08);
+}
+
+/* =========================================================
+   MENU BUTTON
+========================================================= */
+
+.menu-button{
+  display:none;
+
+  width:42px;
+  height:42px;
+
+  border:1px solid var(--border);
+  border-radius:11px;
+
+  background:rgba(75,225,255,.05);
+
+  color:white;
+
+  font-size:1.25rem;
+
+  cursor:pointer;
 }
 
 /* =========================================================
    HERO
 ========================================================= */
 
-.legislative-hero{
+.hero{
   position:relative;
+
+  padding:105px 0 75px;
+
   overflow:hidden;
-  padding:110px 0 72px;
 }
 
-.legislative-hero::before{
-  content:"";
-  position:absolute;
-  width:560px;
-  height:560px;
-  right:-190px;
-  top:-280px;
-  border-radius:50%;
-  background:
-    radial-gradient(
-      circle,
-      rgba(63,155,255,.15),
-      transparent 68%
-    );
-  pointer-events:none;
+.hero-content{
+  position:relative;
+  z-index:2;
+
+  max-width:900px;
 }
 
-.legislative-hero::after{
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+
+  color:var(--cyan);
+
+  font-size:.7rem;
+  font-weight:900;
+
+  text-transform:uppercase;
+  letter-spacing:.16em;
+}
+
+.eyebrow::before{
   content:"";
-  position:absolute;
-  left:8%;
-  bottom:0;
-  width:210px;
+
+  width:25px;
   height:1px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(72,221,255,.8),
-      transparent
-    );
+
+  background:var(--cyan);
+
+  box-shadow:
+    0 0 8px var(--cyan);
 }
 
-.legislative-hero h1{
-  max-width:950px;
+.hero h1{
   margin-top:20px;
-  font-size:clamp(3rem,7vw,6rem);
-  line-height:.95;
-  letter-spacing:-.055em;
+
+  max-width:950px;
+
+  font-size:
+    clamp(3.1rem,7vw,6.3rem);
+
+  line-height:.92;
+
+  letter-spacing:-.06em;
+
+  font-weight:850;
 }
 
-.legislative-hero h1 span{
+.hero h1 span{
   display:block;
+
   background:
     linear-gradient(
       90deg,
       #ffffff,
-      #89eaff,
-      #4d8eff
+      #9bedff 48%,
+      #4f8cff
     );
+
   background-clip:text;
   -webkit-background-clip:text;
+
   color:transparent;
   -webkit-text-fill-color:transparent;
 }
 
-.legislative-hero .hero-description{
-  max-width:730px;
-  margin-top:22px;
-  color:var(--leg-muted);
-  font-size:1rem;
-  line-height:1.8;
+.hero-description{
+  max-width:700px;
+
+  margin-top:25px;
+
+  color:var(--muted);
+
+  line-height:1.75;
+
+  font-size:.95rem;
 }
 
 /* =========================================================
-   OVERVIEW STATS
+   STATS
 ========================================================= */
 
-.library-overview{
+.stats{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-top:34px;
-  max-width:760px;
-}
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
 
-.overview-card{
-  padding:16px 18px;
-  border:1px solid var(--leg-border);
-  border-radius:16px;
-  background:rgba(255,255,255,.025);
-  backdrop-filter:blur(14px);
-}
+  max-width:700px;
 
-.overview-card strong{
-  display:block;
-  font-size:1.35rem;
-  color:#fff;
-}
-
-.overview-card span{
-  display:block;
-  margin-top:4px;
-  color:var(--leg-muted);
-  font-size:.7rem;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-/* =========================================================
-   LIBRARY TOOLBAR
-========================================================= */
-
-.library-shell{
-  position:relative;
-}
-
-.library-toolbar{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 170px 180px;
   gap:12px;
-  padding:16px;
-  border:1px solid var(--leg-border);
-  border-radius:22px;
+
+  margin-top:35px;
+}
+
+.stat{
+  padding:17px 18px;
+
+  border:1px solid var(--border);
+  border-radius:16px;
+
   background:
     linear-gradient(
       145deg,
-      rgba(8,28,45,.88),
-      rgba(4,15,26,.84)
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.012)
     );
-  box-shadow:var(--leg-shadow);
+
+  backdrop-filter:blur(12px);
 }
 
-.search-field{
-  position:relative;
+.stat strong{
+  display:block;
+
+  font-size:1.35rem;
+
+  color:white;
 }
 
-.search-field::before{
-  content:"âŒ•";
-  position:absolute;
-  left:16px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--leg-cyan);
-  font-size:1.25rem;
-  pointer-events:none;
-}
+.stat span{
+  display:block;
 
-.library-toolbar input,
-.library-toolbar select{
-  width:100%;
-  min-height:52px;
-  border-radius:14px;
-  border:1px solid rgba(86,216,255,.14);
-  background:rgba(2,11,19,.72);
-  color:#fff;
-  outline:none;
-  font:inherit;
-  transition:.2s ease;
-}
+  margin-top:4px;
 
-.library-toolbar input{
-  padding:0 16px 0 45px;
-}
+  font-size:.65rem;
 
-.library-toolbar select{
-  padding:0 14px;
-  cursor:pointer;
-}
+  color:var(--muted);
 
-.library-toolbar input::placeholder{
-  color:#688495;
-}
-
-.library-toolbar input:focus,
-.library-toolbar select:focus{
-  border-color:var(--leg-cyan);
-  box-shadow:0 0 0 3px rgba(72,221,255,.08);
-}
-
-.library-status{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  margin:18px 2px 26px;
-  color:var(--leg-muted);
-  font-size:.78rem;
-}
-
-.library-status strong{
-  color:#d9f7ff;
-}
-
-.clear-filters{
-  border:0;
-  background:none;
-  color:var(--leg-cyan);
-  font-weight:800;
-  cursor:pointer;
-  transition:.2s ease;
-}
-
-.clear-filters:hover{
-  color:#fff;
+  text-transform:uppercase;
+  letter-spacing:.11em;
 }
 
 /* =========================================================
-   RECORD CARDS
+   SECTION
+========================================================= */
+
+.section{
+  padding:55px 0 100px;
+}
+
+.section-heading{
+  max-width:680px;
+
+  margin-bottom:27px;
+}
+
+.section-label{
+  color:var(--cyan);
+
+  font-size:.65rem;
+  font-weight:900;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+}
+
+.section-heading h2{
+  margin-top:10px;
+
+  font-size:
+    clamp(2rem,4vw,3rem);
+
+  letter-spacing:-.04em;
+}
+
+.section-heading p{
+  margin-top:10px;
+
+  color:var(--muted);
+
+  font-size:.9rem;
+
+  line-height:1.7;
+}
+
+/* =========================================================
+   SEARCH PANEL
+========================================================= */
+
+.library-panel{
+  position:relative;
+
+  padding:17px;
+
+  border:1px solid var(--border);
+
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(7,29,47,.9),
+      rgba(3,15,26,.9)
+    );
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.3);
+}
+
+.filter-bar{
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    170px
+    180px;
+
+  gap:11px;
+}
+
+.search-wrap{
+  position:relative;
+}
+
+.search-icon{
+  position:absolute;
+
+  left:16px;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  color:var(--cyan);
+
+  font-size:1rem;
+
+  pointer-events:none;
+}
+
+.filter-bar input,
+.filter-bar select{
+  width:100%;
+  min-height:52px;
+
+  outline:none;
+
+  border:1px solid rgba(75,225,255,.12);
+
+  border-radius:14px;
+
+  background:#03111c;
+
+  color:white;
+
+  font:inherit;
+
+  transition:.2s ease;
+}
+
+.filter-bar input{
+  padding:
+    0
+    16px
+    0
+    43px;
+}
+
+.filter-bar select{
+  padding:0 14px;
+}
+
+.filter-bar input::placeholder{
+  color:#698696;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus{
+  border-color:var(--cyan);
+
+  box-shadow:
+    0 0 0 3px rgba(75,225,255,.07);
+}
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin:18px 2px 25px;
+
+  color:var(--muted);
+
+  font-size:.75rem;
+}
+
+.results-bar strong{
+  color:white;
+}
+
+.clear-button{
+  border:0;
+
+  background:none;
+
+  color:var(--cyan);
+
+  font-size:.74rem;
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+/* =========================================================
+   RECORD GRID
 ========================================================= */
 
 .record-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:18px;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:17px;
 }
+
+/* =========================================================
+   RECORD CARD
+========================================================= */
 
 .record-card{
   position:relative;
+
+  min-height:290px;
+
   display:flex;
   flex-direction:column;
-  min-height:285px;
+
   padding:24px;
+
   overflow:hidden;
 
-  border:1px solid var(--leg-border);
+  border:1px solid var(--border);
+
   border-radius:22px;
 
   background:
     radial-gradient(
       circle at 100% 0,
-      rgba(71,217,255,.08),
-      transparent 32%
+      rgba(75,225,255,.08),
+      transparent 35%
     ),
     linear-gradient(
       145deg,
-      rgba(7,24,39,.88),
-      rgba(3,14,24,.88)
+      rgba(7,27,43,.88),
+      rgba(3,14,24,.9)
     );
 
   transition:
@@ -281,33 +656,42 @@
     box-shadow .25s ease;
 }
 
-.record-card::after{
+.record-card::before{
   content:"";
+
   position:absolute;
-  width:150px;
-  height:150px;
-  right:-70px;
-  bottom:-80px;
-  border-radius:50%;
+
+  left:0;
+  top:25px;
+
+  width:2px;
+  height:42px;
+
   background:
-    radial-gradient(
-      circle,
-      rgba(72,221,255,.08),
-      transparent 70%
+    linear-gradient(
+      var(--cyan),
+      transparent
     );
-  pointer-events:none;
+
+  box-shadow:
+    0 0 10px var(--cyan);
 }
 
 .record-card:hover{
   transform:translateY(-5px);
-  border-color:var(--leg-border-strong);
-  box-shadow:0 25px 55px rgba(0,0,0,.26);
+
+  border-color:var(--border2);
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.25);
 }
 
 .record-top{
   display:flex;
-  align-items:center;
+
   justify-content:space-between;
+  align-items:center;
+
   gap:12px;
 }
 
@@ -315,112 +699,164 @@
   display:inline-flex;
   align-items:center;
   gap:7px;
+
+  width:max-content;
+
   padding:7px 10px;
+
+  border:1px solid
+    rgba(75,225,255,.18);
+
   border-radius:999px;
-  background:rgba(72,221,255,.075);
-  border:1px solid rgba(72,221,255,.16);
-  color:#a9efff;
-  font-size:.65rem;
+
+  background:
+    rgba(75,225,255,.065);
+
+  color:#a8f0ff;
+
+  font-size:.62rem;
   font-weight:900;
+
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.09em;
 }
 
 .badge::before{
   content:"";
+
   width:6px;
   height:6px;
+
   border-radius:50%;
-  background:var(--leg-green);
-  box-shadow:0 0 10px var(--leg-green);
+
+  background:var(--green);
+
+  box-shadow:
+    0 0 9px var(--green);
 }
 
-.badge.yellow{
-  color:#ffe8a8;
-  border-color:rgba(255,214,109,.2);
-  background:rgba(255,214,109,.06);
+.badge.ordinance{
+  color:#ffe69c;
+
+  border-color:
+    rgba(255,215,106,.18);
+
+  background:
+    rgba(255,215,106,.055);
 }
 
-.badge.yellow::before{
-  background:var(--leg-gold);
-  box-shadow:0 0 10px rgba(255,214,109,.7);
+.badge.ordinance::before{
+  background:var(--gold);
+
+  box-shadow:
+    0 0 9px var(--gold);
 }
 
-.meta{
-  color:#7894a5;
-  font-size:.72rem;
+.year{
+  color:#6f8d9f;
+
+  font-size:.7rem;
   font-weight:800;
 }
 
 .record-card h3{
-  margin-top:20px;
-  font-size:1.28rem;
-  line-height:1.3;
+  margin-top:21px;
+
+  font-size:1.25rem;
+
+  line-height:1.35;
+
+  letter-spacing:-.025em;
 }
 
 .record-card p{
-  margin-top:12px;
-  color:var(--leg-muted);
-  font-size:.88rem;
-  line-height:1.72;
+  margin-top:11px;
+
+  color:var(--muted);
+
+  font-size:.84rem;
+
+  line-height:1.75;
 }
+
+/* =========================================================
+   RECORD FOOTER
+========================================================= */
 
 .record-footer{
   display:flex;
+
   align-items:flex-end;
   justify-content:space-between;
-  gap:16px;
+
+  gap:15px;
+
   margin-top:auto;
+
   padding-top:24px;
 }
 
-.record-status{
+.status{
   display:flex;
   flex-direction:column;
-  gap:4px;
+
+  gap:3px;
 }
 
-.record-status small{
-  color:#637f90;
-  font-size:.65rem;
+.status small{
+  color:#607e90;
+
+  font-size:.6rem;
+
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.1em;
 }
 
-.record-status strong{
-  color:#b9eed6;
-  font-size:.76rem;
+.status strong{
+  color:#b9efd7;
+
+  font-size:.72rem;
 }
 
 .document-button{
   min-height:42px;
+
   display:inline-flex;
+
   align-items:center;
   justify-content:center;
-  gap:8px;
+
   padding:0 14px;
 
+  border:1px solid var(--border);
+
   border-radius:11px;
-  border:1px solid var(--leg-border);
 
-  background:rgba(255,255,255,.03);
-  color:#fff;
+  background:
+    rgba(75,225,255,.04);
 
-  font-size:.75rem;
+  color:white;
+
+  text-decoration:none;
+
+  font-size:.72rem;
   font-weight:800;
 
   transition:.2s ease;
 }
 
 .document-button:hover{
-  background:rgba(72,221,255,.08);
-  border-color:var(--leg-border-strong);
-  transform:translateY(-2px);
+  color:var(--cyan);
+
+  border-color:var(--border2);
+
+  background:
+    rgba(75,225,255,.08);
 }
 
 .document-button.disabled{
-  opacity:.55;
-  cursor:not-allowed;
+  opacity:.45;
+
   pointer-events:none;
 }
 
@@ -430,131 +866,319 @@
 
 .empty-state{
   display:none;
-  padding:48px 24px;
-  margin-top:18px;
+
+  margin-top:17px;
+
+  padding:45px 20px;
+
   text-align:center;
-  border:1px dashed var(--leg-border);
-  border-radius:22px;
-  background:rgba(255,255,255,.02);
+
+  border:
+    1px dashed var(--border);
+
+  border-radius:20px;
+
+  color:var(--muted);
 }
 
 .empty-state strong{
   display:block;
-  font-size:1.05rem;
-}
 
-.empty-state p{
-  margin-top:7px;
-  color:var(--leg-muted);
-  font-size:.84rem;
+  color:white;
+
+  margin-bottom:7px;
 }
 
 /* =========================================================
-   INFO STRIP
+   PUBLIC RECORD NOTE
 ========================================================= */
 
-.public-record-note{
+.record-note{
   display:flex;
+
   align-items:center;
+
   gap:14px;
 
   margin-top:28px;
-  padding:18px 20px;
 
-  border:1px solid rgba(72,221,255,.11);
-  border-radius:17px;
+  padding:17px 18px;
 
-  background:rgba(72,221,255,.035);
+  border:1px solid
+    rgba(75,225,255,.1);
+
+  border-radius:16px;
+
+  background:
+    rgba(75,225,255,.025);
 }
 
-.note-icon{
-  width:38px;
-  height:38px;
-  flex:0 0 auto;
+.record-note-icon{
+  width:37px;
+  height:37px;
+
+  flex:0 0 37px;
 
   display:grid;
   place-items:center;
 
-  border-radius:12px;
-  background:rgba(72,221,255,.08);
-  color:var(--leg-cyan);
+  border-radius:11px;
+
+  border:1px solid var(--border);
+
+  color:var(--cyan);
 }
 
-.public-record-note p{
-  color:var(--leg-muted);
-  font-size:.8rem;
+.record-note p{
+  color:var(--muted);
+
+  font-size:.77rem;
+
   line-height:1.6;
 }
 
 /* =========================================================
-   RESPONSIVE
+   FOOTER
 ========================================================= */
 
-@media(max-width:900px){
+footer{
+  border-top:
+    1px solid rgba(75,225,255,.08);
 
-  .library-toolbar{
-    grid-template-columns:1fr 1fr;
+  background:
+    rgba(2,9,18,.7);
+
+  padding:30px 0;
+}
+
+.footer-grid{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+}
+
+.footer-brand{
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+}
+
+.footer-logo{
+  width:39px;
+  height:39px;
+
+  overflow:hidden;
+
+  border-radius:50%;
+}
+
+.footer-logo img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  object-fit:contain;
+}
+
+.footer-brand strong{
+  display:block;
+
+  font-size:.7rem;
+
+  letter-spacing:.1em;
+}
+
+.footer-brand span{
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--cyan);
+
+  font-size:.5rem;
+
+  letter-spacing:.11em;
+}
+
+.copyright{
+  color:#668394;
+
+  font-size:.68rem;
+}
+
+/* =========================================================
+   RESPONSIVE TABLET
+========================================================= */
+
+@media(max-width:1000px){
+
+  .nav-links{
+    position:absolute;
+
+    top:76px;
+    left:4%;
+    right:4%;
+
+    display:none;
+
+    flex-direction:column;
+    align-items:stretch;
+
+    padding:15px;
+
+    border:
+      1px solid var(--border);
+
+    border-radius:18px;
+
+    background:
+      rgba(3,15,25,.98);
+
+    box-shadow:
+      0 25px 50px rgba(0,0,0,.4);
   }
 
-  .search-field{
-    grid-column:1 / -1;
+  .nav-links.open{
+    display:flex;
+  }
+
+  .nav-links a{
+    padding:12px 13px;
+
+    font-size:.75rem;
+  }
+
+  .menu-button{
+    display:block;
   }
 
 }
 
-@media(max-width:760px){
+/* =========================================================
+   RESPONSIVE 900
+========================================================= */
 
-  .legislative-hero{
-    padding:92px 0 58px;
+@media(max-width:900px){
+
+  .filter-bar{
+    grid-template-columns:
+      1fr 1fr;
   }
 
-  .library-overview{
-    grid-template-columns:1fr 1fr 1fr;
+  .search-wrap{
+    grid-column:1/-1;
+  }
+
+}
+
+/* =========================================================
+   RESPONSIVE 760
+========================================================= */
+
+@media(max-width:760px){
+
+  .hero{
+    padding:85px 0 55px;
   }
 
   .record-grid{
     grid-template-columns:1fr;
   }
 
+  .stats{
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+
 }
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:560px){
 
-  .library-overview{
-    grid-template-columns:1fr;
-    gap:9px;
+  .container{
+    width:92%;
   }
 
-  .overview-card{
+  .header{
+    height:68px;
+  }
+
+  .logo{
+    width:40px;
+    height:40px;
+    min-width:40px;
+  }
+
+  .brand-text strong{
+    font-size:.68rem;
+  }
+
+  .brand-text span{
+    font-size:.47rem;
+  }
+
+  .nav-links{
+    top:68px;
+  }
+
+  .hero{
+    padding:72px 0 45px;
+  }
+
+  .hero h1{
+    font-size:
+      clamp(2.75rem,15vw,4.3rem);
+  }
+
+  .hero-description{
+    font-size:.87rem;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+
+    gap:8px;
+  }
+
+  .stat{
     display:flex;
+
     align-items:center;
     justify-content:space-between;
+
+    padding:13px 16px;
   }
 
-  .overview-card span{
+  .stat span{
     margin-top:0;
   }
 
-  .library-toolbar{
+  .filter-bar{
     grid-template-columns:1fr;
   }
 
-  .search-field{
+  .search-wrap{
     grid-column:auto;
-  }
-
-  .library-status{
-    flex-direction:column;
-    align-items:flex-start;
   }
 
   .record-card{
     min-height:auto;
+
     padding:20px;
   }
 
   .record-footer{
     flex-direction:column;
+
     align-items:stretch;
   }
 
@@ -562,180 +1186,38 @@
     width:100%;
   }
 
-  .public-record-note{
+  .results-bar{
+    align-items:flex-start;
+
+    flex-direction:column;
+  }
+
+  .record-note{
+    align-items:flex-start;
+  }
+
+  .footer-grid{
+    flex-direction:column;
+
     align-items:flex-start;
   }
 
 }
 </style>
-
-<style id="resolution-logo-fix">
-
-/* =========================================================
-   RESOLUTIONS PAGE — RESPONSIVE LOGO FIX
-   Desktop / Laptop / iPad / Tablet / Phone
-========================================================= */
-
-.header .brand {
-    display: flex !important;
-    align-items: center !important;
-    gap: 11px !important;
-}
-
-.header .logo {
-    width: 46px !important;
-    height: 46px !important;
-
-    min-width: 46px !important;
-    min-height: 46px !important;
-
-    max-width: 46px !important;
-    max-height: 46px !important;
-
-    flex: 0 0 46px !important;
-
-    overflow: hidden !important;
-    border-radius: 50% !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.header .logo img {
-    display: block !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    min-width: 0 !important;
-    min-height: 0 !important;
-
-    max-width: 100% !important;
-    max-height: 100% !important;
-
-    object-fit: contain !important;
-    object-position: center center !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.header .brand-text {
-    min-width: 0 !important;
-}
-
-.header .brand-text strong,
-.header .brand-text span {
-    display: block !important;
-}
-
-
-/* FOOTER LOGO */
-
-.footer-logo {
-    width: 46px !important;
-    height: 46px !important;
-
-    min-width: 46px !important;
-    min-height: 46px !important;
-
-    max-width: 46px !important;
-    max-height: 46px !important;
-
-    flex: 0 0 46px !important;
-
-    overflow: hidden !important;
-    border-radius: 50% !important;
-}
-
-.footer-logo img {
-    display: block !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    max-width: 100% !important;
-    max-height: 100% !important;
-
-    object-fit: contain !important;
-    object-position: center center !important;
-}
-
-
-/* TABLET / IPAD */
-
-@media (max-width: 900px) {
-
-    .header .logo {
-        width: 42px !important;
-        height: 42px !important;
-
-        min-width: 42px !important;
-        min-height: 42px !important;
-
-        max-width: 42px !important;
-        max-height: 42px !important;
-
-        flex-basis: 42px !important;
-    }
-
-}
-
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-
-    .header .logo {
-        width: 40px !important;
-        height: 40px !important;
-
-        min-width: 40px !important;
-        min-height: 40px !important;
-
-        max-width: 40px !important;
-        max-height: 40px !important;
-
-        flex-basis: 40px !important;
-    }
-
-    .header .brand {
-        gap: 8px !important;
-    }
-
-}
-
-
-/* SMALL MOBILE */
-
-@media (max-width: 380px) {
-
-    .header .logo {
-        width: 36px !important;
-        height: 36px !important;
-
-        min-width: 36px !important;
-        min-height: 36px !important;
-
-        max-width: 36px !important;
-        max-height: 36px !important;
-
-        flex-basis: 36px !important;
-    }
-
-}
-
-</style>
-
 </head>
 
 <body>
 
 <div class="future-bg">
+  <div class="future-grid"></div>
   <div class="orb one"></div>
   <div class="orb two"></div>
 </div>
+
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
 
 <header class="header">
 
@@ -744,30 +1226,48 @@
     <a href="home.html" class="brand">
 
       <div class="logo">
+
         <img
           src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
           alt="SK Sapilang Official Logo">
+
       </div>
 
       <div class="brand-text">
-        <strong>SK SAPILANG</strong>
-        <span>DIGITAL YOUTH NETWORK</span>
+
+        <strong>
+          SK SAPILANG
+        </strong>
+
+        <span>
+          DIGITAL YOUTH NETWORK
+        </span>
+
       </div>
 
     </a>
+
 
     <button
       class="menu-button"
       id="menuButton"
       type="button"
-      aria-label="Open navigation menu"
-      aria-expanded="false">
-      â˜°
+      aria-label="Open navigation menu">
+
+      &#9776;
+
     </button>
 
-    <ul class="nav-links" id="navLinks">
 
-      <li><a href="home.html">Home</a></li>
+    <ul
+      class="nav-links"
+      id="navLinks">
+
+      <li>
+        <a href="home.html">
+          Home
+        </a>
+      </li>
 
       <li>
         <a href="index.html#activities">
@@ -788,7 +1288,7 @@
       </li>
 
       <li>
-        <a href="awards.html" data-nav="awards">
+        <a href="awards.html">
           Awards
         </a>
       </li>
@@ -796,9 +1296,10 @@
       <li>
         <a
           href="resolutions.html"
-          data-nav="resolutions"
           class="active">
+
           Resolutions
+
         </a>
       </li>
 
@@ -832,58 +1333,75 @@
 
 </header>
 
+
 <main>
 
 <!-- ======================================================
      HERO
 ====================================================== -->
 
-<section class="legislative-hero">
+<section class="hero">
 
   <div class="container">
 
-    <span class="eyebrow">
-      Legislative Records
-    </span>
+    <div class="hero-content">
 
-    <h1>
-      Public measures.
-      <span>Open access.</span>
-    </h1>
+      <span class="eyebrow">
+        Legislative Records
+      </span>
 
-    <p class="hero-description">
-      Explore official resolutions and ordinances of the
-      Sangguniang Kabataan of Barangay Sapilang through
-      one searchable digital legislative library.
-    </p>
-
-    <div class="library-overview">
-
-      <div class="overview-card">
-        <strong id="totalRecords">
-          0
-        </strong>
+      <h1>
+        Public measures.
         <span>
-          Records
+          Open access.
         </span>
-      </div>
+      </h1>
 
-      <div class="overview-card">
-        <strong id="resolutionCount">
-          0
-        </strong>
-        <span>
-          Resolutions
-        </span>
-      </div>
+      <p class="hero-description">
+        Explore resolutions and ordinances of the
+        Sangguniang Kabataan of Barangay Sapilang through
+        a modern, searchable digital legislative library.
+      </p>
 
-      <div class="overview-card">
-        <strong id="ordinanceCount">
-          0
-        </strong>
-        <span>
-          Ordinances
-        </span>
+
+      <div class="stats">
+
+        <div class="stat">
+
+          <strong id="totalRecords">
+            0
+          </strong>
+
+          <span>
+            Records
+          </span>
+
+        </div>
+
+        <div class="stat">
+
+          <strong id="resolutionCount">
+            0
+          </strong>
+
+          <span>
+            Resolutions
+          </span>
+
+        </div>
+
+        <div class="stat">
+
+          <strong id="ordinanceCount">
+            0
+          </strong>
+
+          <span>
+            Ordinances
+          </span>
+
+        </div>
+
       </div>
 
     </div>
@@ -894,335 +1412,367 @@
 
 
 <!-- ======================================================
-     DIGITAL LIBRARY
+     LEGISLATIVE LIBRARY
 ====================================================== -->
 
 <section class="section">
 
-  <div class="container library-shell">
+  <div class="container">
 
-    <div class="section-heading reveal">
+    <div class="section-heading">
 
       <span class="section-label">
-        Legislative Library
+        Digital Legislative Library
       </span>
 
       <h2>
-        Find an official record.
+        Search official measures.
       </h2>
 
       <p>
-        Search by resolution number, title, year or document type.
+        Locate legislative records by number,
+        keyword, year or document type.
       </p>
 
     </div>
 
 
-    <!-- SEARCH + FILTERS -->
+    <div class="library-panel">
 
-    <div class="library-toolbar reveal">
+      <!-- SEARCH -->
 
-      <div class="search-field">
+      <div class="filter-bar">
 
-        <input
-          id="recordSearch"
-          type="search"
-          placeholder="Search legislative records..."
-          autocomplete="off"
-          aria-label="Search legislative records">
+        <div class="search-wrap">
+
+          <span class="search-icon">
+            &#9906;
+          </span>
+
+          <input
+            id="recordSearch"
+            type="search"
+            autocomplete="off"
+            placeholder="Search resolution number, title or keyword...">
+
+        </div>
+
+
+        <select id="yearFilter">
+
+          <option value="all">
+            All Years
+          </option>
+
+          <option value="2026">
+            2026
+          </option>
+
+          <option value="2025">
+            2025
+          </option>
+
+        </select>
+
+
+        <select id="typeFilter">
+
+          <option value="all">
+            All Types
+          </option>
+
+          <option value="resolution">
+            Resolutions
+          </option>
+
+          <option value="ordinance">
+            Ordinances
+          </option>
+
+        </select>
 
       </div>
 
-      <select
-        id="yearFilter"
-        aria-label="Filter by year">
 
-        <option value="all">
-          All Years
-        </option>
+      <!-- RESULTS -->
 
-        <option value="2026">
-          2026
-        </option>
+      <div class="results-bar">
 
-        <option value="2025">
-          2025
-        </option>
+        <span>
+          Showing
+          <strong id="visibleCount">
+            0
+          </strong>
+          record(s)
+        </span>
 
-      </select>
+        <button
+          type="button"
+          class="clear-button"
+          id="clearFilters">
 
-      <select
-        id="typeFilter"
-        aria-label="Filter by type">
+          Clear Filters
 
-        <option value="all">
-          All Types
-        </option>
+        </button>
 
-        <option value="resolution">
-          Resolutions
-        </option>
-
-        <option value="ordinance">
-          Ordinances
-        </option>
-
-      </select>
-
-    </div>
+      </div>
 
 
-    <!-- RESULT STATUS -->
+      <!-- ==================================================
+           RECORD GRID
+      ================================================== -->
 
-    <div class="library-status">
-
-      <span>
-        Showing
-        <strong id="visibleCount">
-          0
-        </strong>
-        record(s)
-      </span>
-
-      <button
-        class="clear-filters"
-        id="clearFilters"
-        type="button">
-        Clear Filters
-      </button>
-
-    </div>
+      <div
+        class="record-grid"
+        id="recordGrid">
 
 
-    <!-- ==================================================
-         RECORDS
-    ================================================== -->
+        <!-- ================================================
+             RESOLUTION 11
+        ================================================= -->
 
-    <div
-      class="record-grid"
-      id="recordGrid">
-
-
-      <!-- RESOLUTION 11 -->
-
-      <article
-        class="record-card reveal"
-        data-year="2026"
-        data-type="resolution"
-        data-search="
+        <article
+          class="record-card"
+          data-year="2026"
+          data-type="resolution"
+          data-search="
           resolution 11
-          series 2026
+          2026
           e-library
           reading corner
           starbooks
-          education
           learning
-        ">
+          education
+          ">
 
-        <div class="record-top">
+          <div class="record-top">
 
-          <span class="badge">
-            Resolution
-          </span>
+            <span class="badge">
+              Resolution
+            </span>
 
-          <span class="meta">
-            2026
-          </span>
-
-        </div>
-
-        <h3>
-          Resolution No. 11,
-          Series of 2026
-        </h3>
-
-        <p>
-          Supporting the conversion of the Barangay Reading
-          Corner into an E-Library and related youth learning
-          initiatives.
-        </p>
-
-        <div class="record-footer">
-
-          <div class="record-status">
-
-            <small>
-              Status
-            </small>
-
-            <strong>
-              Passed / Approved
-            </strong>
+            <span class="year">
+              2026
+            </span>
 
           </div>
 
-          <a
-            class="document-button disabled"
-            href="#"
-            aria-disabled="true">
-            PDF Pending
-          </a>
 
-        </div>
-
-      </article>
+          <h3>
+            Resolution No. 11,
+            Series of 2026
+          </h3>
 
 
-      <!-- RESOLUTION 15 -->
+          <p>
+            Supporting the conversion of the Barangay
+            Reading Corner into an E-Library and related
+            youth learning initiatives.
+          </p>
 
-      <article
-        class="record-card reveal"
-        data-year="2026"
-        data-type="resolution"
-        data-search="
+
+          <div class="record-footer">
+
+            <div class="status">
+
+              <small>
+                Status
+              </small>
+
+              <strong>
+                Passed / Approved
+              </strong>
+
+            </div>
+
+
+            <a
+              href="#"
+              class="document-button disabled"
+              aria-disabled="true">
+
+              PDF Pending
+
+            </a>
+
+          </div>
+
+        </article>
+
+
+        <!-- ================================================
+             RESOLUTION 15
+        ================================================= -->
+
+        <article
+          class="record-card"
+          data-year="2026"
+          data-type="resolution"
+          data-search="
           resolution 15
-          series 2026
+          2026
           farmers park
           covered court
-          enclosure
-          improvement
+          full enclosure
           disaster resilient
-        ">
+          upgrading
+          ">
 
-        <div class="record-top">
+          <div class="record-top">
 
-          <span class="badge">
-            Resolution
-          </span>
+            <span class="badge">
+              Resolution
+            </span>
 
-          <span class="meta">
-            2026
-          </span>
-
-        </div>
-
-        <h3>
-          Resolution No. 15,
-          Series of 2026
-        </h3>
-
-        <p>
-          Requesting support for the improvement, full enclosure
-          and disaster-resilient upgrading of the Farmerâ€™s Park
-          Center / Covered Court.
-        </p>
-
-        <div class="record-footer">
-
-          <div class="record-status">
-
-            <small>
-              Status
-            </small>
-
-            <strong>
-              Passed / Approved
-            </strong>
+            <span class="year">
+              2026
+            </span>
 
           </div>
 
-          <a
-            class="document-button disabled"
-            href="#"
-            aria-disabled="true">
-            PDF Pending
-          </a>
 
-        </div>
-
-      </article>
+          <h3>
+            Resolution No. 15,
+            Series of 2026
+          </h3>
 
 
-      <!-- ORDINANCE PLACEHOLDER -->
+          <p>
+            Requesting support for the improvement,
+            full enclosure and disaster-resilient
+            upgrading of the Farmer's Park Center
+            and Covered Court.
+          </p>
 
-      <article
-        class="record-card reveal"
-        data-year="2026"
-        data-type="ordinance"
-        data-search="
-          ordinance
-          2026
-        ">
 
-        <div class="record-top">
+          <div class="record-footer">
 
-          <span class="badge yellow">
-            Ordinance
-          </span>
+            <div class="status">
 
-          <span class="meta">
-            2026
-          </span>
+              <small>
+                Status
+              </small>
 
-        </div>
+              <strong>
+                Passed / Approved
+              </strong>
 
-        <h3>
-          Official Ordinance Record
-        </h3>
+            </div>
 
-        <p>
-          This space is reserved for an official SK ordinance.
-          Add the ordinance number, series, title and document
-          once officially available.
-        </p>
 
-        <div class="record-footer">
+            <a
+              href="#"
+              class="document-button disabled"
+              aria-disabled="true">
 
-          <div class="record-status">
+              PDF Pending
 
-            <small>
-              Status
-            </small>
-
-            <strong>
-              Record Pending
-            </strong>
+            </a>
 
           </div>
 
-          <a
-            class="document-button disabled"
-            href="#"
-            aria-disabled="true">
-            Document Pending
-          </a>
+        </article>
 
-        </div>
 
-      </article>
+        <!-- ================================================
+             ORDINANCE PLACEHOLDER
+        ================================================= -->
 
+        <article
+          class="record-card"
+          data-year="2026"
+          data-type="ordinance"
+          data-search="
+          ordinance 2026
+          official ordinance
+          ">
+
+          <div class="record-top">
+
+            <span class="badge ordinance">
+              Ordinance
+            </span>
+
+            <span class="year">
+              2026
+            </span>
+
+          </div>
+
+
+          <h3>
+            Official Ordinance Record
+          </h3>
+
+
+          <p>
+            Reserved for an official SK ordinance.
+            The ordinance number, title, series and
+            public document may be added once available.
+          </p>
+
+
+          <div class="record-footer">
+
+            <div class="status">
+
+              <small>
+                Status
+              </small>
+
+              <strong>
+                Record Pending
+              </strong>
+
+            </div>
+
+
+            <a
+              href="#"
+              class="document-button disabled"
+              aria-disabled="true">
+
+              Document Pending
+
+            </a>
+
+          </div>
+
+        </article>
+
+
+      </div>
+
+
+      <!-- EMPTY STATE -->
+
+      <div
+        class="empty-state"
+        id="emptyState">
+
+        <strong>
+          No records found.
+        </strong>
+
+        Try another keyword or reset the filters.
+
+      </div>
 
     </div>
 
 
-    <!-- EMPTY SEARCH RESULT -->
+    <!-- PUBLIC RECORD INFORMATION -->
 
-    <div
-      class="empty-state"
-      id="emptyState">
+    <div class="record-note">
 
-      <strong>
-        No legislative records found.
-      </strong>
-
-      <p>
-        Try a different keyword or reset the filters.
-      </p>
-
-    </div>
-
-
-    <!-- PUBLIC RECORD NOTE -->
-
-    <div class="public-record-note reveal">
-
-      <div class="note-icon">
-        â—ˆ
+      <div class="record-note-icon">
+        &#9672;
       </div>
 
       <p>
-        Official PDF copies may be linked to each record once
-        digitized and approved for public access.
+        Official PDF copies may be attached to each
+        legislative record once digitized and approved
+        for public access.
       </p>
 
     </div>
@@ -1252,6 +1802,7 @@
 
       </div>
 
+
       <div>
 
         <strong>
@@ -1266,10 +1817,11 @@
 
     </div>
 
+
     <div class="copyright">
 
-      Â©
-      <span data-year></span>
+      &copy;
+      <span id="currentYear"></span>
       SK Sapilang.
       All Rights Reserved.
 
@@ -1280,33 +1832,59 @@
 </footer>
 
 
-<!-- ======================================================
-     SITE SCRIPT
-====================================================== -->
-
-<script src="js/site-pages.js"></script>
-
-
-<!-- ======================================================
-     ACTIVE NAV
-====================================================== -->
-
 <script>
+/* =========================================================
+   MOBILE NAVIGATION
+========================================================= */
 
-document
-  .querySelectorAll('[data-nav="resolutions"]')
-  .forEach(link=>{
-    link.classList.add("active");
+const menuButton =
+  document.getElementById("menuButton");
+
+const navLinks =
+  document.getElementById("navLinks");
+
+
+menuButton.addEventListener(
+  "click",
+  function(){
+
+    navLinks.classList.toggle("open");
+
+    const isOpen =
+      navLinks.classList.contains("open");
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      isOpen
+        ? "true"
+        : "false"
+    );
+
+  }
+);
+
+
+/* Close mobile menu after clicking */
+
+navLinks
+  .querySelectorAll("a")
+  .forEach(function(link){
+
+    link.addEventListener(
+      "click",
+      function(){
+
+        navLinks.classList.remove("open");
+
+      }
+    );
+
   });
 
-</script>
 
-
-<!-- ======================================================
-     LEGISLATIVE SEARCH ENGINE
-====================================================== -->
-
-<script>
+/* =========================================================
+   RECORDS
+========================================================= */
 
 const searchInput =
   document.getElementById("recordSearch");
@@ -1327,41 +1905,64 @@ const emptyState =
   document.getElementById("emptyState");
 
 const records =
-  [...document.querySelectorAll(".record-card")];
-
-
-/* ======================================================
-   RECORD STATISTICS
-====================================================== */
-
-const resolutions =
-  records.filter(
-    card =>
-      card.dataset.type === "resolution"
+  Array.from(
+    document.querySelectorAll(
+      ".record-card"
+    )
   );
 
-const ordinances =
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+const resolutionRecords =
   records.filter(
-    card =>
-      card.dataset.type === "ordinance"
+    function(card){
+
+      return (
+        card.dataset.type ===
+        "resolution"
+      );
+
+    }
   );
 
-document.getElementById("totalRecords")
-  .textContent =
+
+const ordinanceRecords =
+  records.filter(
+    function(card){
+
+      return (
+        card.dataset.type ===
+        "ordinance"
+      );
+
+    }
+  );
+
+
+document.getElementById(
+  "totalRecords"
+).textContent =
   records.length;
 
-document.getElementById("resolutionCount")
-  .textContent =
-  resolutions.length;
 
-document.getElementById("ordinanceCount")
-  .textContent =
-  ordinances.length;
+document.getElementById(
+  "resolutionCount"
+).textContent =
+  resolutionRecords.length;
 
 
-/* ======================================================
-   FILTER
-====================================================== */
+document.getElementById(
+  "ordinanceCount"
+).textContent =
+  ordinanceRecords.length;
+
+
+/* =========================================================
+   SEARCH + FILTER
+========================================================= */
 
 function filterRecords(){
 
@@ -1372,47 +1973,58 @@ function filterRecords(){
 
   let visible = 0;
 
-  records.forEach(card=>{
 
-    const searchableText =
-      (
-        card.dataset.search +
-        " " +
-        card.innerText
-      ).toLowerCase();
+  records.forEach(
+    function(card){
 
-    const matchesSearch =
-      !query ||
-      searchableText.includes(query);
+      const searchable =
+        (
+          card.dataset.search +
+          " " +
+          card.innerText
+        ).toLowerCase();
 
-    const matchesYear =
-      yearFilter.value === "all" ||
-      card.dataset.year ===
-      yearFilter.value;
 
-    const matchesType =
-      typeFilter.value === "all" ||
-      card.dataset.type ===
-      typeFilter.value;
+      const searchMatches =
+        query === "" ||
+        searchable.includes(query);
 
-    const show =
-      matchesSearch &&
-      matchesYear &&
-      matchesType;
 
-    card.style.display =
-      show
-        ? "flex"
-        : "none";
+      const yearMatches =
+        yearFilter.value === "all" ||
+        card.dataset.year ===
+        yearFilter.value;
 
-    if(show){
-      visible++;
+
+      const typeMatches =
+        typeFilter.value === "all" ||
+        card.dataset.type ===
+        typeFilter.value;
+
+
+      const show =
+        searchMatches &&
+        yearMatches &&
+        typeMatches;
+
+
+      card.style.display =
+        show
+          ? "flex"
+          : "none";
+
+
+      if(show){
+        visible++;
+      }
+
     }
+  );
 
-  });
 
   visibleCount.textContent =
     visible;
+
 
   emptyState.style.display =
     visible === 0
@@ -1422,9 +2034,9 @@ function filterRecords(){
 }
 
 
-/* ======================================================
-   EVENTS
-====================================================== */
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
 
 searchInput.addEventListener(
   "input",
@@ -1442,15 +2054,16 @@ typeFilter.addEventListener(
 );
 
 
-/* ======================================================
-   RESET
-====================================================== */
+/* =========================================================
+   CLEAR FILTERS
+========================================================= */
 
 clearFilters.addEventListener(
   "click",
-  ()=>{
+  function(){
 
-    searchInput.value = "";
+    searchInput.value =
+      "";
 
     yearFilter.value =
       "all";
@@ -1466,13 +2079,23 @@ clearFilters.addEventListener(
 );
 
 
-/* INITIALIZE */
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+  "currentYear"
+).textContent =
+  new Date().getFullYear();
+
+
+/* INITIAL LOAD */
 
 filterRecords();
-
 </script>
 
 
+<!-- KEEP FOR CONTINUOUS MUSIC / FRAME SYSTEM -->
 <script src="js/frame-bridge.js"></script>
 
 </body>
