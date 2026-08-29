@@ -7,782 +7,1631 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SK Sapilang | Sangguniang Kabataan of Barangay Sapilang
+    </title>
 
     <meta
         name="description"
-        content="Official Website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+        content="Official website of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union. Access SK programs, announcements, KK Digital Portal, youth services, transparency records, and activities."
+    >
 
-    <title>SK Sapilang | Official Website</title>
+    <meta
+        name="keywords"
+        content="SK Sapilang, Sangguniang Kabataan Sapilang, Barangay Sapilang, Bacnotan La Union, KK Digital Portal, SK Bacnotan"
+    >
 
-    <link
-        rel="stylesheet"
-        href="css/style.css">
+    <meta
+        name="author"
+        content="Sangguniang Kabataan of Barangay Sapilang"
+    >
 
 
     <style>
-        /* Featured Programs Slider */
-        .program-slider {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
 
-        .program-track {
-            display: flex;
-            transition: transform 700ms cubic-bezier(.22,.61,.36,1);
-            will-change: transform;
-        }
+        /* =========================================================
+           RESET
+        ========================================================= */
 
-        .program-slide {
-            flex: 0 0 100%;
-            min-width: 100%;
-        }
-
-        .program-slide img {
-            width: 100%;
-            height: clamp(220px, 38vw, 430px);
-            object-fit: cover;
-            display: block;
-        }
-
-        .slider-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            margin-top: 18px;
-        }
-
-        .slider-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid currentColor;
-            background: transparent;
-            color: inherit;
-            font-size: 28px;
-            line-height: 1;
-            cursor: pointer;
-        }
-
-        .slider-dots {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .slider-dot {
-            width: 10px;
-            height: 10px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
             padding: 0;
-            border: 0;
-            border-radius: 50%;
-            background: currentColor;
-            opacity: .3;
-            cursor: pointer;
         }
 
-        .slider-dot.active {
-            opacity: 1;
-            transform: scale(1.2);
+
+        html {
+            scroll-behavior: smooth;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .program-track {
-                transition: none;
-            }
-        }
-    </style>
 
+        body {
 
-<style>
-    :root {
-        --bg: #06111f;
-        --bg-soft: #0b1a2d;
-        --panel: rgba(16, 37, 61, 0.78);
-        --panel-strong: rgba(19, 44, 72, 0.96);
-        --line: rgba(112, 198, 255, 0.22);
-        --line-strong: rgba(112, 198, 255, 0.48);
-        --text: #f5fbff;
-        --muted: #a9c2d8;
-        --accent: #63c8ff;
-        --accent-soft: rgba(99, 200, 255, 0.12);
-        --success: #5fdc91;
-        --radius-lg: 24px;
-        --radius-md: 16px;
-        --shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
-    }
+            min-height: 100vh;
 
-    html {
-        scroll-behavior: smooth;
-    }
+            font-family:
+                Inter,
+                "Segoe UI",
+                Arial,
+                Helvetica,
+                sans-serif;
 
-    body {
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-        background:
-            radial-gradient(circle at 15% 10%, rgba(69, 160, 255, 0.12), transparent 28%),
-            radial-gradient(circle at 85% 20%, rgba(99, 200, 255, 0.09), transparent 24%),
-            linear-gradient(180deg, #06111f 0%, #081726 45%, #06111f 100%);
-        color: var(--text);
-        letter-spacing: 0;
-    }
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(0, 184, 255, 0.09),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 30%,
+                    rgba(42, 102, 255, 0.08),
+                    transparent 30%
+                ),
+                #04111e;
 
-    h1, h2, h3, h4, strong, .btn, .tag, .eyebrow, .brand strong {
-        font-family: inherit !important;
-    }
+            color: #ffffff;
 
-    h1, h2, h3, h4, strong {
-        font-weight: 700 !important;
-        letter-spacing: -0.02em;
-    }
+            overflow-x: hidden;
 
-    p, li, a, span, small {
-        font-weight: 400;
-        letter-spacing: 0;
-    }
-
-    .topbar {
-        background: rgba(5, 15, 27, 0.82) !important;
-        border-bottom: 1px solid var(--line);
-        backdrop-filter: blur(14px);
-    }
-
-    .navbar {
-        background: rgba(7, 18, 31, 0.78) !important;
-        border-bottom: 1px solid var(--line);
-        backdrop-filter: blur(18px);
-    }
-
-    .brand img {
-        filter: drop-shadow(0 8px 20px rgba(69, 160, 255, 0.18));
-    }
-
-    .brand strong {
-        font-size: 1rem;
-        text-transform: none !important;
-    }
-
-    .brand small {
-        text-transform: none !important;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-    }
-
-    .nav-links a {
-        font-weight: 600;
-        text-transform: none !important;
-        letter-spacing: 0;
-        position: relative;
-        transition: color .22s ease;
-    }
-
-    .nav-links a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 100%;
-        bottom: -7px;
-        height: 2px;
-        background: var(--accent);
-        border-radius: 999px;
-        transition: right .22s ease;
-    }
-
-    .nav-links a:hover::after {
-        right: 0;
-    }
-
-    .hero {
-        position: relative;
-        overflow: hidden;
-        background:
-            linear-gradient(120deg, rgba(7, 20, 35, 0.94), rgba(9, 29, 49, 0.80)),
-            radial-gradient(circle at 78% 28%, rgba(99, 200, 255, 0.15), transparent 24%);
-        border-bottom: 1px solid var(--line);
-    }
-
-    .hero::before,
-    .hero::after {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-    }
-
-    .hero::before {
-        width: 420px;
-        height: 420px;
-        right: -120px;
-        top: 30px;
-        border: 1px solid rgba(99, 200, 255, 0.16);
-        border-radius: 50%;
-        box-shadow:
-            0 0 0 40px rgba(99, 200, 255, 0.025),
-            0 0 0 80px rgba(99, 200, 255, 0.018);
-    }
-
-    .hero::after {
-        inset: 0;
-        opacity: .2;
-        background-image:
-            linear-gradient(rgba(99,200,255,.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(99,200,255,.06) 1px, transparent 1px);
-        background-size: 52px 52px;
-        mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 82%);
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-    }
-
-    .eyebrow,
-    .tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        border: 1px solid rgba(99, 200, 255, 0.22);
-        border-radius: 999px;
-        padding: 8px 12px;
-        font-weight: 700 !important;
-        text-transform: none !important;
-        letter-spacing: 0 !important;
-    }
-
-    .hero h1 {
-        max-width: 900px;
-        font-size: clamp(2.7rem, 6vw, 5.4rem);
-        line-height: .98;
-        text-wrap: balance;
-    }
-
-    .hero h1 span {
-        color: var(--accent);
-        font-weight: 700;
-        text-shadow: 0 0 30px rgba(99, 200, 255, 0.18);
-    }
-
-    .hero p,
-    .section-head p,
-    .card p,
-    .cta p,
-    footer p {
-        color: var(--muted);
-        line-height: 1.75;
-        font-size: 1rem;
-    }
-
-    .btn {
-        border-radius: 999px !important;
-        font-weight: 700 !important;
-        text-transform: none !important;
-        letter-spacing: 0 !important;
-        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #72d1ff, #4eb6ff) !important;
-        color: #06111f !important;
-        border: 1px solid rgba(255,255,255,.14) !important;
-        box-shadow: 0 10px 30px rgba(78, 182, 255, 0.22);
-    }
-
-    .btn-outline {
-        background: rgba(255,255,255,.03) !important;
-        color: var(--text) !important;
-        border: 1px solid var(--line-strong) !important;
-        backdrop-filter: blur(10px);
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-    }
-
-    .section {
-        position: relative;
-    }
-
-    .section-head h2,
-    .cta h2 {
-        font-size: clamp(2rem, 4vw, 3.2rem);
-        line-height: 1.08;
-        text-wrap: balance;
-    }
-
-    .card,
-    .cta,
-    .program-slider {
-        background: linear-gradient(180deg, rgba(19,44,72,.88), rgba(10,27,46,.86)) !important;
-        border: 1px solid var(--line) !important;
-        border-radius: var(--radius-lg) !important;
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(16px);
-    }
-
-    .card {
-        overflow: hidden;
-        transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-6px);
-        border-color: var(--line-strong) !important;
-        box-shadow: 0 26px 70px rgba(0,0,0,.36);
-    }
-
-    .icon {
-        background: var(--accent-soft) !important;
-        color: var(--accent);
-        border: 1px solid rgba(99,200,255,.18);
-        border-radius: 16px;
-    }
-
-    .program-slider {
-        padding: 14px;
-        overflow: hidden;
-    }
-
-    .program-slide {
-        border: 0 !important;
-        background: transparent !important;
-        box-shadow: none !important;
-    }
-
-    .program-slide:hover {
-        transform: none;
-    }
-
-    .program-slide img {
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,.06);
-        background: #0c1c2f;
-    }
-
-    .program-slide .card-body {
-        padding: 26px 6px 10px;
-    }
-
-    .program-slide h3 {
-        font-size: 1.7rem;
-        margin-top: 10px;
-    }
-
-    .slider-btn {
-        border-color: var(--line-strong) !important;
-        background: rgba(255,255,255,.03) !important;
-        color: var(--text) !important;
-        backdrop-filter: blur(8px);
-        transition: transform .2s ease, background .2s ease;
-    }
-
-    .slider-btn:hover {
-        transform: scale(1.05);
-        background: var(--accent-soft) !important;
-    }
-
-    .slider-dot {
-        color: var(--accent);
-    }
-
-    .cta {
-        padding: clamp(28px, 6vw, 58px) !important;
-    }
-
-    footer {
-        background: rgba(5, 15, 27, 0.92) !important;
-        border-top: 1px solid var(--line);
-    }
-
-    footer h3,
-    footer h4 {
-        text-transform: none !important;
-    }
-
-    footer a {
-        color: var(--muted);
-        font-weight: 500;
-        text-transform: none !important;
-    }
-
-    footer a:hover {
-        color: var(--accent);
-    }
-
-    .footer-bottom {
-        color: #7f9bb4;
-        border-top: 1px solid var(--line);
-        text-transform: none !important;
-        letter-spacing: 0 !important;
-    }
-
-    @media (max-width: 768px) {
-        .hero h1 {
-            font-size: clamp(2.35rem, 12vw, 4rem);
         }
 
-        .section-head,
-        .footer-grid {
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.018) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,.85),
+                    transparent
+                );
+
+        }
+
+
+        a {
+            color: inherit;
+        }
+
+
+        img {
+            max-width: 100%;
+        }
+
+
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        .container {
+
+            width: min(
+                calc(100% - 40px),
+                1200px
+            );
+
+            margin: 0 auto;
+
+        }
+
+
+        /* =========================================================
+           TOP STRIP
+        ========================================================= */
+
+        .top-strip {
+
+            min-height: 38px;
+
+            display: flex;
+            align-items: center;
+
+            background:
+                rgba(2, 15, 27, 0.95);
+
+            border-bottom:
+                1px solid rgba(119, 210, 255, 0.12);
+
+            color: #9fb8ca;
+
+            font-size: 13px;
+
+        }
+
+
+        .top-strip-inner {
+
+            width: 100%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+        }
+
+
+        .top-strip strong {
+
+            color: #ffffff;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .site-header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(4, 17, 30, 0.80);
+
+            backdrop-filter:
+                blur(20px);
+
+            -webkit-backdrop-filter:
+                blur(20px);
+
+            border-bottom:
+                1px solid rgba(126, 213, 255, 0.12);
+
+        }
+
+
+        .navbar {
+
+            min-height: 78px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
             gap: 24px;
+
         }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-            scroll-behavior: auto !important;
-            animation: none !important;
-            transition: none !important;
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
         }
-    }
-</style>
 
 
-<style id="final-typography-system">
-html,body,button,input,textarea,select{
-  font-family:Inter,"Segoe UI",Arial,Helvetica,sans-serif!important;
-}
-body{font-weight:400;letter-spacing:0}
-p,li,small{font-weight:400!important;letter-spacing:0!important}
-h1,h2,h3,h4,h5,h6,strong{font-family:inherit!important;font-weight:700!important}
+        .brand-mark {
 
-.topbar,.topbar *,.topbar-left,.topbar-right{
-  font-family:inherit!important;font-size:13px;font-weight:400!important;
-  letter-spacing:0!important;text-transform:none!important;
-}
-.brand strong{
-  font-family:inherit!important;font-size:16px;font-weight:700!important;
-  letter-spacing:0!important;text-transform:none!important;
-}
-.brand small{
-  font-family:inherit!important;font-size:11px;font-weight:400!important;
-  letter-spacing:0!important;text-transform:none!important;color:#a9bdd2;
-}
-.nav-links a{
-  font-family:inherit!important;font-size:14px;font-weight:600!important;
-  letter-spacing:0!important;text-transform:none!important;
-}
-.hero .eyebrow,.eyebrow{
-  font-family:inherit!important;font-size:13px;font-weight:600!important;
-  letter-spacing:.03em!important;text-transform:none!important;
-}
-.hero h1,.hero h1 span,.hero h1 strong{
-  font-family:inherit!important;font-weight:700!important;
-}
-.hero h1{
-  font-size:clamp(3rem,6vw,5rem);line-height:1.02;letter-spacing:-.045em;
-  max-width:920px;margin-top:22px;margin-bottom:22px;
-}
-.hero h1 span{color:#18c7ee}
-.hero p{
-  font-family:inherit!important;max-width:700px;font-size:17px;line-height:1.7;
-  font-weight:400!important;letter-spacing:0!important;
-}
-.btn,button{
-  font-family:inherit!important;font-weight:600!important;
-  letter-spacing:0!important;text-transform:none!important;
-}
-.section-head h2,.cta h2{
-  font-family:inherit!important;font-weight:700!important;
-  letter-spacing:-.03em;line-height:1.1;
-}
-.section-head p,.cta p{
-  font-family:inherit!important;font-weight:400!important;letter-spacing:0!important;
-}
-.card h3,.program-slide h3{
-  font-family:inherit!important;font-weight:700!important;letter-spacing:-.015em;
-}
-.card p,.program-slide p{
-  font-family:inherit!important;font-weight:400!important;letter-spacing:0!important;
-}
-.tag{
-  font-family:inherit!important;font-weight:600!important;
-  letter-spacing:0!important;text-transform:none!important;
-}
-footer,footer *{font-family:inherit!important}
-footer h3,footer h4{
-  font-weight:700!important;letter-spacing:0!important;text-transform:none!important;
-}
-footer p,footer a,.footer-bottom{
-  font-weight:400!important;letter-spacing:0!important;text-transform:none!important;
-}
-@media(max-width:768px){
-  .hero h1{font-size:clamp(2.5rem,11vw,4rem);line-height:1.02}
-  .hero p{font-size:16px;line-height:1.65}
-  .hero .eyebrow,.eyebrow{font-size:12px}
-  .nav-links a{font-size:15px}
-}
-</style>
+            width: 44px;
+
+            height: 44px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 13px;
+
+            border:
+                1px solid rgba(104, 211, 255, .34);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(54, 199, 255, .22),
+                    rgba(31, 82, 191, .18)
+                );
+
+            box-shadow:
+                0 0 28px rgba(31, 177, 255, .10);
+
+            font-weight: 800;
+
+            color: #6edcff;
+
+        }
 
 
-<style id="high-contrast-futuristic-fix">
-/* =========================================================
-   HIGH-CONTRAST FUTURISTIC THEME
-   Improves readability on all dark backgrounds
-========================================================= */
+        .brand-text {
 
-:root {
-    --future-bg: #04101f;
-    --future-bg-2: #071a2f;
-    --future-panel: rgba(11, 30, 51, 0.94);
-    --future-panel-2: rgba(14, 38, 64, 0.96);
-    --future-white: #ffffff;
-    --future-text: #f4f9ff;
-    --future-muted: #c7d7e8;
-    --future-soft: #a9bfd4;
-    --future-cyan: #35d6ff;
-    --future-cyan-2: #73e4ff;
-    --future-line: rgba(115, 228, 255, 0.28);
-}
+            display: flex;
 
-html,
-body,
-button,
-input,
-textarea,
-select {
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif !important;
-}
+            flex-direction: column;
 
-body {
-    background:
-        radial-gradient(circle at 78% 12%, rgba(53,214,255,.12), transparent 25%),
-        radial-gradient(circle at 8% 35%, rgba(39,123,255,.10), transparent 26%),
-        linear-gradient(180deg, var(--future-bg), var(--future-bg-2) 48%, var(--future-bg));
-    color: var(--future-text) !important;
-}
+            line-height: 1.15;
 
-/* Make normal text readable everywhere */
-p,
-li,
-span,
-small,
-label {
-    color: inherit;
-}
+        }
 
-p {
-    color: var(--future-muted) !important;
-}
 
-/* TOP BAR */
-.topbar {
-    background: #020b17 !important;
-    color: var(--future-white) !important;
-    border-bottom: 1px solid rgba(115,228,255,.16) !important;
-}
+        .brand-text strong {
 
-.topbar *,
-.topbar-left,
-.topbar-right {
-    color: var(--future-white) !important;
-}
+            font-size: 17px;
 
-/* NAVIGATION */
-.navbar {
-    background: rgba(7, 22, 40, 0.97) !important;
-    border-bottom: 1px solid var(--future-line) !important;
-    box-shadow: 0 10px 32px rgba(0,0,0,.24);
-    backdrop-filter: blur(18px);
-}
+            font-weight: 750;
 
-.brand strong {
-    color: var(--future-white) !important;
-}
+            letter-spacing: -0.2px;
 
-.brand small {
-    color: #c3d5e6 !important;
-}
+        }
 
-.nav-links a {
-    color: #e8f3ff !important;
-    font-weight: 600 !important;
-}
 
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--future-cyan) !important;
-}
+        .brand-text span {
 
-.nav-links a.active {
-    background: rgba(53,214,255,.12) !important;
-    border: 1px solid rgba(53,214,255,.16);
-    border-radius: 12px;
-}
+            margin-top: 4px;
 
-/* HERO */
-.hero {
-    background:
-        linear-gradient(105deg, rgba(4,16,31,.99), rgba(7,35,62,.94)),
-        radial-gradient(circle at 80% 25%, rgba(53,214,255,.16), transparent 28%) !important;
-}
+            font-size: 11px;
 
-.hero::after {
-    opacity: .12 !important;
-}
+            color: #8daabd;
 
-.hero .eyebrow,
-.eyebrow {
-    color: var(--future-cyan-2) !important;
-    background: rgba(53,214,255,.09) !important;
-    border: 1px solid rgba(115,228,255,.26) !important;
-    text-shadow: none !important;
-}
+            font-weight: 400;
 
-.hero h1 {
-    color: var(--future-white) !important;
-    text-shadow: 0 6px 30px rgba(0,0,0,.25);
-}
+        }
 
-.hero h1 span {
-    color: var(--future-cyan) !important;
-    text-shadow: 0 0 28px rgba(53,214,255,.20) !important;
-}
 
-.hero p {
-    color: #e0ebf5 !important;
-}
+        .nav-links {
 
-/* BUTTONS */
-.btn-primary {
-    background: linear-gradient(135deg, #65e1ff, #2bbff4) !important;
-    color: #03101d !important;
-    border: 1px solid rgba(255,255,255,.18) !important;
-    box-shadow: 0 12px 30px rgba(43,191,244,.22) !important;
-}
+            display: flex;
 
-.btn-outline {
-    background: rgba(255,255,255,.055) !important;
-    color: var(--future-white) !important;
-    border: 1px solid rgba(115,228,255,.45) !important;
-}
+            align-items: center;
 
-.btn-outline:hover {
-    background: rgba(53,214,255,.12) !important;
-}
+            gap: 5px;
 
-/* SECTIONS */
-.section-head h2,
-.cta h2,
-.card h3,
-.program-slide h3 {
-    color: var(--future-white) !important;
-}
+            list-style: none;
 
-.section-head p,
-.card p,
-.program-slide p,
-.cta p {
-    color: var(--future-muted) !important;
-}
+        }
 
-/* CARDS */
-.card,
-.cta,
-.program-slider {
-    background:
-        linear-gradient(180deg, var(--future-panel-2), var(--future-panel)) !important;
-    border: 1px solid var(--future-line) !important;
-    box-shadow:
-        0 20px 55px rgba(0,0,0,.30),
-        inset 0 1px 0 rgba(255,255,255,.025) !important;
-}
 
-.card:hover {
-    border-color: rgba(115,228,255,.52) !important;
-    box-shadow:
-        0 24px 65px rgba(0,0,0,.36),
-        0 0 26px rgba(53,214,255,.06) !important;
-}
+        .nav-links a {
 
-/* Small labels */
-.tag {
-    color: var(--future-cyan-2) !important;
-    background: rgba(53,214,255,.10) !important;
-    border: 1px solid rgba(115,228,255,.25) !important;
-}
+            display: block;
 
-/* Icons */
-.icon {
-    color: var(--future-cyan) !important;
-    background: rgba(53,214,255,.10) !important;
-    border: 1px solid rgba(115,228,255,.22) !important;
-}
+            padding: 10px 12px;
 
-/* Slider */
-.slider-btn {
-    color: var(--future-white) !important;
-    border-color: rgba(115,228,255,.45) !important;
-    background: rgba(4,16,31,.78) !important;
-}
+            border-radius: 9px;
 
-.slider-dot {
-    color: var(--future-cyan) !important;
-}
+            text-decoration: none;
 
-/* Links inside content */
-main a:not(.btn),
-section a:not(.btn) {
-    color: var(--future-cyan-2);
-}
+            color: #b7ccda;
 
-/* FOOTER */
-footer {
-    background: #020b17 !important;
-    color: var(--future-text) !important;
-    border-top: 1px solid var(--future-line) !important;
-}
+            font-size: 14px;
 
-footer h3,
-footer h4 {
-    color: var(--future-white) !important;
-}
+            font-weight: 500;
 
-footer p {
-    color: #b8ccdf !important;
-}
+            transition: .2s ease;
 
-footer a {
-    color: #d8e8f6 !important;
-}
+        }
 
-footer a:hover {
-    color: var(--future-cyan) !important;
-}
 
-.footer-bottom {
-    color: #9db5ca !important;
-    border-top: 1px solid rgba(115,228,255,.16) !important;
-}
+        .nav-links a:hover {
 
-/* Mobile menu readability */
-@media (max-width: 900px) {
-    .nav-links {
-        background: rgba(5, 18, 34, .99) !important;
-        border: 1px solid var(--future-line) !important;
-        box-shadow: 0 20px 45px rgba(0,0,0,.40);
-    }
+            color: #ffffff;
 
-    .nav-links a {
-        color: var(--future-white) !important;
-    }
-}
+            background:
+                rgba(87, 202, 255, .08);
 
-/* Accessibility: selection and focus */
-::selection {
-    background: var(--future-cyan);
-    color: #02101c;
-}
+        }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible {
-    outline: 3px solid var(--future-cyan) !important;
-    outline-offset: 3px;
-}
-</style>
+
+        .nav-links .portal-link {
+
+            color: #04111e;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #76dcff,
+                    #4daeff
+                );
+
+            font-weight: 700;
+
+            padding-left: 16px;
+
+            padding-right: 16px;
+
+        }
+
+
+        .nav-links .portal-link:hover {
+
+            color: #04111e;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #92e5ff,
+                    #68bbff
+                );
+
+        }
+
+
+        .menu-button {
+
+            width: 44px;
+
+            height: 44px;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 11px;
+
+            border:
+                1px solid rgba(126, 213, 255, .18);
+
+            background:
+                rgba(255,255,255,.03);
+
+            color: #ffffff;
+
+            cursor: pointer;
+
+            font-size: 21px;
+
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+
+            position: relative;
+
+            min-height:
+                calc(100vh - 116px);
+
+            display: flex;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            isolation: isolate;
+
+        }
+
+
+        .hero-slides {
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: -4;
+
+        }
+
+
+        .hero-slide {
+
+            position: absolute;
+
+            inset: 0;
+
+            opacity: 0;
+
+            transform: scale(1.06);
+
+            transition:
+                opacity 1.1s ease,
+                transform 7s linear;
+
+        }
+
+
+        .hero-slide.active {
+
+            opacity: 1;
+
+            transform: scale(1);
+
+        }
+
+
+        .hero-slide img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            object-position: center;
+
+        }
+
+
+        .hero-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: -3;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(2, 13, 24, .97) 0%,
+                    rgba(2, 13, 24, .88) 35%,
+                    rgba(2, 13, 24, .55) 65%,
+                    rgba(2, 13, 24, .30) 100%
+                ),
+
+                linear-gradient(
+                    0deg,
+                    #04111e 0%,
+                    transparent 34%
+                );
+
+        }
+
+
+        .hero-glow {
+
+            position: absolute;
+
+            width: 520px;
+
+            height: 520px;
+
+            border-radius: 50%;
+
+            filter: blur(110px);
+
+            background:
+                rgba(0, 174, 255, .12);
+
+            right: -180px;
+
+            top: 10%;
+
+            z-index: -2;
+
+        }
+
+
+        .hero-content {
+
+            width: min(
+                760px,
+                100%
+            );
+
+            padding:
+                110px 0 125px;
+
+        }
+
+
+        .eyebrow {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 22px;
+
+            padding:
+                8px 12px;
+
+            border:
+                1px solid rgba(110, 220, 255, .25);
+
+            border-radius: 999px;
+
+            background:
+                rgba(43, 158, 210, .08);
+
+            color: #86dfff;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .eyebrow-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #65dbff;
+
+            box-shadow:
+                0 0 15px #65dbff;
+
+        }
+
+
+        .hero h1 {
+
+            max-width: 800px;
+
+            margin-bottom: 24px;
+
+            font-size:
+                clamp(
+                    46px,
+                    7vw,
+                    88px
+                );
+
+            line-height: .98;
+
+            letter-spacing:
+                -3.2px;
+
+            font-weight: 800;
+
+        }
+
+
+        .hero h1 span {
+
+            color: #6edcff;
+
+        }
+
+
+        .hero-description {
+
+            max-width: 670px;
+
+            margin-bottom: 32px;
+
+            color: #adc4d3;
+
+            font-size:
+                clamp(
+                    16px,
+                    1.8vw,
+                    19px
+                );
+
+            line-height: 1.75;
+
+            font-weight: 400;
+
+        }
+
+
+        .hero-buttons {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+        }
+
+
+        .btn {
+
+            min-height: 48px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding:
+                0 20px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                background .2s ease;
+
+        }
+
+
+        .btn:hover {
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        .btn-primary {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #73dcff,
+                    #4dacf8
+                );
+
+            color: #04111e;
+
+            box-shadow:
+                0 10px 35px rgba(47, 177, 255, .15);
+
+        }
+
+
+        .btn-secondary {
+
+            border:
+                1px solid rgba(139, 215, 248, .25);
+
+            background:
+                rgba(255,255,255,.04);
+
+            color: #ffffff;
+
+            backdrop-filter:
+                blur(12px);
+
+        }
+
+
+        .btn-secondary:hover {
+
+            border-color:
+                rgba(139, 215, 248, .5);
+
+            background:
+                rgba(255,255,255,.07);
+
+        }
+
+
+        /* =========================================================
+           HERO ARROWS
+        ========================================================= */
+
+        .hero-arrow {
+
+            position: absolute;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 47px;
+
+            height: 47px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 50%;
+
+            border:
+                1px solid rgba(255,255,255,.18);
+
+            background:
+                rgba(4, 17, 30, .38);
+
+            backdrop-filter:
+                blur(14px);
+
+            color: #ffffff;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+            z-index: 5;
+
+            transition: .2s ease;
+
+        }
+
+
+        .hero-arrow:hover {
+
+            background:
+                rgba(43, 164, 219, .25);
+
+            border-color:
+                rgba(109, 217, 255, .4);
+
+        }
+
+
+        .hero-prev {
+            left: 25px;
+        }
+
+
+        .hero-next {
+            right: 25px;
+        }
+
+
+        /* =========================================================
+           SLIDER UI
+        ========================================================= */
+
+        .hero-slider-ui {
+
+            position: absolute;
+
+            bottom: 36px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width:
+                min(
+                    calc(100% - 110px),
+                    560px
+                );
+
+            z-index: 6;
+
+        }
+
+
+        .hero-dots {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .hero-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border: 0;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.30);
+
+            cursor: pointer;
+
+            transition: .25s ease;
+
+        }
+
+
+        .hero-dot.active {
+
+            width: 27px;
+
+            border-radius: 999px;
+
+            background: #69dbff;
+
+        }
+
+
+        .hero-progress {
+
+            height: 2px;
+
+            overflow: hidden;
+
+            background:
+                rgba(255,255,255,.14);
+
+        }
+
+
+        .hero-progress-bar {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #6bdcff;
+
+        }
+
+
+        .hero-progress-bar.run {
+
+            animation:
+                progressAnimation
+                6s
+                linear
+                forwards;
+
+        }
+
+
+        @keyframes progressAnimation {
+
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+
+        .slide-counter {
+
+            position: absolute;
+
+            right: 28px;
+
+            bottom: 30px;
+
+            z-index: 6;
+
+            color:
+                rgba(255,255,255,.64);
+
+            font-size: 12px;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* =========================================================
+           MAIN SECTION
+        ========================================================= */
+
+        .section {
+
+            padding:
+                105px 0;
+
+        }
+
+
+        .section-head {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.2fr)
+                minmax(280px, .8fr);
+
+            gap: 60px;
+
+            align-items: end;
+
+            margin-bottom: 50px;
+
+        }
+
+
+        .section-label {
+
+            display: inline-block;
+
+            margin-bottom: 13px;
+
+            color: #6bdcff;
+
+            font-size: 13px;
+
+            font-weight: 650;
+
+        }
+
+
+        .section-head h2 {
+
+            max-width: 700px;
+
+            font-size:
+                clamp(
+                    33px,
+                    4vw,
+                    53px
+                );
+
+            line-height: 1.08;
+
+            letter-spacing:
+                -1.8px;
+
+            font-weight: 760;
+
+        }
+
+
+        .section-head > p {
+
+            color: #8fa9bb;
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+        }
+
+
+        /* =========================================================
+           FEATURES
+        ========================================================= */
+
+        .feature-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .feature-card {
+
+            min-height: 310px;
+
+            position: relative;
+
+            display: flex;
+
+            flex-direction: column;
+
+            padding:
+                30px;
+
+            overflow: hidden;
+
+            border-radius: 22px;
+
+            border:
+                1px solid rgba(126, 213, 255, .12);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(17, 44, 65, .68),
+                    rgba(7, 24, 39, .62)
+                );
+
+            text-decoration: none;
+
+            backdrop-filter:
+                blur(16px);
+
+            transition:
+                transform .28s ease,
+                border-color .28s ease,
+                box-shadow .28s ease;
+
+        }
+
+
+        .feature-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+
+            height: 170px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(48, 188, 255, .07);
+
+            filter: blur(40px);
+
+            top: -85px;
+
+            right: -60px;
+
+        }
+
+
+        .feature-card:hover {
+
+            transform:
+                translateY(-7px);
+
+            border-color:
+                rgba(101, 216, 255, .32);
+
+            box-shadow:
+                0 24px 60px
+                rgba(0, 0, 0, .22);
+
+        }
+
+
+        .feature-symbol {
+
+            width: 52px;
+
+            height: 52px;
+
+            display: grid;
+
+            place-items: center;
+
+            margin-bottom: 32px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid rgba(115, 219, 255, .23);
+
+            background:
+                rgba(77, 178, 227, .08);
+
+            color: #78dcff;
+
+            font-size: 14px;
+
+            font-weight: 750;
+
+        }
+
+
+        .feature-card h3 {
+
+            margin-bottom: 14px;
+
+            font-size: 22px;
+
+            font-weight: 720;
+
+            letter-spacing: -.4px;
+
+        }
+
+
+        .feature-card p {
+
+            margin-bottom: 27px;
+
+            color: #91aabd;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+
+            font-weight: 400;
+
+        }
+
+
+        .feature-action {
+
+            margin-top: auto;
+
+            color: #74dcff;
+
+            font-size: 13px;
+
+            font-weight: 650;
+
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            border-top:
+                1px solid rgba(129, 211, 250, .1);
+
+            background:
+                rgba(2, 12, 22, .55);
+
+            padding:
+                45px 0 90px;
+
+        }
+
+
+        .footer-layout {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 40px;
+
+            align-items: flex-start;
+
+        }
+
+
+        footer strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 18px;
+
+            font-weight: 750;
+
+        }
+
+
+        footer p {
+
+            color: #7895a8;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+
+        }
+
+
+        .footer-links {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            justify-content: flex-end;
+
+            gap: 16px;
+
+        }
+
+
+        .footer-links a {
+
+            color: #8ba8ba;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+        }
+
+
+        .footer-links a:hover {
+
+            color: #6bdcff;
+
+        }
+
+
+        /* =========================================================
+           MUSIC PLAYER
+        ========================================================= */
+
+        .music-panel {
+
+            position: fixed;
+
+            left: 20px;
+
+            bottom: 20px;
+
+            z-index: 1200;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            min-width: 210px;
+
+            padding:
+                10px 13px 10px 10px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid rgba(113, 213, 255, .16);
+
+            background:
+                rgba(5, 21, 35, .82);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, .25);
+
+        }
+
+
+        .music-button {
+
+            width: 39px;
+
+            height: 39px;
+
+            flex: 0 0 auto;
+
+            display: grid;
+
+            place-items: center;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #73dcff,
+                    #4dacf8
+                );
+
+            color: #04111e;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+        }
+
+
+        .music-info {
+
+            min-width: 0;
+
+        }
+
+
+        .music-info strong {
+
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 12px;
+
+            font-weight: 650;
+
+        }
+
+
+        .music-info span {
+
+            display: block;
+
+            margin-top: 2px;
+
+            color: #7f9bad;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 950px) {
+
+            .menu-button {
+                display: flex;
+            }
+
+
+            .nav-links {
+
+                position: absolute;
+
+                top: 78px;
+
+                left: 20px;
+
+                right: 20px;
+
+                display: none;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                padding: 12px;
+
+                border-radius: 15px;
+
+                border:
+                    1px solid rgba(126, 213, 255, .15);
+
+                background:
+                    rgba(4, 17, 30, .97);
+
+                box-shadow:
+                    0 20px 50px
+                    rgba(0,0,0,.35);
+
+            }
+
+
+            .nav-links.open {
+                display: flex;
+            }
+
+
+            .nav-links a {
+                padding: 12px 13px;
+            }
+
+
+            .section-head {
+
+                grid-template-columns: 1fr;
+
+                gap: 20px;
+
+            }
+
+
+            .feature-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .container {
+
+                width:
+                    min(
+                        calc(100% - 30px),
+                        1200px
+                    );
+
+            }
+
+
+            .top-strip {
+                display: none;
+            }
+
+
+            .hero {
+
+                min-height:
+                    calc(100vh - 78px);
+
+            }
+
+
+            .hero-content {
+
+                padding:
+                    85px 0 130px;
+
+            }
+
+
+            .hero h1 {
+
+                letter-spacing:
+                    -2px;
+
+            }
+
+
+            .hero-overlay {
+
+                background:
+
+                    linear-gradient(
+                        90deg,
+                        rgba(2,13,24,.94),
+                        rgba(2,13,24,.70)
+                    ),
+
+                    linear-gradient(
+                        0deg,
+                        #04111e,
+                        transparent 55%
+                    );
+
+            }
+
+
+            .hero-arrow {
+
+                width: 40px;
+
+                height: 40px;
+
+                font-size: 24px;
+
+            }
+
+
+            .hero-prev {
+                left: 10px;
+            }
+
+
+            .hero-next {
+                right: 10px;
+            }
+
+
+            .feature-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .feature-card {
+
+                min-height: 270px;
+
+            }
+
+
+            .section {
+
+                padding:
+                    75px 0;
+
+            }
+
+
+            .footer-layout {
+
+                flex-direction: column;
+
+            }
+
+
+            .footer-links {
+
+                justify-content: flex-start;
+
+            }
+
+
+            .music-panel {
+
+                left: 12px;
+
+                bottom: 12px;
+
+                min-width: 0;
+
+            }
+
+
+            .music-info {
+                display: none;
+            }
+
+
+            .slide-counter {
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .brand-text span {
+                display: none;
+            }
+
+
+            .hero-buttons {
+
+                flex-direction: column;
+
+            }
+
+
+            .btn {
+
+                width: 100%;
+
+            }
+
+
+            .hero-slider-ui {
+
+                width:
+                    calc(100% - 80px);
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -790,20 +1639,17 @@ input:focus-visible {
 <body>
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+    <!-- =========================================================
+         TOP STRIP
+    ========================================================== -->
 
-<header>
+    <div class="top-strip">
 
-    <!-- TOP BAR -->
-
-    <div class="topbar">
-
-        <div class="container">
+        <div class="container top-strip-inner">
 
             <span>
-                Sangguniang Kabataan 
+                Official Website of the
+                <strong>Sangguniang Kabataan</strong>
             </span>
 
             <span>
@@ -815,629 +1661,66 @@ input:focus-visible {
     </div>
 
 
-    <!-- NAVIGATION -->
 
-    <nav class="navbar">
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
 
-        <div class="container nav-inner">
+    <header class="site-header">
 
-
-            <!-- BRAND -->
+        <div class="container navbar">
 
             <a
+                href="index.html"
                 class="brand"
-                href="index.html">
+                aria-label="SK Sapilang Homepage"
+            >
 
-                <img
-                    src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
-                    alt="SK Sapilang Logo">
+                <div class="brand-mark">
+                    SK
+                </div>
 
-                <div>
+                <div class="brand-text">
 
                     <strong>
                         SK Sapilang
                     </strong>
 
-                    <small>
+                    <span>
                         Official Website
-                    </small>
+                    </span>
 
                 </div>
 
             </a>
 
 
-            <!-- MOBILE MENU -->
-
             <button
-                class="menu-toggle"
-                aria-label="Open navigation">
-
+                id="menuButton"
+                class="menu-button"
+                type="button"
+                aria-label="Open navigation"
+            >
                 ☰
-
             </button>
 
 
-            <!-- NAVIGATION LINKS -->
-
-            <ul class="nav-links">
-
-                <li>
-                    <a href="index.html">
-                        Home
-                    </a>
-                </li>
-
-                <li>
-                    <a href="about.html">
-                        About
-                    </a>
-                </li>
-
-                <li>
-                    <a href="programs.html">
-                        Programs
-                    </a>
-                </li>
-
-                <li>
-                    <a href="events.html">
-                        Events
-                    </a>
-                </li>
-
-                <li>
-                    <a href="announcements.html">
-                        News
-                    </a>
-                </li>
-
-                <li>
-                    <a href="awards.html">
-                        Awards
-                    </a>
-                </li>
-
-                <li>
-                    <a href="resolutions.html">
-                        Resolutions
-                    </a>
-                </li>
-
-                <li>
-                    <a href="organization.html">
-                        Officials
-                    </a>
-                </li>
-
-                <li>
-                    <a href="kk-portal.html">
-                        KK Portal
-                    </a>
-                </li>
-
-                <li>
-                    <a href="transparency.html">
-                        Transparency
-                    </a>
-                </li>
-
-                <li>
-                    <a href="contact.html">
-                        Contact
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
-
-    </nav>
-
-</header>
-
-
-
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
-
-<main>
-
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-    <div class="container hero-content reveal">
-
-
-        <div class="eyebrow">
-
-            ✦ SK Sapilang Official Website
-
-        </div>
-
-
-        <h1>
-
-            Building a
-
-            <span>
-                Future
-            </span>
-
-            Worth Belonging To.
-
-        </h1>
-
-
-        <p>
-
-            The official digital home of the Sangguniang Kabataan
-            of Barangay Sapilang, Bacnotan, La Union—connecting youth
-            to programs, services, public information, and opportunities.
-
-        </p>
-
-
-        <div class="buttons">
-
-
-            <a
-                class="btn btn-primary"
-                href="programs.html">
-
-                Explore Programs
-
-            </a>
-
-
-            <a
-                class="btn btn-outline"
-                href="kk-portal.html">
-
-                Enter KK Portal
-
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     MISSION
-===================================================== -->
-
-<section class="section">
-
-    <div class="container">
-
-
-        <div class="section-head">
-
-
-            <div>
-
-                <span class="tag">
-                    Our Mission
-                </span>
-
-                <h2>
-                    Youth at the center of progress.
-                </h2>
-
-            </div>
-
-
-            <p>
-
-                We create meaningful opportunities
-                for leadership, education, sports,
-                innovation, environment, culture,
-                health, and community participation.
-
-            </p>
-
-        </div>
-
-
-
-        <div class="grid grid-3">
-
-
-            <article class="card reveal">
-
-                <div class="icon">
-                    ⚡
-                </div>
-
-                <h3>
-                    Lead
-                </h3>
-
-                <p>
-
-                    Develop responsible,
-                    empowered, innovative,
-                    and service-oriented
-                    young leaders.
-
-                </p>
-
-            </article>
-
-
-
-            <article class="card reveal">
-
-                <div class="icon">
-                    🌱
-                </div>
-
-                <h3>
-                    Grow
-                </h3>
-
-                <p>
-
-                    Support education,
-                    wellness, skills development,
-                    innovation, and opportunities
-                    for young people.
-
-                </p>
-
-            </article>
-
-
-
-            <article class="card reveal">
-
-                <div class="icon">
-                    🤝
-                </div>
-
-                <h3>
-                    Unite
-                </h3>
-
-                <p>
-
-                    Build a stronger community
-                    through participation,
-                    sports, volunteerism,
-                    and shared purpose.
-
-                </p>
-
-            </article>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-
-
-
-<!-- =====================================================
-     FEATURED PROGRAMS
-===================================================== -->
-
-<section class="section">
-
-    <div class="container">
-
-
-        <div class="section-head">
-
-
-            <div>
-
-                <span class="tag">
-                    Featured
-                </span>
-
-                <h2>
-                    Programs that move us forward.
-                </h2>
-
-            </div>
-
-
-            <a
-                class="btn btn-primary"
-                href="programs.html">
-
-                View All
-
-            </a>
-
-        </div>
-
-
-
-        
-        <div class="program-slider reveal" aria-label="Featured programs">
-            <div class="program-track">
-
-                <article class="card program-card program-slide">
-                    <img src="images/hero.svg" alt="SK Sapilang E-Library">
-                    <div class="card-body">
-                        <span class="tag">Education</span>
-                        <h3>SK E-Library</h3>
-                        <p>Digital learning resources, technology, and educational opportunities for the youth.</p>
-                    </div>
-                </article>
-
-                <article class="card program-card program-slide">
-                    <img src="images/hero.svg" alt="SK Sapilang Youth Sports Development">
-                    <div class="card-body">
-                        <span class="tag">Sports</span>
-                        <h3>Youth Sports Development</h3>
-                        <p>Inclusive opportunities for young people to compete, connect, stay active, and grow.</p>
-                    </div>
-                </article>
-
-                <article class="card program-card program-slide">
-                    <img src="images/hero.svg" alt="SK Sapilang Digital Youth Development">
-                    <div class="card-body">
-                        <span class="tag">Innovation</span>
-                        <h3>Digital Youth Development</h3>
-                        <p>Digital literacy, responsible technology use, and youth-friendly innovation.</p>
-                    </div>
-                </article>
-
-            </div>
-
-            <div class="slider-controls" aria-label="Program slider controls">
-                <button class="slider-btn slider-prev" type="button" aria-label="Previous program">‹</button>
-                <div class="slider-dots" aria-label="Choose program"></div>
-                <button class="slider-btn slider-next" type="button" aria-label="Next program">›</button>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-
-<!-- =====================================================
-     KK DIGITAL PORTAL
-===================================================== -->
-
-<section class="section">
-
-    <div class="container">
-
-
-        <div class="cta reveal">
-
-
-            <span class="eyebrow">
-                Katipunan ng Kabataan
-            </span>
-
-
-            <h2>
-                Your voice. Your participation.
-                Your digital future.
-            </h2>
-
-
-            <p>
-
-                Register or update your KK profile,
-                access digital youth services,
-                and stay connected with the
-                Sangguniang Kabataan of
-                Barangay Sapilang.
-
-            </p>
-
-
-            <a
-                class="btn btn-primary"
-                href="kk-portal.html">
-
-                Open KK Digital Portal
-
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     GOVERNANCE & TRANSPARENCY
-===================================================== -->
-
-<section class="section">
-
-    <div class="container">
-
-
-        <div class="section-head">
-
-
-            <div>
-
-                <span class="tag">
-                    Good Governance
-                </span>
-
-                <h2>
-                    Transparent. Accountable. Accessible.
-                </h2>
-
-            </div>
-
-
-            <p>
-
-                Access official information,
-                resolutions, public documents,
-                organizational information,
-                and other transparency resources.
-
-            </p>
-
-        </div>
-
-
-
-        <div class="grid grid-3">
-
-
-            <a
-                href="transparency.html"
-                class="card reveal">
-
-                <div class="icon">
-                    ◈
-                </div>
-
-                <h3>
-                    Transparency
-                </h3>
-
-                <p>
-
-                    Access public financial,
-                    planning, procurement,
-                    and accomplishment documents.
-
-                </p>
-
-            </a>
-
-
-
-            <a
-                href="resolutions.html"
-                class="card reveal">
-
-                <div class="icon">
-                    §
-                </div>
-
-                <h3>
-                    Resolutions
-                </h3>
-
-                <p>
-
-                    Browse official SK resolutions
-                    and related governance documents.
-
-                </p>
-
-            </a>
-
-
-
-            <a
-                href="organization.html"
-                class="card reveal">
-
-                <div class="icon">
-                    ◎
-                </div>
-
-                <h3>
-                    SK Officials
-                </h3>
-
-                <p>
-
-                    Meet the SK officials and
-                    view the organizational
-                    structure of SK Sapilang.
-
-                </p>
-
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-
-
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-    <div class="container">
-
-
-        <div class="footer-grid">
-
-
-            <!-- BRAND -->
-
-            <div>
-
-                <h3>
-                    SK Sapilang
-                </h3>
-
-                <p>
-
-                    The official digital home
-                    of the Sangguniang Kabataan
-                    of Barangay Sapilang,
-                    Bacnotan, La Union.
-
-                </p>
-
-            </div>
-
-
-
-            <!-- EXPLORE -->
-
-            <div>
-
-                <h4>
-                    Explore
-                </h4>
-
-                <ul>
+            <nav>
+
+                <ul
+                    id="navLinks"
+                    class="nav-links"
+                >
+
+                    <li>
+                        <a href="index.html">
+                            Home
+                        </a>
+                    </li>
 
                     <li>
                         <a href="about.html">
-                            About Us
+                            About
                         </a>
                     </li>
 
@@ -1454,30 +1737,8 @@ input:focus-visible {
                     </li>
 
                     <li>
-                        <a href="awards.html">
-                            Awards
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-
-            <!-- GOVERNANCE -->
-
-            <div>
-
-                <h4>
-                    Governance
-                </h4>
-
-                <ul>
-
-                    <li>
-                        <a href="resolutions.html">
-                            Resolutions
+                        <a href="announcements.html">
+                            Announcements
                         </a>
                     </li>
 
@@ -1488,143 +1749,1035 @@ input:focus-visible {
                     </li>
 
                     <li>
-                        <a href="organization.html">
-                            SK Officials
+                        <a href="contact.html">
+                            Contact
                         </a>
                     </li>
 
+                    <li>
+
+                        <a
+                            href="kk-portal.html"
+                            class="portal-link"
+                        >
+                            KK Portal
+                        </a>
+
+                    </li>
+
                 </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <main>
+
+        <section class="hero">
+
+
+            <!-- CHANGE / ADD PHOTOS HERE -->
+
+            <div
+                id="heroSlides"
+                class="hero-slides"
+            >
+
+
+                <div class="hero-slide active">
+
+                    <img
+                        src="images/hero1.jpg"
+                        alt="SK Sapilang youth program"
+                    >
+
+                </div>
+
+
+                <div class="hero-slide">
+
+                    <img
+                        src="images/hero2.jpg"
+                        alt="SK Sapilang community activity"
+                    >
+
+                </div>
+
+
+                <div class="hero-slide">
+
+                    <img
+                        src="images/hero3.jpg"
+                        alt="SK Sapilang youth services"
+                    >
+
+                </div>
+
+
+                <div class="hero-slide">
+
+                    <img
+                        src="images/hero4.jpg"
+                        alt="SK Sapilang activities"
+                    >
+
+                </div>
+
+
+                <div class="hero-slide">
+
+                    <img
+                        src="images/hero5.jpg"
+                        alt="SK Sapilang programs"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-glow"></div>
+
+
+            <div class="container">
+
+                <div class="hero-content">
+
+
+                    <div class="eyebrow">
+
+                        <span class="eyebrow-dot"></span>
+
+                        SK Sapilang Official Website
+
+                    </div>
+
+
+                    <h1>
+
+                        Building a Future
+                        <span>
+                            Worth Belonging To.
+                        </span>
+
+                    </h1>
+
+
+                    <p class="hero-description">
+
+                        Welcome to the official digital home of the
+                        Sangguniang Kabataan of Barangay Sapilang,
+                        Bacnotan, La Union. Discover programs,
+                        participate in activities, access public
+                        information, and connect with youth services
+                        in one digital space.
+
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <a
+                            href="programs.html"
+                            class="btn btn-primary"
+                        >
+                            Explore Programs →
+                        </a>
+
+
+                        <a
+                            href="kk-portal.html"
+                            class="btn btn-secondary"
+                        >
+                            Enter KK Digital Portal
+                        </a>
+
+                    </div>
+
+
+                </div>
 
             </div>
 
 
 
-            <!-- YOUTH -->
+            <!-- SLIDER CONTROLS -->
+
+            <button
+                id="heroPrev"
+                class="hero-arrow hero-prev"
+                type="button"
+                aria-label="Previous image"
+            >
+                ‹
+            </button>
+
+
+            <button
+                id="heroNext"
+                class="hero-arrow hero-next"
+                type="button"
+                aria-label="Next image"
+            >
+                ›
+            </button>
+
+
+            <div class="hero-slider-ui">
+
+                <div
+                    id="heroDots"
+                    class="hero-dots"
+                ></div>
+
+                <div class="hero-progress">
+
+                    <div
+                        id="heroProgress"
+                        class="hero-progress-bar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="slideCounter"
+                class="slide-counter"
+            >
+                01 / 01
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
+             MAIN SERVICES
+
+             NO EXTRA KK PORTAL SECTION BELOW.
+             THIS REMOVES THE REDUNDANCY.
+        ====================================================== -->
+
+        <section class="section">
+
+            <div class="container">
+
+
+                <div class="section-head">
+
+
+                    <div>
+
+                        <span class="section-label">
+                            Explore SK Sapilang
+                        </span>
+
+                        <h2>
+                            Youth services and governance in one digital space.
+                        </h2>
+
+                    </div>
+
+
+                    <p>
+
+                        Discover programs and activities, access the
+                        KK Digital Portal, and view official
+                        transparency and governance resources.
+
+                    </p>
+
+
+                </div>
+
+
+
+                <div class="feature-grid">
+
+
+                    <!-- PROGRAMS -->
+
+                    <a
+                        href="programs.html"
+                        class="feature-card"
+                    >
+
+                        <div class="feature-symbol">
+                            P
+                        </div>
+
+                        <h3>
+                            Programs
+                        </h3>
+
+                        <p>
+
+                            Explore education, sports, leadership,
+                            health, environment, digital innovation,
+                            and community development programs.
+
+                        </p>
+
+                        <span class="feature-action">
+                            Explore Programs →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- KK DIGITAL PORTAL -->
+
+                    <a
+                        href="kk-portal.html"
+                        class="feature-card"
+                    >
+
+                        <div class="feature-symbol">
+                            KK
+                        </div>
+
+                        <h3>
+                            KK Digital Portal
+                        </h3>
+
+                        <p>
+
+                            Complete KK Profiling, access your
+                            Digital ID, verify membership status,
+                            and use official youth digital services.
+
+                        </p>
+
+                        <span class="feature-action">
+                            Enter KK Portal →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- TRANSPARENCY -->
+
+                    <a
+                        href="transparency.html"
+                        class="feature-card"
+                    >
+
+                        <div class="feature-symbol">
+                            T
+                        </div>
+
+                        <h3>
+                            Transparency
+                        </h3>
+
+                        <p>
+
+                            View resolutions, reports, financial
+                            information, public documents, and
+                            accountability resources.
+
+                        </p>
+
+                        <span class="feature-action">
+                            View Public Records →
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        <div class="container footer-layout">
+
 
             <div>
 
-                <h4>
-                    Youth Services
-                </h4>
+                <strong>
+                    SK Sapilang
+                </strong>
 
-                <ul>
+                <p>
 
-                    <li>
-                        <a href="kk-portal.html">
-                            KK Digital Portal
-                        </a>
-                    </li>
+                    Official Website of the Sangguniang Kabataan
+                    of Barangay Sapilang
+                    <br>
+                    Bacnotan, La Union
 
-                    <li>
-                        <a href="announcements.html">
-                            Announcements
-                        </a>
-                    </li>
+                </p>
 
-                    <li>
-                        <a href="contact.html">
-                            Contact & Feedback
-                        </a>
-                    </li>
+            </div>
 
-                </ul>
+
+            <div class="footer-links">
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="programs.html">
+                    Programs
+                </a>
+
+                <a href="announcements.html">
+                    Announcements
+                </a>
+
+                <a href="transparency.html">
+                    Transparency
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+                <a href="kk-portal.html">
+                    KK Portal
+                </a>
 
             </div>
 
 
         </div>
 
+    </footer>
 
 
-        <div class="footer-bottom">
 
-            © <span data-year></span>
-            SK Sapilang.
-            All Rights Reserved.
+    <!-- =========================================================
+         OFFICIAL MUSIC
 
-            • SK Sapilang Official Website
+         Put your MP3 here:
+
+         audio/official-music.mp3
+    ========================================================== -->
+
+    <audio
+        id="officialMusic"
+        loop
+        preload="metadata"
+    >
+
+        <source
+            src="audio/official-music.mp3"
+            type="audio/mpeg"
+        >
+
+    </audio>
+
+
+
+    <!-- =========================================================
+         MUSIC PLAYER
+    ========================================================== -->
+
+    <div
+        id="musicPanel"
+        class="music-panel"
+    >
+
+        <button
+            id="musicButton"
+            class="music-button"
+            type="button"
+            aria-label="Play official music"
+        >
+            ▶
+        </button>
+
+
+        <div class="music-info">
+
+            <strong>
+                Official Music
+            </strong>
+
+            <span id="musicStatus">
+                Tap to play
+            </span>
 
         </div>
 
-
     </div>
 
-</footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+
+        /* =========================================================
+           MOBILE NAVIGATION
+        ========================================================= */
+
+        const menuButton =
+            document.getElementById(
+                "menuButton"
+            );
+
+
+        const navLinks =
+            document.getElementById(
+                "navLinks"
+            );
+
+
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                navLinks.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+
+        navLinks
+            .querySelectorAll("a")
+            .forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        function () {
+
+                            navLinks.classList.remove(
+                                "open"
+                            );
+
+                        }
+                    );
+
+                }
+            );
 
 
 
+        /* =========================================================
+           HERO SLIDER
+        ========================================================= */
 
-<script>
-(function () {
-    const slider = document.querySelector(".program-slider");
-    if (!slider) return;
+        const slides =
+            Array.from(
+                document.querySelectorAll(
+                    ".hero-slide"
+                )
+            );
 
-    const track = slider.querySelector(".program-track");
-    const slides = Array.from(slider.querySelectorAll(".program-slide"));
-    const dotsWrap = slider.querySelector(".slider-dots");
-    const prev = slider.querySelector(".slider-prev");
-    const next = slider.querySelector(".slider-next");
 
-    let index = 0;
-    let timer = null;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const heroDots =
+            document.getElementById(
+                "heroDots"
+            );
 
-    slides.forEach((_, i) => {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "slider-dot";
-        dot.setAttribute("aria-label", "Show program " + (i + 1));
-        dot.addEventListener("click", () => {
-            show(i);
-            restart();
-        });
-        dotsWrap.appendChild(dot);
-    });
 
-    const dots = Array.from(dotsWrap.querySelectorAll(".slider-dot"));
+        const heroProgress =
+            document.getElementById(
+                "heroProgress"
+            );
 
-    function show(i) {
-        index = (i + slides.length) % slides.length;
-        track.style.transform = "translateX(-" + (index * 100) + "%)";
-        dots.forEach((dot, d) => dot.classList.toggle("active", d === index));
-    }
 
-    function start() {
-        if (reduceMotion || slides.length < 2) return;
-        timer = window.setInterval(() => show(index + 1), 4000);
-    }
+        const slideCounter =
+            document.getElementById(
+                "slideCounter"
+            );
 
-    function stop() {
-        if (timer) window.clearInterval(timer);
-        timer = null;
-    }
 
-    function restart() {
-        stop();
-        start();
-    }
+        const heroPrev =
+            document.getElementById(
+                "heroPrev"
+            );
 
-    prev.addEventListener("click", () => {
-        show(index - 1);
-        restart();
-    });
 
-    next.addEventListener("click", () => {
-        show(index + 1);
-        restart();
-    });
+        const heroNext =
+            document.getElementById(
+                "heroNext"
+            );
 
-    slider.addEventListener("mouseenter", stop);
-    slider.addEventListener("mouseleave", start);
-    slider.addEventListener("focusin", stop);
-    slider.addEventListener("focusout", start);
 
-    show(0);
-    start();
-})();
-</script>
+        const hero =
+            document.querySelector(
+                ".hero"
+            );
 
-<script src="js/main.js"></script>
+
+        let currentSlide = 0;
+
+        let sliderTimer = null;
+
+        const SLIDE_DURATION = 6000;
+
+
+
+        /* CREATE DOTS */
+
+        slides.forEach(
+            function (_, index) {
+
+                const dot =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                dot.className =
+                    "hero-dot";
+
+
+                dot.type =
+                    "button";
+
+
+                dot.setAttribute(
+                    "aria-label",
+                    "Go to slide " +
+                    (index + 1)
+                );
+
+
+                dot.addEventListener(
+                    "click",
+                    function () {
+
+                        showSlide(index);
+
+                        restartSlider();
+
+                    }
+                );
+
+
+                heroDots.appendChild(
+                    dot
+                );
+
+            }
+        );
+
+
+        const dots =
+            Array.from(
+                document.querySelectorAll(
+                    ".hero-dot"
+                )
+            );
+
+
+
+        /* DISPLAY SLIDE */
+
+        function showSlide(index) {
+
+
+            if (slides.length === 0) {
+                return;
+            }
+
+
+            currentSlide =
+                (
+                    index +
+                    slides.length
+                )
+                %
+                slides.length;
+
+
+            slides.forEach(
+                function (slide, i) {
+
+                    slide.classList.toggle(
+                        "active",
+                        i === currentSlide
+                    );
+
+                }
+            );
+
+
+            dots.forEach(
+                function (dot, i) {
+
+                    dot.classList.toggle(
+                        "active",
+                        i === currentSlide
+                    );
+
+                }
+            );
+
+
+            slideCounter.textContent =
+
+                String(
+                    currentSlide + 1
+                ).padStart(
+                    2,
+                    "0"
+                )
+
+                +
+
+                " / "
+
+                +
+
+                String(
+                    slides.length
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            restartProgress();
+
+        }
+
+
+
+        /* NEXT */
+
+        function nextSlide() {
+
+            showSlide(
+                currentSlide + 1
+            );
+
+        }
+
+
+
+        /* PREVIOUS */
+
+        function previousSlide() {
+
+            showSlide(
+                currentSlide - 1
+            );
+
+        }
+
+
+
+        /* PROGRESS */
+
+        function restartProgress() {
+
+            heroProgress.classList.remove(
+                "run"
+            );
+
+
+            void heroProgress.offsetWidth;
+
+
+            heroProgress.classList.add(
+                "run"
+            );
+
+        }
+
+
+
+        /* AUTO SLIDER */
+
+        function startSlider() {
+
+            clearInterval(
+                sliderTimer
+            );
+
+
+            sliderTimer =
+                setInterval(
+                    nextSlide,
+                    SLIDE_DURATION
+                );
+
+        }
+
+
+
+        function stopSlider() {
+
+            clearInterval(
+                sliderTimer
+            );
+
+        }
+
+
+
+        function restartSlider() {
+
+            stopSlider();
+
+            startSlider();
+
+        }
+
+
+
+        heroNext.addEventListener(
+            "click",
+            function () {
+
+                nextSlide();
+
+                restartSlider();
+
+            }
+        );
+
+
+        heroPrev.addEventListener(
+            "click",
+            function () {
+
+                previousSlide();
+
+                restartSlider();
+
+            }
+        );
+
+
+
+        /* PAUSE WHILE HOVERING */
+
+        hero.addEventListener(
+            "mouseenter",
+            stopSlider
+        );
+
+
+        hero.addEventListener(
+            "mouseleave",
+            startSlider
+        );
+
+
+
+        /* PAUSE IF BROWSER TAB IS HIDDEN */
+
+        document.addEventListener(
+            "visibilitychange",
+            function () {
+
+                if (
+                    document.hidden
+                ) {
+
+                    stopSlider();
+
+                }
+
+                else {
+
+                    restartSlider();
+
+                }
+
+            }
+        );
+
+
+
+        /* KEYBOARD CONTROLS */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "ArrowRight"
+                ) {
+
+                    nextSlide();
+
+                    restartSlider();
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowLeft"
+                ) {
+
+                    previousSlide();
+
+                    restartSlider();
+
+                }
+
+            }
+        );
+
+
+
+        /* START */
+
+        showSlide(0);
+
+        startSlider();
+
+
+
+        /* =========================================================
+           MUSIC PLAYER
+        ========================================================= */
+
+        const officialMusic =
+            document.getElementById(
+                "officialMusic"
+            );
+
+
+        const musicButton =
+            document.getElementById(
+                "musicButton"
+            );
+
+
+        const musicStatus =
+            document.getElementById(
+                "musicStatus"
+            );
+
+
+        function updateMusicDisplay() {
+
+            if (
+                officialMusic.paused
+            ) {
+
+                musicButton.textContent =
+                    "▶";
+
+                musicButton.setAttribute(
+                    "aria-label",
+                    "Play official music"
+                );
+
+                musicStatus.textContent =
+                    "Tap to play";
+
+            }
+
+            else {
+
+                musicButton.textContent =
+                    "❚❚";
+
+                musicButton.setAttribute(
+                    "aria-label",
+                    "Pause official music"
+                );
+
+                musicStatus.textContent =
+                    "Now playing";
+
+            }
+
+        }
+
+
+
+        musicButton.addEventListener(
+            "click",
+            async function () {
+
+                try {
+
+                    if (
+                        officialMusic.paused
+                    ) {
+
+                        await officialMusic.play();
+
+                    }
+
+                    else {
+
+                        officialMusic.pause();
+
+                    }
+
+
+                    updateMusicDisplay();
+
+                }
+
+                catch (error) {
+
+                    console.log(
+                        "Music playback requires user interaction.",
+                        error
+                    );
+
+                    musicStatus.textContent =
+                        "Tap again to play";
+
+                }
+
+            }
+        );
+
+
+        officialMusic.addEventListener(
+            "play",
+            updateMusicDisplay
+        );
+
+
+        officialMusic.addEventListener(
+            "pause",
+            updateMusicDisplay
+        );
+
+
+        updateMusicDisplay();
+
+
+    </script>
 
 
 </body>
