@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     const header =
         document.getElementById("site-header");
@@ -115,7 +115,7 @@
                     </li>
 
                     <li>
-                        <a href="contact.html#feedback">
+                        <a href="feedback.html">
                             Feedback
                         </a>
                     </li>
@@ -185,29 +185,7 @@
             );
 
 
-            if (
-                currentPage === "contact.html" &&
-                currentHash === "#feedback"
-            ) {
-
-                if (
-                    fullHref.toLowerCase() ===
-                    "contact.html#feedback"
-                ) {
-
-                    link.classList.add(
-                        "active"
-                    );
-
-                    link.setAttribute(
-                        "aria-current",
-                        "page"
-                    );
-
-                }
-
-                return;
-            }
+            
 
 
             if (
