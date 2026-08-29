@@ -69,9 +69,9 @@ content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
 </head>
 <body>
   <div id="skFrameLoading">SK SAPILANG</div>
-  <iframe id="skSiteFrame" title="SK Sapilang Website" src="home.html"></iframe>
+  <iframe id="skSiteFrame" title="SK Sapilang Website" src="home.html?v=20260830-02"></iframe>
 
-  <script src="js/music-player.js?v=20260830-ENCODING-FIX"></script>
+  <script src="js/music-player.js?v=20260830-02"></script>
   <script>
     (function () {
       "use strict";
@@ -92,9 +92,23 @@ content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
         return decoded;
       }
 
-      const params = new URLSearchParams(location.search);
+      function freshPage(page) {
+    const hashIndex = page.indexOf("#");
+    let hash = "";
+
+    if (hashIndex >= 0) {
+        hash = page.slice(hashIndex);
+        page = page.slice(0, hashIndex);
+    }
+
+    const separator = page.includes("?") ? "&" : "?";
+
+    return page + separator + "v=20260830-02" + hash;
+}
+
+const params = new URLSearchParams(location.search);
       const initial = safePage(params.get("page"));
-      frame.src = initial;
+      frame.src = freshPage(initial);
 
       frame.addEventListener("load", function () {
         loading.classList.add("hidden");
@@ -119,7 +133,7 @@ content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
           if (inside === page) return;
         } catch (e) {}
         loading.classList.remove("hidden");
-        frame.src = page;
+        frame.src = freshPage(page);
       });
     })();
   </script>
