@@ -270,6 +270,12 @@ img{display:block;max-width:100%}
 .form-group textarea{min-height:120px;resize:vertical}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(60,216,255,.55);box-shadow:0 0 0 3px rgba(60,216,255,.05)}
 .form-group select option{color:black}
+.gad-profile{margin:24px 0;padding:22px;border:1px solid rgba(11,37,69,.22);border-left:6px solid #f59e0b;border-radius:12px;background:#fff}
+.gad-profile h4{margin:0;color:#0b2545;font-size:20px}.gad-profile>p{margin:7px 0 18px;color:#405e70!important;font-size:14px!important}
+.sector-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:8px}
+.sector-option{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid #cad8e2;border-radius:8px;background:#f7fafc}
+.sector-option input{width:18px!important;min-height:18px!important;margin-top:2px}.sector-option span{color:#29495e;font-size:14px;line-height:1.4}
+.gad-other[hidden]{display:none!important}
 .rating-title{margin:25px 0 13px;padding-top:20px;border-top:1px solid rgba(60,216,255,.10)}
 .rating-title h4{color:white;font-size:16px}
 .rating-title p{margin-top:5px;color:#78929e;font-size:9px}
@@ -574,6 +580,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     .admin-panel-body{padding:12px}
     .admin-bar-item{grid-template-columns:95px 1fr 30px}
     .admin-schedule-form{grid-template-columns:1fr}.admin-schedule-card{grid-template-columns:1fr}
+    .sector-options{grid-template-columns:1fr}
 }
 
 </style>
@@ -649,7 +656,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
             <div class="notice" style="margin:18px">
                 <small>Data Privacy Notice</small>
                 <h3>Purpose and protection of personal information</h3>
-                <p>In accordance with Republic Act No. 10173 or the Data Privacy Act of 2012, information submitted through this page—including name, age or birthdate, address, contact details, office or organization and position—will be collected only when provided for service documentation, visitor monitoring, program evaluation, response to concerns, reporting and improvement of SK Sapilang services. Access is limited to authorized personnel. Information will not be used for unrelated purposes and will be retained only for as long as necessary under applicable government records and privacy policies. Submission is voluntary, and consent is required before personal information is recorded.</p>
+                <p>In accordance with Republic Act No. 10173 or the Data Privacy Act of 2012, information submitted through this page—including name, age or birthdate, address, contact details, office or organization, sex assigned at birth, gender identity, pronouns and sector classification—will be collected only when provided for service documentation, visitor monitoring, program evaluation, GAD and sex-disaggregated statistical reporting, inclusive program planning, response to concerns and improvement of SK Sapilang services. Sensitive demographic questions are optional and include “Prefer not to say.” Access is limited to authorized personnel. Information will not be used for unrelated purposes and will be retained only for as long as necessary under applicable government records and privacy policies. Submission is voluntary, and consent is required before personal information is recorded.</p>
             </div>
 
             <div class="form-panel" id="activityPanel">
@@ -706,6 +713,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                     </div>
+
+                    <div data-gad-profile data-prefix="activity" data-organization="yes"></div>
 
                     <div class="rating-title">
                         <h4>Overall Activity Rating *</h4>
@@ -979,6 +988,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <div class="form-group"><label>Service Availed / Office Concerned *</label><select name="service" required><option value="">Select Service</option><option>KK Profiling</option><option>KK Digital ID / Verification</option><option>Printing / Educational Support</option><option>Program Registration</option><option>Programs and Activities</option><option>Documents / Publications</option><option>Request for Information</option><option>SK Chairperson / Council</option><option>Website / Digital Service</option><option>General SK Assistance</option><option>Other</option></select></div>
                         <input name="date" id="visitorServiceDate" type="hidden">
                     </div>
+                    <div data-gad-profile data-prefix="visitor" data-organization="no"></div>
                     <div class="rating-title"><h4>Service Feedback</h4><p>If you received a service, you may rate your overall experience.</p></div>
                     <div class="rating-grid">
                         <div class="rating-option"><input id="vf1" type="radio" name="rating" value="1"><label for="vf1"><strong>1</strong><span>Very Dissatisfied</span></label></div>
@@ -1052,6 +1062,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <textarea name="solution"></textarea>
                         </div>
                     </div>
+
+                    <div data-gad-profile data-prefix="suggestion" data-organization="yes"></div>
 
                     <div class="consent">
                         <input id="suggestionConsent" type="checkbox" required>
@@ -1381,7 +1393,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     </div>
 </footer>
 
-<script src="js/feedback-page.js?v=20260903-QMS4"></script>
+<script src="js/feedback-page.js?v=20260903-GAD"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
 </body>

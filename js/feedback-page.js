@@ -62,6 +62,57 @@ tabs.forEach(tab=>{
 const QMS_WEB_APP_URL =
     "https://script.google.com/macros/s/AKfycbxG-b_P47JMJu-S8AvU-Az-tZFJiGhxs9IzKrPCZgxTJwdI7Se2bbyx0z6DKvYnZ90Jqg/exec";
 
+function gadProfileMarkup(prefix,includeOrganization){
+    const organization=includeOrganization?`
+        <div class="form-group"><label for="${prefix}Organization">Organization / Office</label><input id="${prefix}Organization" name="organizationOffice" type="text" autocomplete="organization"></div>
+        <div class="form-group"><label for="${prefix}Position">Position / Designation</label><input id="${prefix}Position" name="positionDesignation" type="text" autocomplete="organization-title"></div>`:"";
+    return `<section class="gad-profile" aria-labelledby="${prefix}GadTitle">
+        <h4 id="${prefix}GadTitle">GAD and Inclusion Profile</h4>
+        <p>For sex-disaggregated statistics and inclusive program planning. Sensitive questions are voluntary, and “Prefer not to say” is available.</p>
+        <div class="form-grid">
+            <div class="form-group"><label for="${prefix}Sex">Sex Assigned at Birth</label><select id="${prefix}Sex" name="sexAssignedAtBirth"><option value="">Select an option</option><option>Female</option><option>Male</option><option>Intersex</option><option>Prefer not to say</option><option>Other</option></select><input class="gad-other" hidden data-other-for="${prefix}Sex" name="sexAssignedAtBirthOther" placeholder="Please specify"></div>
+            <div class="form-group"><label for="${prefix}Gender">Gender Identity / Expression (Optional)</label><select id="${prefix}Gender" name="genderIdentity"><option value="">Select an option</option><option>Woman</option><option>Man</option><option>Non-binary / Gender-diverse</option><option>Transgender woman</option><option>Transgender man</option><option>Prefer not to say</option><option>Self-describe</option></select><input class="gad-other" hidden data-other-for="${prefix}Gender" name="genderIdentityOther" placeholder="Please self-describe"></div>
+            <div class="form-group"><label for="${prefix}Pronouns">Preferred Pronouns (Optional)</label><select id="${prefix}Pronouns" name="preferredPronouns"><option value="">Select an option</option><option>She / Her</option><option>He / Him</option><option>They / Them</option><option>Use my name</option><option>Prefer not to say</option><option>Other</option></select><input class="gad-other" hidden data-other-for="${prefix}Pronouns" name="preferredPronounsOther" placeholder="Please specify"></div>
+            ${organization}
+            <div class="form-group full"><label>Sector / Inclusion Classification (Select all that apply)</label>
+                <div class="sector-options">
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Youth (15–30)"><span>Youth (15–30)</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Person with Disability (PWD)"><span>Person with Disability (PWD)</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Senior Citizen"><span>Senior Citizen</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Indigenous Cultural Community / Indigenous Peoples"><span>Indigenous Peoples</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Solo Parent"><span>Solo Parent</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Out-of-School Youth"><span>Out-of-School Youth</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Student"><span>Student</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Working Youth"><span>Working Youth</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="LGBTQIA+ Sector"><span>LGBTQIA+ Sector</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="4Ps Household Member"><span>4Ps Household Member</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Prefer not to say"><span>Prefer not to say</span></label>
+                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Other" data-sector-other="${prefix}"><span>Other</span></label>
+                </div>
+                <input class="gad-other" hidden data-sector-other-input="${prefix}" name="sectorClassificationOther" placeholder="Please specify another sector or classification">
+            </div>
+        </div>
+    </section>`;
+}
+
+document.querySelectorAll("[data-gad-profile]").forEach(container=>{
+    const prefix=container.dataset.prefix;
+    container.innerHTML=gadProfileMarkup(prefix,container.dataset.organization==="yes");
+    container.querySelectorAll("select").forEach(select=>select.addEventListener("change",()=>{
+        const input=container.querySelector('[data-other-for="'+select.id+'"]');
+        if(!input)return;
+        const show=select.value==="Other"||select.value==="Self-describe";
+        input.hidden=!show;if(!show)input.value="";
+    }));
+    const otherCheck=container.querySelector('[data-sector-other="'+prefix+'"]');
+    const otherInput=container.querySelector('[data-sector-other-input="'+prefix+'"]');
+    otherCheck.addEventListener("change",()=>{otherInput.hidden=!otherCheck.checked;if(!otherCheck.checked)otherInput.value="";});
+});
+
+function resetGadProfile(form){
+    form.querySelectorAll(".gad-other").forEach(input=>{input.hidden=true;input.value="";});
+}
+
 
 function setSubmitting(button, submitting){
     if(!button) return;
@@ -193,6 +244,7 @@ if(clientForm)clientForm.addEventListener("submit",async e=>{
         );
 
         form.reset();
+        resetGadProfile(form);
     }catch(error){
         showSubmissionError(
             resultBox,
@@ -217,6 +269,7 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
         setSubmitting(button,true);
 
         const data=await sendToQMS("activity",form);
+        await sendGadProfile(form,"Activity / Program Evaluation",data.reference);
 
         showResult(
             resultBox,
@@ -227,6 +280,7 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
         );
 
         form.reset();
+        resetGadProfile(form);
     }catch(error){
         showSubmissionError(
             resultBox,
@@ -251,6 +305,7 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
         setSubmitting(button,true);
 
         const data=await sendToQMS("suggestion",form);
+        await sendGadProfile(form,"Suggestions & Recommendations",data.reference);
 
         showResult(
             resultBox,
@@ -261,6 +316,7 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
         );
 
         form.reset();
+        resetGadProfile(form);
     }catch(error){
         showSubmissionError(
             resultBox,
@@ -294,6 +350,21 @@ function sendVisitorLog(form){
     });
 }
 
+function sendGadProfile(form,formType,reference){
+    return new Promise((resolve,reject)=>{
+        const endpoint=feedbackCmsEndpoint();
+        if(!endpoint){reject(new Error("The GAD monitoring database is not configured."));return;}
+        const target="gadLogFrame"+Date.now(),frame=document.createElement("iframe"),post=document.createElement("form");
+        frame.name=target;frame.hidden=true;post.method="POST";post.action=endpoint;post.target=target;
+        new FormData(form).forEach((value,name)=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
+        [["action","gad-profile-log"],["formType",formType],["reference",reference||""],["consent","yes"]].forEach(([name,value])=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
+        const timer=setTimeout(()=>finish(new Error("The GAD monitoring request timed out.")),25000);
+        function receive(event){if(event.data?.source!=="sk-gad-profile-log")return;event.data.success?finish(null,event.data):finish(new Error(event.data.message||"Unable to save the GAD profile."));}
+        function finish(error,data){clearTimeout(timer);window.removeEventListener("message",receive);frame.remove();post.remove();error?reject(error):resolve(data);}
+        window.addEventListener("message",receive);document.body.append(frame,post);post.submit();
+    });
+}
+
 document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
 document.getElementById("visitorForm").addEventListener("submit",async function(event){
     event.preventDefault();
@@ -304,8 +375,9 @@ document.getElementById("visitorForm").addEventListener("submit",async function(
         const visitorPromise=sendVisitorLog(form);
         const qmsPromise=hasRating?sendToQMS("client",form):Promise.resolve(null);
         const [visitor,qms]=await Promise.all([visitorPromise,qmsPromise]);
+        await sendGadProfile(form,"Visitor Logbook / Service Feedback",qms?.reference||visitor.reference);
         showResult(result,qms?.reference||visitor.reference,qms?.score??null,qms?.rating??null,hasRating?"visitor logbook and service feedback":"visitor logbook entry");
-        form.reset();document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
+        form.reset();resetGadProfile(form);document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
     }catch(error){showSubmissionError(result,error.message||"Unable to record the visit.");}
     finally{setSubmitting(button,false);}
 });
