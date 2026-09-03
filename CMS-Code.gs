@@ -17,6 +17,7 @@ function setupWebsiteCMS() {
   }
   if(items.getLastColumn()<12){items.getRange(1,11,1,2).setValues([['VENUE','RESOURCE_SPEAKER']]);}
   PropertiesService.getScriptProperties().setProperty('CMS_SPREADSHEET_ID', ss.getId());
+  cmsVisitorSheet_();
 }
 
 function setWebsiteCMSPassword() {
@@ -127,11 +128,41 @@ function cmsSaveItem_(p){
 
 function cmsVisitorLog_(p){
   if(String(p.consent||'')!=='yes') return cmsHtmlFrame_('<script>parent.postMessage({source:"sk-visitor-log",success:false,message:"Consent is required."},"*");</script>');
+  const sheet=cmsVisitorSheet_();
+  const reference='VIS-'+Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyyMMdd-HHmmss');
+  sheet.appendRow([
+    new Date(),reference,String(p.name||''),String(p.age||''),String(p.birthdate||''),
+    String(p.address||''),String(p.contact||''),String(p.office||''),String(p.position||''),
+    String(p.clientType||''),String(p.purpose||''),String(p.service||''),String(p.date||''),
+    String(p.rating||''),String(p.comments||''),'YES'
+  ]);
+  return cmsHtmlFrame_('<script>parent.postMessage('+JSON.stringify({source:'sk-visitor-log',success:true,reference:reference})+',"*");</script>');
+}
+
+function cmsVisitorSheet_(){
+  const headers=['TIMESTAMP','REFERENCE','FULL_NAME','AGE','BIRTHDATE','ADDRESS','CONTACT_NUMBER','OFFICE_OR_ORGANIZATION','POSITION_OR_DESIGNATION','VISITOR_TYPE','PURPOSE_OF_VISIT','SERVICE_AVAILED','DATE_OF_SERVICE','RATING','COMMENTS','CONSENT'];
   const ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('CMS_SPREADSHEET_ID'));
   let sheet=ss.getSheetByName('VISITOR_LOGBOOK');
-  if(!sheet){sheet=ss.insertSheet('VISITOR_LOGBOOK');sheet.appendRow(['TIMESTAMP','NAME','PURPOSE','SERVICE_OR_OFFICE','CONTACT','CONSENT']);sheet.setFrozenRows(1)}
-  sheet.appendRow([new Date(),String(p.name||''),String(p.purpose||''),String(p.service||''),String(p.contact||''),'YES']);
-  return cmsHtmlFrame_('<script>parent.postMessage({source:"sk-visitor-log",success:true},"*");</script>');
+  if(!sheet){sheet=ss.insertSheet('VISITOR_LOGBOOK');sheet.getRange(1,1,1,headers.length).setValues([headers]);sheet.setFrozenRows(1);return sheet;}
+  const width=Math.max(sheet.getLastColumn(),1);
+  const oldHeaders=sheet.getRange(1,1,1,width).getDisplayValues()[0];
+  if(oldHeaders.join('|')!==headers.join('|')){
+    const oldRows=sheet.getLastRow()>1?sheet.getRange(2,1,sheet.getLastRow()-1,width).getValues():[];
+    const aliases={
+      FULL_NAME:['FULL_NAME','NAME'],CONTACT_NUMBER:['CONTACT_NUMBER','CONTACT'],
+      PURPOSE_OF_VISIT:['PURPOSE_OF_VISIT','PURPOSE'],SERVICE_AVAILED:['SERVICE_AVAILED','SERVICE_OR_OFFICE']
+    };
+    const migrated=oldRows.map(row=>headers.map(header=>{
+      const candidates=aliases[header]||[header];
+      for(let i=0;i<candidates.length;i++){const index=oldHeaders.indexOf(candidates[i]);if(index>=0)return row[index];}
+      return '';
+    }));
+    sheet.clearContents();
+    sheet.getRange(1,1,1,headers.length).setValues([headers]);
+    if(migrated.length)sheet.getRange(2,1,migrated.length,headers.length).setValues(migrated);
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
 }
 
 function cmsDeleteItem_(id){

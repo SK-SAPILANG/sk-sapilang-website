@@ -45,6 +45,7 @@ SCHEDULED ACTIVITY / EVALUATION
 - The Feedback page will automatically show the saved activity as a choice and fill its details for evaluators.
 
 VISITOR LOGBOOK
-- The Visitor Logbook form appears inside feedback.html.
-- Its first valid submission automatically creates the VISITOR_LOGBOOK sheet.
+- The Visitor Logbook and Client / Service Feedback are combined in one form inside feedback.html.
+- The form records the visitor's essential details, office or organization, position, purpose, service and optional service rating.
+- Run setupWebsiteCMS again once to create or safely update the VISITOR_LOGBOOK columns.
 - The visitor must accept the Data Privacy consent before the entry is recorded.
