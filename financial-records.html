@@ -8,21 +8,26 @@
 <style>
 :root{--bg:#020b13;--panel:#061a28;--cyan:#43d7ff;--text:#cfe4ee;--muted:#7f9eab;--line:rgba(67,215,255,.22)}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(38,151,206,.14),transparent 36%),var(--bg)}main{width:min(900px,calc(100% - 32px));margin:0 auto;padding:72px 0}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:.16em;text-transform:uppercase}.card{margin-top:18px;padding:34px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(7,38,56,.9),rgba(3,20,31,.94));box-shadow:0 24px 80px rgba(0,0,0,.28)}h1{margin:0;color:white;font-size:clamp(34px,6vw,58px);letter-spacing:-.04em}p{line-height:1.7;color:#a9c0ca}.status{display:inline-flex;margin-top:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--cyan);font-size:12px;font-weight:800}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}a{display:inline-flex;min-height:44px;align-items:center;padding:0 16px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px}.primary{color:#02111b;background:linear-gradient(135deg,#37dcff,#3d83ff)}.secondary{color:white;border:1px solid var(--line);background:rgba(255,255,255,.02)}@media(max-width:600px){main{padding:40px 0}.card{padding:24px}}
 </style>
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260903-HERO">
   <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
-  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260903-AWARDS2">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260903-UNIVERSAL-HERO">
 </head>
 <body>
-<main>
-<div class="eyebrow">Transparency & Accountability</div>
-<div class="card">
-<h1>Financial Records</h1>
+<header id="site-header"></header>
+<main class="repository-main">
+<section class="page-hero"><div class="container">
+<div class="eyebrow">Transparency &amp; Accountability</div>
+<h1>Financial <span>Records.</span></h1>
 <span class="status">REPOSITORY READY</span>
 <p>This repository is intended for approved financial documents, budget information, utilization reports, and related public records of SK Sapilang.</p>
+</div></section>
+<section class="section"><div class="container"><div class="card">
 <p>No public document files were included in the website package provided for this revision. This page is ready to receive the official documents when they are uploaded.</p>
 <div class="actions"><a class="primary" href="transparency.html">Back to Transparency</a><a class="secondary" href="home.html">Home</a></div>
-</div>
+</div></div></section>
 </main>
+<script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="cms-config.js?v=20260903-COLLECTIONS"></script><script src="js/cms-render.js?v=20260903-COLLECTIONS"></script>
 </body>

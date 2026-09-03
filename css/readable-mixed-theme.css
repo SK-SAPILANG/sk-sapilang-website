@@ -1234,3 +1234,144 @@ footer span {
   #site-header .sk-nav-links { gap: 0 !important; }
   #site-header .sk-nav-links a { padding-inline: 8px !important; }
 }
+
+/* =========================================================
+   UNIVERSAL PUBLIC-PAGE HERO
+   Matches the Publications hero across every public page.
+========================================================= */
+.repository-main {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.repository-main > .section > .container,
+.repository-main > .page-hero > .container {
+  width: min(1180px, calc(100% - 44px)) !important;
+  margin-inline: auto !important;
+}
+
+.repository-main > .section {
+  padding: 54px 0 90px !important;
+}
+main > .hero,
+main > .page-hero,
+main > .trans-hero,
+main > .hero-block,
+.page > .hero-block {
+  position: relative !important;
+  min-height: 340px !important;
+  padding: 64px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  color: #0b2545 !important;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(245,158,11,.07), transparent 28rem),
+    #ffffff !important;
+  border: 0 !important;
+  border-bottom: 1px solid #d8e3eb !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+main > .hero::before,
+main > .hero::after,
+main > .page-hero::before,
+main > .page-hero::after,
+main > .trans-hero::before,
+main > .trans-hero::after,
+.page > .hero-block::before,
+.page > .hero-block::after {
+  display: none !important;
+}
+
+main > :is(.hero,.page-hero,.trans-hero) > .container,
+main > .trans-hero .trans-container,
+.page > .hero-block {
+  width: min(1180px, calc(100% - 44px)) !important;
+  margin-inline: auto !important;
+}
+
+.page > .hero-block {
+  min-height: 340px !important;
+  padding-inline: 0 !important;
+}
+
+.hero-copy,
+.trans-hero-content {
+  max-width: 980px !important;
+  padding: 0 !important;
+}
+
+:is(.hero,.page-hero,.trans-hero,.hero-block) :is(.eyebrow,.trans-eyebrow) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 0 0 24px !important;
+  padding: 0 !important;
+  color: #c25b00 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font-size: .78rem !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+}
+
+:is(.hero,.page-hero,.trans-hero,.hero-block) :is(.eyebrow,.trans-eyebrow)::before {
+  content: "" !important;
+  display: block !important;
+  width: 26px !important;
+  height: 2px !important;
+  border-radius: 999px !important;
+  background: #26c6e8 !important;
+  box-shadow: none !important;
+}
+
+:is(.hero,.page-hero,.trans-hero,.hero-block) h1 {
+  max-width: 1000px !important;
+  margin: 0 !important;
+  color: #0b2545 !important;
+  font-size: clamp(3rem, 6.2vw, 5.4rem) !important;
+  font-weight: 850 !important;
+  line-height: .98 !important;
+  letter-spacing: -.055em !important;
+  text-shadow: none !important;
+}
+
+:is(.hero,.page-hero,.trans-hero,.hero-block) h1 span {
+  display: block !important;
+  margin-top: 8px !important;
+  color: #b84f00 !important;
+  background: none !important;
+  -webkit-text-fill-color: #b84f00 !important;
+}
+
+:is(.hero,.page-hero,.trans-hero,.hero-block) :is(p,.hero-description,.trans-hero-description) {
+  max-width: 760px !important;
+  margin: 28px 0 0 !important;
+  color: #29495e !important;
+  font-size: 1rem !important;
+  line-height: 1.72 !important;
+  opacity: 1 !important;
+}
+
+:is(.hero,.page-hero,.trans-hero,.hero-block) :is(.hero-actions,.hero-buttons,.hub-nav,.trans-status) {
+  margin-top: 28px !important;
+}
+
+@media (max-width: 700px) {
+  main > .hero,
+  main > .page-hero,
+  main > .trans-hero,
+  .page > .hero-block {
+    min-height: 280px !important;
+    padding-block: 46px !important;
+  }
+  :is(.hero,.page-hero,.trans-hero,.hero-block) h1 {
+    font-size: clamp(2.55rem, 13vw, 4rem) !important;
+  }
+}
