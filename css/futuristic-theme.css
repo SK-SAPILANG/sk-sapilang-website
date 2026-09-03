@@ -1,0 +1,297 @@
+/* =========================================================
+   SK SAPILANG — FUTURISTIC CIVIC INTERFACE
+   Inspired by clear civic-site structure, customized for SK Sapilang.
+========================================================= */
+
+:root {
+  --future-navy: #061a35;
+  --future-blue: #073da8;
+  --future-blue-bright: #0b67e8;
+  --future-cyan: #35ddff;
+  --future-ice: #eaf7ff;
+  --future-white: #ffffff;
+  --future-gold: #ffd45c;
+  --future-panel: rgba(8, 32, 58, 0.82);
+  --future-line: rgba(53, 221, 255, 0.25);
+}
+
+body {
+  background:
+    linear-gradient(rgba(53, 221, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(53, 221, 255, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 12% 0%, rgba(11, 103, 232, 0.22), transparent 32rem),
+    linear-gradient(180deg, #071a2e 0%, #030c17 100%) !important;
+  background-size: 44px 44px, 44px 44px, auto, auto !important;
+}
+
+/* Slim utility strip similar in hierarchy to the reference site. */
+.sk-topbar {
+  background: #eef5fb !important;
+  border-bottom: 1px solid #d7e4ef !important;
+}
+
+.sk-topbar-inner {
+  min-height: 30px !important;
+  color: #17395d !important;
+  font-size: 0.68rem !important;
+}
+
+/* Strong civic-blue navigation with futuristic lighting. */
+.sk-navbar {
+  position: relative;
+  background: linear-gradient(100deg, #082e78 0%, #073fae 52%, #0757cf 100%) !important;
+  border-bottom: 1px solid rgba(107, 226, 255, 0.55) !important;
+  box-shadow: 0 12px 32px rgba(0, 25, 75, 0.34) !important;
+}
+
+.sk-navbar::after {
+  content: "";
+  position: absolute;
+  right: 4%;
+  bottom: -1px;
+  width: 34%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--future-cyan), transparent);
+  box-shadow: 0 0 14px var(--future-cyan);
+}
+
+.sk-nav-inner {
+  min-height: 70px !important;
+}
+
+.sk-brand-text strong,
+.sk-brand-text small {
+  color: var(--future-white) !important;
+}
+
+.sk-brand-text small { opacity: 0.82; }
+
+.sk-brand img {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  filter: drop-shadow(0 0 10px rgba(53, 221, 255, 0.28));
+}
+
+.sk-nav-links { gap: 4px !important; }
+
+.sk-nav-links a {
+  min-height: 42px !important;
+  padding: 0 13px !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 8px !important;
+  font-size: 0.76rem !important;
+  font-weight: 750 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase;
+}
+
+.sk-nav-links a:hover,
+.sk-nav-links a:focus-visible,
+.sk-nav-links a.active,
+.sk-nav-links a[aria-current="page"] {
+  color: #fff !important;
+  background: rgba(1, 21, 62, 0.34) !important;
+  border-color: rgba(110, 229, 255, 0.52) !important;
+  box-shadow: inset 0 0 18px rgba(53, 221, 255, 0.08), 0 0 16px rgba(53, 221, 255, 0.10) !important;
+}
+
+/* Home hero: spacious, bold, and portal-forward. */
+.hero {
+  position: relative;
+  min-height: 560px;
+  padding: clamp(72px, 8vw, 120px) 0 !important;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 48%, rgba(26, 180, 235, 0.18), transparent 25rem),
+    linear-gradient(115deg, rgba(5, 38, 78, 0.96), rgba(4, 20, 42, 0.98)) !important;
+  border-block: 1px solid rgba(53, 221, 255, 0.18);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(53, 221, 255, 0.05) 50%, transparent 50.2%),
+    linear-gradient(0deg, transparent 49.8%, rgba(53, 221, 255, 0.04) 50%, transparent 50.2%);
+  background-size: 86px 86px;
+  mask-image: linear-gradient(90deg, transparent, #000 55%, #000);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  gap: clamp(34px, 6vw, 76px) !important;
+}
+
+.eyebrow,
+.section-label {
+  color: var(--future-cyan) !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.16em !important;
+}
+
+.hero h1 {
+  max-width: 760px !important;
+  color: #fff !important;
+  font-size: clamp(3rem, 6vw, 5.25rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.055em !important;
+}
+
+.hero h1 span {
+  padding-bottom: 0.08em;
+  background: linear-gradient(90deg, #3ce2ff 0%, #62a8ff 54%, #ffd45c 125%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+}
+
+.hero-description {
+  max-width: 64ch !important;
+  color: #c6d9e4 !important;
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+}
+
+.button,
+.portal-button {
+  min-height: 50px !important;
+  padding-inline: 22px !important;
+  border-radius: 10px !important;
+  font-size: 0.76rem !important;
+  letter-spacing: 0.045em !important;
+}
+
+.button-primary,
+.portal-button {
+  color: #021222 !important;
+  background: linear-gradient(135deg, #42e5ff, #5293ff) !important;
+  border: 1px solid #7beaff !important;
+  box-shadow: 0 12px 30px rgba(32, 180, 238, 0.25), inset 0 1px rgba(255, 255, 255, 0.4) !important;
+}
+
+.button-secondary {
+  color: #fff !important;
+  background: rgba(6, 33, 65, 0.72) !important;
+  border: 1px solid rgba(84, 222, 255, 0.42) !important;
+}
+
+.network-panel {
+  background: linear-gradient(145deg, rgba(9, 44, 76, 0.9), rgba(4, 21, 41, 0.93)) !important;
+  border-color: rgba(53, 221, 255, 0.34) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35), inset 0 0 50px rgba(31, 168, 220, 0.05) !important;
+}
+
+/* Shared panels and content blocks across all pages. */
+.card,
+.core-card,
+[class*="-card"],
+[class*="_card"] {
+  background: linear-gradient(145deg, rgba(11, 39, 66, 0.9), rgba(5, 23, 42, 0.94)) !important;
+  border: 1px solid var(--future-line) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.2) !important;
+}
+
+.card:hover,
+.core-card:hover,
+[class*="-card"]:hover {
+  border-color: rgba(53, 221, 255, 0.48) !important;
+  transform: translateY(-2px);
+}
+
+.section-title,
+.section-heading,
+main h2 {
+  color: var(--future-white) !important;
+  letter-spacing: -0.035em !important;
+}
+
+.section-description,
+main p {
+  color: #bfd2dc;
+}
+
+/* Keep gold meaningful and rare. */
+.status-icon,
+.highlight,
+.gold {
+  color: var(--future-gold) !important;
+}
+
+footer,
+.footer {
+  background: #03101f !important;
+  border-top-color: rgba(53, 221, 255, 0.2) !important;
+}
+
+@media (max-width: 1100px) {
+  .sk-nav-links a {
+    padding-inline: 9px !important;
+    font-size: 0.69rem !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .sk-menu-toggle {
+    color: #fff !important;
+    background: rgba(3, 27, 73, 0.48) !important;
+    border-color: rgba(111, 229, 255, 0.45) !important;
+  }
+
+  .sk-nav-links {
+    background: linear-gradient(180deg, #073c9d, #05296f) !important;
+    border-color: rgba(111, 229, 255, 0.3) !important;
+    box-shadow: 0 24px 50px rgba(0, 13, 48, 0.38) !important;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 72px 0 !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .sk-topbar-inner {
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  .sk-nav-inner { min-height: 64px !important; }
+
+  .sk-brand img {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+
+  .hero {
+    padding: 58px 0 54px !important;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.55rem, 13vw, 4rem) !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .hero-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .core-card:hover,
+  [class*="-card"]:hover {
+    transform: none !important;
+  }
+}

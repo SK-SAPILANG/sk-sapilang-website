@@ -78,32 +78,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     </li>
 
                     <li>
-                        <a href="home.html#activities">
-                            Activities
+                        <a href="news-events.html">
+                            Updates &amp; Programs
                         </a>
                     </li>
 
                     <li>
-                        <a href="home.html#digital-id">
-                            Digital ID
+                        <a href="resolutions.html">
+                            Publications
                         </a>
                     </li>
 
                     <li>
                         <a href="about.html">
                             About
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="awards.html">
-                            Awards
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="resolutions.html">
-                            Resolutions
                         </a>
                     </li>
 
@@ -139,6 +127,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     `;
 
+    const pageFooter = document.querySelector("footer");
+
+    if (pageFooter && !pageFooter.querySelector(".sk-developer-credit")) {
+        const developerCredit = document.createElement("div");
+        developerCredit.className = "sk-developer-credit";
+        developerCredit.textContent = "Website developed by SK Chairperson Dandy Nillo";
+        pageFooter.appendChild(developerCredit);
+    }
+
 
     /* =====================================================
        ACTIVE PAGE
@@ -161,6 +158,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const currentHash =
         window.location.hash.toLowerCase();
+
+    const combinedPages = ["events.html", "programs.html", "gallery.html", "announcements.html"];
+    const activePage = combinedPages.includes(currentPage) ? "news-events.html" : currentPage;
 
 
     document
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (
-                hrefPage === currentPage &&
+                hrefPage === activePage &&
                 !fullHref.includes("#")
             ) {
 
@@ -281,6 +281,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    /* Load saved website content from the optional CMS backend. */
+    if (!document.querySelector('script[data-sk-cms="config"]')) {
+        const configScript = document.createElement("script");
+        configScript.src = "cms-config.js?v=20260903-CMS";
+        configScript.dataset.skCms = "config";
+        configScript.onload = function () {
+            const renderScript = document.createElement("script");
+            renderScript.src = "js/cms-render.js?v=20260903-CMS";
+            renderScript.dataset.skCms = "render";
+            document.body.appendChild(renderScript);
+        };
+        document.body.appendChild(configScript);
+    }
+
 });
-
-

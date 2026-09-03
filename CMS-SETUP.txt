@@ -1,0 +1,29 @@
+SK SAPILANG WEBSITE CONTENT ADMIN — ONE-TIME SETUP
+
+1. Create or open a Google Spreadsheet for the website content.
+2. Open Extensions > Apps Script.
+3. Delete the sample Apps Script code, then paste everything from CMS-Code.gs.
+4. Run setupWebsiteCMS once and approve the requested permission.
+5. In Apps Script, open Project Settings > Script Properties.
+6. Add this property:
+   CMS_ADMIN_PASSWORD = your private password
+   Do not place this password inside any HTML file.
+7. Deploy > New deployment > Web app.
+   Execute as: Me
+   Who has access: Anyone
+8. Copy the deployed Web App URL.
+9. In cms-config.js, paste that URL here:
+   window.SK_CMS_ENDPOINT = "YOUR WEB APP URL";
+10. Upload the updated website to GitHub.
+11. Open content-admin.html, enter the same Web App URL and password, then edit the site.
+
+HOW TO EDIT
+- Choose a page.
+- Click Open Page.
+- Click visible text, a button, link, or image in the preview.
+- Choose Words/Text, Link Address, Image Address, or Show/Hide.
+- Enter the new content and click Save Change.
+- Refresh the public page to see the saved update.
+
+IMAGE NOTE
+Use a public image URL. For Google Drive, make the image available to anyone with the link and use a direct-view URL. Do not use private files.

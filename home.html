@@ -3598,7 +3598,10 @@ main,
 
 </style>
 
-  <link rel="stylesheet" href="css/nav-universal.css?v=20260830-FINAL">
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260903-CONSISTENT">
+  <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
+  <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260903-CONSISTENT">
 </head>
 
 
@@ -3784,157 +3787,6 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
 
 
 <!-- =========================================================
-     STATUS
-========================================================= -->
-
-<section class="status-section">
-
-<div class="container">
-
-<div class="status-grid">
-
-
-<div class="status-item">
-
-    <div class="status-icon">&#9679;</div>
-
-    <div>
-
-        <span>
-            System Status
-        </span>
-
-        <strong>
-            ONLINE
-        </strong>
-
-    </div>
-
-</div>
-
-
-<div class="status-item">
-
-    <div class="status-icon">&#9670;</div>
-
-    <div>
-
-        <span>
-            KK Portal
-        </span>
-
-        <strong>
-            READY
-        </strong>
-
-    </div>
-
-</div>
-
-
-<div class="status-item">
-
-    <div class="status-icon">&#9733;</div>
-
-    <div>
-
-        <span>
-            Community
-        </span>
-
-        <strong>
-            CONNECTED
-        </strong>
-
-    </div>
-
-</div>
-
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     TICKER
-========================================================= -->
-
-<div class="container">
-
-<div class="ticker">
-
-<div class="ticker-track">
-
-
-<span>
-    <strong>
-        SK SAPILANG
-    </strong>
-&bull; DIGITAL GOVERNANCE
-</span>
-
-
-<span>
-    YOUTH PARTICIPATION
-&bull; COMMUNITY DEVELOPMENT
-</span>
-
-
-<span>
-    <strong>
-&bull; KK DIGITAL ID
-    </strong>
-&bull; DIGITAL SERVICES
-</span>
-
-
-<span>
-    TRANSPARENCY
-&bull; ACCOUNTABILITY
-&bull; INNOVATION
-</span>
-
-
-<span>
-    <strong>
-        SK SAPILANG
-    </strong>
-&bull; DIGITAL GOVERNANCE
-</span>
-
-
-<span>
-    YOUTH PARTICIPATION
-&bull; COMMUNITY DEVELOPMENT
-</span>
-
-
-<span>
-    <strong>
-&bull; KK DIGITAL ID
-    </strong>
-&bull; DIGITAL SERVICES
-</span>
-
-
-<span>
-    TRANSPARENCY
-&bull; ACCOUNTABILITY
-&bull; INNOVATION
-</span>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================================================
      ACTIVITIES + DIGITAL ID
 ========================================================= -->
 
@@ -3982,7 +3834,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
 <div class="video-tags">
 
     <div class="video-tag">
-        â€”Â SK ACTIVITY FEED
+        — SK ACTIVITY FEED
     </div>
 
     <div class="video-tag">
@@ -4019,7 +3871,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
         type="button"
         id="mobileVideoPlayButton"
     >
-        â€“Â¶ Tap to Play Video
+        –¶ Tap to Play Video
     </button>
 </div>
 
@@ -4157,7 +4009,8 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
     href="kk-portal.html"
     class="portal-button"
 >
-    ACCESS KK DIGITAL PORTAL &rarr;</a>
+    ACCESS KK DIGITAL PORTAL †’
+</a>
 
 
 </div>
@@ -4246,7 +4099,7 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
 
 
 <div class="sample-note">
-    SAMPLE ID Â¢ NOT VALID FOR OFFICIAL USE
+    SAMPLE ID ¢ NOT VALID FOR OFFICIAL USE
 </div>
 
 
@@ -4457,51 +4310,6 @@ Welcome to the official digital home of the Sangguniang Kabataan of Barangay Sap
 </footer>
 
 
-<!-- =========================================================
-     OFFICIAL MUSIC
-========================================================= -->
-
-<audio
-    id="officialMusic"
-    loop
-    preload="metadata"
->
-
-    <source
-        src="images/KABATAAN.mp3"
-        type="audio/mpeg"
-    >
-
-</audio>
-
-
-<div class="music-player">
-
-
-<button
-    class="music-button"
-    id="musicButton"
-    type="button"
-    aria-label="Play official SK Sapilang music"
->&#9654;</button>
-
-
-<div class="music-copy">
-
-    <strong>
-        Official Music
-    </strong>
-
-    <span id="musicStatus">
-        Standby
-    </span>
-
-</div>
-
-
-</div>
-
-
 <script>
 
 /* =========================================================
@@ -4635,133 +4443,22 @@ if (activitiesVideo) {
 }
 
 
-/* =========================================================
-   OFFICIAL MUSIC
-========================================================= */
-
-const officialMusic =
-    document.getElementById(
-        "officialMusic"
-    );
-
-
-const musicButton =
-    document.getElementById(
-        "musicButton"
-    );
-
-
-const musicStatus =
-    document.getElementById(
-        "musicStatus"
-    );
-
-
-function updateMusicButton() {
-
-    if (
-        officialMusic.paused
-    ) {
-
-        musicButton.textContent =
-            "â€“Â¶";
-
-        musicStatus.textContent =
-            "Standby";
-
-    }
-
-    else {
-
-        musicButton.textContent =
-            "ÂÅ¡ÂÅ¡";
-
-        musicStatus.textContent =
-            "Playing";
-
-    }
-
-}
-
-
-musicButton.addEventListener(
-    "click",
-    async function () {
-
-        try {
-
-            if (
-                officialMusic.paused
-            ) {
-
-                if (
-                    activitiesVideo
-                ) {
-
-                    activitiesVideo.muted =
-                        true;
-
-                }
-
-                await officialMusic.play();
-
-            }
-
-            else {
-
-                officialMusic.pause();
-
-            }
-
-
-            updateMusicButton();
-
-        }
-
-        catch (error) {
-
-            console.log(
-                error
-            );
-
-            musicStatus.textContent =
-                "Tap Again";
-
-        }
-
-    }
-);
-
-
-officialMusic.addEventListener(
-    "play",
-    updateMusicButton
-);
-
-
-officialMusic.addEventListener(
-    "pause",
-    updateMusicButton
-);
-
-
-updateMusicButton();
-
 </script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
-  <script src="js/site-header.js?v=20260830-FINAL"></script>
+  <script src="js/site-header.js?v=20260903-CMS"></script>
 </body>
 
 </html>
 
 
 <style>
-/* FINAL CORE SYSTEMS CLEANUP: text-only cards, no device-dependent decorative glyphs */
+/* FINAL CORE SYSTEMS: visible and consistent icons */
 .core-card {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: auto 1fr !important;
 }
 .core-card .core-icon {
-    display: none !important;
+    display: grid !important;
+    place-items: center !important;
 }
 .core-card > div:not(.core-icon) {
     min-width: 0;

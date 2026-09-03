@@ -27,7 +27,7 @@ href="css/style.css?v=20260830-ENCODING-FIX">
 
 <link
 rel="stylesheet"
-href="css/nav-universal.css?v=20260830-FINAL">
+href="css/nav-universal.css?v=20260903-CONSISTENT">
 
 
 <style>
@@ -1689,6 +1689,9 @@ font-size:3.8rem;
 
 </style>
 
+  <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
+  <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260903-CONSISTENT">
 </head>
 
 
@@ -1730,14 +1733,14 @@ Youth Development
 </span>
 
 <h1>
-Programs built for
+Projects and programs for
 <span>
 young people.
 </span>
 </h1>
 
 <p class="program-hero-description">
-Explore initiatives of SK Sapilang focused on education,
+Explore all ongoing, upcoming and completed SK Sapilang initiatives focused on education,
 technology, sports, environmental responsibility, community
 welfare and youth development.
 </p>
@@ -1819,7 +1822,7 @@ id="programs">
 <div class="program-section-heading">
 
 <span class="program-section-label">
-Programs & Projects
+Projects &amp; Programs
 </span>
 
 <h2>
@@ -1834,6 +1837,13 @@ needs, interests and opportunities of the youth.
 </div>
 
 
+<div class="program-filters" role="group" aria-label="Filter projects and programs">
+  <button class="program-filter active" type="button" data-filter="all">All</button>
+  <button class="program-filter" type="button" data-filter="ongoing">Ongoing</button>
+  <button class="program-filter" type="button" data-filter="upcoming">Upcoming</button>
+  <button class="program-filter" type="button" data-filter="completed">Completed</button>
+</div>
+
 <div class="program-grid">
 
 
@@ -1841,7 +1851,7 @@ needs, interests and opportunities of the youth.
      E-LIBRARY
 ===================================================== -->
 
-<article class="program-card">
+<article class="program-card" data-status="ongoing">
 
 <div class="program-card-top">
 
@@ -1876,7 +1886,7 @@ community-based learning opportunities.
 <div class="program-card-footer">
 
 <span class="program-status">
-Youth Learning
+Ongoing
 </span>
 
 <span class="program-arrow">
@@ -1892,7 +1902,7 @@ Youth Learning
      SPORTS
 ===================================================== -->
 
-<article class="program-card">
+<article class="program-card" data-status="ongoing">
 
 <div class="program-card-top">
 
@@ -1927,7 +1937,7 @@ such as basketball and pickleball.
 <div class="program-card-footer">
 
 <span class="program-status">
-Active Youth
+Ongoing
 </span>
 
 <span class="program-arrow">
@@ -1943,7 +1953,7 @@ Active Youth
      DIGITAL INNOVATION
 ===================================================== -->
 
-<article class="program-card">
+<article class="program-card" data-status="ongoing">
 
 <div class="program-card-top">
 
@@ -1978,7 +1988,7 @@ digital skills among young people.
 <div class="program-card-footer">
 
 <span class="program-status">
-Digital Skills
+Ongoing
 </span>
 
 <span class="program-arrow">
@@ -1994,7 +2004,7 @@ Digital Skills
      ENVIRONMENT
 ===================================================== -->
 
-<article class="program-card">
+<article class="program-card" data-status="ongoing">
 
 <div class="program-card-top">
 
@@ -2029,7 +2039,7 @@ youth participation in environmental stewardship.
 <div class="program-card-footer">
 
 <span class="program-status">
-Sustainability
+Ongoing
 </span>
 
 <span class="program-arrow">
@@ -2045,7 +2055,7 @@ Sustainability
      ANIMAL WELFARE
 ===================================================== -->
 
-<article class="program-card">
+<article class="program-card" data-status="upcoming">
 
 <div class="program-card-top">
 
@@ -2080,7 +2090,7 @@ public welfare activities.
 <div class="program-card-footer">
 
 <span class="program-status">
-Community Care
+Upcoming
 </span>
 
 <span class="program-arrow">
@@ -2096,7 +2106,7 @@ Community Care
      EDUCATION ASSISTANCE
 ===================================================== -->
 
-<article class="program-card">
+<article class="program-card" data-status="completed">
 
 <div class="program-card-top">
 
@@ -2131,7 +2141,7 @@ equipped and supported in their education.
 <div class="program-card-footer">
 
 <span class="program-status">
-Student Support
+Completed
 </span>
 
 <span class="program-arrow">
@@ -2391,7 +2401,7 @@ Official Youth Governance Website.
 
 <script src="js/main.js?v=20260830-FINAL"></script>
 
-<script src="js/site-header.js?v=20260830-FINAL"></script>
+<script src="js/site-header.js?v=20260903-CMS"></script>
 
 <script>
 
@@ -2412,43 +2422,17 @@ new Date().getFullYear();
 }
 
 
-/* =========================================================
-   MAKE ACTIVITIES NAV ACTIVE
-========================================================= */
-
-window.addEventListener(
-"load",
-function(){
-
-const links =
-document.querySelectorAll(
-"#site-header a"
-);
-
-links.forEach(
-function(link){
-
-const text =
-link.textContent
-.trim()
-.toLowerCase();
-
-if(
-text ===
-"activities"
-){
-
-link.classList.add(
-"active"
-);
-
-}
-
-}
-);
-
-}
-);
+document.querySelectorAll(".program-filter").forEach(function(button){
+  button.addEventListener("click", function(){
+    const selected = button.dataset.filter;
+    document.querySelectorAll(".program-filter").forEach(function(item){
+      item.classList.toggle("active", item === button);
+    });
+    document.querySelectorAll(".program-card").forEach(function(card){
+      card.hidden = selected !== "all" && card.dataset.status !== selected;
+    });
+  });
+});
 
 </script>
 

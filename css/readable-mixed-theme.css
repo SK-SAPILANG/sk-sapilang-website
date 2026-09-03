@@ -1,0 +1,1060 @@
+/* =========================================================
+   SK SAPILANG — ORANGE FUTURE COLOR SYSTEM
+   Orange identity + navy foundation + white text + cyan data.
+========================================================= */
+
+:root {
+  --mix-navy-950: #03101c;
+  --mix-navy-900: #071a2a;
+  --mix-navy-800: #0b2639;
+  --mix-navy-700: #12364d;
+  --mix-orange: #d99a23;
+  --mix-orange-bright: #efb632;
+  --mix-yellow: #f4cb55;
+  --mix-white: #ffffff;
+  --mix-text: #e0edf3;
+  --mix-muted: #b2c7d1;
+  --mix-cyan: #4ddcf7;
+  --mix-line: rgba(77, 220, 247, 0.28);
+}
+
+/* Projects and programs filters */
+.program-filters{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+.program-filter{min-height:44px;padding:0 20px;border:1px solid #0b2545;border-radius:9px;background:#fff;color:#0b2545;font:inherit;font-weight:800;cursor:pointer}
+.program-filter:hover,.program-filter:focus-visible,.program-filter.active{background:#f59e0b;color:#0b2545;border-color:#f59e0b;outline:none}
+.program-card[hidden]{display:none!important}
+
+html { font-size: 16px !important; }
+
+body {
+  color: var(--mix-text) !important;
+  background:
+    radial-gradient(circle at 85% 4%, rgba(77, 220, 247, 0.10), transparent 27rem),
+    radial-gradient(circle at 10% 20%, rgba(23, 117, 188, 0.16), transparent 30rem),
+    linear-gradient(180deg, var(--mix-navy-900), var(--mix-navy-950)) !important;
+}
+
+/* Blue civic header with a warm accent line. */
+.sk-navbar {
+  background: linear-gradient(100deg, #071d35, #0a376c 62%, #0b4a83) !important;
+  border-bottom: 3px solid var(--mix-orange-bright) !important;
+}
+
+.sk-navbar::after {
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent, #ffe19a, var(--mix-orange-bright), transparent) !important;
+  box-shadow: 0 0 14px rgba(239, 182, 50, 0.48) !important;
+}
+
+.sk-nav-links a {
+  color: #fff !important;
+  font-size: 0.78rem !important;
+}
+
+.sk-nav-links a:hover,
+.sk-nav-links a:focus-visible,
+.sk-nav-links a.active,
+.sk-nav-links a[aria-current="page"] {
+  color: #251300 !important;
+  background: linear-gradient(135deg, #ffd466, #ef9e18) !important;
+  border-color: #ffe8aa !important;
+  box-shadow: 0 8px 22px rgba(217, 154, 35, 0.26) !important;
+}
+
+/* Main headings and readable body copy. */
+main h1,
+main h2,
+main h3,
+main h4,
+.section-title,
+.section-heading h2 {
+  color: var(--mix-white) !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.24);
+}
+
+main p,
+main li,
+main label,
+main td,
+.section-description,
+.hero-description {
+  color: var(--mix-text) !important;
+  font-size: max(0.94rem, 14px) !important;
+  line-height: 1.72 !important;
+}
+
+main small,
+main .meta,
+main .muted {
+  color: var(--mix-muted) !important;
+  font-size: max(0.76rem, 12px) !important;
+  line-height: 1.5 !important;
+}
+
+.eyebrow,
+.section-label,
+[class*="-label"] {
+  color: #f5bd3f !important;
+  font-size: max(0.75rem, 12px) !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.11em !important;
+}
+
+/* Orange carries the SK identity; cyan is reserved for digital data. */
+.hero h1 span,
+.section-title span,
+.section-heading h2 span {
+  background: linear-gradient(90deg, #ffd45d, #f29a18) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.hero {
+  background:
+    linear-gradient(110deg, rgba(5, 29, 48, 0.97), rgba(8, 47, 75, 0.95)),
+    var(--mix-navy-900) !important;
+  border-bottom: 1px solid rgba(77, 220, 247, 0.28) !important;
+}
+
+/* Panels stay dark for comfortable reading, with warm accents. */
+.card,
+.core-card,
+.network-panel,
+.qms-shell,
+[class*="-card"],
+[class*="_card"] {
+  color: var(--mix-text) !important;
+  background: linear-gradient(145deg, rgba(14, 45, 65, 0.97), rgba(6, 27, 43, 0.98)) !important;
+  border-color: var(--mix-line) !important;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22) !important;
+}
+
+.card:hover,
+.core-card:hover,
+[class*="-card"]:hover {
+  border-color: rgba(77, 220, 247, 0.58) !important;
+}
+
+.card h3,
+.core-card h3,
+[class*="-card"] h3,
+[class*="_card"] h3 {
+  color: var(--mix-white) !important;
+}
+
+.card p,
+.core-card p,
+[class*="-card"] p,
+[class*="_card"] p {
+  color: #d5e4eb !important;
+}
+
+/* Buttons use clear action hierarchy. */
+.button-primary,
+.btn-primary,
+.portal-button,
+.primary,
+[class*="primary-btn"],
+.submit-button {
+  color: #211200 !important;
+  background: linear-gradient(135deg, #ffd665, #ef9e18) !important;
+  border: 1px solid #ffe394 !important;
+  box-shadow: 0 12px 28px rgba(242, 139, 0, 0.25) !important;
+}
+
+.button-secondary,
+.btn-secondary,
+.secondary,
+[class*="secondary-btn"] {
+  color: var(--mix-white) !important;
+  background: rgba(11, 43, 66, 0.92) !important;
+  border: 1px solid rgba(255, 190, 66, 0.46) !important;
+}
+
+/* Fix the very small dashboard and Digital ID text shown on the Home page. */
+.network-label {
+  color: var(--mix-cyan) !important;
+  font-size: 0.82rem !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.network-stat small {
+  color: #c2d5de !important;
+  font-size: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+.network-stat strong {
+  color: var(--mix-cyan) !important;
+  font-size: 1rem !important;
+}
+
+.network-stat span {
+  color: #95efa9 !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+}
+
+.digital-copy > p {
+  color: #dbe9ef !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+.feature strong {
+  color: var(--mix-white) !important;
+  font-size: 0.86rem !important;
+  line-height: 1.35 !important;
+}
+
+.feature span {
+  color: #bdd0d9 !important;
+  font-size: 0.76rem !important;
+  line-height: 1.45 !important;
+}
+
+.feature-number {
+  color: var(--mix-cyan) !important;
+  font-size: 0.78rem !important;
+}
+
+.video-note,
+.video-note span {
+  color: #c7d9e1 !important;
+  font-size: 0.78rem !important;
+}
+
+.digital-card small,
+.digital-card span,
+.id-card small,
+.id-card span {
+  color: #bfd1da !important;
+  font-size: max(0.7rem, 11px) !important;
+}
+
+.button,
+.btn,
+[class*="button"] {
+  font-size: max(0.78rem, 12px) !important;
+  font-weight: 800 !important;
+}
+
+/* Form controls receive solid contrast instead of transparent text. */
+input,
+select,
+textarea {
+  color: var(--mix-white) !important;
+  background-color: #0a2234 !important;
+  border-color: rgba(255, 184, 48, 0.36) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a9bec8 !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--mix-orange-bright) !important;
+  box-shadow: 0 0 0 3px rgba(255, 173, 22, 0.16) !important;
+}
+
+th {
+  color: #201000 !important;
+  background: linear-gradient(135deg, var(--mix-yellow), var(--mix-orange-bright)) !important;
+}
+
+td {
+  color: var(--mix-text) !important;
+  background: rgba(9, 35, 53, 0.88) !important;
+}
+
+.status,
+.badge,
+[class*="-badge"],
+[class*="-chip"] {
+  color: #ffd66b !important;
+  background: rgba(242, 139, 0, 0.08) !important;
+  border-color: rgba(255, 184, 48, 0.34) !important;
+}
+
+footer,
+.footer {
+  color: var(--mix-muted) !important;
+  background: #020b13 !important;
+  border-top: 2px solid rgba(239, 182, 50, 0.54) !important;
+}
+
+@media (max-width: 900px) {
+  .sk-nav-links {
+    background: linear-gradient(180deg, #083f8e, #06265e) !important;
+    border-bottom: 3px solid var(--mix-orange-bright) !important;
+  }
+}
+
+/* Final contrast correction: dark cards must always use light text. */
+.principle,
+.cta-shell,
+.featured-program,
+.program-card,
+.transparency-card,
+.portal-card,
+.service-card,
+.value-card,
+.info-card,
+.feature-card,
+.stat-card,
+[class*="dark-card"] {
+  color: #ffffff !important;
+}
+
+.principle h2,.principle h3,.principle h4,.principle strong,
+.cta-shell h2,.cta-shell h3,.cta-shell h4,.cta-shell strong,
+.featured-program h2,.featured-program h3,.featured-program h4,.featured-program strong,
+.program-card h2,.program-card h3,.program-card h4,.program-card strong,
+.transparency-card h2,.transparency-card h3,.transparency-card strong,
+.portal-card h2,.portal-card h3,.portal-card strong,
+.service-card h2,.service-card h3,.service-card strong,
+.value-card h2,.value-card h3,.value-card strong,
+.info-card h2,.info-card h3,.info-card strong,
+.feature-card h2,.feature-card h3,.feature-card strong,
+.stat-card h2,.stat-card h3,.stat-card strong {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.principle p,.principle li,.principle span,
+.cta-shell p,.cta-shell li,.cta-shell span,
+.featured-program p,.featured-program li,.featured-program span,
+.program-card p,.program-card li,
+.transparency-card p,.transparency-card li,
+.portal-card p,.portal-card li,
+.service-card p,.service-card li,
+.value-card p,.value-card li,
+.info-card p,.info-card li,
+.feature-card p,.feature-card li,
+.stat-card p,.stat-card li {
+  color: #e8f1f5 !important;
+  -webkit-text-fill-color: #e8f1f5 !important;
+  opacity: 1 !important;
+}
+
+.principle small,.cta-shell small,.featured-program small,.program-card small,
+.transparency-card small,.portal-card small,.service-card small,.value-card small,
+.info-card small,.feature-card small,.stat-card small {
+  color: #c7d7df !important;
+  -webkit-text-fill-color: #c7d7df !important;
+  opacity: 1 !important;
+}
+
+/* Unified News & Events light theme across every page. */
+html,body{background:#f4f7fa!important;color:#0b2545!important}
+main,.section,.page-section,.programs-page,.transparency-page,.contact-page,.feedback-page{background:#f4f7fa!important}
+.future-bg,.program-future-bg,.future-grid,.program-grid-bg,.orb{display:none!important}
+.hero,.page-hero,.program-hero,.hero-block{
+  color:#0b2545!important;background:#ffffff!important;border-color:#d2dee7!important;
+}
+.card,.core-card,.network-panel,.showcase-shell,.qms-shell,.network-stat,.feature,
+[class*="-card"],[class*="_card"],.principle,.cta-shell,.featured-program,.program-card,
+.transparency-card,.portal-card,.service-card,.value-card,.info-card,.feature-card,.stat-card{
+  color:#0b2545!important;background:#ffffff!important;border-color:#cad8e2!important;
+  box-shadow:0 10px 26px rgba(11,37,69,.08)!important;
+}
+.card h2,.card h3,.card h4,.core-card h2,.core-card h3,.core-card h4,
+[class*="-card"] h2,[class*="-card"] h3,[class*="-card"] h4,
+[class*="_card"] h2,[class*="_card"] h3,[class*="_card"] h4,
+.principle h2,.principle h3,.cta-shell h2,.cta-shell h3,.featured-program h2,.featured-program h3,
+.program-card h2,.program-card h3{color:#0b2545!important;-webkit-text-fill-color:#0b2545!important}
+.card p,.card li,.core-card p,.core-card li,[class*="-card"] p,[class*="-card"] li,
+[class*="_card"] p,[class*="_card"] li,.principle p,.principle li,.cta-shell p,.cta-shell li,
+.featured-program p,.featured-program li,.program-card p,.program-card li{
+  color:#405e70!important;-webkit-text-fill-color:#405e70!important;opacity:1!important
+}
+.card small,.core-card small,[class*="-card"] small,[class*="_card"] small,
+.principle small,.cta-shell small,.featured-program small,.program-card small{
+  color:#5a7382!important;-webkit-text-fill-color:#5a7382!important;opacity:1!important
+}
+footer,.footer{background:#0b2545!important}
+
+/* =========================================================
+   FINAL FOUR-COLOR ENFORCEMENT
+   White | Navy | Orange | Gray
+========================================================= */
+:root {
+  --final-white: #ffffff;
+  --final-navy: #0b2545;
+  --final-orange: #f59e0b;
+  --final-gray: #52616b;
+}
+
+body,
+main,
+main section,
+.section,
+.showcase,
+.core {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+}
+
+body::before,
+body::after,
+.future-bg,
+.orb,
+.particle,
+.particles,
+.spark,
+.sparkle {
+  opacity: 0 !important;
+}
+
+.sk-topbar {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+}
+
+.sk-navbar,
+.sk-nav-links {
+  color: var(--final-white) !important;
+  background: var(--final-navy) !important;
+  border-bottom-color: var(--final-orange) !important;
+}
+
+.sk-nav-links a,
+.sk-brand-text strong,
+.sk-brand-text small {
+  color: var(--final-white) !important;
+}
+
+.sk-nav-links a:hover,
+.sk-nav-links a:focus-visible,
+.sk-nav-links a.active,
+.sk-nav-links a[aria-current="page"] {
+  color: var(--final-navy) !important;
+  background: var(--final-orange) !important;
+  border-color: var(--final-orange) !important;
+}
+
+.hero {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+main h1, main h2, main h3, main h4,
+.section-title,
+.section-heading h2 {
+  color: var(--final-navy) !important;
+  text-shadow: none !important;
+}
+
+.hero h1 span,
+.section-title span,
+.section-heading h2 span,
+.eyebrow,
+.section-label,
+[class*="-label"] {
+  color: var(--final-orange) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--final-orange) !important;
+}
+
+main p,
+main li,
+main label,
+main td,
+main small,
+.hero-description,
+.section-description,
+.digital-copy > p,
+.help-text,
+.field-help,
+.video-note,
+.video-note span {
+  color: var(--final-gray) !important;
+  font-size: max(1rem, 16px) !important;
+  line-height: 1.7 !important;
+}
+
+main small,
+.help-text,
+.field-help,
+.video-note,
+.video-note span {
+  font-size: max(0.82rem, 13px) !important;
+}
+
+.card,
+.core-card,
+.network-panel,
+.showcase-shell,
+.qms-shell,
+.qms-orbit,
+.network-stat,
+.feature,
+[class*="-card"],
+[class*="_card"] {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+  border-color: rgba(11, 37, 69, 0.25) !important;
+  box-shadow: 0 10px 26px rgba(11, 37, 69, 0.09) !important;
+}
+
+.card h3,
+.core-card h3,
+[class*="-card"] h3,
+[class*="_card"] h3,
+.feature strong,
+.network-stat strong {
+  color: var(--final-navy) !important;
+}
+
+.card p,
+.core-card p,
+[class*="-card"] p,
+[class*="_card"] p,
+.feature span,
+.network-stat small,
+.network-stat span {
+  color: var(--final-gray) !important;
+}
+
+.network-label,
+.feature-number {
+  color: var(--final-orange) !important;
+}
+
+/* Visible, consistent icons */
+.core-card {
+  grid-template-columns: auto 1fr !important;
+}
+
+.core-icon,
+.status-icon,
+.feature-number,
+.process-number,
+[class*="-icon"]:not(.footer-icon) {
+  color: var(--final-orange) !important;
+  background: var(--final-white) !important;
+  border: 2px solid var(--final-orange) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+.core-card .core-icon {
+  display: grid !important;
+  place-items: center !important;
+}
+
+.button-primary,
+.btn-primary,
+.portal-button,
+.primary,
+.submit-button,
+[class*="primary-btn"] {
+  color: var(--final-navy) !important;
+  background: var(--final-orange) !important;
+  border-color: var(--final-orange) !important;
+  box-shadow: none !important;
+}
+
+.button-secondary,
+.btn-secondary,
+.secondary,
+[class*="secondary-btn"] {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+  border: 2px solid var(--final-navy) !important;
+}
+
+.qms-topbar,
+.form-panel,
+.form-panel.active,
+.form-tab,
+.rating-option label,
+.consent,
+.notice,
+.result-box,
+.admin-login-card,
+.admin-panel,
+.admin-metric,
+.admin-detail-card {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+  border-color: rgba(11, 37, 69, 0.25) !important;
+}
+
+.qms-topbar { border-bottom: 3px solid var(--final-orange) !important; }
+
+.form-tab strong,
+.form-intro h3,
+.rating-title h4,
+.rating-option label strong,
+.form-group label,
+.notice h3,
+.result-box h4 {
+  color: var(--final-navy) !important;
+}
+
+.form-tab span,
+.form-intro p,
+.rating-title p,
+.rating-option label span,
+.form-group small,
+.consent label,
+.notice p,
+.result-box p {
+  color: var(--final-gray) !important;
+  font-size: max(0.84rem, 13px) !important;
+  line-height: 1.55 !important;
+}
+
+.form-tab.active,
+.rating-option input:checked + label,
+.admin-tab-btn.active {
+  color: var(--final-navy) !important;
+  background: var(--final-orange) !important;
+  border-color: var(--final-navy) !important;
+}
+
+input,
+select,
+textarea,
+.form-group input,
+.form-group select,
+.form-group textarea {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+  border: 2px solid rgba(11, 37, 69, 0.45) !important;
+  font-size: 1rem !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--final-gray) !important;
+  opacity: 1 !important;
+}
+
+select option {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+}
+
+th,
+.admin-table th {
+  color: var(--final-white) !important;
+  background: var(--final-navy) !important;
+}
+
+td,
+.admin-table td {
+  color: var(--final-navy) !important;
+  background: var(--final-white) !important;
+}
+
+footer,
+.footer {
+  color: var(--final-white) !important;
+  background: var(--final-navy) !important;
+  border-top: 4px solid var(--final-orange) !important;
+}
+
+footer p, footer span, footer strong,
+.footer p, .footer span, .footer strong {
+  color: var(--final-white) !important;
+}
+
+:focus-visible {
+  outline: 3px solid var(--final-orange) !important;
+  outline-offset: 3px !important;
+}
+
+@media (max-width: 700px) {
+  html { font-size: 15px !important; }
+
+  main p,
+  main li,
+  main label,
+  main td,
+  .section-description,
+  .hero-description {
+    font-size: 0.96rem !important;
+  }
+}
+
+/* =========================================================
+   FINAL LIGHT MODE — WHITE, NAVY, ORANGE
+   Loaded last so every public page uses the same readable base.
+========================================================= */
+
+body {
+  color: #183247 !important;
+  background: #f4f7fa !important;
+}
+
+.future-bg,
+body::before,
+body::after {
+  opacity: 0.08 !important;
+}
+
+main,
+.section,
+.showcase,
+.core,
+.status-section {
+  color: #183247 !important;
+  background-color: transparent !important;
+}
+
+.hero {
+  color: #102a40 !important;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(239, 158, 24, 0.16), transparent 24rem),
+    linear-gradient(120deg, #fffaf1 0%, #ffffff 55%, #edf8ff 100%) !important;
+  border-bottom: 1px solid #d8e3eb !important;
+}
+
+.hero h1,
+.hero h2,
+.section-title,
+.section-heading h2,
+main h1,
+main h2,
+main h3,
+main h4 {
+  color: #102a40 !important;
+  text-shadow: none !important;
+}
+
+.hero h1 span,
+.section-title span,
+.section-heading h2 span {
+  background: linear-gradient(90deg, #e89112, #f5b72e) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+main p,
+main li,
+main label,
+main td,
+.hero-description,
+.section-description,
+.digital-copy > p {
+  color: #314d60 !important;
+}
+
+main small,
+main .meta,
+main .muted,
+.video-note,
+.video-note span {
+  color: #5f7787 !important;
+}
+
+.eyebrow,
+.section-label,
+[class*="-label"] {
+  color: #b76800 !important;
+}
+
+.card,
+.core-card,
+.network-panel,
+.showcase-shell,
+.qms-shell,
+.qms-orbit,
+[class*="-card"],
+[class*="_card"] {
+  color: #183247 !important;
+  background: #ffffff !important;
+  border-color: #d8e3eb !important;
+  box-shadow: 0 14px 38px rgba(22, 50, 72, 0.09) !important;
+}
+
+.card:hover,
+.core-card:hover,
+[class*="-card"]:hover {
+  border-color: rgba(232, 145, 18, 0.55) !important;
+}
+
+.card h3,
+.core-card h3,
+[class*="-card"] h3,
+[class*="_card"] h3,
+.network-panel h3 {
+  color: #102a40 !important;
+}
+
+.card p,
+.core-card p,
+[class*="-card"] p,
+[class*="_card"] p {
+  color: #405e70 !important;
+}
+
+.network-panel {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(77, 220, 247, 0.10), transparent 14rem),
+    #ffffff !important;
+}
+
+.network-stat,
+.feature {
+  background: #f5f9fc !important;
+  border-color: #c9dce7 !important;
+}
+
+.network-stat small,
+.feature span {
+  color: #526d7d !important;
+}
+
+.network-stat strong,
+.feature-number {
+  color: #087eaa !important;
+}
+
+.network-stat span {
+  color: #16753a !important;
+}
+
+/* Feedback and evaluation forms */
+.qms-shell {
+  overflow: hidden;
+  background: #ffffff !important;
+}
+
+.qms-topbar {
+  background: #fff7e7 !important;
+  border-bottom: 1px solid #ead9b7 !important;
+}
+
+.qms-topbar h3,
+.form-intro h3,
+.rating-title h4 {
+  color: #102a40 !important;
+}
+
+.qms-topbar p,
+.form-intro p,
+.rating-title p {
+  color: #526d7d !important;
+  font-size: 0.88rem !important;
+  line-height: 1.6 !important;
+}
+
+.form-tabs {
+  gap: 1px !important;
+  background: #dce6ed !important;
+}
+
+.form-tab {
+  color: #304d60 !important;
+  background: #f4f7f9 !important;
+}
+
+.form-tab strong {
+  color: #17364b !important;
+  font-size: 0.88rem !important;
+}
+
+.form-tab span {
+  color: #5e7685 !important;
+  font-size: 0.76rem !important;
+  line-height: 1.45 !important;
+}
+
+.form-tab:hover,
+.form-tab.active {
+  color: #713d00 !important;
+  background: #fff1d2 !important;
+  box-shadow: inset 0 -3px 0 #e89112 !important;
+}
+
+.form-panel,
+.form-panel.active {
+  color: #183247 !important;
+  background: #ffffff !important;
+}
+
+.form-intro,
+.rating-title {
+  border-color: #dce6ed !important;
+}
+
+.form-group label {
+  color: #17364b !important;
+  font-size: 0.86rem !important;
+  font-weight: 800 !important;
+  line-height: 1.45 !important;
+}
+
+.form-group label + small,
+.form-group small,
+.field-help,
+.help-text {
+  color: #5c7483 !important;
+  font-size: 0.78rem !important;
+  line-height: 1.55 !important;
+}
+
+input,
+select,
+textarea,
+.form-group input,
+.form-group select,
+.form-group textarea {
+  color: #17364b !important;
+  background: #ffffff !important;
+  border: 1px solid #9db4c2 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #687f8d !important;
+}
+
+select option {
+  color: #17364b !important;
+  background: #ffffff !important;
+}
+
+.rating-option label {
+  color: #405e70 !important;
+  background: #f7f9fb !important;
+  border-color: #bdced8 !important;
+}
+
+.rating-option label strong {
+  color: #17364b !important;
+  font-size: 1rem !important;
+}
+
+.rating-option label span {
+  color: #526d7d !important;
+  font-size: 0.76rem !important;
+}
+
+.rating-option input:checked + label {
+  color: #663600 !important;
+  background: #fff1d2 !important;
+  border-color: #e89112 !important;
+  box-shadow: 0 0 0 3px rgba(232, 145, 18, 0.13) !important;
+}
+
+.consent,
+.notice,
+.result-box {
+  color: #29495e !important;
+  background: #fffaf0 !important;
+  border-color: #ead6ac !important;
+}
+
+.consent label,
+.notice p,
+.result-box p {
+  color: #405e70 !important;
+  font-size: 0.86rem !important;
+}
+
+.notice h3,
+.result-box h4 {
+  color: #17364b !important;
+}
+
+/* Admin dashboard remains readable in light mode. */
+.admin-login-card,
+.admin-panel,
+.admin-metric,
+.admin-detail-card {
+  color: #183247 !important;
+  background: #ffffff !important;
+  border-color: #d8e3eb !important;
+}
+
+.admin-topline h3,
+.admin-panel-head h4,
+.admin-metric strong,
+.admin-detail-card strong,
+.admin-table td strong {
+  color: #102a40 !important;
+}
+
+.admin-topline p,
+.admin-panel-head p,
+.admin-muted,
+.admin-empty,
+.admin-metric small,
+.admin-detail-card small {
+  color: #5a7382 !important;
+  font-size: max(0.76rem, 12px) !important;
+}
+
+.admin-panel-head,
+.admin-tabs,
+.admin-table th,
+.admin-table td {
+  border-color: #d8e3eb !important;
+}
+
+.admin-tab-btn {
+  color: #36566a !important;
+  background: #f4f7f9 !important;
+}
+
+.admin-tab-btn.active {
+  color: #753f00 !important;
+  background: #fff1d2 !important;
+}
+
+.admin-table th {
+  color: #422400 !important;
+  background: #ffe7b1 !important;
+}
+
+.admin-table td {
+  color: #29495e !important;
+  background: #ffffff !important;
+  font-size: 0.78rem !important;
+}
+
+footer,
+.footer {
+  color: #d5e3ea !important;
+  background: #071a2a !important;
+}
+
+.footer strong,
+.footer h3,
+.footer h4,
+footer strong,
+footer h3,
+footer h4 {
+  color: #ffffff !important;
+}
+
+.footer p,
+.footer span,
+footer p,
+footer span {
+  color: #bed0d9 !important;
+}
+
+@media (max-width: 900px) {
+  .sk-nav-links {
+    color: #ffffff !important;
+    background: linear-gradient(180deg, #0a376c, #071d35) !important;
+  }
+
+  .sk-nav-links a { color: #ffffff !important; }
+}

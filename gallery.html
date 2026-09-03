@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Photo gallery and activity documentation of SK Sapilang.">
+  <title>Gallery & Documentation | SK Sapilang</title>
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260903-CONSISTENT">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260903-CONSISTENT">
+  <style>
+    *{box-sizing:border-box}body{margin:0}.page{width:min(1180px,calc(100% - 32px));margin:auto;padding:64px 0}.hero-block{padding:48px;border:1px solid rgba(11,37,69,.18);border-left:7px solid #f59e0b;border-radius:18px;background:#fff}.eyebrow{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.hero-block h1{margin:10px 0 14px;font-size:clamp(38px,6vw,68px)}.hero-block p{max-width:760px;margin:0}.gallery-section{padding-top:42px}.gallery-section[hidden]{display:none}.gallery-heading{margin-bottom:16px}.gallery-heading h2{margin:5px 0;font-size:clamp(26px,4vw,38px)}.gallery{display:grid;grid-template-columns:1fr;gap:18px}.gallery-card{overflow:hidden;border:1px solid rgba(11,37,69,.2);border-radius:15px;background:#fff}.gallery-placeholder{display:grid;min-height:210px;place-items:center;padding:30px;text-align:center;background:#edf3f7;border-bottom:1px solid #cad8e2;color:#526d7d}.gallery-placeholder strong{display:block;color:#0b2545;font-size:20px;margin-bottom:7px}.gallery-copy{padding:18px}.gallery-copy span{color:#f59e0b;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}.gallery-copy h3{margin:6px 0 7px;font-size:20px}.gallery-copy p{margin:0;font-size:14px!important}.gallery-back{display:none;margin-top:24px;color:#0b2545;font-weight:800}.facebook-btn{display:inline-flex;margin-top:30px;min-height:46px;align-items:center;padding:0 18px;border-radius:9px;background:#f59e0b;color:#0b2545!important;font-weight:800;text-decoration:none}.simple-footer{margin-top:64px;padding:30px 16px;background:#0b2545;color:#fff;text-align:center;border-top:4px solid #f59e0b}.simple-footer p{margin:4px;color:#fff!important}@media(max-width:850px){.hero-block{padding:30px 24px}}
+  </style>
+</head>
+<body>
+  <header id="site-header"></header>
+  <main class="page">
+    <section class="hero-block"><span class="eyebrow">Visual Archive</span><h1>Gallery & Documentation</h1><p>Photographs and visual records of SK Sapilang programs, projects, partnerships and community activities.</p></section>
+    <section class="gallery-section" id="womens-month" data-gallery="womens-month"><div class="gallery-heading"><span class="eyebrow">Finished Activity</span><h2>Women’s Month 2026</h2><p>Gender and development program documentation.</p></div><div class="gallery"><article class="gallery-card"><div class="gallery-placeholder"><div><strong>Women’s Month Gallery</strong>Activity photos can be added here without using the Contact emergency posters.</div></div><div class="gallery-copy"><span>Women’s Month</span><h3>Program Documentation</h3></div></article></div></section>
+    <section class="gallery-section" id="youth-seminars" data-gallery="youth-seminars"><div class="gallery-heading"><span class="eyebrow">Finished Activity</span><h2>Youth Development Seminars</h2><p>Learning sessions, speakers and participant documentation.</p></div><div class="gallery"><article class="gallery-card"><div class="gallery-placeholder"><div><strong>Youth Seminar Gallery</strong>Activity photos can be added here without using the Contact emergency posters.</div></div><div class="gallery-copy"><span>Youth Seminar</span><h3>Learning Session Documentation</h3></div></article></div></section>
+    <section class="gallery-section" id="linggo-ng-kabataan" data-gallery="linggo-ng-kabataan"><div class="gallery-heading"><span class="eyebrow">Finished Activity</span><h2>Linggo ng Kabataan 2026</h2><p>Youth talent, creativity and community participation.</p></div><div class="gallery"><article class="gallery-card"><div class="gallery-placeholder"><div><strong>Linggo ng Kabataan Gallery</strong>Activity photos can be added here without using the Contact emergency posters.</div></div><div class="gallery-copy"><span>Linggo ng Kabataan</span><h3>Activity Highlights</h3></div></article></div></section>
+    <section class="gallery-section" id="sports" data-gallery="sports"><div class="gallery-heading"><span class="eyebrow">Finished Activity</span><h2>SK Sports Activities</h2><p>Sports development and youth participation documentation.</p></div><div class="gallery"><article class="gallery-card"><div class="gallery-placeholder"><div><strong>Sports Activity Gallery</strong>Activity photos can be added here without using the Contact emergency posters.</div></div><div class="gallery-copy"><span>Sports</span><h3>Sports Program Documentation</h3></div></article></div></section>
+    <a class="gallery-back" id="galleryBack" href="gallery.html">← View all activity galleries</a>
+    <a class="facebook-btn" href="https://www.facebook.com/profile.php?id=61555692615847" target="_blank" rel="noopener noreferrer">See More Photos on Facebook</a>
+  </main>
+  <footer class="simple-footer"><p><strong>SK SAPILANG</strong></p><p>Barangay Sapilang, Bacnotan, La Union</p></footer>
+  <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
+  <script src="js/site-header.js?v=20260903-CMS"></script>
+  <script>
+    (function(){
+      const key=location.hash.slice(1);
+      const sections=[...document.querySelectorAll('[data-gallery]')];
+      if(!key)return;
+      const selected=sections.find(section=>section.dataset.gallery===key);
+      if(!selected)return;
+      sections.forEach(section=>section.hidden=section!==selected);
+      document.getElementById('galleryBack').style.display='inline-block';
+      document.querySelector('.hero-block p').textContent='Showing the photo documentation for the selected finished activity.';
+      selected.scrollIntoView({behavior:'smooth',block:'start'});
+    })();
+  </script>
+</body>
+</html>
