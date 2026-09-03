@@ -628,9 +628,9 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
             </div>
 
             <div class="form-tabs">
-                <button class="form-tab active" type="button" data-form="client">
-                    <strong>Client / Service Feedback</strong>
-                    <span>Evaluate SK services and assistance</span>
+                <button class="form-tab active" type="button" data-form="visitor">
+                    <strong>Visitor Logbook</strong>
+                    <span>Record your visit and service feedback</span>
                 </button>
                 <button class="form-tab" type="button" data-form="activity">
                     <strong>Activity / Program Evaluation</strong>
@@ -639,10 +639,6 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 <button class="form-tab" type="button" data-form="suggestion">
                     <strong>Suggestions & Recommendations</strong>
                     <span>Share ideas, concerns or recommendations</span>
-                </button>
-                <button class="form-tab" type="button" data-form="visitor">
-                    <strong>Visitor Logbook</strong>
-                    <span>Record an office or service visit</span>
                 </button>
                 <button class="form-tab" type="button" data-form="admin">
                     <strong>QMS Admin Dashboard</strong>
@@ -653,71 +649,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
             <div class="notice" style="margin:18px">
                 <small>Data Privacy Notice</small>
                 <h3>Purpose and protection of personal information</h3>
-                <p>In accordance with Republic Act No. 10173 or the Data Privacy Act of 2012, information submitted through this page will be collected only for service documentation, visitor monitoring, program evaluation, response to concerns, reporting and improvement of SK Sapilang services. Access is limited to authorized personnel. Information will not be used for unrelated purposes and will be retained only for as long as necessary under applicable government records and privacy policies. Submission is voluntary, and consent is required before personal information is recorded.</p>
-            </div>
-
-            <div class="form-panel active" id="clientPanel">
-                <div class="form-intro">
-                    <h3>Client / Service Feedback Form</h3>
-                    <p>Use this form after receiving an SK Sapilang service, requesting assistance or accessing a digital service.</p>
-                </div>
-
-                <form id="clientForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input name="name" type="text" autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label>Service Availed *</label>
-                            <select name="service" required>
-                                <option value="">Select Service</option>
-                                <option>KK Profiling</option>
-                                <option>KK Digital ID</option>
-                                <option>KK ID Verification</option>
-                                <option>Printing / Educational Support</option>
-                                <option>Program Registration</option>
-                                <option>Request for Information</option>
-                                <option>General SK Assistance</option>
-                                <option>Website / Digital Service</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Date of Service</label>
-                            <input name="date" type="date">
-                        </div>
-                    </div>
-
-                    <div class="rating-title">
-                        <h4>Overall Client Satisfaction *</h4>
-                        <p>Rate your overall experience from 1 to 5.</p>
-                    </div>
-
-                    <div class="rating-grid">
-                        <div class="rating-option"><input id="cf1" type="radio" name="rating" value="1" required><label for="cf1"><strong>1</strong><span>Very Dissatisfied</span></label></div>
-                        <div class="rating-option"><input id="cf2" type="radio" name="rating" value="2"><label for="cf2"><strong>2</strong><span>Dissatisfied</span></label></div>
-                        <div class="rating-option"><input id="cf3" type="radio" name="rating" value="3"><label for="cf3"><strong>3</strong><span>Satisfactory</span></label></div>
-                        <div class="rating-option"><input id="cf4" type="radio" name="rating" value="4"><label for="cf4"><strong>4</strong><span>Very Satisfied</span></label></div>
-                        <div class="rating-option"><input id="cf5" type="radio" name="rating" value="5"><label for="cf5"><strong>5</strong><span>Excellent</span></label></div>
-                    </div>
-
-                    <div class="form-grid" style="margin-top:20px">
-                        <div class="form-group full">
-                            <label>Comments / Areas for Improvement</label>
-                            <textarea name="comments" placeholder="Tell us what worked well or what can be improved."></textarea>
-                        </div>
-                    </div>
-
-                    <div class="consent">
-                        <input id="clientConsent" type="checkbox" required>
-                        <label for="clientConsent">I have read the Data Privacy Notice and freely consent to the collection and processing of the information I provide for service documentation, evaluation and improvement.</label>
-                    </div>
-
-                    <button class="submit-button" type="submit">Submit Client Feedback</button>
-                </form>
-
-                <div class="result-box" id="clientResult"></div>
+                <p>In accordance with Republic Act No. 10173 or the Data Privacy Act of 2012, information submitted through this page—including name, age or birthdate, address, contact details, office or organization and position—will be collected only when provided for service documentation, visitor monitoring, program evaluation, response to concerns, reporting and improvement of SK Sapilang services. Access is limited to authorized personnel. Information will not be used for unrelated purposes and will be retained only for as long as necessary under applicable government records and privacy policies. Submission is voluntary, and consent is required before personal information is recorded.</p>
             </div>
 
             <div class="form-panel" id="activityPanel">
@@ -1031,14 +963,35 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 <div class="result-box" id="activityResult"></div>
             </div>
 
-            <div class="form-panel" id="visitorPanel">
-                <div class="form-intro"><h3>Automated Visitor Logbook</h3><p>Complete the necessary details when visiting the SK office or availing of an in-person service. The date and time are recorded automatically.</p></div>
-                <form id="visitorForm"><div class="form-grid">
-                    <div class="form-group"><label>Visitor Name *</label><input name="name" type="text" required autocomplete="name"></div>
-                    <div class="form-group"><label>Purpose of Visit *</label><select name="purpose" required><option value="">Select Purpose</option><option>Avail SK Service</option><option>Submit Document</option><option>Request Information</option><option>Attend Meeting</option><option>Program Registration</option><option>Coordination / Consultation</option><option>Other Official Purpose</option></select></div>
-                    <div class="form-group"><label>Service / Office Concerned *</label><select name="service" required><option value="">Select Service</option><option>KK Profiling / Digital ID</option><option>Printing / Educational Support</option><option>Programs and Activities</option><option>Documents / Publications</option><option>SK Chairperson / Council</option><option>General Assistance</option></select></div>
-                    <div class="form-group"><label>Contact Number (optional)</label><input name="contact" type="tel" autocomplete="tel"></div>
-                </div><div class="consent"><input id="visitorConsent" name="consent" type="checkbox" value="yes" required><label for="visitorConsent">I have read the Data Privacy Notice and consent to the collection of these necessary details for the official visitor logbook and service monitoring.</label></div><button class="submit-button" type="submit">Record Visit</button></form><div class="result-box" id="visitorResult"></div>
+            <div class="form-panel active" id="visitorPanel">
+                <div class="form-intro"><h3>Visitor Logbook</h3><p>Record an office visit or service transaction. Date and time are recorded automatically. Client or service feedback is included below.</p></div>
+                <form id="visitorForm">
+                    <div class="form-grid">
+                        <div class="form-group"><label>Full Name *</label><input name="name" type="text" required autocomplete="name"></div>
+                        <div class="form-group"><label>Visitor Type *</label><select name="clientType" required><option value="">Select Visitor Type</option><option>Katipunan ng Kabataan Member</option><option>Student</option><option>Parent / Guardian</option><option>Barangay Resident</option><option>Government Employee</option><option>Partner Organization Representative</option><option>Guest / Other Client</option></select></div>
+                        <div class="form-group"><label>Age</label><input name="age" type="number" min="1" max="120" inputmode="numeric"></div>
+                        <div class="form-group"><label>Birthdate (optional)</label><input name="birthdate" type="date"></div>
+                        <div class="form-group full"><label>Address — Barangay and Municipality *</label><input name="address" type="text" required autocomplete="street-address" placeholder="Example: Sapilang, Bacnotan, La Union"></div>
+                        <div class="form-group"><label>Contact Number</label><input name="contact" type="tel" autocomplete="tel" inputmode="tel"></div>
+                        <div class="form-group"><label>Office / School / Organization</label><input name="office" type="text" autocomplete="organization"></div>
+                        <div class="form-group"><label>Position / Designation</label><input name="position" type="text" autocomplete="organization-title"></div>
+                        <div class="form-group"><label>Purpose of Visit *</label><select name="purpose" required><option value="">Select Purpose</option><option>Avail SK Service</option><option>Submit Document</option><option>Request Information</option><option>Attend Meeting</option><option>Program Registration</option><option>Coordination / Consultation</option><option>Other Official Purpose</option></select></div>
+                        <div class="form-group"><label>Service Availed / Office Concerned *</label><select name="service" required><option value="">Select Service</option><option>KK Profiling</option><option>KK Digital ID / Verification</option><option>Printing / Educational Support</option><option>Program Registration</option><option>Programs and Activities</option><option>Documents / Publications</option><option>Request for Information</option><option>SK Chairperson / Council</option><option>Website / Digital Service</option><option>General SK Assistance</option><option>Other</option></select></div>
+                        <input name="date" id="visitorServiceDate" type="hidden">
+                    </div>
+                    <div class="rating-title"><h4>Service Feedback</h4><p>If you received a service, you may rate your overall experience.</p></div>
+                    <div class="rating-grid">
+                        <div class="rating-option"><input id="vf1" type="radio" name="rating" value="1"><label for="vf1"><strong>1</strong><span>Very Dissatisfied</span></label></div>
+                        <div class="rating-option"><input id="vf2" type="radio" name="rating" value="2"><label for="vf2"><strong>2</strong><span>Dissatisfied</span></label></div>
+                        <div class="rating-option"><input id="vf3" type="radio" name="rating" value="3"><label for="vf3"><strong>3</strong><span>Satisfactory</span></label></div>
+                        <div class="rating-option"><input id="vf4" type="radio" name="rating" value="4"><label for="vf4"><strong>4</strong><span>Very Satisfied</span></label></div>
+                        <div class="rating-option"><input id="vf5" type="radio" name="rating" value="5"><label for="vf5"><strong>5</strong><span>Excellent</span></label></div>
+                    </div>
+                    <div class="form-grid" style="margin-top:20px"><div class="form-group full"><label>Comments / Areas for Improvement</label><textarea name="comments" placeholder="Optional feedback about the service received."></textarea></div></div>
+                    <div class="consent"><input id="visitorConsent" name="consent" type="checkbox" value="yes" required><label for="visitorConsent">I have read the Data Privacy Notice and freely consent to the collection and processing of the information I provide for the official visitor logbook, service documentation and service improvement.</label></div>
+                    <button class="submit-button" type="submit">Record Visit &amp; Feedback</button>
+                </form>
+                <div class="result-box" id="visitorResult"></div>
             </div>
 
             <div class="form-panel" id="suggestionPanel">
@@ -1428,7 +1381,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     </div>
 </footer>
 
-<script src="js/feedback-page.js?v=20260903-QMS3"></script>
+<script src="js/feedback-page.js?v=20260903-QMS4"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="js/site-header.js?v=20260903-CMS"></script>
 </body>

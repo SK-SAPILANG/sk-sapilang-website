@@ -44,7 +44,6 @@ if(adminHeaderLogin){
 
 const tabs=document.querySelectorAll(".form-tab");
 const panels={
-    client:document.getElementById("clientPanel"),
     activity:document.getElementById("activityPanel"),
     suggestion:document.getElementById("suggestionPanel"),
     visitor:document.getElementById("visitorPanel"),
@@ -170,7 +169,8 @@ function showSubmissionError(el,message){
 }
 
 
-document.getElementById("clientForm").addEventListener("submit",async e=>{
+const clientForm=document.getElementById("clientForm");
+if(clientForm)clientForm.addEventListener("submit",async e=>{
     e.preventDefault();
 
     const form=e.currentTarget;
@@ -279,8 +279,35 @@ function loadScheduledActivities(){
 document.getElementById("scheduledActivitySelect").addEventListener("change",function(){const option=this.selectedOptions[0];document.getElementById("scheduledActivityDate").value=option?.dataset.date||"";document.getElementById("scheduledActivityVenue").value=option?.dataset.venue||"";document.getElementById("scheduledActivitySpeaker").value=option?.dataset.speaker||""});
 loadScheduledActivities();
 
-document.getElementById("visitorForm").addEventListener("submit",function(event){
-    event.preventDefault();const endpoint=feedbackCmsEndpoint(),form=event.currentTarget,result=document.getElementById("visitorResult");if(!endpoint){showSubmissionError(result,"The visitor logbook is not configured.");return}const target='visitorLogFrame'+Date.now(),frame=document.createElement('iframe');frame.name=target;frame.hidden=true;const post=document.createElement('form');post.method='POST';post.action=endpoint;post.target=target;new FormData(form).forEach((value,name)=>{const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;post.appendChild(input)});const action=document.createElement('input');action.type='hidden';action.name='action';action.value='visitor-log';post.appendChild(action);document.body.append(frame,post);window.addEventListener('message',function receive(e){if(e.data?.source!=='sk-visitor-log')return;window.removeEventListener('message',receive);frame.remove();if(e.data.success){showResult(result,'VISIT-'+Date.now().toString().slice(-8),null,null,'visitor logbook entry');form.reset()}else showSubmissionError(result,e.data.message||'Unable to record visit.')});post.submit();post.remove();
+function sendVisitorLog(form){
+    return new Promise((resolve,reject)=>{
+        const endpoint=feedbackCmsEndpoint();
+        if(!endpoint){reject(new Error("The visitor logbook is not configured."));return;}
+        const target="visitorLogFrame"+Date.now(),frame=document.createElement("iframe"),post=document.createElement("form");
+        frame.name=target;frame.hidden=true;post.method="POST";post.action=endpoint;post.target=target;
+        new FormData(form).forEach((value,name)=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
+        const action=document.createElement("input");action.type="hidden";action.name="action";action.value="visitor-log";post.appendChild(action);
+        const timer=setTimeout(()=>finish(new Error("The visitor logbook request timed out.")),25000);
+        function receive(event){if(event.data?.source!=="sk-visitor-log")return;event.data.success?finish(null,event.data):finish(new Error(event.data.message||"Unable to record visit."));}
+        function finish(error,data){clearTimeout(timer);window.removeEventListener("message",receive);frame.remove();post.remove();error?reject(error):resolve(data);}
+        window.addEventListener("message",receive);document.body.append(frame,post);post.submit();
+    });
+}
+
+document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
+document.getElementById("visitorForm").addEventListener("submit",async function(event){
+    event.preventDefault();
+    const form=event.currentTarget,result=document.getElementById("visitorResult"),button=form.querySelector('button[type="submit"]');
+    result.classList.remove("show");setSubmitting(button,true);
+    try{
+        const hasRating=Boolean(form.querySelector('input[name="rating"]:checked'));
+        const visitorPromise=sendVisitorLog(form);
+        const qmsPromise=hasRating?sendToQMS("client",form):Promise.resolve(null);
+        const [visitor,qms]=await Promise.all([visitorPromise,qmsPromise]);
+        showResult(result,qms?.reference||visitor.reference,qms?.score??null,qms?.rating??null,hasRating?"visitor logbook and service feedback":"visitor logbook entry");
+        form.reset();document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
+    }catch(error){showSubmissionError(result,error.message||"Unable to record the visit.");}
+    finally{setSubmitting(button,false);}
 });
 
 
