@@ -96,6 +96,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     </li>
 
                     <li>
+                        <a href="awards.html">
+                            Awards
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="transparency.html">
                             Transparency
                         </a>
