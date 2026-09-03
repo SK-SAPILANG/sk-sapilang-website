@@ -284,11 +284,11 @@ document.addEventListener("DOMContentLoaded", function () {
     /* Load saved website content from the optional CMS backend. */
     if (!document.querySelector('script[data-sk-cms="config"]')) {
         const configScript = document.createElement("script");
-        configScript.src = "cms-config.js?v=20260903-CMS";
+        configScript.src = "cms-config.js?v=20260903-COLLECTIONS";
         configScript.dataset.skCms = "config";
         configScript.onload = function () {
             const renderScript = document.createElement("script");
-            renderScript.src = "js/cms-render.js?v=20260903-CMS";
+            renderScript.src = "js/cms-render.js?v=20260903-COLLECTIONS";
             renderScript.dataset.skCms = "render";
             document.body.appendChild(renderScript);
         };
