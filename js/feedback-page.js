@@ -47,6 +47,7 @@ const panels={
     client:document.getElementById("clientPanel"),
     activity:document.getElementById("activityPanel"),
     suggestion:document.getElementById("suggestionPanel"),
+    visitor:document.getElementById("visitorPanel"),
     admin:document.getElementById("adminPanel")
 };
 
@@ -270,6 +271,18 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
     }
 });
 
+function feedbackCmsEndpoint(){return window.SK_CMS_ENDPOINT||localStorage.getItem("skCmsEndpoint")||""}
+function loadScheduledActivities(){
+    const run=()=>{const endpoint=feedbackCmsEndpoint(),select=document.getElementById("scheduledActivitySelect");if(!endpoint){select.innerHTML='<option value="">No CMS endpoint configured</option>';return}const callback='skSchedule'+Date.now();window[callback]=data=>{const items=(data.items||[]).filter(item=>item.type==='Scheduled Activity / Evaluation');select.innerHTML='<option value="">Select Scheduled Activity</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');select._scheduleItems=items;delete window[callback];script.remove()};const script=document.createElement('script');script.src=endpoint+'?action=public&page=feedback.html&callback='+callback+'&_='+Date.now();script.onerror=()=>{select.innerHTML='<option value="">Unable to load scheduled activities</option>'};document.head.appendChild(script)};
+    if(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint'))run();else{const config=document.createElement('script');config.src='cms-config.js?v=20260903-QMS';config.onload=run;document.head.appendChild(config)}
+}
+document.getElementById("scheduledActivitySelect").addEventListener("change",function(){const option=this.selectedOptions[0];document.getElementById("scheduledActivityDate").value=option?.dataset.date||"";document.getElementById("scheduledActivityVenue").value=option?.dataset.venue||"";document.getElementById("scheduledActivitySpeaker").value=option?.dataset.speaker||""});
+loadScheduledActivities();
+
+document.getElementById("visitorForm").addEventListener("submit",function(event){
+    event.preventDefault();const endpoint=feedbackCmsEndpoint(),form=event.currentTarget,result=document.getElementById("visitorResult");if(!endpoint){showSubmissionError(result,"The visitor logbook is not configured.");return}const target='visitorLogFrame'+Date.now(),frame=document.createElement('iframe');frame.name=target;frame.hidden=true;const post=document.createElement('form');post.method='POST';post.action=endpoint;post.target=target;new FormData(form).forEach((value,name)=>{const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;post.appendChild(input)});const action=document.createElement('input');action.type='hidden';action.name='action';action.value='visitor-log';post.appendChild(action);document.body.append(frame,post);window.addEventListener('message',function receive(e){if(e.data?.source!=='sk-visitor-log')return;window.removeEventListener('message',receive);frame.remove();if(e.data.success){showResult(result,'VISIT-'+Date.now().toString().slice(-8),null,null,'visitor logbook entry');form.reset()}else showSubmissionError(result,e.data.message||'Unable to record visit.')});post.submit();post.remove();
+});
+
 
 
 /* =========================================================
@@ -278,12 +291,120 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
 
 let INTEGRATED_ADMIN_KEY="";
 let INTEGRATED_DASHBOARD_DATA=null;
+let INTEGRATED_SCHEDULE_EDIT_ID="";
+let INTEGRATED_SCHEDULE_ITEMS=[];
 
 const integratedAdminLoginArea=document.getElementById("adminLoginArea");
 const integratedAdminDashboard=document.getElementById("integratedAdminDashboard");
 const integratedAdminLoginForm=document.getElementById("adminLoginForm");
 const integratedAdminLoginError=document.getElementById("integratedAdminLoginError");
 const integratedAdminLoading=document.getElementById("integratedAdminLoading");
+
+function integratedCmsPassword(){
+    return document.getElementById("integratedCmsPassword").value.trim()||INTEGRATED_ADMIN_KEY;
+}
+
+function integratedCmsApi(params){
+    return new Promise((resolve,reject)=>{
+        const endpoint=feedbackCmsEndpoint();
+        if(!endpoint){reject(new Error("The website CMS address is not configured."));return;}
+        const callback="skQmsCms"+Date.now()+Math.floor(Math.random()*10000);
+        const script=document.createElement("script");
+        const timer=setTimeout(()=>{cleanup();reject(new Error("The website CMS request timed out."));},20000);
+        function cleanup(){clearTimeout(timer);delete window[callback];script.remove();}
+        window[callback]=response=>{cleanup();response&&response.success?resolve(response):reject(new Error(response&&response.message||"Website CMS request failed."));};
+        script.onerror=()=>{cleanup();reject(new Error("Unable to connect to the website CMS."));};
+        script.src=endpoint+"?"+new URLSearchParams({...params,callback,_:Date.now()}).toString();
+        document.head.appendChild(script);
+    });
+}
+
+function integratedScheduleMessage(message,error=false){
+    const el=document.getElementById("integratedScheduleMessage");
+    el.textContent=message;
+    el.style.color=error?"#ffaaaa":"";
+}
+
+function integratedClearScheduleForm(){
+    const cmsPassword=document.getElementById("integratedCmsPassword").value;
+    INTEGRATED_SCHEDULE_EDIT_ID="";
+    document.getElementById("integratedScheduleForm").reset();
+    document.getElementById("integratedCmsPassword").value=cmsPassword;
+    document.getElementById("integratedScheduleSave").textContent="Add Scheduled Activity";
+    integratedScheduleMessage("");
+}
+
+function integratedRenderSchedules(items){
+    INTEGRATED_SCHEDULE_ITEMS=items;
+    const list=document.getElementById("integratedScheduleList");
+    list.innerHTML=items.length?items.map(item=>`
+        <article class="admin-schedule-card">
+            <div><strong>${integratedEscape(item.title)}</strong><span>${integratedEscape(item.date||"No date")} • ${integratedEscape(item.venue||"No venue")}<br>${integratedEscape(item.speaker||"No resource speaker listed")}</span></div>
+            <div class="admin-schedule-card-actions"><button class="admin-action-btn" type="button" data-schedule-edit="${integratedEscape(item.id)}">Edit</button><button class="admin-action-btn danger" type="button" data-schedule-delete="${integratedEscape(item.id)}">Delete</button></div>
+        </article>`).join(""):'<div class="admin-empty">No scheduled activities yet. Add the first activity above.</div>';
+    list.querySelectorAll("[data-schedule-edit]").forEach(button=>button.addEventListener("click",()=>integratedEditSchedule(button.dataset.scheduleEdit)));
+    list.querySelectorAll("[data-schedule-delete]").forEach(button=>button.addEventListener("click",()=>integratedDeleteSchedule(button.dataset.scheduleDelete)));
+}
+
+async function integratedLoadSchedules(){
+    integratedScheduleMessage("Loading scheduled activities...");
+    try{
+        const response=await integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page:"feedback.html"});
+        integratedRenderSchedules((response.items||[]).filter(item=>item.type==="Scheduled Activity / Evaluation"));
+        integratedScheduleMessage("Scheduled activities are up to date.");
+    }catch(error){
+        integratedScheduleMessage(error.message+" If your CMS password differs from the QMS code, enter it above.",true);
+    }
+}
+
+function integratedEditSchedule(id){
+    const item=INTEGRATED_SCHEDULE_ITEMS.find(row=>row.id===id);
+    if(!item)return;
+    INTEGRATED_SCHEDULE_EDIT_ID=id;
+    document.getElementById("integratedScheduleTitle").value=item.title||"";
+    document.getElementById("integratedScheduleDate").value=item.date||"";
+    document.getElementById("integratedScheduleVenue").value=item.venue||"";
+    document.getElementById("integratedScheduleSpeaker").value=item.speaker||"";
+    document.getElementById("integratedScheduleDescription").value=item.description||"";
+    document.getElementById("integratedScheduleSave").textContent="Save Activity Update";
+    integratedScheduleMessage("Editing "+item.title+".");
+    document.getElementById("integratedScheduleTitle").focus();
+}
+
+async function integratedDeleteSchedule(id){
+    const item=INTEGRATED_SCHEDULE_ITEMS.find(row=>row.id===id);
+    if(!item||!confirm("Delete “"+item.title+"” from the evaluation choices?"))return;
+    integratedScheduleMessage("Deleting activity...");
+    try{
+        await integratedCmsApi({action:"delete-item",password:integratedCmsPassword(),id});
+        integratedClearScheduleForm();
+        await integratedLoadSchedules();
+        loadScheduledActivities();
+    }catch(error){integratedScheduleMessage(error.message,true);}
+}
+
+document.getElementById("integratedScheduleForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+    const button=document.getElementById("integratedScheduleSave");
+    button.disabled=true;
+    integratedScheduleMessage("Saving scheduled activity...");
+    try{
+        await integratedCmsApi({
+            action:"save-item",password:integratedCmsPassword(),id:INTEGRATED_SCHEDULE_EDIT_ID,page:"feedback.html",
+            itemType:"Scheduled Activity / Evaluation",title:document.getElementById("integratedScheduleTitle").value.trim(),
+            description:document.getElementById("integratedScheduleDescription").value.trim(),status:"Upcoming",
+            eventDate:document.getElementById("integratedScheduleDate").value,venue:document.getElementById("integratedScheduleVenue").value.trim(),
+            speaker:document.getElementById("integratedScheduleSpeaker").value.trim(),mediaUrl:"",linkUrl:""
+        });
+        integratedClearScheduleForm();
+        await integratedLoadSchedules();
+        loadScheduledActivities();
+        integratedScheduleMessage("Activity saved. It is now available in the evaluation form.");
+    }catch(error){integratedScheduleMessage(error.message,true);}finally{button.disabled=false;}
+});
+
+document.getElementById("integratedScheduleClear").addEventListener("click",integratedClearScheduleForm);
+document.getElementById("integratedScheduleReload").addEventListener("click",integratedLoadSchedules);
 
 function integratedEscape(value){
     return String(value??"")
@@ -338,6 +459,7 @@ async function integratedLoadDashboard(){
 
         integratedAdminLoginArea.style.display="none";
         integratedAdminDashboard.classList.add("show");
+        integratedLoadSchedules();
         sessionStorage.setItem("skQmsAdminKey",INTEGRATED_ADMIN_KEY);
         integratedAdminLoginError.classList.remove("show");
     }catch(error){
@@ -368,6 +490,7 @@ document.getElementById("integratedPrintBtn").addEventListener("click",()=>integ
 document.getElementById("integratedGeneratePrintBtn").addEventListener("click",()=>integratedPrintReport());
 document.getElementById("integratedPrintScope").addEventListener("change",function(){
     document.getElementById("integratedPrintActivity").disabled=this.value!=="activity";
+    document.getElementById("integratedPrintService").disabled=this.value!=="service";
 });
 
 document.getElementById("integratedLogoutBtn").addEventListener("click",()=>{
@@ -430,11 +553,14 @@ function integratedRenderDashboard(data){
 
     integratedPopulateActivityTypeFilter(data.activityTypes);
     integratedPopulatePrintActivities(data.activities||[]);
+    integratedPopulatePrintServices(data.clients||[]);
     integratedRenderClients(data.clients);
     integratedRenderActivities(data.activities);
     integratedRenderSpeakers(data.activities,s);
     integratedRenderSuggestions(data.suggestions);
 }
+
+function integratedPopulatePrintServices(rows){const select=document.getElementById('integratedPrintService');const services=[...new Set(rows.map(row=>String(row.service||'').trim()).filter(Boolean))].sort();select.innerHTML='<option value="">Select Service Availed</option>'+services.map(service=>`<option>${integratedEscape(service)}</option>`).join('')}
 
 function integratedPopulatePrintActivities(rows){
     const select=document.getElementById("integratedPrintActivity");
@@ -461,10 +587,12 @@ function integratedPrintReport(){
     const data=INTEGRATED_DASHBOARD_DATA;
     const scope=document.getElementById("integratedPrintScope").value;
     const activityName=document.getElementById("integratedPrintActivity").value;
+    const serviceName=document.getElementById("integratedPrintService").value;
     if(scope==="activity"&&!activityName){alert("Please select a project or activity.");return;}
+    if(scope==="service"&&!serviceName){alert("Please select a service availed.");return;}
 
     const activities=(data.activities||[]).filter(row=>scope!=="activity"||row.activity===activityName);
-    const clients=scope==="activity"||scope==="suggestions"?[]:(data.clients||[]);
+    const clients=scope==="activity"||scope==="suggestions"?[]:(data.clients||[]).filter(row=>scope!=="service"||row.service===serviceName);
     const suggestions=scope==="activity"||scope==="clients"?[]:(data.suggestions||[]);
     const ratings=[
         ["Overall Rating","averageScore"],["Relevance of Topic / Activity","relevance"],
@@ -476,7 +604,7 @@ function integratedPrintReport(){
         ["Speaker Responsiveness","speakerResponsiveness"]
     ];
     const common=integratedCommonEntries(activities,["improvement","future","learning"]).concat(integratedCommonEntries(suggestions,["message","solution"])).slice(0,12);
-    const reportTitle=scope==="activity"?activityName+" — Evaluation Report":scope==="clients"?"Client Feedback Report":scope==="suggestions"?"Suggestions Report":"Complete QMS Report";
+    const reportTitle=scope==="activity"?activityName+" — Evaluation Report":scope==="service"?serviceName+" — Service Feedback Report":scope==="clients"?"Client Feedback Report":scope==="suggestions"?"Suggestions Report":"Complete QMS Report";
     const row=(cells)=>`<tr>${cells.map(cell=>`<td>${integratedEscape(cell)}</td>`).join("")}</tr>`;
     const popup=window.open("","_blank");
     if(!popup){alert("Please allow pop-ups to print the report.");return;}

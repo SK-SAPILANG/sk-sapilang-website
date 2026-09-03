@@ -547,6 +547,22 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     text-align:center;font-size:8px;text-transform:uppercase;letter-spacing:1px
 }
 .admin-loading.show{display:block}
+.admin-schedule-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.admin-schedule-field{display:grid;gap:6px}
+.admin-schedule-field.full{grid-column:1/-1}
+.admin-schedule-field label{color:#dceaf0;font-size:14px;font-weight:800}
+.admin-schedule-field input,.admin-schedule-field textarea{
+    width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);
+    border-radius:8px;color:white;background:#041723;font-size:14px;outline:0
+}
+.admin-schedule-field textarea{min-height:90px;resize:vertical}
+.admin-schedule-help,.admin-schedule-message{color:#9eb3bd;font-size:13px;line-height:1.55}
+.admin-schedule-message{min-height:22px;margin-top:10px;color:var(--cyan);font-weight:700}
+.admin-schedule-list{display:grid;gap:10px;margin-top:14px}
+.admin-schedule-card{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:10px;background:#041723}
+.admin-schedule-card strong{display:block;color:white;font-size:15px}
+.admin-schedule-card span{display:block;margin-top:5px;color:#a9bec8;font-size:13px;line-height:1.5}
+.admin-schedule-card-actions{display:flex;flex-wrap:wrap;gap:7px}
 @media(max-width:1050px){
     .admin-summary-grid{grid-template-columns:repeat(2,1fr)}
     .admin-analytics-grid{grid-template-columns:1fr}
@@ -557,6 +573,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     .admin-summary-grid,.admin-detail-grid{grid-template-columns:1fr}
     .admin-panel-body{padding:12px}
     .admin-bar-item{grid-template-columns:95px 1fr 30px}
+    .admin-schedule-form{grid-template-columns:1fr}.admin-schedule-card{grid-template-columns:1fr}
 }
 
 </style>
@@ -623,10 +640,20 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     <strong>Suggestions & Recommendations</strong>
                     <span>Share ideas, concerns or recommendations</span>
                 </button>
+                <button class="form-tab" type="button" data-form="visitor">
+                    <strong>Visitor Logbook</strong>
+                    <span>Record an office or service visit</span>
+                </button>
                 <button class="form-tab" type="button" data-form="admin">
                     <strong>QMS Admin Dashboard</strong>
                     <span>Restricted monitoring and action center</span>
                 </button>
+            </div>
+
+            <div class="notice" style="margin:18px">
+                <small>Data Privacy Notice</small>
+                <h3>Purpose and protection of personal information</h3>
+                <p>In accordance with Republic Act No. 10173 or the Data Privacy Act of 2012, information submitted through this page will be collected only for service documentation, visitor monitoring, program evaluation, response to concerns, reporting and improvement of SK Sapilang services. Access is limited to authorized personnel. Information will not be used for unrelated purposes and will be retained only for as long as necessary under applicable government records and privacy policies. Submission is voluntary, and consent is required before personal information is recorded.</p>
             </div>
 
             <div class="form-panel active" id="clientPanel">
@@ -640,10 +667,6 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <div class="form-group">
                             <label>Full Name</label>
                             <input name="name" type="text" autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input name="email" type="email" autocomplete="email">
                         </div>
                         <div class="form-group">
                             <label>Service Availed *</label>
@@ -688,7 +711,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 
                     <div class="consent">
                         <input id="clientConsent" type="checkbox" required>
-                        <label for="clientConsent">I confirm that this feedback reflects my actual experience and may be used for service quality assessment and continuous improvement.</label>
+                        <label for="clientConsent">I have read the Data Privacy Notice and freely consent to the collection and processing of the information I provide for service documentation, evaluation and improvement.</label>
                     </div>
 
                     <button class="submit-button" type="submit">Submit Client Feedback</button>
@@ -710,50 +733,17 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 <form id="activityForm">
                     <div class="form-grid">
 
-                        <div class="form-group">
-                            <label>Type of Activity *</label>
-                            <select name="activityType" required>
-                                <option value="">Select Type</option>
-                                <option>Seminar</option>
-                                <option>Training</option>
-                                <option>Workshop</option>
-                                <option>Orientation</option>
-                                <option>Conference / Forum</option>
-                                <option>Youth Assembly</option>
-                                <option>Sports Activity / Tournament</option>
-                                <option>Community Outreach</option>
-                                <option>Clean-Up / Environmental Activity</option>
-                                <option>Health / Wellness Activity</option>
-                                <option>Leadership Development Activity</option>
-                                <option>Educational Activity</option>
-                                <option>Competition / Contest</option>
-                                <option>Celebration / Special Event</option>
-                                <option>Other SK Program / Activity</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Activity / Program Name *</label>
-                            <input
-                                name="activity"
-                                type="text"
-                                placeholder="Enter complete activity or program title"
-                                required
-                            >
-                        </div>
+                        <input name="activityType" type="hidden" value="Scheduled Activity">
+                        <div class="form-group full"><label>Activity / Program / Training *</label><select name="activity" id="scheduledActivitySelect" required><option value="">Loading scheduled activities...</option></select><span class="form-help">Choices are created and updated by the administrator.</span></div>
 
                         <div class="form-group">
                             <label>Date Conducted</label>
-                            <input name="date" type="date">
+                            <input name="date" id="scheduledActivityDate" type="date" readonly>
                         </div>
 
                         <div class="form-group">
                             <label>Venue</label>
-                            <input
-                                name="venue"
-                                type="text"
-                                placeholder="Enter venue or location"
-                            >
+                            <input name="venue" id="scheduledActivityVenue" type="text" readonly>
                         </div>
 
                         <div class="form-group">
@@ -780,11 +770,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 
                         <div class="form-group full">
                             <label>Resource Speaker / Trainer / Facilitator</label>
-                            <input
-                                name="speaker"
-                                type="text"
-                                placeholder="Enter name if applicable"
-                            >
+                            <input name="speaker" id="scheduledActivitySpeaker" type="text" readonly>
                         </div>
 
                     </div>
@@ -1033,9 +1019,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     <div class="consent">
                         <input id="activityConsent" type="checkbox" required>
                         <label for="activityConsent">
-                            I confirm that this evaluation reflects my actual experience as a participant
-                            or beneficiary. I understand that consolidated results may be used for
-                            program monitoring, evaluation, reporting and continuous improvement.
+                            I have read the Data Privacy Notice and consent to the processing of this evaluation for program monitoring, reporting and continuous improvement.
                         </label>
                     </div>
 
@@ -1045,6 +1029,16 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                 </form>
 
                 <div class="result-box" id="activityResult"></div>
+            </div>
+
+            <div class="form-panel" id="visitorPanel">
+                <div class="form-intro"><h3>Automated Visitor Logbook</h3><p>Complete the necessary details when visiting the SK office or availing of an in-person service. The date and time are recorded automatically.</p></div>
+                <form id="visitorForm"><div class="form-grid">
+                    <div class="form-group"><label>Visitor Name *</label><input name="name" type="text" required autocomplete="name"></div>
+                    <div class="form-group"><label>Purpose of Visit *</label><select name="purpose" required><option value="">Select Purpose</option><option>Avail SK Service</option><option>Submit Document</option><option>Request Information</option><option>Attend Meeting</option><option>Program Registration</option><option>Coordination / Consultation</option><option>Other Official Purpose</option></select></div>
+                    <div class="form-group"><label>Service / Office Concerned *</label><select name="service" required><option value="">Select Service</option><option>KK Profiling / Digital ID</option><option>Printing / Educational Support</option><option>Programs and Activities</option><option>Documents / Publications</option><option>SK Chairperson / Council</option><option>General Assistance</option></select></div>
+                    <div class="form-group"><label>Contact Number (optional)</label><input name="contact" type="tel" autocomplete="tel"></div>
+                </div><div class="consent"><input id="visitorConsent" name="consent" type="checkbox" value="yes" required><label for="visitorConsent">I have read the Data Privacy Notice and consent to the collection of these necessary details for the official visitor logbook and service monitoring.</label></div><button class="submit-button" type="submit">Record Visit</button></form><div class="result-box" id="visitorResult"></div>
             </div>
 
             <div class="form-panel" id="suggestionPanel">
@@ -1171,8 +1165,10 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                 <option value="all">All QMS Records</option>
                                 <option value="activity">Specific Project / Activity</option>
                                 <option value="clients">Client Feedback Only</option>
+                                <option value="service">Specific Service Availed</option>
                                 <option value="suggestions">Suggestions Only</option>
                             </select>
+                            <select id="integratedPrintService" aria-label="Select service" disabled><option value="">Select Service Availed</option></select>
                             <select id="integratedPrintActivity" aria-label="Select project or activity" disabled>
                                 <option value="">Select Project / Activity</option>
                             </select>
@@ -1190,6 +1186,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <button class="admin-tab-btn" data-admin-tab="activities" type="button">Activity Evaluations</button>
                         <button class="admin-tab-btn" data-admin-tab="speakers" type="button">Resource Speakers</button>
                         <button class="admin-tab-btn" data-admin-tab="suggestions" type="button">Suggestions</button>
+                        <button class="admin-tab-btn" data-admin-tab="manage" type="button">Manage Activities</button>
                     </div>
 
                     <section class="admin-tab-content active" id="integratedOverviewTab">
@@ -1348,6 +1345,53 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </article>
                     </section>
 
+                    <section class="admin-tab-content" id="integratedManageTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Manage Scheduled Activities</h4>
+                                <p>Add or update activities that people can select in the Activity / Program Evaluation form.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <form id="integratedScheduleForm" class="admin-schedule-form">
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleTitle">Activity / Project / Training Name *</label>
+                                        <input id="integratedScheduleTitle" required>
+                                    </div>
+                                    <div class="admin-schedule-field">
+                                        <label for="integratedScheduleDate">Date *</label>
+                                        <input id="integratedScheduleDate" type="date" required>
+                                    </div>
+                                    <div class="admin-schedule-field">
+                                        <label for="integratedScheduleVenue">Venue *</label>
+                                        <input id="integratedScheduleVenue" required>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleSpeaker">Resource Speaker / Trainer / Facilitator</label>
+                                        <input id="integratedScheduleSpeaker">
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleDescription">Short Description</label>
+                                        <textarea id="integratedScheduleDescription"></textarea>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedCmsPassword">Website CMS Password</label>
+                                        <input id="integratedCmsPassword" type="password" autocomplete="current-password" placeholder="Leave blank if it is the same as the QMS access code">
+                                        <span class="admin-schedule-help">The QMS access code will be used automatically when this is blank.</span>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <div class="admin-schedule-card-actions">
+                                            <button class="admin-action-btn primary" type="submit" id="integratedScheduleSave">Add Scheduled Activity</button>
+                                            <button class="admin-action-btn" type="button" id="integratedScheduleClear">Clear Form</button>
+                                            <button class="admin-action-btn" type="button" id="integratedScheduleReload">Refresh List</button>
+                                        </div>
+                                        <div class="admin-schedule-message" id="integratedScheduleMessage"></div>
+                                    </div>
+                                </form>
+                                <div class="admin-schedule-list" id="integratedScheduleList"><div class="admin-empty">Loading scheduled activities...</div></div>
+                            </div>
+                        </article>
+                    </section>
+
                 </div>
 
             </div>
@@ -1384,7 +1428,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     </div>
 </footer>
 
-<script src="js/feedback-page.js?v=20260903-EXTERNAL"></script>
+<script src="js/feedback-page.js?v=20260903-QMS3"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="js/site-header.js?v=20260903-CMS"></script>
 </body>
