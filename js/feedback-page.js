@@ -339,14 +339,24 @@ function sendVisitorLog(form){
     return new Promise((resolve,reject)=>{
         const endpoint=feedbackCmsEndpoint();
         if(!endpoint){reject(new Error("The visitor logbook is not configured."));return;}
+        const reference="VIS-"+Date.now().toString(36).toUpperCase()+"-"+Math.random().toString(36).slice(2,8).toUpperCase();
         const target="visitorLogFrame"+Date.now(),frame=document.createElement("iframe"),post=document.createElement("form");
         frame.name=target;frame.hidden=true;post.method="POST";post.action=endpoint;post.target=target;
         new FormData(form).forEach((value,name)=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
-        const action=document.createElement("input");action.type="hidden";action.name="action";action.value="visitor-log";post.appendChild(action);
-        const timer=setTimeout(()=>finish(new Error("The visitor logbook request timed out.")),25000);
-        function receive(event){if(event.data?.source!=="sk-visitor-log")return;event.data.success?finish(null,event.data):finish(new Error(event.data.message||"Unable to record visit."));}
-        function finish(error,data){clearTimeout(timer);window.removeEventListener("message",receive);frame.remove();post.remove();error?reject(error):resolve(data);}
-        window.addEventListener("message",receive);document.body.append(frame,post);post.submit();
+        [["action","visitor-log"],["clientReference",reference]].forEach(([name,value])=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
+        let attempts=0,done=false;
+        function finish(error,data){if(done)return;done=true;frame.remove();post.remove();error?reject(error):resolve(data);}
+        function check(){
+            if(done)return;
+            attempts++;
+            const callback="skVisitorStatus"+Date.now()+Math.random().toString(36).slice(2);
+            const script=document.createElement("script");
+            window[callback]=data=>{delete window[callback];script.remove();if(data?.found)finish(null,{success:true,reference});else if(attempts<30)setTimeout(check,1500);else finish(new Error("The visitor logbook could not confirm the saved record."));};
+            script.onerror=()=>{delete window[callback];script.remove();if(attempts<30)setTimeout(check,1500);else finish(new Error("Unable to confirm the visitor logbook record."));};
+            script.src=endpoint+"?action=visitor-status&reference="+encodeURIComponent(reference)+"&callback="+callback+"&_="+Date.now();
+            document.head.appendChild(script);
+        }
+        document.body.append(frame,post);post.submit();setTimeout(check,1500);
     });
 }
 
@@ -373,7 +383,6 @@ document.getElementById("visitorForm").addEventListener("submit",async function(
     try{
         const selectedRating=form.querySelector('input[name="rating"]:checked');
         const visitor=await sendVisitorLog(form);
-        await sendGadProfile(form,"Visitor Logbook / Service Feedback",visitor.reference);
         const ratingLabels={1:"Very Dissatisfied",2:"Dissatisfied",3:"Satisfactory",4:"Very Satisfied",5:"Excellent"};
         const score=selectedRating?Number(selectedRating.value):null;
         showResult(result,visitor.reference,score,score?ratingLabels[score]:null,selectedRating?"visitor logbook and service feedback":"visitor logbook entry");
