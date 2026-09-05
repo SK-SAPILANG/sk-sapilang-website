@@ -59,6 +59,11 @@ tabs.forEach(tab=>{
     });
 });
 
+if(location.hash==="#admin"){
+    const adminTab=document.querySelector('.form-tab[data-form="admin"]');
+    if(adminTab)setTimeout(()=>adminTab.click(),0);
+}
+
 const QMS_WEB_APP_URL =
     "https://script.google.com/macros/s/AKfycbxG-b_P47JMJu-S8AvU-Az-tZFJiGhxs9IzKrPCZgxTJwdI7Se2bbyx0z6DKvYnZ90Jqg/exec";
 
@@ -557,9 +562,9 @@ async function integratedLoadDashboard(){
     integratedShowLoading(true);
 
     try{
-        const response=await integratedAdminPost({
-            type:"admin-dashboard",
-            adminKey:INTEGRATED_ADMIN_KEY
+        const response=await integratedCmsApi({
+            action:"qms-dashboard",
+            password:INTEGRATED_ADMIN_KEY
         });
 
         INTEGRATED_DASHBOARD_DATA=response.dashboard;
