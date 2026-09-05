@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Feedback | SK Sapilang</title>
+
+<meta
+name="description"
+content="Connect with SK Sapilang and share feedback to help strengthen youth programs, services and community initiatives.">
+
+<meta
+name="robots"
+content="index, follow">
+
+<link
+rel="canonical"
+href="https://sk-sapilang.github.io/sk-sapilang-website/feedback.html">
+
+
+<!-- GOOGLE / SEARCH ENGINE IDENTITY -->
+
+<meta
+name="application-name"
+content="SK Sapilang">
+
+<meta
+name="author"
+content="Sangguniang Kabataan of Barangay Sapilang">
+
+
+<!-- OPEN GRAPH / FACEBOOK -->
+
+<meta
+property="og:type"
+content="website">
+
+<meta
+property="og:site_name"
+content="SK Sapilang">
+
+<meta
+property="og:title"
+content="Feedback | SK Sapilang">
+
+<meta
+property="og:description"
+content="Connect with SK Sapilang and share feedback to help strengthen youth programs, services and community initiatives.">
+
+<meta
+property="og:url"
+content="https://sk-sapilang.github.io/sk-sapilang-website/feedback.html">
+
+<meta
+property="og:image"
+content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+<meta
+property="og:image:alt"
+content="Official SK Sapilang Logo">
+
+
+<!-- SOCIAL PREVIEW -->
+
+<meta
+name="twitter:card"
+content="summary_large_image">
+
+<meta
+name="twitter:title"
+content="Feedback | SK Sapilang">
+
+<meta
+name="twitter:description"
+content="Connect with SK Sapilang and share feedback to help strengthen youth programs, services and community initiatives.">
+
+<meta
+name="twitter:image"
+content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+
+<!-- FAVICON -->
+
+<link
+rel="icon"
+href="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta name="theme-color" content="#020b14">
+
+
+<style>
+:root{
+    --bg:#020a12;
+    --bg2:#04131f;
+    --panel:rgba(5,27,42,.82);
+    --panel2:rgba(5,34,51,.94);
+    --cyan:#37dcff;
+    --cyan2:#78ebff;
+    --blue:#327cff;
+    --green:#75ef78;
+    --yellow:#ffd166;
+    --red:#ff6b6b;
+    --white:#f2fbff;
+    --text:#cde2eb;
+    --muted:#7794a3;
+    --line:rgba(67,215,255,.18);
+    --line2:rgba(67,215,255,.36);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 10% 0%,rgba(0,167,255,.14),transparent 30%),
+        radial-gradient(circle at 90% 30%,rgba(64,72,255,.09),transparent 32%),
+        linear-gradient(180deg,#020a12,#03111b 50%,#020a12);
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+img{display:block;max-width:100%}
+.container{width:min(1400px,calc(100% - 48px));margin:0 auto}
+
+.future-bg{position:fixed;inset:0;z-index:-20;pointer-events:none;overflow:hidden}
+.future-bg::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+        linear-gradient(rgba(59,204,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(59,204,255,.025) 1px,transparent 1px);
+    background-size:48px 48px;
+}
+.future-bg::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 0%,rgba(2,10,18,.2) 45%,rgba(2,10,18,.65) 100%);
+}
+.orb{position:absolute;width:560px;height:560px;border-radius:50%;filter:blur(120px);background:rgba(0,161,255,.09)}
+.orb.one{left:-250px;top:50px}
+.orb.two{right:-250px;top:760px;background:rgba(66,69,255,.08)}
+
+.header{
+    position:sticky;top:0;z-index:1000;
+    border-bottom:1px solid rgba(67,215,255,.12);
+    background:rgba(2,11,19,.94);
+    backdrop-filter:blur(18px);
+}
+.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.logo{position:relative;width:54px;height:54px;flex:0 0 54px;border-radius:50%}
+.logo img{position:relative;z-index:3;width:100%;height:100%;object-fit:contain;border-radius:50%}
+.logo::before{content:"";position:absolute;inset:-3px;border:1px solid rgba(65,218,255,.38);border-radius:50%;box-shadow:0 0 18px rgba(55,220,255,.12)}
+.logo::after{content:"";position:absolute;inset:-7px;border:1px dashed rgba(61,215,255,.30);border-radius:50%;animation:spin 10s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brand-text strong{display:block;color:white;font-size:15px;letter-spacing:.5px}
+.brand-text span{display:block;margin-top:2px;color:#6f8997;font-size:8px;letter-spacing:1px}
+.nav-links{list-style:none;display:flex;align-items:center;justify-content:flex-end;gap:2px}
+.nav-links a{display:block;padding:10px 8px;border-radius:8px;color:#afc2cb;font-size:10.5px;white-space:nowrap;transition:.2s}
+.nav-links a:hover{color:white;background:rgba(55,215,255,.07)}
+.nav-links a.active{color:var(--cyan);background:rgba(55,215,255,.07);border:1px solid rgba(55,215,255,.14)}
+.menu-button{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:9px;color:white;background:rgba(255,255,255,.02)}
+.admin-header-login{
+    min-height:40px;
+    padding:0 14px;
+    border:1px solid rgba(55,220,255,.30);
+    border-radius:8px;
+    color:white;
+    background:linear-gradient(135deg,rgba(39,211,246,.16),rgba(51,122,255,.16));
+    font-size:8px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    white-space:nowrap;
+    transition:.2s;
+}
+.admin-header-login:hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+    background:rgba(55,220,255,.08);
+}
+
+
+.hero{padding:72px 0 34px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:44px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:15px;color:var(--cyan);font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--cyan)}
+.hero h1{max-width:850px;color:white;font-size:clamp(48px,5.7vw,78px);line-height:.96;letter-spacing:-3px}
+.hero h1 span{display:block;color:transparent;background:linear-gradient(90deg,#38dcff,#42a9ff);background-clip:text;-webkit-background-clip:text}
+.hero p{max-width:760px;margin-top:20px;color:#9cb4bf;font-size:13px;line-height:1.75}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.button{min-height:48px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+.button-primary{color:white;background:linear-gradient(135deg,#27d3f6,#337aff)}
+.button-secondary{color:white;border:1px solid rgba(65,218,255,.35);background:rgba(3,23,36,.72)}
+
+.qms-orbit{
+    position:relative;min-height:360px;border:1px solid rgba(61,214,255,.30);border-radius:18px;
+    background:
+        radial-gradient(circle at 50% 50%,rgba(35,177,236,.11),transparent 35%),
+        linear-gradient(145deg,rgba(6,37,55,.86),rgba(3,18,29,.94));
+    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.32);
+}
+.qms-orbit::before{content:"";position:absolute;inset:36px;border:1px dashed rgba(61,218,255,.22);border-radius:50%;animation:spin 18s linear infinite}
+.qms-orbit::after{content:"";position:absolute;inset:84px;border:1px solid rgba(61,218,255,.18);border-radius:50%}
+.orbit-core{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:132px;height:132px;border:1px solid rgba(61,218,255,.42);border-radius:50%;
+    display:grid;place-items:center;text-align:center;z-index:3;
+    background:rgba(4,30,45,.94);box-shadow:0 0 30px rgba(55,220,255,.08);
+}
+.orbit-core strong{display:block;color:var(--cyan);font-size:28px}
+.orbit-core span{display:block;margin-top:4px;color:white;font-size:8px;font-weight:800;letter-spacing:1px}
+.orbit-node{
+    position:absolute;z-index:4;min-width:105px;padding:10px;border:1px solid rgba(61,215,255,.24);
+    border-radius:9px;background:rgba(4,28,42,.80)
+}
+.orbit-node small{display:block;color:#78929e;font-size:6px;text-transform:uppercase}
+.orbit-node strong{display:block;margin-top:3px;color:var(--cyan);font-size:10px}
+.orbit-node.one{left:18px;top:32px}
+.orbit-node.two{right:18px;top:55px}
+.orbit-node.three{left:24px;bottom:36px}
+.orbit-node.four{right:24px;bottom:30px}
+
+.section{padding:28px 0 64px}
+.section-heading{max-width:820px;margin-bottom:25px}
+.section-label{display:block;margin-bottom:7px;color:var(--cyan);font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
+.section-heading h2{color:white;font-size:clamp(30px,4vw,46px);line-height:1.05;letter-spacing:-1.6px}
+.section-heading p{margin-top:10px;color:#819aa7;font-size:11px;line-height:1.7}
+
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.status-card{padding:18px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(145deg,rgba(5,31,47,.78),rgba(3,20,31,.86))}
+.status-card small{display:block;color:#77919e;font-size:6px;text-transform:uppercase;letter-spacing:1px}
+.status-card strong{display:block;margin-top:8px;color:white;font-size:18px}
+.status-card span{display:block;margin-top:5px;color:var(--green);font-size:7px}
+.status-dot{display:inline-block;width:7px;height:7px;margin-right:5px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(117,239,120,.65)}
+
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.process-card{position:relative;padding:21px;border:1px solid rgba(60,215,255,.16);border-radius:12px;background:rgba(5,29,43,.68)}
+.process-card::after{content:"";position:absolute;top:50%;right:-13px;width:13px;height:1px;background:rgba(55,220,255,.3)}
+.process-card:last-child::after{display:none}
+.process-number{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(60,216,255,.31);border-radius:50%;color:var(--cyan);font-size:8px}
+.process-card h3{margin-top:12px;color:white;font-size:14px}
+.process-card p{margin-top:6px;color:#78929f;font-size:9px;line-height:1.55}
+
+.qms-shell{overflow:hidden;border:1px solid rgba(60,216,255,.26);border-radius:18px;background:rgba(3,20,31,.84);box-shadow:0 28px 80px rgba(0,0,0,.25)}
+.qms-topbar{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 25px;border-bottom:1px solid rgba(60,216,255,.12)}
+.qms-topbar h3{color:white;font-size:20px}
+.qms-topbar p{margin-top:5px;color:#8099a5;font-size:9px}
+.qms-chip{padding:7px 10px;border:1px solid rgba(55,220,255,.25);border-radius:999px;color:var(--cyan);font-size:7px;text-transform:uppercase;letter-spacing:.8px}
+.form-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(60,216,255,.10)}
+.form-tab{min-height:66px;padding:12px 16px;border:0;color:#8aa3af;background:#041723}
+.form-tab strong{display:block;font-size:10px}
+.form-tab span{display:block;margin-top:4px;font-size:7px}
+.form-tab:hover{color:white}
+.form-tab.active{color:var(--cyan);background:rgba(12,48,67,.98);box-shadow:inset 0 -2px 0 var(--cyan)}
+.form-panel{display:none;padding:28px}
+.form-panel.active{display:block}
+.form-intro{margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(60,216,255,.10)}
+.form-intro h3{color:white;font-size:21px}
+.form-intro p{max-width:760px;margin-top:7px;color:#829aa7;font-size:10px;line-height:1.65}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form-group.full{grid-column:1/-1}
+.form-group label{display:block;margin-bottom:7px;color:#b7cad3;font-size:8px;font-weight:700;letter-spacing:.35px;text-transform:uppercase}
+.form-group input,.form-group select,.form-group textarea{
+    width:100%;min-height:46px;padding:12px 13px;border:1px solid rgba(60,216,255,.16);
+    outline:none;border-radius:8px;color:white;background:rgba(2,16,25,.78);transition:.2s
+}
+.form-group textarea{min-height:120px;resize:vertical}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(60,216,255,.55);box-shadow:0 0 0 3px rgba(60,216,255,.05)}
+.form-group select option{color:black}
+.gad-profile{margin:24px 0;padding:22px;border:1px solid rgba(11,37,69,.22);border-left:6px solid #f59e0b;border-radius:12px;background:#fff}
+.gad-profile h4{margin:0;color:#0b2545;font-size:20px}.gad-profile>p{margin:7px 0 18px;color:#405e70!important;font-size:14px!important}
+.sector-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:8px}
+.sector-option{display:flex;align-items:flex-start;gap:9px;padding:10px;border:1px solid #cad8e2;border-radius:8px;background:#f7fafc}
+.sector-option input{width:18px!important;min-height:18px!important;margin-top:2px}.sector-option span{color:#29495e;font-size:14px;line-height:1.4}
+.gad-other[hidden]{display:none!important}
+.rating-title{margin:25px 0 13px;padding-top:20px;border-top:1px solid rgba(60,216,255,.10)}
+.rating-title h4{color:white;font-size:16px}
+.rating-title p{margin-top:5px;color:#78929e;font-size:9px}
+.rating-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.rating-option input{position:absolute;opacity:0}
+.rating-option label{min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:1px solid rgba(60,216,255,.16);border-radius:9px;color:#839ba7;background:rgba(3,22,34,.72);transition:.2s}
+.rating-option label strong{color:white;font-size:15px}
+.rating-option label span{font-size:7px}
+.rating-option input:checked+label{color:var(--cyan);border-color:var(--cyan);background:rgba(55,220,255,.10);box-shadow:0 0 18px rgba(55,220,255,.07)}
+.consent{display:flex;align-items:flex-start;gap:10px;margin-top:18px;padding:14px;border:1px solid rgba(60,216,255,.12);border-radius:9px;background:rgba(3,20,31,.57)}
+.consent label{color:#8099a5;font-size:8px;line-height:1.55}
+.submit-button{min-height:49px;margin-top:18px;padding:0 24px;border:0;border-radius:8px;color:white;background:linear-gradient(135deg,#27d3f6,#337aff);font-size:9px;font-weight:800;text-transform:uppercase}
+.result-box{display:none;margin-top:22px;padding:20px;border:1px solid rgba(117,239,120,.30);border-radius:12px;background:rgba(27,76,48,.13)}
+.result-box.show{display:block}
+.result-status{display:flex;align-items:center;gap:8px;color:var(--green);font-size:7px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.result-status::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(117,239,120,.65)}
+.result-box h4{margin-top:9px;color:white;font-size:18px}
+.result-box p{margin-top:7px;color:#95acb6;font-size:9px;line-height:1.6}
+.result-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.result-item{padding:11px;border:1px solid rgba(117,239,120,.15);border-radius:8px;background:rgba(3,22,30,.55)}
+.result-item small{display:block;color:#748e99;font-size:6px;text-transform:uppercase}
+.result-item strong{display:block;margin-top:5px;color:white;font-size:10px}
+
+.notice{padding:24px;border:1px solid rgba(255,209,102,.23);border-radius:13px;background:rgba(63,48,12,.10)}
+.notice small{color:var(--yellow);font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.notice h3{margin-top:8px;color:white;font-size:18px}
+.notice p{margin-top:7px;color:#8fa5af;font-size:9px;line-height:1.65}
+
+footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:rgba(2,12,20,.75)}
+.footer-grid{display:grid;grid-template-columns:1fr auto;gap:25px;align-items:center}
+.footer-brand{display:flex;align-items:center;gap:10px}
+.footer-logo{width:42px;height:42px}
+.footer-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+.footer-brand strong{display:block;color:white;font-size:10px}
+.footer-brand span{display:block;margin-top:2px;color:#6d8794;font-size:6px}
+.copyright{color:#6d8592;font-size:7px;text-align:right}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:1100px){
+    .menu-button{display:grid;place-items:center}
+    .nav-links{position:absolute;top:76px;left:20px;right:20px;display:none;flex-direction:column;align-items:stretch;gap:4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(2,14,23,.98);box-shadow:0 20px 50px rgba(0,0,0,.42)}
+    .nav-links.open{display:flex}.nav-links a{width:100%;padding:13px 14px;font-size:11px}
+    .hero-grid{grid-template-columns:1fr}
+    .status-grid,.process-grid{grid-template-columns:repeat(2,1fr)}
+    .process-card::after{display:none}
+}
+@media(max-width:650px){
+    .container{width:calc(100% - 20px)}
+    .nav{min-height:64px}.logo{width:42px;height:42px;flex:0 0 42px}.brand-text strong{font-size:12px}.brand-text span{display:none}
+    .admin-header-login{min-height:38px;padding:0 10px;font-size:7px}.menu-button{width:39px;height:39px}.nav-links{top:64px;left:10px;right:10px}
+    .hero{padding:44px 0 30px}.hero h1{font-size:clamp(38px,12vw,52px);line-height:.99;letter-spacing:-2px}.hero p{font-size:11px}
+    .qms-orbit{min-height:310px}.qms-orbit::before{inset:28px}.qms-orbit::after{inset:72px}
+    .orbit-core{width:112px;height:112px}.orbit-core strong{font-size:23px}
+    .orbit-node{min-width:88px;padding:8px}.orbit-node strong{font-size:8px}
+    .section{padding:18px 0 48px}.status-grid,.process-grid{grid-template-columns:1fr}
+    .qms-topbar{align-items:flex-start;flex-direction:column}.form-tabs{grid-template-columns:1fr}.form-tab{text-align:left}
+    .form-panel{padding:20px 14px}.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}
+    .rating-grid{grid-template-columns:1fr}.rating-option label{min-height:47px;flex-direction:row}
+    .result-row{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr;gap:14px}.copyright{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+
+.form-help{
+    display:block;
+    margin:2px 0 10px;
+    color:#52616b !important;
+    font-size:13px !important;
+    font-weight:500;
+    line-height:1.55 !important;
+}
+
+/* Direct readability safeguard for the evaluation form. */
+.form-group label{
+    color:#0b2545 !important;
+    font-size:16px !important;
+    line-height:1.35 !important;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea{
+    color:#0b2545 !important;
+    font-size:16px !important;
+    line-height:1.5 !important;
+}
+
+
+/* =========================================================
+   INTEGRATED QMS ADMIN DASHBOARD
+========================================================= */
+.admin-panel-shell{
+    padding:0;
+}
+.admin-login-card{
+    width:min(520px,100%);
+    margin:0 auto;
+    padding:28px;
+    border:1px solid rgba(55,220,255,.26);
+    border-radius:15px;
+    background:linear-gradient(145deg,rgba(6,34,51,.94),rgba(3,18,29,.96));
+}
+.admin-security-mark{
+    width:68px;height:68px;margin:0 auto 18px;
+    display:grid;place-items:center;border:1px solid rgba(55,220,255,.4);
+    border-radius:50%;color:var(--cyan);font-size:24px;
+}
+.admin-login-card small{
+    display:block;color:var(--cyan);text-align:center;
+    font-size:8px;text-transform:uppercase;letter-spacing:1.4px
+}
+.admin-login-card h3{
+    margin-top:8px;color:white;text-align:center;font-size:24px
+}
+.admin-login-card p{
+    margin:9px auto 20px;max-width:400px;color:#829aa7;
+    text-align:center;font-size:9px;line-height:1.65
+}
+.admin-login-card label{
+    display:block;margin-bottom:7px;color:#b8cbd4;
+    font-size:8px;font-weight:700;text-transform:uppercase
+}
+.admin-login-card input{
+    width:100%;min-height:48px;padding:12px 14px;outline:0;
+    border:1px solid var(--line);border-radius:8px;color:white;
+    background:rgba(2,15,24,.82);letter-spacing:2px
+}
+.admin-login-card button{
+    width:100%;min-height:48px;margin-top:12px;border:0;border-radius:8px;
+    color:white;background:linear-gradient(135deg,#22cdea,#337aff);
+    font-size:9px;font-weight:800;text-transform:uppercase
+}
+.admin-login-error{
+    display:none;margin-top:12px;padding:10px;border:1px solid rgba(255,113,113,.25);
+    border-radius:8px;color:#ffaaaa;background:rgba(100,20,20,.12);
+    font-size:9px;line-height:1.5
+}
+.admin-login-error.show{display:block}
+.admin-dashboard{display:none}
+.admin-dashboard.show{display:block}
+.admin-topline{
+    display:flex;justify-content:space-between;align-items:end;
+    gap:18px;margin-bottom:18px
+}
+.admin-topline h3{margin-top:6px;color:white;font-size:26px}
+.admin-topline p{margin-top:6px;color:#829aa7;font-size:9px}
+.admin-system-chip{
+    padding:8px 11px;border:1px solid rgba(117,239,120,.22);
+    border-radius:999px;color:var(--green);font-size:7px;white-space:nowrap
+}
+.admin-actions{
+    display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px
+}
+.admin-action-btn{
+    min-height:38px;padding:0 13px;border:1px solid var(--line);
+    border-radius:8px;color:#b9ccd5;background:rgba(255,255,255,.02);
+    font-size:8px;font-weight:800;text-transform:uppercase
+}
+.admin-action-btn.primary{
+    color:white;border:0;background:linear-gradient(135deg,#20cbea,#337aff)
+}
+.admin-action-btn.danger{
+    color:#ffaaaa;border-color:rgba(255,113,113,.25)
+}
+.admin-summary-grid{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;margin-bottom:14px
+}
+.admin-metric{
+    padding:16px;border:1px solid var(--line);border-radius:11px;
+    background:linear-gradient(145deg,rgba(5,31,47,.78),rgba(3,20,31,.88))
+}
+.admin-metric small{color:#75909d;font-size:7px;text-transform:uppercase}
+.admin-metric strong{display:block;margin-top:7px;color:white;font-size:24px}
+.admin-metric span{display:block;margin-top:4px;color:var(--cyan);font-size:7px}
+.admin-tabs{
+    display:flex;overflow:auto;gap:4px;padding:5px;margin-bottom:12px;
+    border:1px solid var(--line);border-radius:9px;background:rgba(3,19,29,.7)
+}
+.admin-tab-btn{
+    flex:0 0 auto;min-height:36px;padding:0 12px;border:0;border-radius:7px;
+    color:#829aa7;background:transparent;font-size:7px;font-weight:800;text-transform:uppercase
+}
+.admin-tab-btn.active{color:var(--cyan);background:rgba(55,220,255,.08)}
+.admin-tab-content{display:none}
+.admin-tab-content.active{display:block}
+.admin-panel{
+    overflow:hidden;border:1px solid var(--line);border-radius:12px;
+    background:rgba(3,20,31,.82)
+}
+.admin-panel-head{
+    padding:16px 18px;border-bottom:1px solid rgba(55,220,255,.10)
+}
+.admin-panel-head h4{color:white;font-size:15px}
+.admin-panel-head p{margin-top:4px;color:#768f9c;font-size:8px}
+.admin-panel-body{padding:16px}
+.admin-analytics-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px
+}
+.admin-bar-list{display:grid;gap:9px}
+.admin-bar-item{
+    display:grid;grid-template-columns:minmax(110px,180px) 1fr 38px;
+    gap:9px;align-items:center
+}
+.admin-bar-label{
+    color:#a9bec8;font-size:7px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis
+}
+.admin-bar-track{
+    height:7px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.05)
+}
+.admin-bar-fill{
+    height:100%;border-radius:999px;background:linear-gradient(90deg,#20cdea,#337aff)
+}
+.admin-bar-value{color:white;font-size:7px;text-align:right}
+.admin-toolbar{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.admin-toolbar input,.admin-toolbar select{
+    min-height:38px;padding:7px 9px;outline:0;border:1px solid var(--line);
+    border-radius:7px;color:white;background:#041723;font-size:8px
+}
+.admin-toolbar input{flex:1 1 220px}
+.admin-toolbar select{flex:0 0 170px}
+.admin-toolbar select option{color:black}
+.admin-table-wrap{overflow:auto}
+.admin-table{
+    width:100%;min-width:1000px;border-collapse:collapse
+}
+.admin-table th,.admin-table td{
+    padding:10px 9px;border-bottom:1px solid rgba(55,220,255,.08);
+    text-align:left;vertical-align:top
+}
+.admin-table th{
+    color:#7fa0ae;background:#041723;font-size:7px;
+    text-transform:uppercase;letter-spacing:.4px
+}
+.admin-table td{color:#b7cbd4;font-size:8px;line-height:1.5}
+.admin-table td strong{color:white}
+.admin-ref{color:var(--cyan);font-weight:700;white-space:nowrap}
+.admin-rating{white-space:nowrap;color:var(--green);font-weight:800}
+.admin-muted{color:#748e99}
+.admin-detail-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:9px
+}
+.admin-detail-card{
+    padding:13px;border:1px solid var(--line);border-radius:9px;
+    background:rgba(4,27,40,.62)
+}
+.admin-detail-card small{display:block;color:#728d9b;font-size:7px;text-transform:uppercase}
+.admin-detail-card strong{display:block;margin-top:6px;color:white;font-size:19px}
+.admin-detail-card span{display:block;margin-top:4px;color:var(--cyan);font-size:7px}
+.admin-status-badge{
+    display:inline-block;padding:5px 7px;border:1px solid rgba(55,220,255,.15);
+    border-radius:999px;color:var(--cyan);font-size:7px;font-weight:800;white-space:nowrap
+}
+.admin-status-badge.resolved{color:var(--green);border-color:rgba(117,239,120,.22)}
+.admin-status-badge.progress{color:var(--yellow);border-color:rgba(255,209,102,.22)}
+.admin-action-area{min-width:250px;display:grid;gap:5px}
+.admin-action-area select,.admin-action-area textarea{
+    width:100%;padding:7px;border:1px solid var(--line);border-radius:7px;
+    outline:0;color:white;background:#041723;font-size:8px
+}
+.admin-action-area textarea{min-height:58px;resize:vertical}
+.admin-action-area select option{color:black}
+.admin-update-btn{
+    min-height:31px;border:0;border-radius:7px;color:white;
+    background:linear-gradient(135deg,#20cdea,#337aff);
+    font-size:7px;font-weight:800;text-transform:uppercase
+}
+.admin-empty{padding:24px;color:#78909d;text-align:center;font-size:9px}
+.admin-loading{
+    display:none;margin:12px 0;padding:10px;border:1px solid var(--line);
+    border-radius:8px;color:var(--cyan);background:#041723;
+    text-align:center;font-size:8px;text-transform:uppercase;letter-spacing:1px
+}
+.admin-loading.show{display:block}
+.admin-schedule-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.admin-schedule-field{display:grid;gap:6px}
+.admin-schedule-field.full{grid-column:1/-1}
+.admin-schedule-field label{color:#dceaf0;font-size:14px;font-weight:800}
+.admin-schedule-field input,.admin-schedule-field textarea{
+    width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);
+    border-radius:8px;color:white;background:#041723;font-size:14px;outline:0
+}
+.admin-schedule-field textarea{min-height:90px;resize:vertical}
+.admin-schedule-help,.admin-schedule-message{color:#9eb3bd;font-size:13px;line-height:1.55}
+.admin-schedule-message{min-height:22px;margin-top:10px;color:var(--cyan);font-weight:700}
+.admin-schedule-list{display:grid;gap:10px;margin-top:14px}
+.admin-schedule-card{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:10px;background:#041723}
+.admin-schedule-card strong{display:block;color:white;font-size:15px}
+.admin-schedule-card span{display:block;margin-top:5px;color:#a9bec8;font-size:13px;line-height:1.5}
+.admin-schedule-card-actions{display:flex;flex-wrap:wrap;gap:7px}
+@media(max-width:1050px){
+    .admin-summary-grid{grid-template-columns:repeat(2,1fr)}
+    .admin-analytics-grid{grid-template-columns:1fr}
+    .admin-detail-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+    .admin-topline{align-items:flex-start;flex-direction:column}
+    .admin-summary-grid,.admin-detail-grid{grid-template-columns:1fr}
+    .admin-panel-body{padding:12px}
+    .admin-bar-item{grid-template-columns:95px 1fr 30px}
+    .admin-schedule-form{grid-template-columns:1fr}.admin-schedule-card{grid-template-columns:1fr}
+    .sector-options{grid-template-columns:1fr}
+}
+
+</style>
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260903-CONSISTENT">
+  <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
+  <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-RESULT-CONTRAST">
+</head>
+
+<body>
+<div class="future-bg"><div class="orb one"></div><div class="orb two"></div></div>
+
+<header id="site-header"></header>
+
+<main>
+
+<section class="hero">
+    <div class="container hero-grid" style="grid-template-columns:1fr;max-width:900px;">
+        <div>
+            <span class="eyebrow">Quality Management System</span>
+            <h1>Measure. Improve. <span>Serve Better.</span></h1>
+            <p>
+                The SK Sapilang Quality Management System provides a structured digital channel
+                for client feedback, activity evaluation, suggestions and recommendations.
+                Every response supports continuous improvement, accountability and more responsive youth services.
+            </p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="#qms-center">Start Feedback</a>
+                <button class="button button-secondary" id="adminHeaderLogin" type="button">QMS Admin Login</button>
+                <a class="button button-secondary" href="contact.html">Contact SK Sapilang</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section" id="qms-center">
+    <div class="container">
+        <div class="section-heading reveal">
+            <span class="section-label">Feedback & Evaluation Center</span>
+            <h2>Select your feedback channel.</h2>
+            <p>Choose the form that best matches your experience. Satisfaction forms provide an instant rating result and every submission generates a reference number.</p>
+        </div>
+
+        <div class="qms-shell reveal">
+            <div class="qms-topbar">
+                <div>
+                    <h3>SK Sapilang QMS Interface</h3>
+                    <p>Quality feedback, program evaluation and youth participation in one digital system.</p>
+                </div>
+                <span class="qms-chip">QMS // ONLINE</span>
+            </div>
+
+            <div class="form-tabs">
+                <button class="form-tab active" type="button" data-form="visitor">
+                    <strong>Visitor Logbook</strong>
+                    <span>Record your visit and service feedback</span>
+                </button>
+                <button class="form-tab" type="button" data-form="activity">
+                    <strong>Activity / Program Evaluation</strong>
+                    <span>Evaluate an SK activity or program</span>
+                </button>
+                <button class="form-tab" type="button" data-form="suggestion">
+                    <strong>Suggestions & Recommendations</strong>
+                    <span>Share ideas, concerns or recommendations</span>
+                </button>
+                <button class="form-tab" type="button" data-form="admin">
+                    <strong>QMS Admin Dashboard</strong>
+                    <span>Restricted monitoring and action center</span>
+                </button>
+            </div>
+
+            <div class="notice" style="margin:18px">
+                <small>Data Privacy Notice</small>
+                <h3>Purpose and protection of personal information</h3>
+                <p>In accordance with Republic Act No. 10173 or the Data Privacy Act of 2012, information submitted through this page—including name, age or birthdate, address, contact details, office or organization, sex assigned at birth, gender identity, pronouns and sector classification—will be collected only when provided for service documentation, visitor monitoring, program evaluation, GAD and sex-disaggregated statistical reporting, inclusive program planning, response to concerns and improvement of SK Sapilang services. Sensitive demographic questions are optional and include “Prefer not to say.” Access is limited to authorized personnel. Information will not be used for unrelated purposes and will be retained only for as long as necessary under applicable government records and privacy policies. Submission is voluntary, and consent is required before personal information is recorded.</p>
+            </div>
+
+            <div class="form-panel" id="activityPanel">
+                <div class="form-intro">
+                    <h3>Seminar / Training / Activity Evaluation Form</h3>
+                    <p>
+                        Use this form after participating in an SK seminar, training, workshop,
+                        orientation, sports activity, youth assembly, community activity,
+                        advocacy program, competition or other SK-led initiative.
+                    </p>
+                </div>
+
+                <form id="activityForm">
+                    <div class="form-grid">
+
+                        <input name="activityType" type="hidden" value="Scheduled Activity">
+                        <div class="form-group full"><label>Activity / Program / Training *</label><select name="activity" id="scheduledActivitySelect" required><option value="">Loading scheduled activities...</option></select><span class="form-help">Choices are created and updated by the administrator.</span></div>
+
+                        <div class="form-group">
+                            <label>Date Conducted</label>
+                            <input name="date" id="scheduledActivityDate" type="date" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Venue</label>
+                            <input name="venue" id="scheduledActivityVenue" type="text" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Participant Name</label>
+                            <input name="participant" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Participant Classification</label>
+                            <select name="classification">
+                                <option value="">Select Classification</option>
+                                <option>Katipunan ng Kabataan Member</option>
+                                <option>Student</option>
+                                <option>Out-of-School Youth</option>
+                                <option>Working Youth</option>
+                                <option>Volunteer</option>
+                                <option>Parent / Guardian</option>
+                                <option>Community Member</option>
+                                <option>Partner / Stakeholder</option>
+                                <option>Resource Person / Facilitator</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Resource Speaker / Trainer / Facilitator</label>
+                            <input name="speaker" id="scheduledActivitySpeaker" type="text" readonly>
+                        </div>
+
+                    </div>
+
+                    <div data-gad-profile data-prefix="activity" data-organization="yes"></div>
+
+                    <div class="rating-title">
+                        <h4>Overall Activity Rating *</h4>
+                        <p>Rate your overall experience from 1 to 5.</p>
+                    </div>
+
+                    <div class="rating-grid">
+                        <div class="rating-option">
+                            <input id="ae1" type="radio" name="rating" value="1" required>
+                            <label for="ae1"><strong>1</strong><span>Poor</span></label>
+                        </div>
+
+                        <div class="rating-option">
+                            <input id="ae2" type="radio" name="rating" value="2">
+                            <label for="ae2"><strong>2</strong><span>Needs Improvement</span></label>
+                        </div>
+
+                        <div class="rating-option">
+                            <input id="ae3" type="radio" name="rating" value="3">
+                            <label for="ae3"><strong>3</strong><span>Satisfactory</span></label>
+                        </div>
+
+                        <div class="rating-option">
+                            <input id="ae4" type="radio" name="rating" value="4">
+                            <label for="ae4"><strong>4</strong><span>Very Good</span></label>
+                        </div>
+
+                        <div class="rating-option">
+                            <input id="ae5" type="radio" name="rating" value="5">
+                            <label for="ae5"><strong>5</strong><span>Excellent</span></label>
+                        </div>
+                    </div>
+
+                    <div class="rating-title">
+                        <h4>Detailed Evaluation</h4>
+                        <p>Rate each aspect of the seminar, training or activity.</p>
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Relevance of Topic / Activity *</label>
+                            <span class="form-help">How useful, appropriate and connected the topic or activity was to the needs, interests and development of the participants.</span>
+                            <select name="relevance" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Achievement of Objectives *</label>
+                            <span class="form-help">How well the seminar, training or activity achieved its stated purpose, expected outcomes and learning objectives.</span>
+                            <select name="objectives" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Resource Speaker / Trainer / Facilitator *</label>
+                            <span class="form-help">Evaluate the speaker's knowledge of the topic, clarity of presentation, communication skills, preparedness, responsiveness to questions and ability to engage participants.</span>
+                            <select name="facilitatorRating" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Organization & Facilitation *</label>
+                            <span class="form-help">How organized and smoothly implemented the activity was, including registration, instructions, coordination, flow of activities and assistance from organizers.</span>
+                            <select name="organization" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Venue / Facilities *</label>
+                            <span class="form-help">How suitable, accessible, comfortable, safe and appropriate the venue and facilities were for the activity.</span>
+                            <select name="venueRating" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Materials / Equipment *</label>
+                            <span class="form-help">The quality, availability and usefulness of presentation materials, handouts, equipment, supplies and other resources used during the activity.</span>
+                            <select name="materials" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Time Management *</label>
+                            <span class="form-help">How effectively the schedule was followed and whether enough time was provided for discussions, activities, questions and other important parts of the program.</span>
+                            <select name="timeManagement" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Participation / Engagement *</label>
+                            <span class="form-help">How effectively the activity encouraged interaction, participation, questions, collaboration and active involvement from participants.</span>
+                            <select name="engagement" required>
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full">
+                            <div class="rating-title" style="margin-top:4px">
+                                <h4>Resource Speaker / Trainer / Facilitator Feedback</h4>
+                                <p>Provide additional feedback about the person who delivered or facilitated the session. If the activity had no resource speaker, you may write “Not Applicable.”</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Speaker Knowledge & Expertise</label>
+                            <span class="form-help">How knowledgeable, credible and confident the resource speaker appeared in discussing the subject matter.</span>
+                            <select name="speakerKnowledge">
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Clarity & Communication</label>
+                            <span class="form-help">How clearly the speaker explained ideas, used understandable examples and communicated information to participants.</span>
+                            <select name="speakerClarity">
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Participant Engagement</label>
+                            <span class="form-help">How effectively the speaker encouraged participation, maintained interest and created opportunities for questions or interaction.</span>
+                            <select name="speakerEngagement">
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Responsiveness to Questions</label>
+                            <span class="form-help">How well the speaker listened to questions and provided helpful, understandable and relevant responses.</span>
+                            <select name="speakerResponsiveness">
+                                <option value="">Select Rating</option>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Satisfactory</option>
+                                <option value="2">2 - Needs Improvement</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Comments for the Resource Speaker / Trainer / Facilitator</label>
+                            <textarea name="speakerComments" placeholder="What did the speaker do well? What could be improved?"></textarea>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>What did you learn or benefit from?</label>
+                            <textarea
+                                name="learning"
+                                placeholder="Share your main learning, skills gained, insights or benefits."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>What did you like most about the activity?</label>
+                            <textarea
+                                name="likedMost"
+                                placeholder="Tell us which part of the activity was most useful or engaging."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>What can we improve?</label>
+                            <textarea
+                                name="improvement"
+                                placeholder="Share suggestions on content, facilitation, venue, schedule, logistics or implementation."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full">
+                            <label>Suggested future seminars, trainings or activities</label>
+                            <textarea
+                                name="future"
+                                placeholder="Suggest topics, trainings, sports activities, workshops or programs you want SK Sapilang to conduct."
+                            ></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="consent">
+                        <input id="activityConsent" type="checkbox" required>
+                        <label for="activityConsent">
+                            I have read the Data Privacy Notice and consent to the processing of this evaluation for program monitoring, reporting and continuous improvement.
+                        </label>
+                    </div>
+
+                    <button class="submit-button" type="submit">
+                        Submit Seminar / Training / Activity Evaluation
+                    </button>
+                </form>
+
+                <div class="result-box" id="activityResult"></div>
+            </div>
+
+            <div class="form-panel active" id="visitorPanel">
+                <div class="form-intro"><h3>Visitor Logbook</h3><p>Record an office visit or service transaction. Date and time are recorded automatically. Client or service feedback is included below.</p></div>
+                <form id="visitorForm">
+                    <div class="form-grid">
+                        <div class="form-group"><label>Full Name *</label><input name="name" type="text" required autocomplete="name"></div>
+                        <div class="form-group"><label>Visitor Type *</label><select name="clientType" required><option value="">Select Visitor Type</option><option>Katipunan ng Kabataan Member</option><option>Student</option><option>Parent / Guardian</option><option>Barangay Resident</option><option>Government Employee</option><option>Partner Organization Representative</option><option>Guest / Other Client</option></select></div>
+                        <div class="form-group"><label>Age</label><input name="age" type="number" min="1" max="120" inputmode="numeric"></div>
+                        <div class="form-group"><label>Birthdate (optional)</label><input name="birthdate" type="date"></div>
+                        <div class="form-group full"><label>Address — Barangay and Municipality *</label><input name="address" type="text" required autocomplete="street-address" placeholder="Example: Sapilang, Bacnotan, La Union"></div>
+                        <div class="form-group"><label>Contact Number</label><input name="contact" type="tel" autocomplete="tel" inputmode="tel"></div>
+                        <div class="form-group"><label>Office / School / Organization</label><input name="office" type="text" autocomplete="organization"></div>
+                        <div class="form-group"><label>Position / Designation</label><input name="position" type="text" autocomplete="organization-title"></div>
+                        <div class="form-group"><label>Purpose of Visit *</label><select name="purpose" required><option value="">Select Purpose</option><option>Avail SK Service</option><option>Submit Document</option><option>Request Information</option><option>Attend Meeting</option><option>Program Registration</option><option>Coordination / Consultation</option><option>Other Official Purpose</option></select></div>
+                        <div class="form-group"><label>Service Availed / Office Concerned *</label><select name="service" required><option value="">Select Service</option><option>KK Profiling</option><option>KK Digital ID / Verification</option><option>Printing / Educational Support</option><option>Program Registration</option><option>Programs and Activities</option><option>Documents / Publications</option><option>Request for Information</option><option>SK Chairperson / Council</option><option>Website / Digital Service</option><option>General SK Assistance</option><option>Other</option></select></div>
+                        <input name="date" id="visitorServiceDate" type="hidden">
+                    </div>
+                    <div data-gad-profile data-prefix="visitor" data-organization="no"></div>
+                    <div class="rating-title"><h4>Service Feedback</h4><p>If you received a service, you may rate your overall experience.</p></div>
+                    <div class="rating-grid">
+                        <div class="rating-option"><input id="vf1" type="radio" name="rating" value="1"><label for="vf1"><strong>1</strong><span>Very Dissatisfied</span></label></div>
+                        <div class="rating-option"><input id="vf2" type="radio" name="rating" value="2"><label for="vf2"><strong>2</strong><span>Dissatisfied</span></label></div>
+                        <div class="rating-option"><input id="vf3" type="radio" name="rating" value="3"><label for="vf3"><strong>3</strong><span>Satisfactory</span></label></div>
+                        <div class="rating-option"><input id="vf4" type="radio" name="rating" value="4"><label for="vf4"><strong>4</strong><span>Very Satisfied</span></label></div>
+                        <div class="rating-option"><input id="vf5" type="radio" name="rating" value="5"><label for="vf5"><strong>5</strong><span>Excellent</span></label></div>
+                    </div>
+                    <div class="form-grid" style="margin-top:20px"><div class="form-group full"><label>Comments / Areas for Improvement</label><textarea name="comments" placeholder="Optional feedback about the service received."></textarea></div></div>
+                    <div class="consent"><input id="visitorConsent" name="consent" type="checkbox" value="yes" required><label for="visitorConsent">I have read the Data Privacy Notice and freely consent to the collection and processing of the information I provide for the official visitor logbook, service documentation and service improvement.</label></div>
+                    <button class="submit-button" type="submit">Record Visit &amp; Feedback</button>
+                </form>
+                <div class="result-box" id="visitorResult"></div>
+            </div>
+
+            <div class="form-panel" id="suggestionPanel">
+                <div class="form-intro">
+                    <h3>Suggestions & Recommendations</h3>
+                    <p>Share an idea, recommendation, concern, commendation or proposed youth initiative.</p>
+                </div>
+
+                <form id="suggestionForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input name="name" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input name="email" type="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select name="category" required>
+                                <option value="">Select Category</option>
+                                <option>Suggestion</option>
+                                <option>Recommendation</option>
+                                <option>Youth Concern</option>
+                                <option>Program Proposal</option>
+                                <option>Service Improvement</option>
+                                <option>Website / Digital Service</option>
+                                <option>Commendation</option>
+                                <option>General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Development Area</label>
+                            <select name="area">
+                                <option value="">Select Area</option>
+                                <option>Education</option>
+                                <option>Health & Well-Being</option>
+                                <option>Sports & Recreation</option>
+                                <option>Leadership & Governance</option>
+                                <option>Environment</option>
+                                <option>Employment / Livelihood</option>
+                                <option>Digital Services</option>
+                                <option>Inclusion & Community Service</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label>Subject *</label>
+                            <input name="subject" type="text" required>
+                        </div>
+                        <div class="form-group full">
+                            <label>Message / Recommendation *</label>
+                            <textarea name="message" required></textarea>
+                        </div>
+                        <div class="form-group full">
+                            <label>Proposed Solution or Action</label>
+                            <textarea name="solution"></textarea>
+                        </div>
+                    </div>
+
+                    <div data-gad-profile data-prefix="suggestion" data-organization="yes"></div>
+
+                    <div class="consent">
+                        <input id="suggestionConsent" type="checkbox" required>
+                        <label for="suggestionConsent">I understand that this submission may be reviewed for legitimate youth governance, service improvement and program development purposes.</label>
+                    </div>
+
+                    <button class="submit-button" type="submit">Submit Suggestion</button>
+                </form>
+
+                <div class="result-box" id="suggestionResult"></div>
+            </div>
+
+            <div class="form-panel admin-panel-shell" id="adminPanel">
+
+                <div id="adminLoginArea">
+                    <div class="admin-login-card">
+                        <div class="admin-security-mark">Q</div>
+                        <small>Restricted Administrative System</small>
+                        <h3>QMS Admin Access</h3>
+                        <p>
+                            Enter the private administrator access code generated by the
+                            SK Sapilang Google Apps Script QMS backend.
+                        </p>
+
+                        <form id="adminLoginForm">
+                            <label for="integratedAdminKey">Administrator Access Code</label>
+                            <input
+                                id="integratedAdminKey"
+                                type="password"
+                                autocomplete="current-password"
+                                spellcheck="false"
+                                required
+                            >
+                            <button type="submit">Access QMS Dashboard</button>
+                            <div class="admin-login-error" id="integratedAdminLoginError"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="admin-dashboard" id="integratedAdminDashboard">
+
+                    <div class="admin-topline">
+                        <div>
+                            <span class="section-label">Quality Management System</span>
+                            <h3>Administration Dashboard</h3>
+                            <p id="integratedGeneratedText">Live evaluation, feedback and improvement monitoring.</p>
+                        </div>
+                        <span class="admin-system-chip">● QMS DATABASE CONNECTED</span>
+                    </div>
+
+                    <div class="admin-actions">
+                        <button class="admin-action-btn primary" id="integratedRefreshBtn" type="button">↻ Refresh Dashboard</button>
+                        <button class="admin-action-btn" id="integratedPrintBtn" type="button">Print QMS Report</button>
+                        <button class="admin-action-btn danger" id="integratedLogoutBtn" type="button">Log Out</button>
+                    </div>
+
+                    <div class="admin-panel" style="margin-bottom:12px">
+                        <div class="admin-panel-head">
+                            <h4>Print Report Center</h4>
+                            <p>Print the full QMS report or a report for one project, seminar, training or activity.</p>
+                        </div>
+                        <div class="admin-panel-body admin-toolbar">
+                            <select id="integratedPrintScope" aria-label="Report scope">
+                                <option value="all">All QMS Records</option>
+                                <option value="activity">Specific Project / Activity</option>
+                                <option value="clients">Client Feedback Only</option>
+                                <option value="service">Specific Service Availed</option>
+                                <option value="suggestions">Suggestions Only</option>
+                            </select>
+                            <select id="integratedPrintService" aria-label="Select service" disabled><option value="">Select Service Availed</option></select>
+                            <select id="integratedPrintActivity" aria-label="Select project or activity" disabled>
+                                <option value="">Select Project / Activity</option>
+                            </select>
+                            <button class="admin-action-btn primary" id="integratedGeneratePrintBtn" type="button">Generate &amp; Print</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-loading" id="integratedAdminLoading">QMS // Synchronizing Database...</div>
+
+                    <div class="admin-summary-grid" id="integratedSummaryGrid"></div>
+
+                    <div class="admin-tabs">
+                        <button class="admin-tab-btn active" data-admin-tab="overview" type="button">Overview</button>
+                        <button class="admin-tab-btn" data-admin-tab="clients" type="button">Client Feedback</button>
+                        <button class="admin-tab-btn" data-admin-tab="activities" type="button">Activity Evaluations</button>
+                        <button class="admin-tab-btn" data-admin-tab="speakers" type="button">Resource Speakers</button>
+                        <button class="admin-tab-btn" data-admin-tab="suggestions" type="button">Suggestions</button>
+                        <button class="admin-tab-btn" data-admin-tab="manage" type="button">Manage Activities</button>
+                    </div>
+
+                    <section class="admin-tab-content active" id="integratedOverviewTab">
+                        <div class="admin-analytics-grid">
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Activity Types</h4>
+                                    <p>Number of evaluations received by program type.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedActivityTypeBars"></div>
+                                </div>
+                            </article>
+
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Suggestions by Development Area</h4>
+                                    <p>Areas most frequently raised by respondents.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedDevelopmentBars"></div>
+                                </div>
+                            </article>
+
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Client Quality Distribution</h4>
+                                    <p>Distribution of overall client satisfaction ratings.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedClientQualityBars"></div>
+                                </div>
+                            </article>
+
+                            <article class="admin-panel">
+                                <div class="admin-panel-head">
+                                    <h4>Activity Quality Distribution</h4>
+                                    <p>Distribution of calculated activity evaluation scores.</p>
+                                </div>
+                                <div class="admin-panel-body">
+                                    <div class="admin-bar-list" id="integratedActivityQualityBars"></div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <article class="admin-panel" style="margin-top:12px">
+                            <div class="admin-panel-head">
+                                <h4>Suggestions & Recommendations Status</h4>
+                                <p>Current administrative handling status.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-detail-grid" id="integratedSuggestionStatusCards"></div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedClientsTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Client / Service Feedback Records</h4>
+                                <p>Latest 100 submissions from the QMS database.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-toolbar">
+                                    <input id="integratedClientSearch" type="search" placeholder="Search reference, name, service or comments...">
+                                </div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Date / Time</th><th>Reference</th><th>Client</th>
+                                            <th>Service</th><th>Rating</th><th>Comments</th>
+                                        </tr></thead>
+                                        <tbody id="integratedClientRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedActivitiesTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Seminar / Training / Activity Evaluations</h4>
+                                <p>Latest 100 program evaluation records.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-toolbar">
+                                    <input id="integratedActivitySearch" type="search" placeholder="Search activity, participant, speaker or reference...">
+                                    <select id="integratedActivityTypeFilter">
+                                        <option value="">All Activity Types</option>
+                                    </select>
+                                </div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Date / Time</th><th>Reference</th><th>Activity</th>
+                                            <th>Participant</th><th>Resource Speaker</th>
+                                            <th>Average</th><th>Improvement / Learning</th>
+                                        </tr></thead>
+                                        <tbody id="integratedActivityRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedSpeakersTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Resource Speaker Performance</h4>
+                                <p>Aggregated from speaker-specific participant ratings.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-detail-grid" id="integratedSpeakerSummary"></div>
+                                <div class="admin-table-wrap" style="margin-top:14px">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Activity</th><th>Resource Speaker</th><th>Knowledge</th>
+                                            <th>Clarity</th><th>Engagement</th><th>Responsiveness</th><th>Comments</th>
+                                        </tr></thead>
+                                        <tbody id="integratedSpeakerRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedSuggestionsTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Suggestions, Recommendations & Concerns</h4>
+                                <p>Review, document action taken and update each submission's status.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <div class="admin-toolbar">
+                                    <input id="integratedSuggestionSearch" type="search" placeholder="Search reference, category, subject, message or name...">
+                                    <select id="integratedSuggestionStatusFilter">
+                                        <option value="">All Statuses</option>
+                                        <option>NEW</option>
+                                        <option>UNDER REVIEW</option>
+                                        <option>IN PROGRESS</option>
+                                        <option>RESOLVED</option>
+                                        <option>CLOSED</option>
+                                    </select>
+                                </div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table">
+                                        <thead><tr>
+                                            <th>Date / Time</th><th>Reference</th><th>Submission</th>
+                                            <th>Message / Proposed Action</th><th>Status</th><th>Administrative Action</th>
+                                        </tr></thead>
+                                        <tbody id="integratedSuggestionRows"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedManageTab">
+                        <article class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h4>Manage Scheduled Activities</h4>
+                                <p>Add or update activities that people can select in the Activity / Program Evaluation form.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <form id="integratedScheduleForm" class="admin-schedule-form">
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleTitle">Activity / Project / Training Name *</label>
+                                        <input id="integratedScheduleTitle" required>
+                                    </div>
+                                    <div class="admin-schedule-field">
+                                        <label for="integratedScheduleDate">Date *</label>
+                                        <input id="integratedScheduleDate" type="date" required>
+                                    </div>
+                                    <div class="admin-schedule-field">
+                                        <label for="integratedScheduleVenue">Venue *</label>
+                                        <input id="integratedScheduleVenue" required>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleSpeaker">Resource Speaker / Trainer / Facilitator</label>
+                                        <input id="integratedScheduleSpeaker">
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleDescription">Short Description</label>
+                                        <textarea id="integratedScheduleDescription"></textarea>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedCmsPassword">Website CMS Password</label>
+                                        <input id="integratedCmsPassword" type="password" autocomplete="current-password" placeholder="Leave blank if it is the same as the QMS access code">
+                                        <span class="admin-schedule-help">The QMS access code will be used automatically when this is blank.</span>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <div class="admin-schedule-card-actions">
+                                            <button class="admin-action-btn primary" type="submit" id="integratedScheduleSave">Add Scheduled Activity</button>
+                                            <button class="admin-action-btn" type="button" id="integratedScheduleClear">Clear Form</button>
+                                            <button class="admin-action-btn" type="button" id="integratedScheduleReload">Refresh List</button>
+                                        </div>
+                                        <div class="admin-schedule-message" id="integratedScheduleMessage"></div>
+                                    </div>
+                                </form>
+                                <div class="admin-schedule-list" id="integratedScheduleList"><div class="admin-empty">Loading scheduled activities...</div></div>
+                            </div>
+                        </article>
+                    </section>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <article class="notice reveal">
+            <small>System Notice</small>
+            <h3>Connected to the QMS database.</h3>
+            <p>
+                Submissions on this page are connected to the SK Sapilang Google Sheets Quality Management System through Google Apps Script. Authorized administrators may also access the integrated QMS Admin Dashboard from the feedback interface.
+            </p>
+        </article>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <img src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png" alt="SK Sapilang Official Logo">
+            </div>
+            <div>
+                <strong>SK SAPILANG</strong>
+                <span>DIGITAL YOUTH NETWORK</span>
+            </div>
+        </div>
+        <div class="copyright">© <span id="year"></span> SK Sapilang. All Rights Reserved.</div>
+    </div>
+</footer>
+
+<script src="cms-config.js?v=20260903-CONNECTED"></script>
+<script src="js/feedback-page.js?v=20260905-QMS-DASHBOARD-FIX"></script>
+<script src="js/frame-bridge.js?v=20260830-FINAL"></script>
+<script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
+</body>
+</html>
