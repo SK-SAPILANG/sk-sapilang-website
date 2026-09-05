@@ -371,12 +371,12 @@ document.getElementById("visitorForm").addEventListener("submit",async function(
     const form=event.currentTarget,result=document.getElementById("visitorResult"),button=form.querySelector('button[type="submit"]');
     result.classList.remove("show");setSubmitting(button,true);
     try{
-        const hasRating=Boolean(form.querySelector('input[name="rating"]:checked'));
-        const visitorPromise=sendVisitorLog(form);
-        const qmsPromise=hasRating?sendToQMS("client",form):Promise.resolve(null);
-        const [visitor,qms]=await Promise.all([visitorPromise,qmsPromise]);
-        await sendGadProfile(form,"Visitor Logbook / Service Feedback",qms?.reference||visitor.reference);
-        showResult(result,qms?.reference||visitor.reference,qms?.score??null,qms?.rating??null,hasRating?"visitor logbook and service feedback":"visitor logbook entry");
+        const selectedRating=form.querySelector('input[name="rating"]:checked');
+        const visitor=await sendVisitorLog(form);
+        await sendGadProfile(form,"Visitor Logbook / Service Feedback",visitor.reference);
+        const ratingLabels={1:"Very Dissatisfied",2:"Dissatisfied",3:"Satisfactory",4:"Very Satisfied",5:"Excellent"};
+        const score=selectedRating?Number(selectedRating.value):null;
+        showResult(result,visitor.reference,score,score?ratingLabels[score]:null,selectedRating?"visitor logbook and service feedback":"visitor logbook entry");
         form.reset();resetGadProfile(form);document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
     }catch(error){showSubmissionError(result,error.message||"Unable to record the visit.");}
     finally{setSubmitting(button,false);}
