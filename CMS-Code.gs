@@ -1,6 +1,15 @@
 const CMS_SHEET_NAME = 'WEBSITE_CONTENT';
 const CMS_ITEMS_SHEET = 'WEBSITE_ITEMS';
 
+function cmsSpreadsheet_(){
+  const active=SpreadsheetApp.getActiveSpreadsheet();
+  if(active)return active;
+  const raw=String(PropertiesService.getScriptProperties().getProperty('CMS_SPREADSHEET_ID')||'').trim();
+  const match=raw.match(/[-\w]{25,}/);
+  if(!match)throw new Error('CMS spreadsheet is not configured. Run setupWebsiteCMS once.');
+  return SpreadsheetApp.openById(match[0]);
+}
+
 function setupWebsiteCMS() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(CMS_SHEET_NAME);
@@ -121,8 +130,7 @@ function cmsUpload_(p){
 }
 
 function cmsItemsSheet_(){
-  const id=PropertiesService.getScriptProperties().getProperty('CMS_SPREADSHEET_ID');
-  const sheet=SpreadsheetApp.openById(id).getSheetByName(CMS_ITEMS_SHEET);
+  const sheet=cmsSpreadsheet_().getSheetByName(CMS_ITEMS_SHEET);
   if(!sheet) throw new Error('Run setupWebsiteCMS again to create WEBSITE_ITEMS.');
   return sheet;
 }
@@ -189,10 +197,21 @@ function cmsQmsDashboard_(){
     while(normalized.length<16)normalized.push('');
     return normalized;
   }):[];
-  const clients=rows.slice(-100).reverse().map(r=>({
-    timestamp:r[0],reference:r[1],name:r[2],email:'',service:r[11],
-    rating:Number(r[13])||0,quality:cmsQualityLabel_(r[13]),comments:r[14]
-  }));
+  const gadSheet=cmsGadSheet_();
+  const gadValues=gadSheet.getDataRange().getDisplayValues();
+  const gadProfiles=gadValues.length>1?gadValues.slice(1).map(r=>({
+    timestamp:r[0]||'',reference:r[1]||'',formType:r[2]||'',sexAssignedAtBirth:r[3]||'',
+    sexOther:r[4]||'',genderIdentity:r[5]||'',genderOther:r[6]||'',preferredPronouns:r[7]||'',
+    pronounsOther:r[8]||'',organizationOffice:r[9]||'',positionDesignation:r[10]||'',
+    sectors:r[11]||'',sectorOther:r[12]||''
+  })):[];
+  const gadByReference={};
+  gadProfiles.forEach(profile=>{if(profile.reference)gadByReference[profile.reference]=profile;});
+  const clients=rows.slice(-100).reverse().map(r=>Object.assign({
+    timestamp:r[0],reference:r[1],name:r[2],age:r[3],birthdate:r[4],address:r[5],
+    contact:r[6],office:r[7],position:r[8],clientType:r[9],purpose:r[10],service:r[11],
+    serviceDate:r[12],rating:Number(r[13])||0,quality:cmsQualityLabel_(r[13]),comments:r[14],consent:r[15]
+  },gadByReference[r[1]]||{}));
   const rated=clients.filter(r=>r.rating>0);
   const average=rated.length?rated.reduce((sum,r)=>sum+r.rating,0)/rated.length:0;
   const distribution=[1,2,3,4,5].map(value=>({label:String(value)+' / 5',value:rated.filter(r=>Math.round(r.rating)===value).length}));
@@ -200,13 +219,13 @@ function cmsQmsDashboard_(){
     generatedAt:new Date().toISOString(),
     summary:{clientResponses:clients.length,averageClientSatisfaction:average,clientQuality:cmsQualityLabel_(average),activityEvaluations:0,averageActivityScore:0,activityQuality:'No ratings yet',speakerEvaluations:0,averageSpeakerScore:0,speakerQuality:'No ratings yet',suggestions:0,newSuggestions:0,inProgressSuggestions:0},
     activityTypes:[],developmentAreas:[],qualityDistribution:{client:distribution,activity:[]},
-    suggestionStatuses:[],clients:clients,activities:[],suggestions:[]
+    suggestionStatuses:[],clients:clients,activities:[],suggestions:[],gadProfiles:gadProfiles.slice(-300).reverse()
   }};
 }
 
 function cmsVisitorSheet_(){
   const headers=['TIMESTAMP','REFERENCE','FULL_NAME','AGE','BIRTHDATE','ADDRESS','CONTACT_NUMBER','OFFICE_OR_ORGANIZATION','POSITION_OR_DESIGNATION','VISITOR_TYPE','PURPOSE_OF_VISIT','SERVICE_AVAILED','DATE_OF_SERVICE','RATING','COMMENTS','CONSENT'];
-  const ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('CMS_SPREADSHEET_ID'));
+  const ss=cmsSpreadsheet_();
   let sheet=ss.getSheetByName('VISITOR_LOGBOOK');
   if(!sheet){sheet=ss.insertSheet('VISITOR_LOGBOOK');sheet.getRange(1,1,1,headers.length).setValues([headers]);sheet.setFrozenRows(1);return sheet;}
   const width=Math.max(sheet.getLastColumn(),1);
@@ -232,7 +251,7 @@ function cmsVisitorSheet_(){
 
 function cmsGadSheet_(){
   const headers=['TIMESTAMP','REFERENCE','FORM_TYPE','SEX_ASSIGNED_AT_BIRTH','SEX_OTHER','GENDER_IDENTITY_EXPRESSION','GENDER_OTHER','PREFERRED_PRONOUNS','PRONOUNS_OTHER','ORGANIZATION_OFFICE','POSITION_DESIGNATION','SECTOR_CLASSIFICATIONS','SECTOR_OTHER'];
-  const ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('CMS_SPREADSHEET_ID'));
+  const ss=cmsSpreadsheet_();
   let sheet=ss.getSheetByName('GAD_INCLUSION_DATA');
   if(!sheet){sheet=ss.insertSheet('GAD_INCLUSION_DATA');sheet.getRange(1,1,1,headers.length).setValues([headers]);sheet.setFrozenRows(1);}
   return sheet;
@@ -257,10 +276,7 @@ function cmsDeleteItem_(id){
 }
 
 function cmsSheet_(){
-  const props=PropertiesService.getScriptProperties();
-  const id=props.getProperty('CMS_SPREADSHEET_ID');
-  if(!id) throw new Error('Run setupWebsiteCMS first.');
-  const sheet=SpreadsheetApp.openById(id).getSheetByName(CMS_SHEET_NAME);
+  const sheet=cmsSpreadsheet_().getSheetByName(CMS_SHEET_NAME);
   if(!sheet) throw new Error('CMS sheet is missing.');
   return sheet;
 }
