@@ -972,6 +972,33 @@ select option {
   color: #17364b !important;
 }
 
+/* Submission receipt: high-contrast reference, score and rating cards. */
+.result-box .result-status {
+  color: #176b3a !important;
+  font-size: 0.78rem !important;
+}
+
+.result-box .result-item {
+  color: #0b2545 !important;
+  background: #ffffff !important;
+  border: 2px solid #e5a12a !important;
+  box-shadow: 0 4px 12px rgba(11, 37, 69, 0.08) !important;
+}
+
+.result-box .result-item small {
+  color: #425e70 !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.result-box .result-item strong {
+  color: #0b2545 !important;
+  font-size: 1rem !important;
+  font-weight: 900 !important;
+  overflow-wrap: anywhere;
+}
+
 /* Admin dashboard remains readable in light mode. */
 .admin-login-card,
 .admin-panel,
