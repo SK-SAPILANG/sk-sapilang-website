@@ -59,7 +59,7 @@ tabs.forEach(tab=>{
     });
 });
 
-if(location.hash==="#admin"){
+if(location.hash==="#admin"||new URLSearchParams(location.search).get("admin")==="1"){
     const adminTab=document.querySelector('.form-tab[data-form="admin"]');
     if(adminTab)setTimeout(()=>adminTab.click(),0);
 }
