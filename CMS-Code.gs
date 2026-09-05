@@ -18,10 +18,24 @@ function setupWebsiteCMS() {
   if(items.getLastColumn()<12){items.getRange(1,11,1,2).setValues([['VENUE','RESOURCE_SPEAKER']]);}
   PropertiesService.getScriptProperties().setProperty('CMS_SPREADSHEET_ID', ss.getId());
   cmsVisitorSheet_();
+  cmsGadSheet_();
 }
 
 function setWebsiteCMSPassword() {
-  PropertiesService.getScriptProperties().setProperty('CMS_ADMIN_PASSWORD', 'CHANGE-THIS-PASSWORD');
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.prompt(
+    'Set SK Website Administrator Password',
+    'Enter the private password that you will use for the CMS and QMS administrator page:',
+    ui.ButtonSet.OK_CANCEL
+  );
+  if (response.getSelectedButton() !== ui.Button.OK) return;
+  const password = response.getResponseText().trim();
+  if (password.length < 8) {
+    ui.alert('Password not saved. Use at least 8 characters.');
+    return;
+  }
+  PropertiesService.getScriptProperties().setProperty('CMS_ADMIN_PASSWORD', password);
+  ui.alert('Administrator password saved successfully.');
 }
 
 function doGet(e) {
@@ -30,9 +44,11 @@ function doGet(e) {
     const action=String(p.action||'public');
     let result;
     if(action==='public') result={success:true,changes:cmsList_(String(p.page||'')),items:cmsItems_(String(p.page||''))};
+    else if(action==='visitor-status') result=cmsVisitorStatus_(String(p.reference||''));
     else {
       if(!cmsAuthorized_(p.password)) throw new Error('Incorrect administrator password.');
       if(action==='login') result={success:true};
+      else if(action==='qms-dashboard') result=cmsQmsDashboard_();
       else if(action==='list') result={success:true,changes:cmsList_(String(p.page||''))};
       else if(action==='save') result=cmsSave_(p);
       else if(action==='delete') result=cmsDelete_(String(p.id||''));
@@ -48,7 +64,8 @@ function doGet(e) {
 function doPost(e) {
   try {
     const p=e.parameter||{};
-    if(p.action==='visitor-log') return cmsVisitorLog_(p);
+    if(p.action==='visitor-log') return cmsVisitorLog_(p,e.parameters||{});
+    if(p.action==='gad-profile-log') return cmsGadProfileLog_(p,e.parameters||{});
     if(!cmsAuthorized_(p.password)) throw new Error('Incorrect administrator password.');
     if(p.action==='upload-frame') return cmsUploadFrame_(p);
     let result;
@@ -126,17 +143,65 @@ function cmsSaveItem_(p){
   return {success:true,id:id};
 }
 
-function cmsVisitorLog_(p){
+function cmsVisitorLog_(p,parameters){
   if(String(p.consent||'')!=='yes') return cmsHtmlFrame_('<script>parent.postMessage({source:"sk-visitor-log",success:false,message:"Consent is required."},"*");</script>');
   const sheet=cmsVisitorSheet_();
-  const reference='VIS-'+Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyyMMdd-HHmmss');
+  const suppliedReference=String(p.clientReference||'');
+  const reference=/^VIS-[A-Z0-9-]{8,40}$/.test(suppliedReference)?suppliedReference:'VIS-'+Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyyMMdd-HHmmss');
   sheet.appendRow([
     new Date(),reference,String(p.name||''),String(p.age||''),String(p.birthdate||''),
     String(p.address||''),String(p.contact||''),String(p.office||''),String(p.position||''),
     String(p.clientType||''),String(p.purpose||''),String(p.service||''),String(p.date||''),
     String(p.rating||''),String(p.comments||''),'YES'
   ]);
+  const sectors=(parameters.sectorClassification||[]).map(String).join(' | ');
+  cmsGadSheet_().appendRow([
+    new Date(),reference,'Visitor Logbook / Service Feedback',String(p.sexAssignedAtBirth||''),
+    String(p.sexAssignedAtBirthOther||''),String(p.genderIdentity||''),String(p.genderIdentityOther||''),
+    String(p.preferredPronouns||''),String(p.preferredPronounsOther||''),String(p.office||''),
+    String(p.position||''),sectors,String(p.sectorClassificationOther||'')
+  ]);
   return cmsHtmlFrame_('<script>parent.postMessage('+JSON.stringify({source:'sk-visitor-log',success:true,reference:reference})+',"*");</script>');
+}
+
+function cmsVisitorStatus_(reference){
+  if(!/^VIS-[A-Z0-9-]{8,40}$/.test(reference)) return {success:true,found:false};
+  const sheet=cmsVisitorSheet_();
+  if(sheet.getLastRow()<2) return {success:true,found:false};
+  const references=sheet.getRange(2,2,sheet.getLastRow()-1,1).getDisplayValues().flat();
+  return {success:true,found:references.indexOf(reference)>=0,reference:reference};
+}
+
+function cmsQualityLabel_(score){
+  score=Number(score)||0;
+  if(score>=4.5)return 'Excellent';
+  if(score>=3.5)return 'Very Good';
+  if(score>=2.5)return 'Satisfactory';
+  if(score>=1.5)return 'Needs Improvement';
+  return score?'Poor':'No ratings yet';
+}
+
+function cmsQmsDashboard_(){
+  const sheet=cmsVisitorSheet_();
+  const allValues=sheet.getDataRange().getDisplayValues();
+  const rows=allValues.length>1?allValues.slice(1).map(row=>{
+    const normalized=row.slice(0,16);
+    while(normalized.length<16)normalized.push('');
+    return normalized;
+  }):[];
+  const clients=rows.slice(-100).reverse().map(r=>({
+    timestamp:r[0],reference:r[1],name:r[2],email:'',service:r[11],
+    rating:Number(r[13])||0,quality:cmsQualityLabel_(r[13]),comments:r[14]
+  }));
+  const rated=clients.filter(r=>r.rating>0);
+  const average=rated.length?rated.reduce((sum,r)=>sum+r.rating,0)/rated.length:0;
+  const distribution=[1,2,3,4,5].map(value=>({label:String(value)+' / 5',value:rated.filter(r=>Math.round(r.rating)===value).length}));
+  return {success:true,dashboard:{
+    generatedAt:new Date().toISOString(),
+    summary:{clientResponses:clients.length,averageClientSatisfaction:average,clientQuality:cmsQualityLabel_(average),activityEvaluations:0,averageActivityScore:0,activityQuality:'No ratings yet',speakerEvaluations:0,averageSpeakerScore:0,speakerQuality:'No ratings yet',suggestions:0,newSuggestions:0,inProgressSuggestions:0},
+    activityTypes:[],developmentAreas:[],qualityDistribution:{client:distribution,activity:[]},
+    suggestionStatuses:[],clients:clients,activities:[],suggestions:[]
+  }};
 }
 
 function cmsVisitorSheet_(){
@@ -163,6 +228,26 @@ function cmsVisitorSheet_(){
     sheet.setFrozenRows(1);
   }
   return sheet;
+}
+
+function cmsGadSheet_(){
+  const headers=['TIMESTAMP','REFERENCE','FORM_TYPE','SEX_ASSIGNED_AT_BIRTH','SEX_OTHER','GENDER_IDENTITY_EXPRESSION','GENDER_OTHER','PREFERRED_PRONOUNS','PRONOUNS_OTHER','ORGANIZATION_OFFICE','POSITION_DESIGNATION','SECTOR_CLASSIFICATIONS','SECTOR_OTHER'];
+  const ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('CMS_SPREADSHEET_ID'));
+  let sheet=ss.getSheetByName('GAD_INCLUSION_DATA');
+  if(!sheet){sheet=ss.insertSheet('GAD_INCLUSION_DATA');sheet.getRange(1,1,1,headers.length).setValues([headers]);sheet.setFrozenRows(1);}
+  return sheet;
+}
+
+function cmsGadProfileLog_(p,parameters){
+  if(String(p.consent||'')!=='yes') return cmsHtmlFrame_('<script>parent.postMessage({source:"sk-gad-profile-log",success:false,message:"Consent is required."},"*");</script>');
+  const sectors=(parameters.sectorClassification||[]).map(String).join(' | ');
+  cmsGadSheet_().appendRow([
+    new Date(),String(p.reference||''),String(p.formType||''),String(p.sexAssignedAtBirth||''),
+    String(p.sexAssignedAtBirthOther||''),String(p.genderIdentity||''),String(p.genderIdentityOther||''),
+    String(p.preferredPronouns||''),String(p.preferredPronounsOther||''),String(p.organizationOffice||p.office||''),
+    String(p.positionDesignation||p.position||''),sectors,String(p.sectorClassificationOther||'')
+  ]);
+  return cmsHtmlFrame_('<script>parent.postMessage({source:"sk-gad-profile-log",success:true},"*");</script>');
 }
 
 function cmsDeleteItem_(id){

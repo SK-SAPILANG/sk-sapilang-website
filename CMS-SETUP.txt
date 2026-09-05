@@ -49,3 +49,10 @@ VISITOR LOGBOOK
 - The form records the visitor's essential details, office or organization, position, purpose, service and optional service rating.
 - Run setupWebsiteCMS again once to create or safely update the VISITOR_LOGBOOK columns.
 - The visitor must accept the Data Privacy consent before the entry is recorded.
+
+GAD AND INCLUSION DATA
+- The Visitor Logbook, Activity Evaluation and Suggestions forms now include the same voluntary GAD and inclusion profile.
+- Run setupWebsiteCMS again once to create the GAD_INCLUSION_DATA sheet.
+- The sheet stores the form reference number, sex assigned at birth, optional gender identity/expression, optional pronouns, organization/office, position and selected sector classifications.
+- Respondents may select Prefer not to say. Selecting Other or Self-describe opens a field where they can provide their own answer.
+- Use the reference number to relate the demographic record to its QMS submission while limiting unnecessary duplication of names.
