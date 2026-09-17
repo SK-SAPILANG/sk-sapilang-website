@@ -547,10 +547,6 @@ function integratedEditSchedule(id){
     document.getElementById("integratedScheduleVenue").value=item.venue||"";
     document.getElementById("integratedScheduleSpeaker").value=item.speaker||"";
     document.getElementById("integratedScheduleDescription").value=item.description||"";
-    document.getElementById("integratedScheduleStatus").value=item.status||"Upcoming";
-    document.getElementById("integratedSchedulePubmat").value=item.mediaUrl||"";
-    document.getElementById("integratedScheduleFacebook").value=item.linkUrl||"";
-    document.getElementById("integratedSchedulePhotos").value=item.photos||"";
     document.getElementById("integratedScheduleSave").textContent="Save Activity Update";
     integratedScheduleMessage("Editing "+item.title+".");
     document.getElementById("integratedScheduleTitle").focus();
@@ -577,14 +573,14 @@ document.getElementById("integratedScheduleForm").addEventListener("submit",asyn
         await integratedCmsApi({
             action:"save-item",password:integratedCmsPassword(),id:INTEGRATED_SCHEDULE_EDIT_ID,page:"feedback.html",
             itemType:"Scheduled Activity / Evaluation",title:document.getElementById("integratedScheduleTitle").value.trim(),
-            description:document.getElementById("integratedScheduleDescription").value.trim(),status:document.getElementById("integratedScheduleStatus").value,
+            description:document.getElementById("integratedScheduleDescription").value.trim(),status:"Upcoming",
             eventDate:document.getElementById("integratedScheduleDate").value,venue:document.getElementById("integratedScheduleVenue").value.trim(),
-            speaker:document.getElementById("integratedScheduleSpeaker").value.trim(),mediaUrl:document.getElementById("integratedSchedulePubmat").value.trim(),linkUrl:document.getElementById("integratedScheduleFacebook").value.trim(),photos:document.getElementById("integratedSchedulePhotos").value.trim()
+            speaker:document.getElementById("integratedScheduleSpeaker").value.trim(),mediaUrl:"",linkUrl:""
         });
         integratedClearScheduleForm();
         await integratedLoadSchedules();
         loadScheduledActivities();
-        integratedScheduleMessage("Activity saved. Upcoming items appear under Future Activities; completed items move to Finished Activities automatically.");
+        integratedScheduleMessage("Activity saved. It is now available in the evaluation form.");
     }catch(error){integratedScheduleMessage(error.message,true);}finally{button.disabled=false;}
 });
 
@@ -1089,5 +1085,3 @@ document.getElementById('certTplCustomKey')?.addEventListener('change',()=>loadC
 document.getElementById('certTplSignatureFile')?.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{const maxW=520,maxH=180,scale=Math.min(1,maxW/img.width,maxH/img.height),c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);const data=c.toDataURL('image/png');certTplSignatureData.value=data;certTplSignaturePreview.src=data;certTplSignaturePreview.style.display='block'};img.src=rd.result};rd.readAsDataURL(f)});
 document.getElementById('certTplPreviewBtn')?.addEventListener('click',()=>{const u=new URL('certificate.html',location.href);u.searchParams.set('blank','1');u.searchParams.set('profile',certProfileKey());window.open(u.href,'_blank')});
 document.getElementById('certificateTemplateForm')?.addEventListener('submit',async e=>{e.preventDefault();const m=document.getElementById('certificateTemplateMessage');m.textContent='Saving this program template...';try{await qmsAdminAction({action:'save-certificate-settings',profile:certProfileKey(),title:certTplTitle.value,body:certTplBody.value,logo1:certTplLogo1.value,logo2:certTplLogo2.value,signatory1:certTplSignatory1.value,position1:certTplPosition1.value,design:certTplDesign.value,adminEmail:certTplAdminEmail.value,signatureData:certTplSignatureData.value});m.textContent='Program certificate template saved.'}catch(err){m.textContent=err.message}});
-
-(function(){function u(){const g=id=>document.getElementById(id);if(!g('certLivePreview'))return;g('certLiveTitle').textContent=(g('certTplTitle').value||'Certificate of Participation').toUpperCase();g('certLiveBody').textContent=g('certTplBody').value||'for successfully participating in';g('certLiveSigner').textContent=g('certTplSignatory1').value||'DANDY F. NILLO';g('certLivePosition').textContent=g('certTplPosition1').value||'SK Chairperson';const im=g('certLiveSignature'),v=g('certTplSignatureData').value;if(v){im.src=v;im.style.display='block'}else im.style.display='none'}['certTplTitle','certTplBody','certTplSignatory1','certTplPosition1','certTplSignatureData'].forEach(id=>document.getElementById(id)?.addEventListener('input',u));document.getElementById('certTplSignatureFile')?.addEventListener('change',()=>setTimeout(u,100));document.getElementById('certTplProfile')?.addEventListener('change',()=>setTimeout(u,500));setTimeout(u,700)})();

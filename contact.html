@@ -1621,9 +1621,11 @@ button{
   <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
   <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
-<style>.emergency-image,.provincial-slide{pointer-events:none!important;cursor:default!important;user-select:none!important;-webkit-user-drag:none!important}</style>
-<style id="directory-search-style">.directory-search-box{margin:16px 0 22px;padding:16px;border:1px solid #d7e0e8;border-radius:16px;background:#fff}.directory-search-box label{color:#0b2545}.directory-search-box input{width:100%;margin-top:8px;padding:12px 14px;border:1px solid #b9c8d4;border-radius:10px;background:#fff!important;color:#111827!important;font-size:16px}.gov-directory-results{display:grid;gap:9px;margin-top:10px}.dir-result{padding:12px;border:1px solid #dbe4ea;border-radius:11px;background:#f8fafc}.dir-result strong,.dir-result span{display:block;color:#172033!important}.dir-result small{color:#52657a!important}.dir-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.dir-actions a{padding:8px 10px;border-radius:8px;background:#f59e0b;color:#10233d!important;text-decoration:none;font-weight:800;font-size:13px}@media(max-width:600px){.dir-actions a{flex:1;text-align:center;min-width:120px}}</style>
-<link rel="stylesheet" href="css/universal-device-2026.css?v=20260917">
+<style>.emergency-image,.provincial-slide{pointer-events:none!important;cursor:default!important;user-select:none!important;-webkit-user-drag:none!important}
+/* Separated La Union directory */
+.directory-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.directory-tab{border:1px solid #d8dee8;background:#fff;color:#162033;border-radius:999px;padding:11px 18px;font:inherit;font-weight:800;cursor:pointer}.directory-tab.active{background:#0b5f43;color:#fff;border-color:#0b5f43}.directory-search-wrap{background:#f7f9fb;border:1px solid #e0e6ee;border-radius:18px;padding:16px;margin-bottom:18px}.directory-search{width:100%;margin-top:8px;min-height:48px;border:1px solid #c9d2df;border-radius:12px;padding:0 14px;font:inherit;color:#111;background:#fff}.directory-help{margin:8px 0 0;color:#4b5563;font-size:.92rem}.directory-panel{display:none}.directory-panel.active{display:block}.municipality-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.municipality-card{background:#fff;border:1px solid #dfe5ec;border-radius:16px;padding:16px;box-shadow:0 5px 18px rgba(15,23,42,.05)}.municipality-card h3{margin:4px 0 8px;color:#111827;font-size:1.05rem}.municipality-card p{color:#374151}.municipality-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 8px}.municipality-actions a,.directory-email{display:inline-flex;align-items:center;min-height:42px;padding:9px 12px;border-radius:10px;background:#eef7f3;color:#07543c;text-decoration:none;font-weight:800}.directory-email{background:#f3f4f6;color:#1f2937}.directory-number a,.emergency-content a{overflow-wrap:anywhere}.directory-source-note{font-size:.88rem}.directory-empty{grid-column:1/-1;padding:20px;text-align:center;color:#6b7280}.directory-feature{max-width:none}@media(max-width:760px){.municipality-grid{grid-template-columns:1fr}.directory-tabs{display:grid;grid-template-columns:1fr}.directory-tab{width:100%}.municipality-actions a,.directory-email{width:100%;justify-content:center}.government-panel{padding-left:14px!important;padding-right:14px!important}}
+</style>
+  <link rel="stylesheet" href="css/universal-readability.css">
 </head>
 
 
@@ -1772,48 +1774,63 @@ button{
             <span><strong>Separate from SK Sapilang.</strong> These contacts belong to the municipal and provincial government response network.</span>
           </div>
 
-          <div class="directory-search-box">
-            <label for="govDirectorySearch"><strong>Search Government Directory</strong></label>
-            <input id="govDirectorySearch" type="search" placeholder="Search: PNP Balaoan, Bacnotan hospital, PDRRMO..." autocomplete="off">
-            <div id="govDirectoryResults" class="gov-directory-results"></div>
+          <div class="directory-tabs" role="tablist" aria-label="La Union government directory">
+            <button class="directory-tab active" type="button" data-dir-tab="bacnotan">Bacnotan</button>
+            <button class="directory-tab" type="button" data-dir-tab="launion">Rest of La Union</button>
+            <button class="directory-tab" type="button" data-dir-tab="provincial">Provincial</button>
           </div>
 
-          <div class="government-directory">
-            <article class="emergency-card">
-              <div class="level-strip">
-                <strong>Municipality of Bacnotan</strong>
-                <span>Municipal Level</span>
-              </div>
+          <div class="directory-search-wrap">
+            <label for="directorySearch"><strong>Search the directory</strong></label>
+            <input id="directorySearch" class="directory-search" type="search" placeholder="Try: Balaoan, PNP Balaoan, MDRRMO Agoo, San Juan…" autocomplete="off">
+            <p class="directory-help">Choose a section or search by municipality, office or service. Tap a phone number to call or an email address to compose an email.</p>
+          </div>
+
+          <div class="government-directory directory-panel active" data-dir-panel="bacnotan">
+            <article class="emergency-card directory-feature" data-directory-item="bacnotan municipality mdrrmo disaster emergency bfp ems">
+              <div class="level-strip"><strong>Municipality of Bacnotan</strong><span>Municipal Level</span></div>
               <img class="emergency-image" src="images/754068979_1059814589894173_8643446816999775764_n.jpg" alt="Municipality of Bacnotan Emergency Contact Directory">
               <div class="emergency-content">
-                <small>Municipality of Bacnotan</small>
-                <h3>Municipal Emergency & Public Safety</h3>
-                <p>Official local emergency, disaster-response and public-safety contact information for Bacnotan.</p>
+                <small>Bacnotan, La Union</small><h3>Bacnotan Emergency & Public Safety</h3>
+                <p class="directory-number"><strong>MDRRMO:</strong> <a href="tel:+639494724161">0949 472 4161</a> · <a href="tel:+639177739994">0917 773 9994</a></p>
+                <p class="directory-number"><strong>BFP EMS:</strong> <a href="tel:+639159348187">0915 934 8187</a></p>
+                <p><a class="small-button primary" href="mailto:lgubtn@gmail.com">Compose Email</a></p>
               </div>
             </article>
+          </div>
 
-            <article class="emergency-card">
-              <div class="level-strip">
-                <strong>Province of La Union</strong>
-                <span>Provincial Level</span>
-              </div>
-              <div class="provincial-slider" id="provincialSlider">
-                <div class="provincial-slides">
-                  <img class="provincial-slide active" src="images/pglu.jpg" alt="La Union Emergency Contact 1">
-                  <img class="provincial-slide" src="images/pglu 1.jpg" alt="La Union Emergency Contact 2">
-                  <img class="provincial-slide" src="images/pglu 2.jpg" alt="La Union Emergency Contact 3">
-                  <img class="provincial-slide" src="images/pglu 3.jpg" alt="La Union Emergency Contact 4">
-                  <img class="provincial-slide" src="images/pglu 5.jpg" alt="La Union Emergency Contact 5">
-                </div>
-                <button class="slider-button slider-prev" type="button" id="prevProvincial" aria-label="Previous image">&#10094;</button>
-                <button class="slider-button slider-next" type="button" id="nextProvincial" aria-label="Next image">&#10095;</button>
-                <div class="slide-counter"><span id="provincialCurrent">1</span> / <span id="provincialTotal">5</span></div>
-              </div>
-              <div class="emergency-content">
-                <small>Province of La Union</small>
-                <h3>Provincial Emergency & Public Safety</h3>
-                <p>Browse the official province-wide emergency and public-safety information of the Provincial Government of La Union.</p>
-                <div class="slider-dots" id="provincialDots"></div>
+          <div class="government-directory directory-panel" data-dir-panel="launion">
+            <div class="municipality-grid" id="municipalityGrid">
+              <article class="municipality-card" data-directory-item="agoo mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Agoo</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639295587444">☎ 0929 558 7444</a><a href="tel:+639950545741">☎ 0995 054 5741</a></div><a class="directory-email" href="mailto:agooomdrmo@yahoo.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="aringay mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Aringay</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+63728896045">☎ (072) 889 6045</a><a href="tel:+639989624436">☎ 0998 962 4436</a></div><a class="directory-email" href="mailto:lgu_mdrm_aringay@yahoo.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="bagulin mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Bagulin</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639772659798">☎ 0977 265 9798</a><a href="tel:+639679552905">☎ 0967 955 2905</a></div><a class="directory-email" href="mailto:melvin_orodio.gana@yahoo.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="balaoan mdrrmo · pnp 0928 818 0015 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Balaoan</h3><p>MDRRMO · PNP 0928 818 0015</p><div class="municipality-actions"><a href="tel:+639611009900">☎ 0961 100 9900</a><a href="tel:+639460722976">☎ 0946 072 2976</a></div><a class="directory-email" href="mailto:balaoan_2517@yahoo.com.ph">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="bangar mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Bangar</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639219242844">☎ 0921 924 2844</a><a href="tel:+639260140122">☎ 0926 014 0122</a></div><a class="directory-email" href="mailto:lgubangar.mdrmo@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="bauang mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Bauang</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639985753188">☎ 0998 575 3188</a><a href="tel:+63726072911">☎ (072) 607 2911</a></div><a class="directory-email" href="mailto:mdrrmo.laubauang@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="burgos mdrrmo · pnp 0998 598 5161 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Burgos</h3><p>MDRRMO · PNP 0998 598 5161</p><div class="municipality-actions"><a href="tel:+639810135036">☎ 0981 013 5036</a></div><a class="directory-email" href="mailto:ldrrmoburgoslu@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="caba mdrrmo · pnp 0917 856 3808 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Caba</h3><p>MDRRMO · PNP 0917 856 3808</p><div class="municipality-actions"><a href="tel:+639152473936">☎ 0915 247 3936</a><a href="tel:+63726073420">☎ (072) 607 3420</a></div><a class="directory-email" href="mailto:ldrrmocaba@yahoo.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="luna mdrrmo · pnp 0998 967 3041 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Luna</h3><p>MDRRMO · PNP 0998 967 3041</p><div class="municipality-actions"><a href="tel:+639199402888">☎ 0919 940 2888</a><a href="tel:+639199406888">☎ 0919 940 6888</a></div><a class="directory-email" href="mailto:lunalauunion@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="naguilian mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Naguilian</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639532385049">☎ 0953 238 5049</a><a href="tel:+639214716619">☎ 0921 471 6619</a></div><a class="directory-email" href="mailto:munnaguilian@yahoo.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="pugo mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Pugo</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639564078212">☎ 0956 407 8212</a><a href="tel:+639388605915">☎ 0938 860 5915</a></div><a class="directory-email" href="mailto:mdrrmopugo@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="rosario mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Rosario</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639057014082">☎ 0905 701 4082</a><a href="tel:+639463387610">☎ 0946 338 7610</a></div><a class="directory-email" href="mailto:gurayenrico33@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="city of san fernando cdrrmo · pnp 0915 558 8888 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>City of San Fernando</h3><p>CDRRMO · PNP 0915 558 8888</p><div class="municipality-actions"><a href="tel:+639285220622">☎ 0928 522 0622</a><a href="tel:+639281937818">☎ 0928 193 7818</a></div><a class="directory-email" href="mailto:citydrrmosanfernando@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="san gabriel mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>San Gabriel</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639058197375">☎ 0905 819 7375</a><a href="tel:+639566515953">☎ 0956 651 5953</a></div><a class="directory-email" href="mailto:sglu.localgov@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="san juan mdrrmo emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>San Juan</h3><p>MDRRMO</p><div class="municipality-actions"><a href="tel:+639121475040">☎ 0912 147 5040</a><a href="tel:+639055132488">☎ 0905 513 2488</a></div><a class="directory-email" href="mailto:sjlu.watchtower@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="santo tomas mdrrmo · pnp 0927 469 4472 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Santo Tomas</h3><p>MDRRMO · PNP 0927 469 4472</p><div class="municipality-actions"><a href="tel:+639503938320">☎ 0950 393 8320</a><a href="tel:+639451988450">☎ 0945 198 8450</a></div><a class="directory-email" href="mailto:mdrrmosantotomaslu@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="santol mdrrmo · pnp 0998 598 5171 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Santol</h3><p>MDRRMO · PNP 0998 598 5171</p><div class="municipality-actions"><a href="tel:+639177302412">☎ 0917 730 2412</a><a href="tel:+639183913674">☎ 0918 391 3674</a></div><a class="directory-email" href="mailto:mdrrmo.santol@yahoo.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="sudipen mdrrmo · pnp 0999 570 0863 emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Sudipen</h3><p>MDRRMO · PNP 0999 570 0863</p><div class="municipality-actions"><a href="tel:+639693035388">☎ 0969 303 5388</a><a href="tel:+639560119260">☎ 0956 011 9260</a></div><a class="directory-email" href="mailto:mdrrmosudipen@gmail.com">✉ Compose Email</a></article>
+              <article class="municipality-card" data-directory-item="tubao mdrrmo — see official la union emergency directory emergency disaster rescue police pnp fire bfp"><small>La Union LGU</small><h3>Tubao</h3><p>MDRRMO — see official La Union emergency directory</p><p class="directory-source-note">Use the provincial emergency directory below for the latest listed number.</p></article>
+            </div>
+          </div>
+
+          <div class="government-directory directory-panel" data-dir-panel="provincial">
+            <article class="emergency-card directory-feature" data-directory-item="province provincial la union pdrrmo rescue emergency 911 capitol">
+              <div class="level-strip"><strong>Province of La Union</strong><span>Provincial Level</span></div>
+              <div class="emergency-content"><small>Provincial Government of La Union</small><h3>Province-wide Emergency & Government Directory</h3>
+                <p><strong>Emergency:</strong> <a href="tel:911">911</a></p>
+                <p><strong>PDRRMO / La Union Rescue:</strong> <a href="tel:+639985611519">0998 561 1519</a></p>
+                <p><strong>Provincial Government:</strong> <a href="tel:+63722425550">(072) 242 5550</a></p>
+                <div class="contact-actions"><a class="small-button primary" href="mailto:info@launion.gov.ph">Compose Email</a><a class="small-button" href="https://launion.gov.ph/contact-us/" target="_blank" rel="noopener noreferrer">Official Directory</a></div>
               </div>
             </article>
           </div>
@@ -2236,18 +2253,17 @@ document.getElementById(
 </script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
   <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
-<script id="government-directory-search">(function(){const data=[
-{name:'Municipality of Bacnotan',area:'Bacnotan',phone:'0726074261',email:'lgubacnotan@gmail.com'},
-{name:'Bacnotan MDRRMO',area:'Bacnotan',phone:'09494724161',phone2:'09177739994'},
-{name:'Bacnotan BFP EMS',area:'Bacnotan',phone:'09159348187'},
-{name:'Bacnotan District Hospital',area:'Bacnotan',phone:'0726075453',phone2:'0726071417',email:'bdh@launion.gov.ph'},
-{name:'Balaoan Municipal Police Station (PNP)',area:'Balaoan',phone:'0726071961'},
-{name:'Balaoan MDRRMO',area:'Balaoan',phone:'09611009900',phone2:'09460722976'},
-{name:'Balaoan District Hospital',area:'Balaoan',phone:'0726070882',phone2:'0726030280'},
-{name:'Provincial Government of La Union',area:'San Fernando City',phone:'0722425550',email:'info@launion.gov.ph'},
-{name:'La Union PDRRMO',area:'Province of La Union',phone:'09985611519'},
-{name:'Emergency Hotline',area:'Philippines',phone:'911'}];
-const q=document.getElementById('govDirectorySearch'),out=document.getElementById('govDirectoryResults');if(!q||!out)return;const clean=v=>String(v||'').replace(/[^0-9+]/g,'');function draw(){const v=q.value.trim().toLowerCase();if(!v){out.innerHTML='<small>Type an office or municipality to find a callable contact.</small>';return}const r=data.filter(x=>(x.name+' '+x.area).toLowerCase().includes(v));out.innerHTML=r.length?r.map(x=>`<div class="dir-result"><strong>${x.name}</strong><small>${x.area}</small><div class="dir-actions">${x.phone?`<a href="tel:${clean(x.phone)}">Call ${x.phone}</a>`:''}${x.phone2?`<a href="tel:${clean(x.phone2)}">Call ${x.phone2}</a>`:''}${x.email?`<a href="mailto:${x.email}?subject=Inquiry">Compose Email</a>`:''}</div></div>`).join(''):'<div class="dir-result"><span>No matching verified directory entry in this website list yet.</span></div>'}q.addEventListener('input',draw);draw()})();</script>
+<script>
+(function(){
+  const tabs=[...document.querySelectorAll('.directory-tab')];
+  const panels=[...document.querySelectorAll('.directory-panel')];
+  const search=document.getElementById('directorySearch');
+  function activate(name){tabs.forEach(b=>b.classList.toggle('active',b.dataset.dirTab===name));panels.forEach(p=>p.classList.toggle('active',p.dataset.dirPanel===name));}
+  tabs.forEach(b=>b.addEventListener('click',()=>{if(search)search.value='';document.querySelectorAll('[data-directory-item]').forEach(x=>x.style.display='');activate(b.dataset.dirTab);}));
+  search?.addEventListener('input',function(){const q=this.value.trim().toLowerCase();if(!q)return;panels.forEach(p=>p.classList.add('active'));tabs.forEach(b=>b.classList.remove('active'));document.querySelectorAll('[data-directory-item]').forEach(x=>{x.style.display=(x.dataset.directoryItem||'').includes(q)?'':'none';});});
+  activate('bacnotan');
+})();
+</script>
 </body>
 
 </html>

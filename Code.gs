@@ -21,11 +21,10 @@ function setupWebsiteCMS() {
   let items=ss.getSheetByName(CMS_ITEMS_SHEET);
   if(!items) items=ss.insertSheet(CMS_ITEMS_SHEET);
   if(items.getLastRow()===0){
-    items.appendRow(['ID','PAGE','TYPE','TITLE','DESCRIPTION','STATUS','EVENT_DATE','MEDIA_URL','LINK_URL','UPDATED_AT','VENUE','RESOURCE_SPEAKER','PHOTOS']);
+    items.appendRow(['ID','PAGE','TYPE','TITLE','DESCRIPTION','STATUS','EVENT_DATE','MEDIA_URL','LINK_URL','UPDATED_AT','VENUE','RESOURCE_SPEAKER']);
     items.setFrozenRows(1);
   }
   if(items.getLastColumn()<12){items.getRange(1,11,1,2).setValues([['VENUE','RESOURCE_SPEAKER']]);}
-  if(items.getLastColumn()<13){items.getRange(1,13).setValue('PHOTOS');}
   PropertiesService.getScriptProperties().setProperty('CMS_SPREADSHEET_ID', ss.getId());
   cmsVisitorSheet_();
   cmsGadSheet_();
@@ -164,13 +163,13 @@ function cmsItemsSheet_(){
 
 function cmsItems_(page){
   const values=cmsItemsSheet_().getDataRange().getDisplayValues();
-  return values.slice(1).filter(r=>!page||r[1]===page).map(r=>({id:r[0],page:r[1],type:r[2],title:r[3],description:r[4],status:r[5],date:r[6],mediaUrl:r[7],linkUrl:r[8],updatedAt:r[9],venue:r[10],speaker:r[11],photos:r[12]||''}));
+  return values.slice(1).filter(r=>!page||r[1]===page).map(r=>({id:r[0],page:r[1],type:r[2],title:r[3],description:r[4],status:r[5],date:r[6],mediaUrl:r[7],linkUrl:r[8],updatedAt:r[9],venue:r[10],speaker:r[11]}));
 }
 
 function cmsSaveItem_(p){
   const sheet=cmsItemsSheet_();
   const id=String(p.id||Utilities.getUuid());
-  const row=[id,String(p.page||''),String(p.itemType||'content'),String(p.title||''),String(p.description||''),String(p.status||''),String(p.eventDate||''),String(p.mediaUrl||''),String(p.linkUrl||''),new Date(),String(p.venue||''),String(p.speaker||''),String(p.photos||'')];
+  const row=[id,String(p.page||''),String(p.itemType||'content'),String(p.title||''),String(p.description||''),String(p.status||''),String(p.eventDate||''),String(p.mediaUrl||''),String(p.linkUrl||''),new Date(),String(p.venue||''),String(p.speaker||'')];
   if(!row[1]||!row[3]) throw new Error('Page and title are required.');
   const ids=sheet.getRange(2,1,Math.max(sheet.getLastRow()-1,1),1).getDisplayValues().flat();
   const index=ids.indexOf(id);

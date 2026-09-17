@@ -1,0 +1,52 @@
+/* SK Sapilang Universal Readability Layer — all devices */
+:root{
+  --sk-readable-text:#172033;
+  --sk-readable-muted:#46556f;
+  --sk-readable-bg:#ffffff;
+  --sk-readable-panel:#f8fafc;
+  --sk-readable-border:#cbd5e1;
+  --sk-readable-link:#9a3412;
+}
+html{font-size:16px!important;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+body{font-size:1rem!important;line-height:1.65!important;color:var(--sk-readable-text)!important;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+body,main,section,article,.container,.content,.page-content{max-width:100%}
+p,li,dd,dt,label,.label,.field-label,.helper,.hint,.note,.description,.subtitle,.lead,.meta,.small,small{line-height:1.65!important}
+p,li,label,input,select,textarea,button,a,td,th{font-size:max(.98rem,16px)}
+h1{font-size:clamp(2rem,5vw,3.5rem)!important;line-height:1.12!important;letter-spacing:-.025em!important}
+h2{font-size:clamp(1.55rem,3.5vw,2.35rem)!important;line-height:1.2!important}
+h3{font-size:clamp(1.2rem,2.6vw,1.65rem)!important;line-height:1.28!important}
+h4,h5,h6{line-height:1.35!important}
+/* Prevent faint/hidden copy */
+:where(p,li,span,label,small,strong,em,h1,h2,h3,h4,h5,h6,td,th):not(.badge):not(.status):not(.pill){opacity:1}
+.muted,.text-muted,.subtext,.helper,.hint,.note,.meta,small{color:var(--sk-readable-muted)!important;opacity:1!important}
+a:not(.btn):not(.button){text-decoration-thickness:.08em;text-underline-offset:.18em}
+input,select,textarea{min-height:46px!important;color:#111827!important;background:#fff!important;border:1px solid #94a3b8!important;border-radius:10px!important;padding:.72rem .85rem!important;opacity:1!important}
+textarea{min-height:110px!important}
+input::placeholder,textarea::placeholder{color:#64748b!important;opacity:1!important}
+button,.btn,.button,[role="button"]{min-height:44px;line-height:1.25!important;font-weight:700!important}
+.card,.panel,.box,.content-card,.form-card,.admin-card,.directory-card{overflow:visible;color:var(--sk-readable-text)}
+img,video,iframe,svg{max-width:100%;height:auto}
+table{font-size:.98rem!important;line-height:1.5!important}
+th{font-weight:800!important}
+td,th{padding:.75rem!important;vertical-align:top}
+.table-wrap,.table-responsive,[class*="table-wrap"]{overflow-x:auto!important;-webkit-overflow-scrolling:touch}
+/* Never hide important content just because animation JS did not run */
+.reveal,.fade-in,.animate-on-scroll,[data-reveal]{opacity:1!important;visibility:visible!important}
+/* Improve dark sections */
+.dark,.dark-section,[data-theme="dark"],footer,.footer{--sk-readable-text:#f8fafc;--sk-readable-muted:#dbe4f0}
+.dark p,.dark li,.dark label,.dark-section p,.dark-section li,.dark-section label,footer p,footer li,footer a,.footer p,.footer li,.footer a{color:#f8fafc!important;opacity:1!important}
+/* Accessibility */
+:focus-visible{outline:3px solid #f97316!important;outline-offset:3px!important}
+@media (max-width:768px){
+ html{font-size:16px!important}
+ body{line-height:1.6!important}
+ .container,.content,.page-content{width:100%!important;padding-left:16px!important;padding-right:16px!important}
+ p,li,label,input,select,textarea,button,a,td,th{font-size:16px!important}
+ .grid,.form-grid,.two-col,.three-col,[class*="grid-2"],[class*="grid-3"]{grid-template-columns:1fr!important}
+ button,.btn,.button{white-space:normal!important;text-align:center}
+}
+@media (max-width:390px){
+ .container,.content,.page-content{padding-left:13px!important;padding-right:13px!important}
+ h1{font-size:1.9rem!important} h2{font-size:1.45rem!important} h3{font-size:1.18rem!important}
+}
+@media print{body{color:#000!important;background:#fff!important}p,li,td,th,label{color:#000!important}.no-print{display:none!important}}
