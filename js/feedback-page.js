@@ -380,28 +380,131 @@ function loadScheduledActivities(){
     const run=()=>{const endpoint=feedbackCmsEndpoint(),select=document.getElementById("scheduledActivitySelect");if(!endpoint){select.innerHTML='<option value="">No CMS endpoint configured</option>';return}const callback='skSchedule'+Date.now();window[callback]=data=>{const items=unifiedActivityDedupe(data.items||[]).filter(item=>item.status!=='Completed');select.innerHTML='<option value="">Select Activity / Program</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');select._scheduleItems=items;delete window[callback];script.remove()};const script=document.createElement('script');script.src=endpoint+'?action=public&page=events.html&callback='+callback+'&_='+Date.now();script.onerror=()=>{select.innerHTML='<option value="">Unable to load scheduled activities</option>'};document.head.appendChild(script)};
     if(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint'))run();else{const config=document.createElement('script');config.src='cms-config.js?v=20260903-QMS';config.onload=run;document.head.appendChild(config)}
 }
-function updateActivityEvaluationMode(){
-    const format=document.getElementById("activityProgramFormat")?.value||"";
-    const speaker=document.getElementById("scheduledActivitySpeaker")?.value.trim()||"";
-    const speakerSection=document.getElementById("speakerEvaluationSection");
-    const speakerApplicable=Boolean(speaker)&&format==="Seminar / Training / Workshop";
-    if(speakerSection){
-        speakerSection.style.display=speakerApplicable?"contents":"none";
-        speakerSection.querySelectorAll("select,textarea,input").forEach(el=>{
-            el.disabled=!speakerApplicable;
-            if(!speakerApplicable)el.value="";
+function setAdaptiveEvalField(groupId,labelId,helpId,label,help,visible=true){
+    const group=document.getElementById(groupId);
+    const labelEl=document.getElementById(labelId);
+    const helpEl=document.getElementById(helpId);
+    if(labelEl&&label)labelEl.textContent=label;
+    if(helpEl&&help)helpEl.textContent=help;
+    if(group){
+        group.style.display=visible?"":"none";
+        group.querySelectorAll("select,input,textarea").forEach(el=>{
+            el.disabled=!visible;
+            // Detailed questions support Not Applicable. Only the overall activity rating remains mandatory.
+            if(el.tagName==="SELECT") el.required=false;
+            if(!visible)el.value="";
         });
     }
+}
+function inferActivityFormat(title,speaker){
+    const t=String(title||"").toLowerCase();
+    if(speaker)return "Seminar / Training / Workshop";
+    if(/basketball|pickleball|volleyball|sports|tournament|zumba|plogging|laro ng lahi|game/.test(t))return "Sports / Recreation";
+    if(/assembly|mass|movie night|community event|celebration/.test(t))return "Assembly / Community Event";
+    if(/distribution|exchange|kabotehan|kaBOTEhan|supply|seedling|punla|binhi|pawsitive|feeding/.test(t))return "Community Program / Distribution / Exchange";
+    if(/seminar|training|workshop|orientation|education|nutriwise|wastewise|wildwise|awareness/.test(t))return "Seminar / Training / Workshop";
+    return "Other SK Program";
+}
+function updateActivityEvaluationMode(){
+    const format=document.getElementById("activityProgramFormat")?.value||"Other SK Program";
+    const speaker=document.getElementById("scheduledActivitySpeaker")?.value.trim()||"";
+    const hasSpeaker=Boolean(speaker);
+    const speakerSection=document.getElementById("speakerEvaluationSection");
+    const facilitatorGroup=document.getElementById("facilitatorRatingGroup");
+
+    // Speaker questions only appear when the selected activity actually has a named speaker/facilitator.
+    [speakerSection,facilitatorGroup].forEach(section=>{
+        if(!section)return;
+        section.style.display=hasSpeaker?(section.id==="speakerEvaluationSection"?"contents":""):"none";
+        section.querySelectorAll("select,textarea,input").forEach(el=>{
+            el.disabled=!hasSpeaker;
+            if(!hasSpeaker)el.value="";
+        });
+    });
+
+    const profiles={
+        "Seminar / Training / Workshop":{
+            title:"Learning Session / Training Evaluation",
+            help:"Rate the learning experience. Speaker questions appear only when the activity has a resource speaker, trainer or facilitator.",
+            relevance:["Relevance of Topic / Learning Session *","How useful and appropriate the topic or learning session was to participants."],
+            objectives:["Achievement of Learning Objectives *","How well the session achieved its intended learning outcomes."],
+            organization:["Organization & Facilitation *","How smoothly registration, instructions, coordination and the flow of the session were managed."],
+            venue:["Venue / Learning Environment *","How suitable, accessible, comfortable and safe the learning environment was."],
+            materials:["Learning Materials / Equipment *","Quality and usefulness of presentations, handouts, equipment or learning resources used."],
+            time:["Time Management *","Whether the schedule allowed enough time for learning activities, discussion and questions."],
+            engagement:["Participant Engagement *","How well the session encouraged participation, interaction and involvement."],
+            learning:"What did you learn or benefit from?"
+        },
+        "Community Program / Distribution / Exchange":{
+            title:"Community Program Evaluation",help:"Rate the implementation, accessibility and benefit of the community program. Speaker-related questions are not shown when there is no speaker.",
+            relevance:["Relevance / Community Need *","How responsive the program was to an actual need or priority of participants/community."],
+            objectives:["Program Benefit / Achievement of Purpose *","How well the program delivered its intended assistance, service or community benefit."],
+            organization:["Organization & Service Process *","How orderly, clear and efficient registration, queuing, distribution/exchange and assistance were."],
+            venue:["Accessibility & Safety of Venue *","How accessible, orderly and safe the program area was."],
+            materials:["Quality / Availability of Items or Resources *","Availability, condition and usefulness of supplies, food, materials or resources provided/used."],
+            time:["Timeliness & Waiting Time *","How efficiently the activity was conducted and whether waiting time was reasonable."],
+            engagement:["Participant Experience & Inclusiveness *","How welcoming, fair and responsive the program was to participants."],
+            learning:"What benefit did you receive from the program?"
+        },
+        "Sports / Recreation":{
+            title:"Sports / Recreation Evaluation",help:"Rate the organization, safety, fairness and participant experience of the sports or recreational activity.",
+            relevance:["Relevance / Enjoyment of Activity *","How appropriate, enjoyable and beneficial the activity was for participants."],
+            objectives:["Achievement of Sports / Recreation Objectives *","How well the activity promoted participation, recreation, sportsmanship or youth engagement."],
+            organization:["Tournament / Activity Organization *","How clear and organized registration, mechanics, scheduling, officiating and coordination were."],
+            venue:["Playing Area / Venue Safety *","Suitability, accessibility and safety of the court, field or activity area."],
+            materials:["Sports Equipment / Activity Resources *","Availability, condition and suitability of equipment and other resources used."],
+            time:["Schedule & Time Management *","How well game/activity schedules and waiting times were managed."],
+            engagement:["Fairness, Sportsmanship & Participation *","How well the activity encouraged fair play, inclusion, teamwork and active participation."],
+            learning:"What did you enjoy, learn or gain from the activity?"
+        },
+        "Assembly / Community Event":{
+            title:"Assembly / Community Event Evaluation",help:"Rate the relevance, organization, accessibility and participation of the assembly or community event.",
+            relevance:["Relevance of Agenda / Event *","How relevant the agenda, information or event was to participants/community."],
+            objectives:["Achievement of Event Objectives *","How well the assembly/event achieved its intended purpose."],
+            organization:["Organization & Program Flow *","How clear and orderly registration, announcements, program flow and coordination were."],
+            venue:["Venue / Accessibility *","How accessible, comfortable, appropriate and safe the venue was."],
+            materials:["Information / Materials / Resources *","Quality and usefulness of information, materials, equipment or resources used, when applicable."],
+            time:["Time Management *","How well the event followed its schedule and used participants’ time."],
+            engagement:["Participation & Inclusiveness *","How well the event encouraged participation, representation and involvement."],
+            learning:"What was the most useful or meaningful part of the event?"
+        },
+        "Other SK Program":{
+            title:"Activity / Program Evaluation",help:"Rate the parts of the activity that apply to your experience. Speaker questions appear only when a speaker is recorded for the activity.",
+            relevance:["Relevance / Usefulness *","How useful and appropriate the activity was to participants."],
+            objectives:["Achievement of Purpose *","How well the activity achieved its intended purpose."],
+            organization:["Organization & Implementation *","How organized, clear and smoothly implemented the activity was."],
+            venue:["Venue / Accessibility / Safety *","How suitable, accessible and safe the venue or activity area was."],
+            materials:["Materials / Equipment / Resources *","Quality and usefulness of materials, equipment or resources used in the activity."],
+            time:["Time Management *","How effectively the activity schedule and participant time were managed."],
+            engagement:["Participation / Engagement *","How effectively the activity encouraged participation and involvement."],
+            learning:"What did you learn, enjoy or benefit from?"
+        }
+    };
+    const p=profiles[format]||profiles["Other SK Program"];
+    const title=document.getElementById("adaptiveEvaluationTitle"),help=document.getElementById("adaptiveEvaluationHelp");
+    if(title)title.textContent=p.title;if(help)help.textContent=p.help;
+    setAdaptiveEvalField("evalRelevanceGroup","evalRelevanceLabel","evalRelevanceHelp",...p.relevance,true);
+    setAdaptiveEvalField("evalObjectivesGroup","evalObjectivesLabel","evalObjectivesHelp",...p.objectives,true);
+    setAdaptiveEvalField("evalOrganizationGroup","evalOrganizationLabel","evalOrganizationHelp",...p.organization,true);
+    setAdaptiveEvalField("evalVenueGroup","evalVenueLabel","evalVenueHelp",...p.venue,true);
+    setAdaptiveEvalField("evalMaterialsGroup","evalMaterialsLabel","evalMaterialsHelp",...p.materials,true);
+    setAdaptiveEvalField("evalTimeGroup","evalTimeLabel","evalTimeHelp",...p.time,true);
+    setAdaptiveEvalField("evalEngagementGroup","evalEngagementLabel","evalEngagementHelp",...p.engagement,true);
+    const learningLabel=document.getElementById("evalLearningLabel");if(learningLabel)learningLabel.innerHTML=p.learning+' <span>(Optional)</span>';
+    const learning=document.getElementById("evalLearningInput");if(learning)learning.placeholder=p.learning;
 }
 document.getElementById("scheduledActivitySelect").addEventListener("change",function(){
     const option=this.selectedOptions[0];
     document.getElementById("scheduledActivityDate").value=option?.dataset.date||"";
     document.getElementById("scheduledActivityVenue").value=option?.dataset.venue||"";
     document.getElementById("scheduledActivitySpeaker").value=option?.dataset.speaker||"";
+    const formatSelect=document.getElementById("activityProgramFormat");
+    if(formatSelect&&option?.value) formatSelect.value=inferActivityFormat(option.value,option?.dataset.speaker||"");
     updateActivityEvaluationMode();
 });
 document.getElementById("activityProgramFormat")?.addEventListener("change",updateActivityEvaluationMode);
 loadScheduledActivities();
+setTimeout(()=>notifyPopulateActivities(),1200);
 
 function sendVisitorLog(form){
     return new Promise((resolve,reject)=>{
@@ -460,6 +563,49 @@ document.getElementById("visitorForm").addEventListener("submit",async function(
 });
 
 
+
+
+/* =========================================================
+   CONSENT-BASED FUTURE ACTIVITY COMMUNICATIONS
+========================================================= */
+let NOTIFY_CONTACTS=[];
+function notifyPopulateActivities(){
+    const target=document.getElementById('notifyActivity'); if(!target)return;
+    const src=document.getElementById('scheduledActivitySelect');
+    const vals=src?Array.from(src.options).filter(o=>o.value).map(o=>o.value):[];
+    const unique=[...new Set(vals)];
+    target.innerHTML='<option value="">All activities</option>'+unique.map(v=>`<option value="${integratedEscape(v)}">${integratedEscape(v)}</option>`).join('');
+}
+async function notifyLoadContacts(){
+    const status=document.getElementById('notifyStatus'); if(status)status.textContent='Loading consented contacts...';
+    try{
+        const r=await integratedCmsApi({action:'notification-subscribers',password:integratedCmsPassword()});
+        NOTIFY_CONTACTS=r.items||[];
+        const email=NOTIFY_CONTACTS.filter(x=>x.emailConsent&&x.email).length;
+        const sms=NOTIFY_CONTACTS.filter(x=>x.smsConsent&&x.contact).length;
+        const box=document.getElementById('notifySummary');
+        if(box)box.innerHTML=`<div class="admin-detail-card"><small>Email Consent</small><strong>${email}</strong><span>contacts</span></div><div class="admin-detail-card"><small>SMS Consent</small><strong>${sms}</strong><span>contacts</span></div><div class="admin-detail-card"><small>Total Consent Records</small><strong>${NOTIFY_CONTACTS.length}</strong><span>participants</span></div>`;
+        if(status)status.textContent='Consent list refreshed. Only opted-in contacts are eligible.';
+    }catch(e){if(status)status.textContent=e.message||'Unable to load consented contacts.';}
+}
+document.getElementById('notifyRefresh')?.addEventListener('click',notifyLoadContacts);
+document.getElementById('notifySend')?.addEventListener('click',async()=>{
+    const status=document.getElementById('notifyStatus');
+    const channel=document.getElementById('notifyChannel').value;
+    const group=document.getElementById('notifyGroup').value;
+    const activity=document.getElementById('notifyActivity').value;
+    const subject=document.getElementById('notifySubject').value.trim();
+    const message=document.getElementById('notifyMessage').value.trim();
+    if(!message){status.textContent='Write the announcement message first.';return;}
+    if(group==='activity'&&!activity){status.textContent='Select an activity for the participant group.';return;}
+    if(!confirm(`Send this ${channel==='sms'?'text/SMS':'email'} announcement to the selected consented group?`))return;
+    status.textContent='Sending announcement...';
+    try{
+        const r=await integratedAdminPost({action:'send-notification-broadcast',password:integratedCmsPassword(),channel,group,activity,subject,message});
+        status.textContent=`Finished: ${r.sent||0} sent, ${r.failed||0} failed, ${r.skipped||0} skipped. ${r.note||''}`;
+        notifyLoadContacts();
+    }catch(e){status.textContent=e.message||'Unable to send announcement.';}
+});
 
 /* =========================================================
    INTEGRATED QMS ADMIN DASHBOARD
@@ -1108,14 +1254,15 @@ const CT_DEFAULT_LAYOUT={
  heading:{x:50,y:30,w:60,h:8,fontSize:30,fontFamily:'Georgia',color:'#08284a',align:'center',bold:true,italic:false,letterSpacing:0,lineHeight:1.2,opacity:100,rotate:0,z:2},name:{x:50,y:46,w:62,h:9,fontSize:34,fontFamily:'Georgia',color:'#08284a',align:'center',bold:true,italic:false,letterSpacing:1,lineHeight:1.1,opacity:100,rotate:0,z:2},citation:{x:50,y:59,w:66,h:18,fontSize:13,fontFamily:'Arial',color:'#08284a',align:'center',bold:false,italic:false,letterSpacing:0,lineHeight:1.45,opacity:100,rotate:0,z:2},
  signature:{x:50,y:79,w:28,h:12,fontSize:12,fontFamily:'Arial',color:'#08284a',align:'center',bold:false,italic:false,letterSpacing:0,lineHeight:1.2,opacity:100,rotate:0,z:2},qr:{x:84,y:82,w:11,h:16,z:2,opacity:100},no:{x:18,y:92,w:28,h:5,fontSize:12,fontFamily:'Arial',color:'#08284a',align:'left',bold:true,italic:false,letterSpacing:0,lineHeight:1.2,opacity:100,rotate:0,z:2}
 };
-let CT_LAYOUT=JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT)),CT_SELECTED=null,CT_HISTORY=[],CT_FUTURE=[];
+let CT_LAYOUT=JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT)),CT_SELECTED=null,CT_HISTORY=[],CT_FUTURE=[],CT_LOCAL_BG='';
 const ctLabel=k=>({header:'HEADER',logo1:'SK LOGO',logo2:'BARANGAY LOGO',heading:'CERTIFICATE TITLE',name:'RECIPIENT NAME',citation:'CITATION / CONTENT',signature:'SIGNATURE BLOCK',qr:'QR CODE',no:'CERTIFICATE NUMBER'}[k]||'CUSTOM ELEMENT');
 function ctSnapshot(){CT_HISTORY.push(JSON.stringify(CT_LAYOUT));if(CT_HISTORY.length>40)CT_HISTORY.shift();CT_FUTURE=[]}
 function ctRestore(raw){try{CT_LAYOUT=JSON.parse(raw);ctBuildCustomElements();ctApplyLayout()}catch(_){}}
 function ctUndo(){if(!CT_HISTORY.length)return;CT_FUTURE.push(JSON.stringify(CT_LAYOUT));ctRestore(CT_HISTORY.pop())}
 function ctRedo(){if(!CT_FUTURE.length)return;CT_HISTORY.push(JSON.stringify(CT_LAYOUT));ctRestore(CT_FUTURE.pop())}
 function ctBuildCustomElements(){const ed=document.getElementById('ctEditor');if(!ed)return;ed.querySelectorAll('[data-custom="1"]').forEach(e=>e.remove());Object.entries(CT_LAYOUT).forEach(([k,v])=>{if(!v.custom)return;const e=document.createElement('div');e.className='ct-edit-item';e.dataset.key=k;e.dataset.custom='1';if(v.type==='image'){e.innerHTML='<img style="width:100%;height:100%;object-fit:contain;pointer-events:none"><div class="ct-resize"></div>';e.querySelector('img').src=v.src||''}else if(v.type==='line'){e.innerHTML='<div style="width:100%;height:100%;border-top:3px solid currentColor"></div><div class="ct-resize"></div>'}else{e.append(document.createTextNode(v.text||'Double-click to edit text'));const h=document.createElement('div');h.className='ct-resize';e.append(h);e.addEventListener('dblclick',()=>{const t=prompt('Edit text:',v.text||'');if(t!==null){ctSnapshot();v.text=t;ctApplyLayout()}})}ed.append(e)});ctWireElements()}
-function ctApplyLayout(){const ed=document.getElementById('ctEditor');if(!ed)return;Object.entries(CT_LAYOUT).forEach(([k,v])=>{const el=ed.querySelector(`[data-key="${k}"]`);if(!el)return;el.style.left=v.x+'%';el.style.top=v.y+'%';el.style.width=v.w+'%';el.style.height=v.h+'%';el.style.fontSize=(v.fontSize||12)+'px';el.style.textAlign=v.align||'center';el.style.fontWeight=v.bold?'700':'400';el.style.fontStyle=v.italic?'italic':'normal';el.style.fontFamily=v.fontFamily||'Arial';el.style.color=v.color||'#08284a';el.style.letterSpacing=(v.letterSpacing||0)+'px';el.style.lineHeight=v.lineHeight||1.2;el.style.opacity=(v.opacity??100)/100;el.style.transform=`translate(-50%,-50%) rotate(${v.rotate||0}deg)`;el.style.zIndex=v.z||2});const bg=document.getElementById('ctBg')?.value||'';if(bg)ed.style.backgroundImage=`url("${bg.replaceAll('"','%22')}")`;const setText=(k,t)=>{const e=ed.querySelector(`[data-key="${k}"]`);if(e&&e.childNodes[0])e.childNodes[0].nodeValue=t||''};setText('header',document.getElementById('ctHeaderText')?.value||'');setText('heading',document.getElementById('ctHeading')?.value||'Certificate');setText('citation',document.getElementById('ctCitation')?.value||'Certificate citation / content appears here.');const l1=ed.querySelector('[data-key="logo1"] img'),l2=ed.querySelector('[data-key="logo2"] img');if(l1)l1.src=document.getElementById('ctLogo1')?.value||'';if(l2)l2.src=document.getElementById('ctLogo2')?.value||'';const sn=ed.querySelector('.ct-sign-name'),sp=ed.querySelector('.ct-sign-pos'),si=ed.querySelector('[data-key="signature"] img');if(sn)sn.textContent=document.getElementById('ctSignatory')?.value||'';if(sp)sp.textContent=document.getElementById('ctSignatoryPosition')?.value||'';if(si){const u=document.getElementById('ctSignatureUrl')?.value||'';si.src=u;si.style.display=u?'block':'none'}ctSyncFormatBar()}
+function ctHiddenStatus(){const e=document.getElementById('ctHiddenStatus');if(!e)return;const hidden=Object.entries(CT_LAYOUT).filter(([k,v])=>v&&v.hidden).map(([k])=>ctLabel(k));e.textContent=hidden.length?'Hidden: '+hidden.join(', ')+' — use Restore Elements to bring them back.':'All certificate elements are currently visible.'}
+function ctApplyLayout(){const ed=document.getElementById('ctEditor');if(!ed)return;Object.entries(CT_LAYOUT).forEach(([k,v])=>{const el=ed.querySelector(`[data-key="${k}"]`);if(!el)return;el.style.left=v.x+'%';el.style.top=v.y+'%';el.style.width=v.w+'%';el.style.height=v.h+'%';el.style.fontSize=(v.fontSize||12)+'px';el.style.textAlign=v.align||'center';el.style.fontWeight=v.bold?'700':'400';el.style.fontStyle=v.italic?'italic':'normal';el.style.fontFamily=v.fontFamily||'Arial';el.style.color=v.color||'#08284a';el.style.letterSpacing=(v.letterSpacing||0)+'px';el.style.lineHeight=v.lineHeight||1.2;el.style.opacity=(v.opacity??100)/100;el.style.transform=`translate(-50%,-50%) rotate(${v.rotate||0}deg)`;el.style.zIndex=v.z||2;el.style.display=v.hidden?'none':'';el.style.whiteSpace=v.wrap===false?'nowrap':'pre-wrap';el.style.overflowWrap=v.wrap===false?'normal':'normal';el.style.wordBreak='normal';const im=el.querySelector('img');if(im&&v.custom&&v.type==='image')im.src=v._previewSrc||v.src||''});const bg=CT_LOCAL_BG||document.getElementById('ctBg')?.value||'';ed.style.backgroundImage=bg?`url("${String(bg).replaceAll('"','%22')}")`:'';const setText=(k,t)=>{const e=ed.querySelector(`[data-key="${k}"]`);if(e&&e.childNodes[0])e.childNodes[0].nodeValue=t||''};setText('header',document.getElementById('ctHeaderText')?.value||'');setText('heading',document.getElementById('ctHeading')?.value||'Certificate');setText('citation',document.getElementById('ctCitation')?.value||'Certificate citation / content appears here.');const l1=ed.querySelector('[data-key="logo1"] img'),l2=ed.querySelector('[data-key="logo2"] img');if(l1)l1.src=document.getElementById('ctLogo1')?.value||'';if(l2)l2.src=document.getElementById('ctLogo2')?.value||'';const sn=ed.querySelector('.ct-sign-name'),sp=ed.querySelector('.ct-sign-pos'),si=ed.querySelector('[data-key="signature"] img');if(sn)sn.textContent=document.getElementById('ctSignatory')?.value||'';if(sp)sp.textContent=document.getElementById('ctSignatoryPosition')?.value||'';if(si){const u=document.getElementById('ctSignatureUrl')?.value||'';si.src=u;si.style.display=u?'block':'none'}ctSyncFormatBar();ctHiddenStatus()}
 function ctSelectItem(el){document.querySelectorAll('#ctEditor .ct-edit-item').forEach(x=>x.classList.remove('ct-selected'));CT_SELECTED=el||null;if(el)el.classList.add('ct-selected');const n=document.getElementById('ctSelectedItem');if(n)n.textContent=el?`Editing ${ctLabel(el.dataset.key)} — drag, resize, or use the formatting toolbar.`:'Select any certificate element above, then drag or resize it.';ctSyncFormatBar()}
 function ctWireElements(){const ed=document.getElementById('ctEditor');if(!ed)return;ed.querySelectorAll('.ct-edit-item').forEach(el=>{if(el.dataset.wired)return;el.dataset.wired='1';el.addEventListener('pointerdown',e=>{if(e.target.classList.contains('ct-resize'))return;ctSelectItem(el);e.preventDefault();ctSnapshot();const r=ed.getBoundingClientRect(),startX=e.clientX,startY=e.clientY,v=CT_LAYOUT[el.dataset.key],sx=v.x,sy=v.y;el.setPointerCapture(e.pointerId);const move=ev=>{v.x=Math.max(0,Math.min(100,sx+(ev.clientX-startX)/r.width*100));v.y=Math.max(0,Math.min(100,sy+(ev.clientY-startY)/r.height*100));ctApplyLayout()};const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up)};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up)});const h=el.querySelector('.ct-resize');h?.addEventListener('pointerdown',e=>{ctSelectItem(el);e.stopPropagation();e.preventDefault();ctSnapshot();const r=ed.getBoundingClientRect(),v=CT_LAYOUT[el.dataset.key],startX=e.clientX,startY=e.clientY,sw=v.w,sh=v.h,sf=v.fontSize||12;h.setPointerCapture(e.pointerId);const move=ev=>{const dx=(ev.clientX-startX)/r.width*100,dy=(ev.clientY-startY)/r.height*100;v.w=Math.max(2,Math.min(95,sw+dx*2));v.h=Math.max(1,Math.min(80,sh+dy*2));if(!['qr','logo1','logo2'].includes(el.dataset.key)&&v.type!=='image')v.fontSize=Math.max(6,Math.min(120,sf+dx*r.width/100*.7));ctApplyLayout()};const up=()=>{h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',up)};h.addEventListener('pointermove',move);h.addEventListener('pointerup',up)})})}
 function ctInitVisualEditor(){const ed=document.getElementById('ctEditor');if(!ed)return;ctBuildCustomElements();ctWireElements();if(!ed.dataset.stagewired){ed.dataset.stagewired='1';ed.addEventListener('pointerdown',e=>{if(e.target===ed)ctSelectItem(null)})}ctApplyLayout()}
@@ -1123,16 +1270,17 @@ function ctSyncFormatBar(){if(!CT_SELECTED)return;const v=CT_LAYOUT[CT_SELECTED.
 function ctFormat(prop,val){if(!CT_SELECTED)return;ctSnapshot();const v=CT_LAYOUT[CT_SELECTED.dataset.key];v[prop]=val;ctApplyLayout()}
 function ctNewKey(){return 'custom_'+Date.now()+'_'+Math.random().toString(36).slice(2,6)}
 function ctAddCustom(type,data={}){ctSnapshot();const k=ctNewKey();CT_LAYOUT[k]={custom:true,type,x:50,y:50,w:type==='line'?30:25,h:type==='line'?2:8,fontSize:20,fontFamily:'Arial',color:'#08284a',align:'center',bold:false,italic:false,letterSpacing:0,lineHeight:1.2,opacity:100,rotate:0,z:5,...data};ctBuildCustomElements();ctSelectItem(document.querySelector(`#ctEditor [data-key="${k}"]`));ctApplyLayout()}
-function ctSetLocalBackground(file){if(!file)return;const ed=document.getElementById('ctEditor');if(!ed)return;const u=URL.createObjectURL(file);ed.style.backgroundImage=`url("${u}")`}
-window.ctEdit=id=>{const x=CERT_TEMPLATES.find(v=>v.id===id);if(!x)return;const d=ctParse(x);CT_EDIT=id;const a=document.getElementById('ctActivity');a.value=d.activityId||'';document.getElementById('ctCustomActivity').value=d.activityId?'':(x.title||'');document.getElementById('ctType').value=d.certType||'Participation';document.getElementById('ctHeading').value=d.heading||'';document.getElementById('ctCitation').value=d.citation||'';document.getElementById('ctCanva').value=x.linkUrl||'';document.getElementById('ctBg').value=x.mediaUrl||'';document.getElementById('ctHeaderText').value=d.headerText||'SANGGUNIANG KABATAAN OF BARANGAY SAPILANG';document.getElementById('ctLogo1').value=d.logo1||'images/sk-logo.svg';document.getElementById('ctLogo2').value=d.logo2||'images/barangay-logo.svg';document.getElementById('ctSignatory').value=d.signatory||'DANDY F. NILLO';document.getElementById('ctSignatoryPosition').value=d.signatoryPosition||'SK Chairperson';document.getElementById('ctSignatureUrl').value=d.signatureUrl||'';CT_LAYOUT=d.layout?{...JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT)),...JSON.parse(JSON.stringify(d.layout))}:JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT));CT_HISTORY=[];CT_FUTURE=[];ctInitVisualEditor();ctApplyLayout();ctMsg('Editing '+x.title+' — '+(d.certType||'Certificate')+'. Canva-style editor is ready below.')}
-function ctClear(){CT_EDIT='';CT_LAYOUT=JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT));CT_HISTORY=[];CT_FUTURE=[];['ctCitation','ctCanva','ctBg','ctCustomActivity'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('ctActivity').value='';document.getElementById('ctType').value='Participation';document.getElementById('ctHeading').value='Certificate of Participation';document.getElementById('ctHeaderText').value='SANGGUNIANG KABATAAN OF BARANGAY SAPILANG';document.getElementById('ctLogo1').value='images/sk-logo.svg';document.getElementById('ctLogo2').value='images/barangay-logo.svg';document.getElementById('ctSignatory').value='DANDY F. NILLO';document.getElementById('ctSignatoryPosition').value='SK Chairperson';document.getElementById('ctSignatureUrl').value='';const f=document.getElementById('ctFile');if(f)f.value='';ctBuildCustomElements();ctApplyLayout();ctMsg('Ready. Select the activity this certificate belongs to.')}
+function ctSetLocalBackground(file){if(!file)return;if(CT_LOCAL_BG&&CT_LOCAL_BG.startsWith('blob:'))URL.revokeObjectURL(CT_LOCAL_BG);CT_LOCAL_BG=URL.createObjectURL(file);ctApplyLayout();ctMsg('Background preview loaded. You can move/resize elements without losing it. Click Upload Design, then Save Activity Certificate.')}
+window.ctEdit=id=>{const x=CERT_TEMPLATES.find(v=>v.id===id);if(!x)return;CT_LOCAL_BG='';const d=ctParse(x);CT_EDIT=id;const a=document.getElementById('ctActivity');a.value=d.activityId||'';document.getElementById('ctCustomActivity').value=d.activityId?'':(x.title||'');document.getElementById('ctType').value=d.certType||'Participation';document.getElementById('ctHeading').value=d.heading||'';document.getElementById('ctCitation').value=d.citation||'';document.getElementById('ctCanva').value=x.linkUrl||'';document.getElementById('ctBg').value=x.mediaUrl||'';document.getElementById('ctHeaderText').value=d.headerText||'SANGGUNIANG KABATAAN OF BARANGAY SAPILANG';document.getElementById('ctLogo1').value=d.logo1||'images/sk-logo.svg';document.getElementById('ctLogo2').value=d.logo2||'images/barangay-logo.svg';document.getElementById('ctSignatory').value=d.signatory||'DANDY F. NILLO';document.getElementById('ctSignatoryPosition').value=d.signatoryPosition||'SK Chairperson';document.getElementById('ctSignatureUrl').value=d.signatureUrl||'';CT_LAYOUT=d.layout?{...JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT)),...JSON.parse(JSON.stringify(d.layout))}:JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT));CT_HISTORY=[];CT_FUTURE=[];ctInitVisualEditor();ctApplyLayout();ctMsg('Editing '+x.title+' — '+(d.certType||'Certificate')+'. Canva-style editor is ready below.')}
+function ctClear(){CT_EDIT='';CT_LOCAL_BG='';CT_LAYOUT=JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT));CT_HISTORY=[];CT_FUTURE=[];['ctCitation','ctCanva','ctBg','ctCustomActivity'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('ctActivity').value='';document.getElementById('ctType').value='Participation';document.getElementById('ctHeading').value='Certificate of Participation';document.getElementById('ctHeaderText').value='SANGGUNIANG KABATAAN OF BARANGAY SAPILANG';document.getElementById('ctLogo1').value='images/sk-logo.svg';document.getElementById('ctLogo2').value='images/barangay-logo.svg';document.getElementById('ctSignatory').value='DANDY F. NILLO';document.getElementById('ctSignatoryPosition').value='SK Chairperson';document.getElementById('ctSignatureUrl').value='';const f=document.getElementById('ctFile');if(f)f.value='';ctBuildCustomElements();ctApplyLayout();ctMsg('Ready. Select the activity this certificate belongs to.')}
 document.getElementById('ctNew')?.addEventListener('click',ctClear);document.getElementById('ctFile')?.addEventListener('change',e=>ctSetLocalBackground(e.target.files?.[0]));['ctHeading','ctCitation','ctHeaderText','ctLogo1','ctLogo2','ctSignatory','ctSignatoryPosition','ctSignatureUrl'].forEach(id=>document.getElementById(id)?.addEventListener('input',ctApplyLayout));document.querySelectorAll('[data-ct-select]').forEach(b=>b.addEventListener('click',()=>{const e=document.querySelector(`#ctEditor [data-key="${b.dataset.ctSelect}"]`);if(e){ctSelectItem(e);e.scrollIntoView({block:'nearest'})}}));
-document.getElementById('ctUndo')?.addEventListener('click',ctUndo);document.getElementById('ctRedo')?.addEventListener('click',ctRedo);document.getElementById('ctAddText')?.addEventListener('click',()=>ctAddCustom('text',{text:'New text'}));document.getElementById('ctAddLine')?.addEventListener('click',()=>ctAddCustom('line',{color:'#08284a'}));document.getElementById('ctAddImage')?.addEventListener('click',()=>document.getElementById('ctAssetFile')?.click());document.getElementById('ctAssetFile')?.addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{ctMsg('Uploading image / logo...');const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)}),x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:f.name,data});ctAddCustom('image',{src:x.url||'',w:15,h:15});ctMsg('Image added. Drag or resize it anywhere on the certificate.')}catch(err){ctMsg(err.message)}e.target.value=''});
-document.getElementById('ctDuplicate')?.addEventListener('click',()=>{if(!CT_SELECTED)return;const v=JSON.parse(JSON.stringify(CT_LAYOUT[CT_SELECTED.dataset.key]));v.custom=true;v.x=Math.min(95,v.x+3);v.y=Math.min(95,v.y+3);ctAddCustom(v.type||'text',v)});document.getElementById('ctDelete')?.addEventListener('click',()=>{if(!CT_SELECTED)return;const k=CT_SELECTED.dataset.key;if(!CT_LAYOUT[k]?.custom)return ctMsg('Core dynamic certificate fields cannot be deleted. You can move/resize them or place them outside the design.');ctSnapshot();delete CT_LAYOUT[k];CT_SELECTED=null;ctBuildCustomElements();ctApplyLayout()});document.getElementById('ctForward')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('z',(CT_LAYOUT[CT_SELECTED.dataset.key].z||2)+1)});document.getElementById('ctBackward')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('z',Math.max(1,(CT_LAYOUT[CT_SELECTED.dataset.key].z||2)-1))});
-[['ctFontFamily','fontFamily',String],['ctFontSize','fontSize',Number],['ctTextColor','color',String],['ctOpacity','opacity',Number],['ctAlign','align',String],['ctLetterSpacing','letterSpacing',Number],['ctLineHeight','lineHeight',Number],['ctRotate','rotate',Number]].forEach(([id,p,cast])=>document.getElementById(id)?.addEventListener('change',e=>ctFormat(p,cast(e.target.value))));document.getElementById('ctBold')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('bold',!CT_LAYOUT[CT_SELECTED.dataset.key].bold)});document.getElementById('ctItalic')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('italic',!CT_LAYOUT[CT_SELECTED.dataset.key].italic)});
+async function ctUploadCoreAsset(file,inputId,label){if(!file)return;const input=document.getElementById(inputId);const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(file)});if(input){input.value=data;ctApplyLayout()}ctMsg(label+' preview loaded. Uploading permanent copy...');const x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:file.name,data});if(input)input.value=x.url||data;ctApplyLayout();ctMsg(label+' uploaded. It will remain linked after you Save Activity Certificate.')}[['ctUploadLogo1','ctLogo1File','ctLogo1','SK logo'],['ctUploadLogo2','ctLogo2File','ctLogo2','Barangay logo'],['ctUploadSignature','ctSignatureFile','ctSignatureUrl','E-signature']].forEach(([b,f,i,l])=>{document.getElementById(b)?.addEventListener('click',()=>document.getElementById(f)?.click());document.getElementById(f)?.addEventListener('change',async e=>{try{await ctUploadCoreAsset(e.target.files?.[0],i,l)}catch(err){ctMsg(l+' upload failed: '+err.message)}e.target.value=''})});
+document.getElementById('ctUndo')?.addEventListener('click',ctUndo);document.getElementById('ctRedo')?.addEventListener('click',ctRedo);document.getElementById('ctAddText')?.addEventListener('click',()=>ctAddCustom('text',{text:'New text'}));document.getElementById('ctAddLine')?.addEventListener('click',()=>ctAddCustom('line',{color:'#08284a'}));document.getElementById('ctAddImage')?.addEventListener('click',()=>document.getElementById('ctAssetFile')?.click());document.getElementById('ctAssetFile')?.addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;let data='';try{data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)});ctAddCustom('image',{src:'',_previewSrc:data,w:15,h:15});const key=CT_SELECTED?.dataset.key;ctMsg('Image visible. Uploading a permanent copy...');const x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:f.name,data});if(key&&CT_LAYOUT[key]){CT_LAYOUT[key].src=x.url||'';CT_LAYOUT[key]._previewSrc=data;ctApplyLayout()}ctMsg('Image added and saved for this design. Drag or resize it anywhere, then Save Activity Certificate.')}catch(err){ctMsg('Image preview added, but permanent upload failed: '+err.message)}e.target.value=''});
+document.getElementById('ctDuplicate')?.addEventListener('click',()=>{if(!CT_SELECTED)return;const v=JSON.parse(JSON.stringify(CT_LAYOUT[CT_SELECTED.dataset.key]));v.custom=true;v.x=Math.min(95,v.x+3);v.y=Math.min(95,v.y+3);ctAddCustom(v.type||'text',v)});document.getElementById('ctHide')?.addEventListener('click',()=>{if(!CT_SELECTED)return ctMsg('Select an element first.');const k=CT_SELECTED.dataset.key;if(k==='qr'||k==='no')return ctMsg('QR Code and Certificate Number are protected verification fields and stay on every issued certificate.');ctSnapshot();CT_LAYOUT[k].hidden=true;CT_SELECTED=null;ctApplyLayout();ctMsg(ctLabel(k)+' hidden from this certificate design. Save Activity Certificate to keep this choice.')});document.getElementById('ctDelete')?.addEventListener('click',()=>{if(!CT_SELECTED)return ctMsg('Select a custom element first.');const k=CT_SELECTED.dataset.key;if(!CT_LAYOUT[k]?.custom)return ctMsg('Built-in elements use Hide from Certificate so they can be restored later. QR Code and Certificate Number are protected.');ctSnapshot();delete CT_LAYOUT[k];CT_SELECTED=null;ctBuildCustomElements();ctApplyLayout();ctMsg('Custom element deleted. Save Activity Certificate to keep the change.')});document.getElementById('ctBlankMode')?.addEventListener('click',()=>{ctSnapshot();['header','logo1','logo2','heading','citation','signature'].forEach(k=>{if(CT_LAYOUT[k])CT_LAYOUT[k].hidden=true});['name','qr','no'].forEach(k=>{if(CT_LAYOUT[k])CT_LAYOUT[k].hidden=false});CT_SELECTED=null;ctApplyLayout();ctMsg('Blank Design Mode enabled: your uploaded background + Participant Name + QR Code + Certificate Number. Save Activity Certificate to keep it.')});document.getElementById('ctRestoreElements')?.addEventListener('click',()=>{ctSnapshot();Object.values(CT_LAYOUT).forEach(v=>{if(v)v.hidden=false});ctApplyLayout();ctMsg('All hidden elements restored. You can hide individual elements again if needed.')});document.getElementById('ctForward')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('z',(CT_LAYOUT[CT_SELECTED.dataset.key].z||2)+1)});document.getElementById('ctBackward')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('z',Math.max(1,(CT_LAYOUT[CT_SELECTED.dataset.key].z||2)-1))});
+[['ctFontFamily','fontFamily',String],['ctFontSize','fontSize',Number],['ctTextColor','color',String],['ctOpacity','opacity',Number],['ctAlign','align',String],['ctLetterSpacing','letterSpacing',Number],['ctLineHeight','lineHeight',Number],['ctRotate','rotate',Number]].forEach(([id,p,cast])=>document.getElementById(id)?.addEventListener('change',e=>ctFormat(p,cast(e.target.value))));document.getElementById('ctBold')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('bold',!CT_LAYOUT[CT_SELECTED.dataset.key].bold)});document.getElementById('ctItalic')?.addEventListener('click',()=>{if(CT_SELECTED)ctFormat('italic',!CT_LAYOUT[CT_SELECTED.dataset.key].italic)});document.getElementById('ctWrap')?.addEventListener('click',()=>{if(!CT_SELECTED)return;const v=CT_LAYOUT[CT_SELECTED.dataset.key];ctFormat('wrap',v.wrap===false?true:false);ctMsg(CT_LAYOUT[CT_SELECTED.dataset.key].wrap===false?'Text wrapping OFF — stays on one line.':'Text wrapping ON — make the box narrower to place the next word on the line below.')});document.getElementById('ctNewLine')?.addEventListener('click',()=>{if(!CT_SELECTED)return;const k=CT_SELECTED.dataset.key,v=CT_LAYOUT[k];ctSnapshot();if(v.custom&&v.type==='text'){v.text=(v.text||'')+'\nNew line';ctBuildCustomElements();ctSelectItem(document.querySelector(`#ctEditor [data-key="${k}"]`));ctApplyLayout();return}const map={header:'ctHeaderText',heading:'ctHeading',citation:'ctCitation'};const id=map[k];if(id){const f=document.getElementById(id);f.value=(f.value||'')+'\n';ctApplyLayout();f.focus();ctMsg('Line break added. Type the next words on the new line.')}else{v.wrap=true;ctApplyLayout();ctMsg('Wrapping enabled. Resize this text box narrower and words will continue on the next line automatically.')}});
 document.getElementById('ctResetLayout')?.addEventListener('click',()=>{ctSnapshot();CT_LAYOUT=JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT));ctBuildCustomElements();ctApplyLayout();ctMsg('Layout reset. Click Save Activity Certificate to keep it.')});document.getElementById('ctPreviewFull')?.addEventListener('click',()=>{const ed=document.getElementById('ctEditor'),wrap=document.getElementById('ctEditorWrap');if(!ed||!wrap)return;const large=ed.dataset.large==='1';ed.dataset.large=large?'0':'1';ed.style.width=large?'min(100%,1000px)':'1120px';wrap.scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('ctPreviewFull').textContent=large?'Enlarge Preview':'Fit Preview'});setTimeout(()=>{ctInitVisualEditor();ctApplyLayout()},50);
-document.getElementById('ctUpload')?.addEventListener('click',async()=>{const f=document.getElementById('ctFile').files[0];if(!f)return ctMsg('Choose the Canva PNG/JPG first.');try{ctMsg('Uploading activity certificate design...');const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)}),x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:f.name,data});document.getElementById('ctBg').value=x.url||'';ctApplyLayout();ctMsg('Design uploaded. Click Save Activity Certificate.')}catch(e){ctMsg(e.message)}});
-document.getElementById('ctSave')?.addEventListener('click',async()=>{const activityId=document.getElementById('ctActivity').value,linked=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId),custom=document.getElementById('ctCustomActivity').value.trim(),activity=linked?.title||custom,type=document.getElementById('ctType').value;if(!activity)return ctMsg('Select the activity this certificate belongs to, or enter a Custom Activity.');try{await integratedCmsApi({action:'save-item',password:integratedCmsPassword(),id:CT_EDIT,page:'certificate-templates',itemType:'Certificate Template',title:activity,description:JSON.stringify({activityId:linked?.id||'',activitySource:linked?._source||'Custom',activityDate:linked?.date||'',certType:type,heading:document.getElementById('ctHeading').value.trim(),citation:document.getElementById('ctCitation').value.trim(),headerText:document.getElementById('ctHeaderText').value.trim(),logo1:document.getElementById('ctLogo1').value.trim(),logo2:document.getElementById('ctLogo2').value.trim(),signatory:document.getElementById('ctSignatory').value.trim(),signatoryPosition:document.getElementById('ctSignatoryPosition').value.trim(),signatureUrl:document.getElementById('ctSignatureUrl').value.trim(),layout:CT_LAYOUT}),status:'ACTIVE',mediaUrl:document.getElementById('ctBg').value.trim(),linkUrl:document.getElementById('ctCanva').value.trim()});ctMsg('Saved and linked to '+activity+'.');CT_EDIT='';await ctLoad()}catch(e){ctMsg(e.message)}});
+document.getElementById('ctUpload')?.addEventListener('click',async()=>{const f=document.getElementById('ctFile').files[0];if(!f)return ctMsg('Choose the Canva PNG/JPG first.');try{ctMsg('Uploading activity certificate design...');const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)}),x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:f.name,data});document.getElementById('ctBg').value=x.url||'';ctApplyLayout();ctMsg('Design uploaded. Your preview will stay visible while editing. Click Save Activity Certificate.')}catch(e){ctMsg(e.message)}});
+document.getElementById('ctSave')?.addEventListener('click',async()=>{const activityId=document.getElementById('ctActivity').value,linked=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId),custom=document.getElementById('ctCustomActivity').value.trim(),activity=linked?.title||custom,type=document.getElementById('ctType').value;if(!activity)return ctMsg('Select the activity this certificate belongs to, or enter a Custom Activity.');try{await integratedCmsApi({action:'save-item',password:integratedCmsPassword(),id:CT_EDIT,page:'certificate-templates',itemType:'Certificate Template',title:activity,description:JSON.stringify({activityId:linked?.id||'',activitySource:linked?._source||'Custom',activityDate:linked?.date||'',certType:type,heading:document.getElementById('ctHeading').value.trim(),citation:document.getElementById('ctCitation').value.trim(),headerText:document.getElementById('ctHeaderText').value.trim(),logo1:document.getElementById('ctLogo1').value.trim(),logo2:document.getElementById('ctLogo2').value.trim(),signatory:document.getElementById('ctSignatory').value.trim(),signatoryPosition:document.getElementById('ctSignatoryPosition').value.trim(),signatureUrl:document.getElementById('ctSignatureUrl').value.trim(),layout:JSON.parse(JSON.stringify(CT_LAYOUT,(k,v)=>k==='_previewSrc'?undefined:v))}),status:'ACTIVE',mediaUrl:document.getElementById('ctBg').value.trim(),linkUrl:document.getElementById('ctCanva').value.trim()});ctMsg('Saved and linked to '+activity+'.');CT_EDIT='';await ctLoad()}catch(e){ctMsg(e.message)}});
 function ciApplyActivity(activityId){
   const activity=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId);if(!activity)return;
   const matches=CERT_TEMPLATES.filter(t=>{const d=ctParse(t);return d.activityId===activityId || (!d.activityId && String(t.title||'').toLowerCase()===String(activity.title||'').toLowerCase())});

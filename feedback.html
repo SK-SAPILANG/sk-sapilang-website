@@ -716,6 +716,19 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <span class="form-help">Optional. If provided, your digital certificate and verification link will also be sent to this email. No email? You may leave this blank.</span>
                         </div>
 
+                        <div class="form-group">
+                            <label>Mobile Number <span>(Optional)</span></label>
+                            <input name="contact" type="tel" autocomplete="tel" inputmode="tel" placeholder="09XXXXXXXXX">
+                            <span class="form-help">Optional. Required only if you choose future activity announcements by text/SMS.</span>
+                        </div>
+
+                        <div class="form-group full" style="background:#f8fbfd;border:1px solid #cfe1eb;border-radius:14px;padding:16px">
+                            <label>Future SK Sapilang Activity Updates <span>(Optional)</span></label>
+                            <p class="form-help" style="margin-bottom:10px">This is separate from the required evaluation consent. Leave both unchecked if you do not want future announcements.</p>
+                            <label style="display:block;margin:8px 0;font-weight:600"><input type="checkbox" name="futureEmailConsent" value="yes"> I consent to receive future activity/program announcements by email.</label>
+                            <label style="display:block;margin:8px 0;font-weight:600"><input type="checkbox" name="futureSmsConsent" value="yes"> I consent to receive future activity/program announcements by text/SMS.</label>
+                        </div>
+
                         <div class="form-group full" style="background:#f5fbf6;border:1px solid #b9dec0;border-radius:14px;padding:16px">
                             <label>Certificate Delivery Preference <strong>* Required</strong></label>
                             <select name="certificatePreference" required>
@@ -786,17 +799,18 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     </div>
 
                     <div class="rating-title">
-                        <h4>Detailed Evaluation</h4>
-                        <p>Rate each aspect of the seminar, training or activity.</p>
+                        <h4 id="adaptiveEvaluationTitle">Detailed Activity Evaluation</h4>
+                        <p id="adaptiveEvaluationHelp">Only questions relevant to the selected activity will be shown.</p>
                     </div>
 
                     <div class="form-grid">
 
-                        <div class="form-group">
-                            <label>Relevance of Topic / Activity *</label>
-                            <span class="form-help">How useful, appropriate and connected the topic or activity was to the needs, interests and development of the participants.</span>
-                            <select name="relevance" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalRelevanceGroup">
+                            <label id="evalRelevanceLabel">Relevance of Topic / Activity *</label>
+                            <span class="form-help" id="evalRelevanceHelp">How useful, appropriate and connected the topic or activity was to the needs, interests and development of the participants.</span>
+                            <select name="relevance">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -805,11 +819,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Achievement of Objectives *</label>
-                            <span class="form-help">How well the seminar, training or activity achieved its stated purpose, expected outcomes and learning objectives.</span>
-                            <select name="objectives" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalObjectivesGroup">
+                            <label id="evalObjectivesLabel">Achievement of Objectives *</label>
+                            <span class="form-help" id="evalObjectivesHelp">How well the activity achieved its stated purpose and expected outcomes.</span>
+                            <select name="objectives">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -818,11 +833,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Resource Speaker / Trainer / Facilitator *</label>
+                        <div class="form-group" id="facilitatorRatingGroup">
+                            <label id="facilitatorRatingLabel">Resource Speaker / Trainer / Facilitator *</label>
                             <span class="form-help">Evaluate the speaker's knowledge of the topic, clarity of presentation, communication skills, preparedness, responsiveness to questions and ability to engage participants.</span>
-                            <select name="facilitatorRating" required>
-                                <option value="">Select Rating</option>
+                            <select name="facilitatorRating">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -831,11 +847,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Organization & Facilitation *</label>
-                            <span class="form-help">How organized and smoothly implemented the activity was, including registration, instructions, coordination, flow of activities and assistance from organizers.</span>
-                            <select name="organization" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalOrganizationGroup">
+                            <label id="evalOrganizationLabel">Organization & Facilitation *</label>
+                            <span class="form-help" id="evalOrganizationHelp">How organized and smoothly implemented the activity was.</span>
+                            <select name="organization">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -844,11 +861,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Venue / Facilities *</label>
-                            <span class="form-help">How suitable, accessible, comfortable, safe and appropriate the venue and facilities were for the activity.</span>
-                            <select name="venueRating" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalVenueGroup">
+                            <label id="evalVenueLabel">Venue / Facilities *</label>
+                            <span class="form-help" id="evalVenueHelp">How suitable, accessible, comfortable, safe and appropriate the venue and facilities were for the activity.</span>
+                            <select name="venueRating">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -857,11 +875,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Materials / Equipment *</label>
-                            <span class="form-help">The quality, availability and usefulness of presentation materials, handouts, equipment, supplies and other resources used during the activity.</span>
-                            <select name="materials" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalMaterialsGroup">
+                            <label id="evalMaterialsLabel">Materials / Equipment *</label>
+                            <span class="form-help" id="evalMaterialsHelp">The quality, availability and usefulness of materials, equipment, supplies or resources used during the activity.</span>
+                            <select name="materials">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -870,11 +889,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Time Management *</label>
-                            <span class="form-help">How effectively the schedule was followed and whether enough time was provided for discussions, activities, questions and other important parts of the program.</span>
-                            <select name="timeManagement" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalTimeGroup">
+                            <label id="evalTimeLabel">Time Management *</label>
+                            <span class="form-help" id="evalTimeHelp">How effectively the schedule was followed and whether enough time was provided for the important parts of the activity.</span>
+                            <select name="timeManagement">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -883,11 +903,12 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label>Participation / Engagement *</label>
-                            <span class="form-help">How effectively the activity encouraged interaction, participation, questions, collaboration and active involvement from participants.</span>
-                            <select name="engagement" required>
-                                <option value="">Select Rating</option>
+                        <div class="form-group" id="evalEngagementGroup">
+                            <label id="evalEngagementLabel">Participation / Engagement *</label>
+                            <span class="form-help" id="evalEngagementHelp">How effectively the activity encouraged participation and active involvement.</span>
+                            <select name="engagement">
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -908,7 +929,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Speaker Knowledge & Expertise</label>
                             <span class="form-help">How knowledgeable, credible and confident the resource speaker appeared in discussing the subject matter.</span>
                             <select name="speakerKnowledge">
-                                <option value="">Select Rating</option>
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -921,7 +943,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Clarity & Communication</label>
                             <span class="form-help">How clearly the speaker explained ideas, used understandable examples and communicated information to participants.</span>
                             <select name="speakerClarity">
-                                <option value="">Select Rating</option>
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -934,7 +957,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Participant Engagement</label>
                             <span class="form-help">How effectively the speaker encouraged participation, maintained interest and created opportunities for questions or interaction.</span>
                             <select name="speakerEngagement">
-                                <option value="">Select Rating</option>
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -947,7 +971,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Responsiveness to Questions</label>
                             <span class="form-help">How well the speaker listened to questions and provided helpful, understandable and relevant responses.</span>
                             <select name="speakerResponsiveness">
-                                <option value="">Select Rating</option>
+                                <option value="">Select Rating / Not Applicable</option>
+                                <option value="N/A">Not Applicable</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -963,10 +988,10 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group full">
-                            <label>What did you learn or benefit from? <span>(Optional)</span></label>
+                            <label id="evalLearningLabel">What did you learn or benefit from? <span>(Optional)</span></label>
                             <textarea
                                 name="learning"
-                                placeholder="Share your main learning, skills gained, insights or benefits."
+                                id="evalLearningInput" placeholder="Share your main learning, skills gained, insights or benefits."
                             ></textarea>
                         </div>
 
@@ -1393,19 +1418,19 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                   <button type="button" class="admin-action-btn" data-ct-select="header">Header</button><button type="button" class="admin-action-btn" data-ct-select="logo1">SK Logo</button><button type="button" class="admin-action-btn" data-ct-select="logo2">Barangay Logo</button><button type="button" class="admin-action-btn" data-ct-select="heading">Title</button><button type="button" class="admin-action-btn" data-ct-select="name">Recipient</button><button type="button" class="admin-action-btn" data-ct-select="citation">Citation</button><button type="button" class="admin-action-btn" data-ct-select="signature">Signature</button><button type="button" class="admin-action-btn" data-ct-select="qr">QR Code</button><button type="button" class="admin-action-btn" data-ct-select="no">Certificate No.</button>
                                 </div>
                                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-bottom:10px">
-                                  <label class="admin-schedule-help">Header text<input id="ctHeaderText" value="SANGGUNIANG KABATAAN OF BARANGAY SAPILANG" style="width:100%;margin-top:4px"></label>
-                                  <label class="admin-schedule-help">SK Logo URL<input id="ctLogo1" value="images/sk-logo.svg" style="width:100%;margin-top:4px"></label>
-                                  <label class="admin-schedule-help">Barangay Logo URL<input id="ctLogo2" value="images/barangay-logo.svg" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">Header text<textarea id="ctHeaderText" rows="3" style="width:100%;margin-top:4px">SANGGUNIANG KABATAAN OF BARANGAY SAPILANG</textarea></label>
+                                  <label class="admin-schedule-help">SK Logo URL<input id="ctLogo1" value="images/sk-logo.svg" style="width:100%;margin-top:4px"><button type="button" class="admin-action-btn" id="ctUploadLogo1" style="margin-top:5px">Upload SK Logo</button><input id="ctLogo1File" type="file" accept="image/*" hidden></label>
+                                  <label class="admin-schedule-help">Barangay Logo URL<input id="ctLogo2" value="images/barangay-logo.svg" style="width:100%;margin-top:4px"><button type="button" class="admin-action-btn" id="ctUploadLogo2" style="margin-top:5px">Upload Barangay Logo</button><input id="ctLogo2File" type="file" accept="image/*" hidden></label>
                                   <label class="admin-schedule-help">Signatory name<input id="ctSignatory" value="DANDY F. NILLO" style="width:100%;margin-top:4px"></label>
                                   <label class="admin-schedule-help">Signatory position<input id="ctSignatoryPosition" value="SK Chairperson" style="width:100%;margin-top:4px"></label>
-                                  <label class="admin-schedule-help">E-signature image URL (optional)<input id="ctSignatureUrl" placeholder="Paste uploaded signature image URL" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">E-signature image URL (optional)<input id="ctSignatureUrl" placeholder="Paste uploaded signature image URL" style="width:100%;margin-top:4px"><button type="button" class="admin-action-btn" id="ctUploadSignature" style="margin-top:5px">Upload E-signature</button><input id="ctSignatureFile" type="file" accept="image/*" hidden></label>
                                 </div>
                                 <div id="ctDesignToolbar" style="position:sticky;top:0;z-index:20;background:#fff;border:1px solid #d7e4ea;border-radius:12px;padding:10px;margin:10px 0;box-shadow:0 5px 18px #1231">
   <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
     <button type="button" class="admin-action-btn" id="ctUndo">↶ Undo</button><button type="button" class="admin-action-btn" id="ctRedo">↷ Redo</button>
     <button type="button" class="admin-action-btn" id="ctAddText">+ Text</button><button type="button" class="admin-action-btn" id="ctAddImage">+ Image / Logo</button><input id="ctAssetFile" type="file" accept="image/*" hidden>
-    <button type="button" class="admin-action-btn" id="ctAddLine">+ Line</button><button type="button" class="admin-action-btn" id="ctDuplicate">Duplicate</button><button type="button" class="admin-action-btn" id="ctDelete">Delete</button>
-    <button type="button" class="admin-action-btn" id="ctForward">Bring Forward</button><button type="button" class="admin-action-btn" id="ctBackward">Send Backward</button>
+    <button type="button" class="admin-action-btn" id="ctAddLine">+ Line</button><button type="button" class="admin-action-btn" id="ctDuplicate">Duplicate</button><button type="button" class="admin-action-btn" id="ctHide">Hide from Certificate</button><button type="button" class="admin-action-btn" id="ctDelete">Delete Element</button><button type="button" class="admin-action-btn" id="ctBlankMode">Blank Design Mode</button><button type="button" class="admin-action-btn" id="ctRestoreElements">Restore Elements</button>
+    <button type="button" class="admin-action-btn" id="ctForward">Bring Forward</button><button type="button" class="admin-action-btn" id="ctBackward">Send Backward</button><button type="button" class="admin-action-btn" id="ctWrap">Wrap / One Line</button><button type="button" class="admin-action-btn" id="ctNewLine">↵ New Line</button>
   </div>
   <div id="ctFormatBar" style="display:grid;grid-template-columns:160px 78px 74px 74px 90px 90px 90px 90px;gap:6px;margin-top:8px;align-items:center">
     <select id="ctFontFamily"><option>Arial</option><option>Georgia</option><option>Times New Roman</option><option>Verdana</option><option>Trebuchet MS</option><option>Tahoma</option><option>Courier New</option><option>Garamond</option></select>
@@ -1416,7 +1441,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
     <input id="ctLetterSpacing" type="number" min="-2" max="20" step=".5" value="0" title="Letter spacing">
     <input id="ctLineHeight" type="number" min="0.7" max="3" step=".1" value="1.2" title="Line spacing"><input id="ctRotate" type="number" min="-180" max="180" value="0" title="Rotation">
   </div>
-  <div class="admin-schedule-help" style="margin-top:6px">Select an element to format it. Double-click custom text to edit its wording. Images/logos can be uploaded directly. Dynamic Recipient Name, QR Code and Certificate No. stay linked to each issued certificate.</div>
+  <div id="ctHiddenStatus" class="admin-schedule-help" style="margin-top:6px;font-weight:700;color:#0a91c9">All certificate elements are currently visible.</div><div class="admin-schedule-help" style="margin-top:6px">Select an element to format it. Use <b>Wrap / One Line</b> to choose whether words continue below, or <b>↵ New Line</b> to force the next words onto a new line. Double-click custom text to edit its wording. Images/logos can be uploaded directly. Dynamic Recipient Name, QR Code and Certificate No. stay linked to each issued certificate.</div>
 </div>
 <div id="ctEditorWrap" style="margin-top:10px;overflow:auto;background:#eef4f7;border:1px solid #d7e4ea;border-radius:14px;padding:12px">
                                   <div id="ctEditor" style="position:relative;width:min(100%,1000px);aspect-ratio:297/210;margin:auto;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 24px #1232;overflow:hidden;user-select:none">
@@ -1493,6 +1518,21 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     </section>
 
                     <section class="admin-tab-content" id="integratedManageTab">
+                        <article class="admin-panel" id="communicationsCenter" style="margin-bottom:18px">
+                          <div class="admin-panel-head"><h4>Future Activity Announcement Center</h4><p>Send announcements only to contacts who separately consented to email and/or text updates.</p></div>
+                          <div class="admin-panel-body">
+                            <div class="admin-schedule-form">
+                              <div class="admin-schedule-field"><label>Channel</label><select id="notifyChannel"><option value="email">Email</option><option value="sms">Text / SMS</option></select></div>
+                              <div class="admin-schedule-field"><label>Recipient Group</label><select id="notifyGroup"><option value="all">All Consented Contacts</option><option value="activity">Participants of Selected Activity</option></select></div>
+                              <div class="admin-schedule-field full"><label>Activity Filter</label><select id="notifyActivity"><option value="">All activities</option></select></div>
+                              <div class="admin-schedule-field full"><label>Announcement Subject</label><input id="notifySubject" placeholder="Upcoming SK Sapilang Activity"></div>
+                              <div class="admin-schedule-field full"><label>Message</label><textarea id="notifyMessage" rows="5" placeholder="Write the announcement here..."></textarea></div>
+                            </div>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="admin-action-btn" id="notifyRefresh" type="button">Refresh Consented Contacts</button><button class="admin-action-btn primary" id="notifySend" type="button">Send to Selected Group</button></div>
+                            <p class="form-help" id="notifyStatus">Email is ready through Apps Script. Text/SMS requires your chosen SMS gateway to be configured in Script Properties.</p>
+                            <div class="admin-detail-grid" id="notifySummary" style="margin-top:12px"></div>
+                          </div>
+                        </article>
                         <article class="admin-panel">
                           <div class="admin-panel-head">
                             <h4>Activity Manager</h4>
