@@ -588,6 +588,13 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
   <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
   <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
+
+<style>
+.ct-edit-item{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;cursor:move;touch-action:none;outline:1px dashed transparent;padding:3px;color:#142b3b;z-index:3}
+.ct-edit-item.ct-selected{outline:2px solid #ff9d00;background:#fff8}
+.ct-resize{display:none;position:absolute;right:-7px;bottom:-7px;width:15px;height:15px;border-radius:4px;background:#ff9d00;border:2px solid #fff;box-shadow:0 1px 4px #0004;cursor:nwse-resize}
+.ct-edit-item.ct-selected .ct-resize{display:block}.ct-qr-placeholder{background:#fff;border:2px solid #142b3b;font:700 11px Arial,sans-serif;line-height:1.2;text-align:center}
+</style>
 </head>
 
 <body>
@@ -1379,6 +1386,23 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                               <div class="admin-schedule-field full"><label>Certificate Content / Citation</label><textarea id="ctCitation" rows="4" placeholder="Enter the wording that belongs to this activity and certificate type. You can change it anytime."></textarea></div>
                               <div class="admin-schedule-field full"><label>Private Canva Edit Link</label><input id="ctCanva" type="url" placeholder="Paste the Canva edit link for this design"></div>
                               <div class="admin-schedule-field full"><label>Canva Certificate Background (PNG/JPG)</label><input id="ctFile" type="file" accept="image/png,image/jpeg,image/webp"><input id="ctBg" type="hidden"></div>
+                              <div class="admin-schedule-field full">
+                                <label>Live Certificate Editor / Preview</label>
+                                <span class="admin-schedule-help">Click an item, then drag it anywhere on the certificate. Use the corner handle to resize. Changes are saved with this activity certificate.</span>
+                                <div id="ctEditorWrap" style="margin-top:10px;overflow:auto;background:#eef4f7;border:1px solid #d7e4ea;border-radius:14px;padding:12px">
+                                  <div id="ctEditor" style="position:relative;width:min(100%,1000px);aspect-ratio:297/210;margin:auto;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 24px #1232;overflow:hidden;user-select:none">
+                                    <div id="ctPreviewHeading" style="position:absolute;left:10%;right:10%;top:29%;text-align:center;font:700 30px Georgia,serif;pointer-events:none">Certificate of Participation</div>
+                                    <div class="ct-edit-item" data-key="name" style="left:50%;top:49%;width:62%;height:9%;font:700 34px Georgia,serif;text-align:center">SAMPLE PARTICIPANT NAME<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="no" style="left:18%;top:91%;width:28%;height:5%;font:700 12px Arial,sans-serif">Certificate No. SK-SAP-2026-000001<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item ct-qr-placeholder" data-key="qr" style="left:83%;top:78%;width:11%;height:16%">UNIQUE<br>QR CODE<div class="ct-resize"></div></div>
+                                  </div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+                                  <button class="admin-action-btn" id="ctResetLayout" type="button">Reset Positions</button>
+                                  <button class="admin-action-btn" id="ctPreviewFull" type="button">Open Full Preview</button>
+                                  <span id="ctSelectedItem" class="admin-schedule-help" style="align-self:center">Select NAME, QR CODE, or CERTIFICATE NO. to move or resize.</span>
+                                </div>
+                              </div>
                               <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn" id="ctUpload" type="button">Upload Design</button><button class="admin-action-btn primary" id="ctSave" type="button">Save Activity Certificate</button><button class="admin-action-btn" id="ctNew" type="button">New Template</button></div><div id="ctMsg" class="admin-schedule-message"></div></div>
                               <div class="admin-schedule-field full"><label>Saved Activity Certificate Designs</label><div id="ctList" style="display:grid;gap:8px"></div></div>
                             </div>
