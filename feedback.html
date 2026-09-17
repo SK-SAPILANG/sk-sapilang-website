@@ -1347,6 +1347,16 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <article class="admin-panel" style="margin-bottom:14px">
                           <div class="admin-panel-head"><h4>Certificate Center</h4><p>Work in four simple steps. Activities saved in Activity Manager are automatically available here.</p></div>
                           <div class="admin-panel-body">
+                            <div class="admin-login-card" style="margin:0 0 14px;padding:16px;max-width:none">
+                              <small>CERTIFICATE ADMINISTRATION</small>
+                              <h4 style="margin:4px 0 6px">Administrator Access</h4>
+                              <p style="margin:0 0 10px">Uses the same administrator password as the QMS. If you already logged in, the Certificate Center unlocks automatically.</p>
+                              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                                <input id="certAdminPassword" type="password" autocomplete="current-password" placeholder="Enter QMS administrator password" style="flex:1;min-width:240px">
+                                <button id="certAdminUnlock" type="button" class="admin-action-btn primary">Unlock Certificate Center</button>
+                              </div>
+                              <div id="certAdminStatus" class="admin-schedule-message" style="margin-top:8px">Use your existing QMS administrator password.</div>
+                            </div>
                             <div class="admin-schedule-card-actions" style="gap:8px;flex-wrap:wrap">
                               <button type="button" class="admin-action-btn primary" data-cert-nav="designs">1. Activity Designs</button>
                               <button type="button" class="admin-action-btn" data-cert-nav="issue">2. Issue Certificate</button>

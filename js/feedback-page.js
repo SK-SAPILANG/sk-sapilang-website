@@ -477,8 +477,24 @@ const integratedAdminLoginError=document.getElementById("integratedAdminLoginErr
 const integratedAdminLoading=document.getElementById("integratedAdminLoading");
 
 function integratedCmsPassword(){
-    return document.getElementById("integratedCmsPassword").value.trim()||INTEGRATED_ADMIN_KEY;
+    const cert=document.getElementById("certAdminPassword");
+    const cms=document.getElementById("integratedCmsPassword");
+    return (cert&&cert.value.trim())||(cms&&cms.value.trim())||INTEGRATED_ADMIN_KEY||sessionStorage.getItem("skQmsAdminKey")||"";
 }
+function certSyncAdminState(message){
+    const input=document.getElementById("certAdminPassword"), status=document.getElementById("certAdminStatus");
+    const saved=INTEGRATED_ADMIN_KEY||sessionStorage.getItem("skQmsAdminKey")||"";
+    if(input&&saved&&!input.value) input.value=saved;
+    if(status) status.textContent=message||(saved?"Administrator authenticated. Certificate tools are unlocked.":"Enter the same administrator password used for the QMS.");
+}
+document.getElementById("certAdminUnlock")?.addEventListener("click",async()=>{
+    const input=document.getElementById("certAdminPassword"),status=document.getElementById("certAdminStatus"),btn=document.getElementById("certAdminUnlock");
+    const key=(input?.value||"").trim();
+    if(!key){if(status)status.textContent="Enter the QMS administrator password first.";return;}
+    btn.disabled=true;if(status)status.textContent="Verifying administrator access...";
+    try{await integratedCmsApi({action:"login",password:key});INTEGRATED_ADMIN_KEY=key;sessionStorage.setItem("skQmsAdminKey",key);const cms=document.getElementById("integratedCmsPassword");if(cms&&!cms.value)cms.value=key;certSyncAdminState("Administrator authenticated. Certificate Center unlocked.");}
+    catch(e){if(status)status.textContent=e.message||"Incorrect administrator password.";}finally{btn.disabled=false;}
+});
 
 function integratedCmsApi(params,attempt=0){
     return new Promise((resolve,reject)=>{
@@ -552,6 +568,7 @@ async function integratedLoadDashboard(){
         integratedAdminDashboard.classList.add("show");
         integratedLoadSchedules();
         sessionStorage.setItem("skQmsAdminKey",INTEGRATED_ADMIN_KEY);
+        certSyncAdminState();
         integratedAdminLoginError.classList.remove("show");
     }catch(error){
         sessionStorage.removeItem("skQmsAdminKey");
@@ -931,6 +948,7 @@ function integratedFormatDateTime(value){
 }
 
 const integratedSavedKey=sessionStorage.getItem("skQmsAdminKey");
+setTimeout(()=>certSyncAdminState(),0);
 
 if(integratedSavedKey){
     INTEGRATED_ADMIN_KEY=integratedSavedKey;
@@ -1017,11 +1035,14 @@ function webActVisible(items){return WEB_ACTIVITY_FILTER==='all'?items:items.fil
 function webActRender(items){WEB_ACTIVITY_ITEMS=unifiedActivityDedupe(items);items=WEB_ACTIVITY_ITEMS;if(typeof ctSyncActivitySelects==='function')ctSyncActivitySelects(WEB_ACTIVITY_ITEMS);const box=document.getElementById("webActList");if(!box)return;const show=webActVisible(items);box.innerHTML=show.length?show.map(x=>`<article class="admin-schedule-card"><div>${x.mediaUrl?`<img src="${integratedEscape(x.mediaUrl)}" alt="" style="width:88px;height:64px;object-fit:cover;border-radius:8px;float:left;margin-right:12px">`:""}<strong>${integratedEscape(x.title)}</strong><span>${integratedEscape(x.status||"Upcoming")} • ${integratedEscape(x.date||"No date")}<br>${integratedEscape(x.venue||"")} ${x.speaker?'• '+integratedEscape(x.speaker):''}</span></div><div class="admin-schedule-card-actions"><button type="button" class="admin-action-btn" data-wa-edit="${integratedEscape(x.id)}">Edit</button><button type="button" class="admin-action-btn danger" data-wa-delete="${integratedEscape(x.id)}">Delete</button></div></article>`).join(""):'<div class="admin-empty">No activities in this view.</div>';box.querySelectorAll('[data-wa-edit]').forEach(b=>b.onclick=()=>webActEdit(b.dataset.waEdit));box.querySelectorAll('[data-wa-delete]').forEach(b=>b.onclick=()=>webActDelete(b.dataset.waDelete))}
 async function webActLoad(){
  try{
-  webActMsg("Loading all activities...");
+  // Show the last successful activity list instantly while the server refreshes it.
+  if(!WEB_ACTIVITY_ITEMS.length){try{const cached=JSON.parse(sessionStorage.getItem('skUnifiedActivities')||'[]');if(Array.isArray(cached)&&cached.length){webActRender(cached);INTEGRATED_SCHEDULE_ITEMS=WEB_ACTIVITY_ITEMS;webActSyncEvaluationSelect();webActMsg(`${WEB_ACTIVITY_ITEMS.length} activities ready. Refreshing in background...`)}}catch(_){}}
+  if(!WEB_ACTIVITY_ITEMS.length)webActMsg("Loading all activities...");
   const pages=["news-events.html","feedback.html","events.html"];
   const results=await Promise.all(pages.map(page=>integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page}).catch(()=>({items:[]}))));
   const merged=[]; results.forEach((r,i)=>(r.items||[]).forEach(x=>merged.push({...x,_sourcePage:pages[i]})));
   webActRender(unifiedActivityDedupe(merged));
+  try{sessionStorage.setItem('skUnifiedActivities',JSON.stringify(WEB_ACTIVITY_ITEMS))}catch(_){}
   INTEGRATED_SCHEDULE_ITEMS=WEB_ACTIVITY_ITEMS;
   webActSyncEvaluationSelect();
   webActMsg(`${WEB_ACTIVITY_ITEMS.length} activit${WEB_ACTIVITY_ITEMS.length===1?'y':'ies'} loaded. One Activity Manager now reads your existing and new records.`);
@@ -1040,7 +1061,8 @@ async function webActDelete(id){const x=WEB_ACTIVITY_ITEMS.find(v=>v.id===id);if
 document.getElementById("webActivityForm")?.addEventListener("submit",async e=>{e.preventDefault();const b=document.getElementById("webActSave");b.disabled=true;try{const status=document.getElementById("webActStatus").value;await integratedCmsApi({action:"save-item",password:integratedCmsPassword(),id:WEB_ACTIVITY_EDIT_ID,page:(WEB_ACTIVITY_ITEMS.find(v=>v.id===WEB_ACTIVITY_EDIT_ID)?._sourcePage||"news-events.html"),itemType:"Activity / Program",title:document.getElementById("webActTitle").value.trim(),description:document.getElementById("webActDescription").value.trim(),status,eventDate:document.getElementById("webActDate").value,venue:document.getElementById("webActVenue").value.trim(),speaker:document.getElementById("webActSpeaker").value.trim(),mediaUrl:document.getElementById("webActPubmat").value.trim(),linkUrl:document.getElementById("webActFacebook").value.trim()});webActClear();await webActLoad();loadScheduledActivities();webActMsg(status==='Completed'?"Saved. This activity is now shown as Completed / Finished and remains available for certificates.":"Saved. This upcoming/ongoing activity is now available for evaluations, certificates, and the public Updates & Programs feed.")}catch(err){webActMsg(err.message)}finally{b.disabled=false}});
 document.getElementById("webActClear")?.addEventListener("click",webActClear);document.getElementById("webActReload")?.addEventListener("click",webActLoad);
 document.querySelectorAll('[data-activity-filter]').forEach(b=>b.addEventListener('click',()=>{WEB_ACTIVITY_FILTER=b.dataset.activityFilter;webActRender(WEB_ACTIVITY_ITEMS)}));
-setTimeout(()=>{certLoadDesign();webActLoad()},700);
+// FAST START: begin independent requests immediately instead of waiting 700 ms.
+Promise.allSettled([certLoadDesign(),webActLoad()]);
 
 /* MULTI-ACTIVITY CERTIFICATE CENTER */
 let CERT_TEMPLATES=[];
@@ -1107,5 +1129,5 @@ function certCenterShow(panel){
  if(panel==='issue')ctLoadActivities();
 }
 document.querySelectorAll('[data-cert-nav]').forEach(b=>b.addEventListener('click',()=>certCenterShow(b.dataset.certNav)));
-setTimeout(()=>{let p='designs';try{p=localStorage.getItem('skCertCenterPanel')||'designs'}catch(_){}certCenterShow(p)},950);
-setTimeout(ctLoad,900);
+// FAST START: restore the last Certificate Center panel immediately. certCenterShow() loads only what that panel needs.
+(()=>{let p='designs';try{p=localStorage.getItem('skCertCenterPanel')||'designs'}catch(_){}certCenterShow(p)})();
