@@ -1,0 +1,551 @@
+﻿/* =========================================================
+   SK SAPILANG UNIVERSAL NAVIGATION
+========================================================= */
+
+.sk-universal-header {
+    width: 100%;
+    position: relative;
+    z-index: 9999;
+}
+
+.sk-topbar {
+    width: 100%;
+    background: #010811;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.sk-topbar-inner {
+    width: min(1180px, calc(100% - 40px));
+    min-height: 32px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    color: #77909f;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: .07em;
+    text-transform: uppercase;
+}
+
+.sk-navbar {
+    width: 100%;
+
+    background: rgba(2, 12, 21, .97);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.sk-nav-inner {
+    position: relative;
+
+    width: min(1180px, calc(100% - 40px));
+
+    min-height: 66px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+/* BRAND */
+
+.sk-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+
+    text-decoration: none;
+}
+
+.sk-brand img {
+    display: block;
+
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+
+    object-fit: contain;
+    object-position: center center;
+    padding: 2px;
+    border-radius: 50%;
+}
+
+.sk-developer-credit {
+    width: min(1180px, calc(100% - 40px));
+    margin: 16px auto 0;
+    padding: 14px 0 4px;
+    border-top: 1px solid rgba(255,255,255,.16);
+    color: rgba(255,255,255,.88);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.sk-brand-text strong {
+    display: block;
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    line-height: 1.1;
+}
+
+.sk-brand-text small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #8295a5;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 9px;
+}
+
+
+/* NAVIGATION */
+
+.sk-nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.sk-nav-links li {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.sk-nav-links li::before,
+.sk-nav-links li::after {
+    display: none !important;
+}
+
+.sk-nav-links a {
+    min-height: 36px;
+
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+
+    border-radius: 10px;
+
+    color: #aebdca;
+
+    text-decoration: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    transition:
+        color .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.sk-nav-links a:hover {
+    color: #ffffff;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+
+/* CURRENT PAGE */
+
+.sk-nav-links a.active,
+.sk-nav-links a[aria-current="page"] {
+    color: #ffffff;
+
+    background:
+        rgba(35, 190, 255, .09);
+
+    border-color:
+        rgba(35, 190, 255, .25);
+
+    box-shadow:
+        inset 0 0 20px
+        rgba(35,190,255,.04);
+}
+
+
+/* MOBILE BUTTON */
+
+.sk-menu-toggle {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    border-radius: 11px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    color: #ffffff;
+
+    font-size: 19px;
+
+    cursor: pointer;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1050px) {
+
+    .sk-nav-inner {
+        width:
+            min(100% - 28px, 1180px);
+    }
+
+    .sk-nav-links a {
+        padding: 0 7px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+
+    .sk-topbar-inner {
+        justify-content: center;
+
+        text-align: center;
+    }
+
+    .sk-topbar-inner span:last-child {
+        display: none;
+    }
+
+
+    .sk-nav-inner {
+        min-height: 64px;
+
+        width:
+            min(100% - 28px, 1180px);
+    }
+
+
+    .sk-menu-toggle {
+        display: flex;
+    }
+
+
+    .sk-nav-links {
+        position: absolute;
+
+        top: 64px;
+
+        left: 0;
+        right: 0;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 3px;
+
+        padding: 10px;
+
+        border:
+            1px solid rgba(255,255,255,.09);
+
+        border-radius: 16px;
+
+        background:
+            rgba(2,13,23,.99);
+
+        box-shadow:
+            0 25px 60px rgba(0,0,0,.45);
+    }
+
+
+    .sk-nav-links.open {
+        display: flex;
+    }
+
+
+    .sk-nav-links li {
+        width: 100%;
+    }
+
+
+    .sk-nav-links a {
+        width: 100%;
+
+        min-height: 44px;
+
+        justify-content: flex-start;
+
+        padding: 0 14px;
+
+        font-size: 13px;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 520px) {
+
+    .sk-brand img {
+        width: 37px;
+        height: 37px;
+
+        min-width: 37px;
+    }
+
+    .sk-brand-text strong {
+        font-size: 13px;
+    }
+
+    .sk-brand-text small {
+        display: none;
+    }
+
+}
+
+/* =========================================================
+   SK SAPILANG OFFICIAL BRAND FIX
+   Restores professional logo presentation
+========================================================= */
+
+.sk-brand {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 12px !important;
+
+    flex-shrink: 0 !important;
+
+    text-decoration: none !important;
+}
+
+
+/* OFFICIAL LOGO */
+
+.sk-brand img {
+    display: block !important;
+
+    width: 48px !important;
+    height: 48px !important;
+
+    min-width: 48px !important;
+    min-height: 48px !important;
+
+    max-width: 48px !important;
+    max-height: 48px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    border-radius: 50% !important;
+
+    background: transparent !important;
+
+    border: 0 !important;
+    box-shadow: none !important;
+    image-rendering: auto !important;
+    transform: translateZ(0);
+}
+
+.sk-brand-text{display:flex!important;min-height:48px;flex-direction:column;justify-content:center!important}
+
+/* Keep the same header geometry on every legacy page. */
+#site-header.sk-universal-header{display:block!important;width:100%!important;height:auto!important;margin:0!important;padding:0!important;background:#0b2545!important}
+#site-header .sk-topbar{display:block!important}
+#site-header .sk-navbar{display:block!important;width:100%!important;min-height:68px!important;margin:0!important;padding:0!important}
+#site-header .sk-nav-inner{display:flex!important;width:min(1220px,calc(100% - 28px))!important;min-height:68px!important;margin:0 auto!important;padding:0!important;align-items:center!important;justify-content:space-between!important}
+#site-header .sk-brand{display:flex!important;min-width:238px!important;align-items:center!important;justify-content:flex-start!important}
+#site-header .sk-brand img{display:block!important;width:48px!important;height:48px!important;min-width:48px!important;object-fit:contain!important;object-position:50% 50%!important}
+#site-header .sk-nav-links{margin-left:auto!important}
+
+
+/* BRAND TEXT */
+
+.sk-brand-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+
+    min-width: 0 !important;
+}
+
+
+.sk-brand-text strong {
+    display: block !important;
+
+    margin: 0 !important;
+
+    color: #ffffff !important;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif !important;
+
+    font-size: 15px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.1 !important;
+
+    letter-spacing: 0.015em !important;
+}
+
+
+.sk-brand-text small {
+    display: block !important;
+
+    margin-top: 4px !important;
+
+    color: #7fa3b5 !important;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif !important;
+
+    font-size: 9px !important;
+    font-weight: 500 !important;
+
+    line-height: 1.2 !important;
+
+    letter-spacing: 0.02em !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .sk-brand img {
+        width: 44px !important;
+        height: 44px !important;
+
+        min-width: 44px !important;
+        min-height: 44px !important;
+
+        max-width: 44px !important;
+        max-height: 44px !important;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 600px) {
+
+    .sk-brand {
+        gap: 9px !important;
+    }
+
+    .sk-brand img {
+        width: 40px !important;
+        height: 40px !important;
+
+        min-width: 40px !important;
+        min-height: 40px !important;
+
+        max-width: 40px !important;
+        max-height: 40px !important;
+    }
+
+    .sk-brand-text strong {
+        font-size: 13px !important;
+    }
+
+    .sk-brand-text small {
+        font-size: 8px !important;
+    }
+
+}
+
+
+/* VERY SMALL PHONE */
+
+@media (max-width: 390px) {
+
+    .sk-brand-text small {
+        display: none !important;
+    }
+
+}
+
+/* Use the mobile menu before the desktop links become crowded. */
+@media (max-width: 1180px) {
+    #site-header .sk-menu-toggle{display:flex!important}
+    #site-header .sk-nav-links{position:absolute!important;top:68px!important;left:0!important;right:0!important;display:none!important;flex-direction:column!important;align-items:stretch!important;margin:0!important;padding:10px!important;background:#0b2545!important;border:1px solid rgba(255,255,255,.15)!important;border-radius:0 0 14px 14px!important}
+    #site-header .sk-nav-links.open{display:flex!important}
+    #site-header .sk-nav-links li,#site-header .sk-nav-links a{width:100%!important}
+    #site-header .sk-nav-links a{justify-content:flex-start!important;min-height:44px!important;padding:0 14px!important;font-size:13px!important}
+}
+

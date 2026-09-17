@@ -1,0 +1,3401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digital KK ID | Barangay Sapilang</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js?v=20260830-ENCODING-FIX"></script>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --red: #c8102e;
+  --dark-red: #9f1028;
+  --orange: #f47c20;
+  --gold: #f5a800;
+  --green: #138a4b;
+  --dark: #171717;
+  --gray: #666666;
+  --light: #f7f7f7;
+  --white: #ffffff;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #eeeeee;
+  color: var(--dark);
+}
+
+#app {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-box {
+  width: 620px;
+  max-width: 100%;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(0,0,0,.12);
+  text-align: center;
+}
+
+.search-box h2 {
+  margin: 0 0 8px;
+  color: var(--red);
+  font-size: 28px;
+}
+
+.search-box p {
+  color: #555;
+}
+
+.search-box input {
+  width: 100%;
+  margin: 15px 0;
+  padding: 14px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+button {
+  border: none;
+  padding: 13px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange)
+  );
+}
+
+
+/* =========================================================
+   WRAPPER
+========================================================= */
+
+.cards-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.side-title {
+  margin-bottom: 7px;
+  text-align: center;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.id-card {
+  position: relative;
+  width: 950px;
+  max-width: 100%;
+  min-height: 590px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: white;
+  border: 2px solid var(--red);
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+
+.id-card::before {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 115px;
+  right: -80px;
+  top: -55px;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange)
+  );
+  transform: rotate(8deg);
+  border-radius: 50%;
+}
+
+.id-card::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 100px;
+  left: -120px;
+  bottom: -55px;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange),
+    var(--gold)
+  );
+  transform: rotate(5deg);
+  border-radius: 50%;
+}
+
+
+/* =========================================================
+   FRONT
+========================================================= */
+
+.front-content {
+  position: relative;
+  z-index: 2;
+  padding: 28px 32px 30px;
+}
+
+.id-header {
+  display: grid;
+  grid-template-columns: 110px 1fr 110px;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid #f2b24c;
+}
+
+.logo {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}
+
+.header-center {
+  text-align: center;
+}
+
+.republic {
+  font-size: 12px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: #333333;
+}
+
+.header-title {
+  margin-top: 5px;
+  color: var(--red);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.header-location {
+  margin-top: 7px;
+  font-size: 14px;
+  color: #222222;
+}
+
+.digital-label {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 6px 20px;
+  border-radius: 999px;
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   FRONT BODY
+========================================================= */
+
+.id-body {
+  display: grid;
+  grid-template-columns: 160px 1fr 190px;
+  gap: 28px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.photo-box {
+  width: 150px;
+  height: 185px;
+  overflow: hidden;
+  border: 3px solid var(--red);
+  border-radius: 18px;
+  background: #f5f5f5;
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.label {
+  color: #666666;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.member-name {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.kk-number {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  color: var(--red);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   COMPLETE ADDRESS
+========================================================= */
+
+.address-box {
+  margin-top: 12px;
+  padding: 15px;
+  background: #fff7ed;
+  border-left: 5px solid var(--orange);
+  border-radius: 10px;
+}
+
+.address-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FRONT QR
+========================================================= */
+
+.qr-area {
+  text-align: center;
+}
+
+.qr-box {
+  display: inline-block;
+  padding: 12px;
+  background: white;
+  border: 3px solid var(--red);
+  border-radius: 18px;
+}
+
+.qr-box img,
+.qr-box canvas {
+  width: 150px !important;
+  height: 150px !important;
+  display: block;
+}
+
+.qr-label {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--red);
+  color: white;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #dddddd;
+}
+
+.active-status {
+  color: var(--green);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+
+/* =========================================================
+   FRONT LOWER
+========================================================= */
+
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 28px;
+}
+
+.issued {
+  color: #666666;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.issued-date {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.signature-section {
+  width: 290px;
+  text-align: center;
+}
+
+.signed {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #fff5e8;
+  color: var(--red);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+}
+
+.signature-line {
+  border-top: 2px solid var(--orange);
+  margin-bottom: 8px;
+}
+
+.chairperson-name {
+  color: var(--red);
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.chairperson-position {
+  margin-top: 3px;
+  color: #111111;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+.back-content {
+  position: relative;
+  z-index: 2;
+  min-height: 590px;
+  padding: 35px;
+}
+
+.back-header {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    var(--red),
+    var(--orange)
+  );
+  color: white;
+  text-align: center;
+}
+
+.back-header h2 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.back-header p {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   PERSONAL INFORMATION
+========================================================= */
+
+.personal-title,
+.emergency-title {
+  margin-top: 25px;
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.personal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 13px;
+}
+
+.personal-item {
+  padding: 17px;
+  border: 1px solid #e3e3e3;
+  border-top: 4px solid var(--orange);
+  border-radius: 12px;
+  background: #fffaf5;
+}
+
+.personal-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   EMERGENCY
+========================================================= */
+
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 13px;
+}
+
+.emergency-item {
+  padding: 17px;
+  border: 1px solid #e3e3e3;
+  border-left: 5px solid var(--red);
+  border-radius: 12px;
+  background: white;
+}
+
+.emergency-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   BACK LOWER
+========================================================= */
+
+.back-lower {
+  display: grid;
+  grid-template-columns: 1fr 145px;
+  gap: 25px;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.id-note {
+  padding: 13px 16px;
+  background: #fff5e8;
+  border-left: 5px solid var(--orange);
+  border-radius: 10px;
+  color: #444444;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.id-note strong {
+  color: var(--red);
+}
+
+.return-box {
+  margin-top: 15px;
+  color: #444444;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.return-box strong {
+  color: var(--red);
+}
+
+.back-qr {
+  text-align: center;
+}
+
+.back-qr-box {
+  display: inline-block;
+  padding: 9px;
+  background: white;
+  border: 2px solid var(--orange);
+  border-radius: 12px;
+}
+
+.back-qr-box img,
+.back-qr-box canvas {
+  width: 105px !important;
+  height: 105px !important;
+  display: block;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls {
+  margin-top: 25px;
+  text-align: center;
+}
+
+
+
+/* =========================================================
+   ID VIEW CONTROLS
+========================================================= */
+
+.id-side {
+  width: 950px;
+  max-width: 100%;
+}
+
+.view-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.view-controls button {
+  min-width: 150px;
+}
+
+.secondary-btn {
+  background: #333333;
+}
+
+@media screen {
+  .id-side.hidden-side {
+    display: none;
+  }
+}
+
+.back-member-strip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid #ead9cc;
+  border-radius: 12px;
+  background: #fffaf5;
+}
+
+.back-member-name {
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #111111;
+}
+
+.back-member-id {
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.back-extra-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 13px;
+}
+
+.back-extra-item {
+  padding: 14px;
+  border: 1px solid #e3e3e3;
+  border-top: 4px solid var(--orange);
+  border-radius: 12px;
+  background: #fffaf5;
+}
+
+.back-extra-value {
+  margin-top: 5px;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 900;
+  word-break: break-word;
+}
+
+.verification-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.verification-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8f8f8;
+  border-left: 4px solid var(--red);
+}
+
+.verification-value {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 900;
+  color: #111111;
+}
+
+@media(max-width: 760px) {
+  .back-member-strip,
+  .back-extra-grid,
+  .verification-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .back-member-id {
+    white-space: normal;
+  }
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error {
+  width: 520px;
+  max-width: 100%;
+  margin: 50px auto;
+  padding: 30px;
+  background: white;
+  border: 2px solid var(--red);
+  border-radius: 20px;
+  text-align: center;
+  color: #111111;
+}
+
+
+
+/* =========================================================
+   COMPACT BACK - ESSENTIAL INFORMATION ONLY
+========================================================= */
+
+.compact-back-grid {
+  grid-template-columns: 1fr 1fr 1.2fr;
+}
+
+.compact-back-grid .address-wide {
+  grid-column: 1 / -1;
+}
+
+.status-row {
+  justify-content: flex-start;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 760px) {
+
+  body {
+    padding: 12px;
+  }
+
+  .id-header {
+    grid-template-columns: 65px 1fr 65px;
+  }
+
+  .logo {
+    width: 58px;
+    height: 58px;
+  }
+
+  .header-title {
+    font-size: 19px;
+  }
+
+  .id-body {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .photo-box {
+    margin: auto;
+  }
+
+  .bottom-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .personal-grid,
+  .emergency-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .back-lower {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+
+
+
+/* =========================================================
+   FINAL SCREEN LAYOUT - MATCH REQUESTED FRONT / BACK
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+/* Keep both card faces in the same proportions as the reference */
+.id-card {
+  width: 950px;
+  height: 590px;
+  min-height: 590px;
+  border-radius: 28px;
+}
+
+/* FRONT */
+.front-content {
+  height: 590px;
+  min-height: 590px;
+  padding: 28px 32px 26px;
+}
+
+.id-header {
+  grid-template-columns: 100px 1fr 100px;
+  gap: 14px;
+  padding-bottom: 16px;
+}
+
+.logo {
+  width: 86px;
+  height: 86px;
+}
+
+.republic {
+  font-size: 10px;
+}
+
+.header-title {
+  font-size: 29px;
+}
+
+.header-location {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.digital-label {
+  margin-top: 6px;
+  padding: 5px 16px;
+  font-size: 9px;
+}
+
+.id-body {
+  grid-template-columns: 155px 1fr 185px;
+  gap: 26px;
+  margin-top: 26px;
+}
+
+.photo-box {
+  width: 145px;
+  height: 180px;
+}
+
+.member-name {
+  font-size: 32px;
+}
+
+.kk-number {
+  margin-top: 7px;
+  margin-bottom: 16px;
+  font-size: 19px;
+}
+
+.address-box {
+  margin-top: 10px;
+  padding: 13px 14px;
+}
+
+.address-value {
+  font-size: 13px;
+}
+
+.qr-box img,
+.qr-box canvas {
+  width: 145px !important;
+  height: 145px !important;
+}
+
+.qr-label {
+  margin-top: 8px;
+  padding: 5px 12px;
+  font-size: 9px;
+}
+
+.status-row {
+  margin-top: 22px;
+  padding-top: 15px;
+}
+
+.active-status {
+  font-size: 13px;
+}
+
+.bottom-section {
+  margin-top: 22px;
+}
+
+.signature-section {
+  width: 270px;
+}
+
+.signed {
+  margin-bottom: 14px;
+  padding: 4px 9px;
+  font-size: 8px;
+}
+
+.chairperson-name {
+  font-size: 15px;
+}
+
+.chairperson-position {
+  font-size: 10px;
+}
+
+/* BACK */
+.back-content {
+  height: 590px;
+  min-height: 590px;
+  padding: 28px 30px 24px;
+}
+
+.back-header {
+  padding: 15px;
+  border-radius: 16px;
+}
+
+.back-header h2 {
+  font-size: 25px;
+}
+
+.back-header p {
+  margin-top: 4px;
+  font-size: 10px;
+}
+
+.personal-title,
+.emergency-title {
+  margin-top: 18px;
+  font-size: 15px;
+}
+
+.back-extra-grid.compact-back-grid {
+  grid-template-columns: 1fr 1fr 1.2fr;
+  gap: 11px;
+  margin-top: 10px;
+}
+
+.back-extra-item {
+  padding: 12px 13px;
+  border-radius: 10px;
+}
+
+.back-extra-value {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.compact-back-grid .address-wide {
+  grid-column: 1 / -1;
+}
+
+.emergency-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  margin-top: 10px;
+}
+
+.emergency-item {
+  padding: 12px 13px;
+  border-radius: 10px;
+}
+
+.emergency-value {
+  font-size: 13px;
+}
+
+.back-lower {
+  grid-template-columns: 1fr 130px;
+  gap: 20px;
+  margin-top: 18px;
+  align-items: center;
+}
+
+.id-note {
+  padding: 10px 12px;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.return-box {
+  margin-top: 10px;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.back-qr-box {
+  padding: 7px;
+}
+
+.back-qr-box img,
+.back-qr-box canvas {
+  width: 92px !important;
+  height: 92px !important;
+}
+
+@media screen and (min-width: 761px) {
+  .cards-wrapper {
+    gap: 30px;
+  }
+}
+
+
+
+/* =========================================================
+   ADDITIONAL KK ID DETAILS
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+.holder-signature { margin-top: 8px; text-align: center; }
+.holder-signature-line { width: 130px; margin: 0 auto 4px; border-top: 1.5px solid #444; }
+.holder-signature-label { font-size: 8px; font-weight: 800; color: #555; letter-spacing: .5px; }
+.front-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.front-mini-item { padding: 7px 9px; border-radius: 8px; background: #fff7ed; border-left: 3px solid var(--orange); }
+.front-mini-value { margin-top: 3px; font-size: 11px; font-weight: 900; color: #111; }
+.expiry-block { margin-top: 7px; }
+.expiry-date { margin-top: 4px; font-size: 12px; font-weight: 900; color: var(--red); }
+.e-signature-image { display: block; max-width: 150px; max-height: 42px; object-fit: contain; margin: 0 auto 4px; }
+.e-signature-fallback { font-family: "Brush Script MT", "Segoe Script", cursive; font-size: 24px; line-height: 1; color: var(--red); margin-bottom: 3px; }
+.certification-box { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: #fff7ed; border-left: 5px solid var(--orange); color: #333; font-size: 9px; line-height: 1.4; text-align: justify; }
+.back-meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.back-meta-item { padding: 9px 10px; border: 1px solid #e3e3e3; border-top: 3px solid var(--orange); border-radius: 9px; background: #fffaf5; }
+.back-meta-value { margin-top: 4px; font-size: 11px; font-weight: 900; color: #111; }
+.levelup { margin-top: 8px; color: var(--red); font-size: 11px; font-weight: 900; letter-spacing: .4px; }
+
+
+/* =========================================================
+   FIT / OVERFLOW FIX
+   Keeps all details inside the card.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+.issue-expiry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  width: 330px;
+}
+
+.expiry-date {
+  margin-top: 5px;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* Keep the front comfortably inside 590px */
+.front-content {
+  padding-bottom: 20px;
+}
+
+.id-body {
+  margin-top: 20px;
+}
+
+.status-row {
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+.bottom-section {
+  margin-top: 12px;
+}
+
+/* Compact back so the QR and bottom line are never cut */
+.back-content {
+  padding: 20px 26px 16px;
+}
+
+.back-header {
+  padding: 10px 14px;
+}
+
+.back-header h2 {
+  font-size: 22px;
+}
+
+.personal-title,
+.emergency-title {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.back-extra-grid.compact-back-grid {
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.back-extra-item {
+  padding: 8px 10px;
+}
+
+.back-extra-value {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.back-meta-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.back-meta-item {
+  padding: 7px 9px;
+}
+
+.back-meta-value {
+  font-size: 10px;
+}
+
+.certification-box {
+  margin-top: 8px;
+  padding: 7px 9px;
+  font-size: 8px;
+  line-height: 1.25;
+}
+
+.emergency-grid {
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.emergency-item {
+  padding: 8px 9px;
+}
+
+.emergency-value {
+  font-size: 11px;
+}
+
+.back-lower {
+  grid-template-columns: 1fr 105px;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.id-note {
+  padding: 7px 9px;
+  font-size: 8px;
+  line-height: 1.25;
+}
+
+.levelup {
+  margin-top: 4px;
+  font-size: 9px;
+}
+
+.back-qr-box {
+  padding: 5px;
+}
+
+.back-qr-box img,
+.back-qr-box canvas {
+  width: 76px !important;
+  height: 76px !important;
+}
+
+
+
+/* =========================================================
+   HONEYCOMB INSPIRED VISUAL DESIGN
+   Decorative only - does not change the print preset
+========================================================= */
+
+.id-card {
+  isolation: isolate;
+}
+
+/* subtle honeycomb texture */
+.id-card .front-content::before,
+.id-card .back-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .07;
+  background-image:
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(60deg, var(--red) 25%, transparent 25.5%, transparent 75%, var(--red) 75%, var(--red)),
+    linear-gradient(60deg, var(--red) 25%, transparent 25.5%, transparent 75%, var(--red) 75%, var(--red));
+  background-size: 38px 66px;
+  background-position:
+    0 0,
+    0 0,
+    19px 33px,
+    19px 33px,
+    0 0,
+    19px 33px;
+}
+
+/* honeycomb accent cluster - top right */
+.id-card .front-content::after,
+.id-card .back-content::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  width: 120px;
+  height: 92px;
+  z-index: -1;
+  opacity: .16;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(244,124,32,.95) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 55% 25%, rgba(200,16,46,.90) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 85% 25%, rgba(245,168,0,.90) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 40% 58%, rgba(245,168,0,.90) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 70% 58%, rgba(244,124,32,.95) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 55% 90%, rgba(200,16,46,.90) 0 8px, transparent 8.5px);
+}
+
+/* elegant hexagonal styling for key information blocks */
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.back-meta-item,
+.emergency-item,
+.id-note,
+.certification-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.address-box::after,
+.front-mini-item::after,
+.back-extra-item::after,
+.back-meta-item::after,
+.emergency-item::after,
+.id-note::after,
+.certification-box::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  right: -6px;
+  bottom: -6px;
+  opacity: .18;
+  background: var(--orange);
+  clip-path: polygon(25% 6.7%,75% 6.7%,100% 50%,75% 93.3%,25% 93.3%,0% 50%);
+}
+
+/* QR areas with subtle hexagonal halo */
+.qr-box,
+.back-qr-box {
+  position: relative;
+  box-shadow: 0 7px 18px rgba(200,16,46,.08);
+}
+
+.qr-box::before,
+.back-qr-box::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: -1;
+  opacity: .12;
+  background:
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--red) 12%, transparent 12.5%, transparent 87%, var(--red) 87.5%, var(--red));
+  background-size: 22px 38px;
+  border-radius: 20px;
+}
+
+/* hashtag accent */
+.levelup {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(200,16,46,.10), rgba(244,124,32,.14));
+}
+
+/* keep text readable above decorative layers */
+.front-content > *,
+.back-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   FUTURISTIC HONEYCOMB ACCENTS
+   Inspired by Bacnotan - Honey Capital of the North
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+.id-card {
+  background: #ffffff;
+}
+
+/* tech-line accents */
+.id-card .front-content,
+.id-card .back-content {
+  position: relative;
+}
+
+.id-card .front-content {
+  background-image:
+    linear-gradient(90deg, transparent 0 72%, rgba(245,168,0,.035) 72% 72.5%, transparent 72.5%),
+    linear-gradient(0deg, transparent 0 78%, rgba(200,16,46,.025) 78% 78.5%, transparent 78.5%);
+}
+
+.id-card .back-content {
+  background-image:
+    linear-gradient(90deg, transparent 0 68%, rgba(245,168,0,.035) 68% 68.5%, transparent 68.5%),
+    linear-gradient(0deg, transparent 0 75%, rgba(200,16,46,.025) 75% 75.5%, transparent 75.5%);
+}
+
+.emergency-address {
+  grid-column: 1 / -1;
+}
+
+.emergency-address .emergency-value {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+/* honey-capital identity detail */
+/* futuristic corner hex accents */
+.id-card::before {
+  filter: saturate(1.08);
+}
+
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item,
+.certification-box,
+.id-note {
+  box-shadow:
+    inset 0 0 0 1px rgba(245,168,0,.06),
+    0 4px 12px rgba(200,16,46,.025);
+}
+
+
+/* =========================================================
+   STRONG VISIBLE HONEYCOMB DESIGN
+   Bacnotan - Honey Capital of the North
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+/* Large visible honeycomb clusters */
+.front-content::before,
+.back-content::before {
+  opacity: .20 !important;
+  background-image:
+    linear-gradient(30deg, rgba(245,168,0,.95) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.95) 87.5%, rgba(245,168,0,.95)),
+    linear-gradient(150deg, rgba(245,168,0,.95) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.95) 87.5%, rgba(245,168,0,.95)),
+    linear-gradient(30deg, rgba(244,124,32,.90) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.90) 87.5%, rgba(244,124,32,.90)),
+    linear-gradient(150deg, rgba(244,124,32,.90) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.90) 87.5%, rgba(244,124,32,.90));
+  background-size: 48px 84px !important;
+  background-position:
+    0 0,
+    0 0,
+    24px 42px,
+    24px 42px !important;
+}
+
+/* Fade the honeycomb so it stays readable in the center */
+.front-content::before {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,.95) 0%,
+    rgba(0,0,0,.45) 26%,
+    rgba(0,0,0,.10) 52%,
+    rgba(0,0,0,.50) 78%,
+    rgba(0,0,0,.95) 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,.95) 0%,
+    rgba(0,0,0,.45) 26%,
+    rgba(0,0,0,.10) 52%,
+    rgba(0,0,0,.50) 78%,
+    rgba(0,0,0,.95) 100%
+  );
+}
+
+.back-content::before {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,.90) 0%,
+    rgba(0,0,0,.35) 30%,
+    rgba(0,0,0,.12) 60%,
+    rgba(0,0,0,.70) 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,.90) 0%,
+    rgba(0,0,0,.35) 30%,
+    rgba(0,0,0,.12) 60%,
+    rgba(0,0,0,.70) 100%
+  );
+}
+
+/* Hexagon cluster accent */
+.front-content::after,
+.back-content::after {
+  width: 165px !important;
+  height: 125px !important;
+  opacity: .38 !important;
+  background:
+    radial-gradient(circle at 18% 22%, var(--gold) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 46% 22%, var(--orange) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 74% 22%, var(--red) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 32% 52%, var(--orange) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 60% 52%, var(--gold) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 88% 52%, var(--orange) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 18% 82%, var(--red) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 46% 82%, var(--gold) 0 11px, transparent 11.5px),
+    radial-gradient(circle at 74% 82%, var(--orange) 0 11px, transparent 11.5px) !important;
+}
+
+/* Stronger honeycomb effect on info blocks */
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item,
+.certification-box,
+.id-note {
+  background-image:
+    linear-gradient(30deg, rgba(245,168,0,.07) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.07) 87.5%, rgba(245,168,0,.07)),
+    linear-gradient(150deg, rgba(244,124,32,.07) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.07) 87.5%, rgba(244,124,32,.07)) !important;
+  background-size: 24px 42px !important;
+}
+
+/* Honeycomb rail along card edges */
+.id-card {
+  background: #ffffff !important;
+}
+
+
+/* =========================================================
+   WHITE BACKGROUND + SUBTLE SK SILHOUETTE / HONEY ACCENTS
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+.id-card {
+  background: #ffffff !important;
+}
+
+/* Subtle SK logo silhouette watermark */
+.front-content::before,
+.back-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .045 !important;
+  background:
+    url("images/sk-logo.svg") center center / 420px auto no-repeat !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Small honeycomb accents only on corners */
+.front-content::after,
+.back-content::after {
+  content: "";
+  position: absolute;
+  top: auto !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  width: 115px !important;
+  height: 85px !important;
+  z-index: 0;
+  opacity: .18 !important;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, var(--gold) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 46% 22%, var(--orange) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 74% 22%, var(--gold) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 32% 54%, var(--orange) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 60% 54%, var(--gold) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 88% 54%, var(--orange) 0 8px, transparent 8.5px),
+    radial-gradient(circle at 46% 86%, var(--gold) 0 8px, transparent 8.5px) !important;
+}
+
+.front-content > *,
+.back-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Issued date in red */
+.issued-date {
+  color: var(--red) !important;
+}
+
+
+/* =========================================================
+   REFINED HONEY + SK SILHOUETTE DESIGN
+   Based on the approved visual reference.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* clean white card */
+.id-card {
+  background: #fff !important;
+}
+
+/* large, very light SK logo watermark */
+.front-content::before,
+.back-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .055 !important;
+  background: url("images/sk-logo.svg") center center / 54% auto no-repeat !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* honeycomb outlines at side/corners */
+.front-content::after,
+.back-content::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: 150px !important;
+  height: 180px !important;
+  right: -28px !important;
+  top: 150px !important;
+  bottom: auto !important;
+  opacity: .28 !important;
+  background-image:
+    linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+    linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)) !important;
+  background-size: 34px 59px !important;
+  background-position: 0 0, 0 0, 17px 29.5px, 17px 29.5px !important;
+}
+
+/* second honeycomb area on left */
+.id-card {
+  background-color: #fff !important;
+  background-image:
+    linear-gradient(30deg, rgba(245,168,0,.16) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.16) 87.5%, rgba(245,168,0,.16)),
+    linear-gradient(150deg, rgba(244,124,32,.13) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.13) 87.5%, rgba(244,124,32,.13)) !important;
+  background-size: 30px 52px !important;
+  background-position: -18px 330px, -18px 330px !important;
+  background-repeat: no-repeat !important;
+}
+
+/* information panels similar to the reference */
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item {
+  background: rgba(255,255,255,.91) !important;
+  border: 1px solid rgba(200,16,46,.18);
+  box-shadow: none !important;
+}
+
+.front-mini-item {
+  border-left: 1px solid rgba(200,16,46,.18) !important;
+}
+
+.certification-box,
+.id-note {
+  background: rgba(255,248,237,.92) !important;
+  box-shadow: none !important;
+}
+
+/* red dates */
+.issued-date,
+.expiry-date {
+  color: var(--red) !important;
+  font-weight: 900;
+}
+
+/* stronger clean status */
+.status {
+  color: #138a48;
+  font-weight: 900;
+}
+
+/* subtle gold divider detail */
+.id-header::after,
+.back-header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  transform: translateX(-50%);
+  width: 36%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--orange), transparent);
+}
+
+/* keep all actual content above watermark */
+.front-content > *,
+.back-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* clean QR emphasis */
+.qr-box,
+.back-qr-box {
+  background: #fff !important;
+  box-shadow: 0 5px 15px rgba(200,16,46,.08) !important;
+}
+
+/* #LevelUpSapilang accent */
+.levelup {
+  color: var(--red);
+  background: transparent !important;
+  padding: 0 !important;
+  font-weight: 900;
+  letter-spacing: .5px;
+  box-shadow: none !important;
+}
+
+
+/* =========================================================
+   FINAL CLEANUP + BACK DESIGN RESTORE
+   - remove line shadows
+   - remove QR glitches/backdrops
+   - restore clean back design
+   - maximize usable space
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+/* ---------- REMOVE SHADOWS / LINES ---------- */
+
+.id-card,
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item,
+.certification-box,
+.id-note,
+.qr-box,
+.back-qr-box,
+.signature-section,
+.photo-box {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* remove unnecessary pseudo-element line accents */
+.id-header::after,
+.back-header::after,
+.address-box::after,
+.front-mini-item::after,
+.back-extra-item::after,
+.back-meta-item::after,
+.emergency-item::after,
+.id-note::after,
+.certification-box::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------- CLEAN QR AREA ---------- */
+
+.qr-area,
+.back-qr {
+  position: relative !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.qr-box,
+.back-qr-box {
+  position: relative !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.qr-area::before,
+.qr-area::after,
+.back-qr::before,
+.back-qr::after,
+.qr-box::before,
+.qr-box::after,
+.back-qr-box::before,
+.back-qr-box::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  filter: none !important;
+}
+
+.qr-box img,
+.qr-box canvas,
+.back-qr-box img,
+.back-qr-box canvas {
+  position: relative !important;
+  z-index: 5 !important;
+  background: #ffffff !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* ---------- FRONT CLEANUP ---------- */
+
+.front-content {
+  background: #ffffff !important;
+}
+
+.front-content::before {
+  opacity: .04 !important;
+  background:
+    url("images/sk-logo.svg")
+    center center / 48% auto
+    no-repeat !important;
+}
+
+.front-content::after {
+  width: 95px !important;
+  height: 130px !important;
+  right: -22px !important;
+  top: 170px !important;
+  bottom: auto !important;
+  opacity: .18 !important;
+}
+
+/* ---------- RESTORE BACK DESIGN ---------- */
+
+.back-content {
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #fffdf8 100%
+    ) !important;
+  padding: 22px 26px 18px !important;
+}
+
+/* subtle SK watermark on back */
+.back-content::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: .035 !important;
+  background:
+    url("images/sk-logo.svg")
+    center 58% / 44% auto
+    no-repeat !important;
+}
+
+/* honeycomb accent only at far-right edge */
+.back-content::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 120px !important;
+  right: -30px !important;
+  bottom: auto !important;
+  width: 120px !important;
+  height: 250px !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: .18 !important;
+  background-image:
+    linear-gradient(30deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+    linear-gradient(150deg, var(--gold) 12%, transparent 12.5%, transparent 87%, var(--gold) 87.5%, var(--gold)),
+    linear-gradient(30deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)),
+    linear-gradient(150deg, var(--orange) 12%, transparent 12.5%, transparent 87%, var(--orange) 87.5%, var(--orange)) !important;
+  background-size: 34px 59px !important;
+  background-position: 0 0, 0 0, 17px 29.5px, 17px 29.5px !important;
+}
+
+.back-content > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* ---------- MAXIMIZE BACK SPACE ---------- */
+
+.back-header {
+  padding: 10px 14px !important;
+  border-radius: 14px !important;
+}
+
+.back-header h2 {
+  font-size: 23px !important;
+}
+
+.back-header p {
+  margin-top: 3px !important;
+  font-size: 9px !important;
+}
+
+.personal-title,
+.emergency-title {
+  margin-top: 10px !important;
+  font-size: 13px !important;
+}
+
+.back-extra-grid.compact-back-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important;
+  margin-top: 7px !important;
+}
+
+.back-extra-item {
+  padding: 8px 10px !important;
+  border-radius: 9px !important;
+}
+
+.back-extra-value {
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+
+.certification-box {
+  margin-top: 8px !important;
+  padding: 7px 10px !important;
+  font-size: 8px !important;
+  line-height: 1.25 !important;
+}
+
+.emergency-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important;
+  margin-top: 7px !important;
+}
+
+.emergency-item {
+  padding: 8px 10px !important;
+  border-radius: 9px !important;
+}
+
+.emergency-value {
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+
+.emergency-address {
+  grid-column: 1 / -1 !important;
+}
+
+.back-lower {
+  grid-template-columns: minmax(0, 1fr) 105px !important;
+  gap: 14px !important;
+  margin-top: 9px !important;
+  align-items: center !important;
+}
+
+.id-note {
+  padding: 8px 10px !important;
+  font-size: 8px !important;
+  line-height: 1.3 !important;
+}
+
+.levelup {
+  margin-top: 4px !important;
+  font-size: 9px !important;
+}
+
+/* smaller back QR to maximize usable space */
+.back-qr-box {
+  padding: 5px !important;
+  border: 2px solid var(--orange) !important;
+  border-radius: 10px !important;
+}
+
+.back-qr-box img,
+.back-qr-box canvas {
+  width: 78px !important;
+  height: 78px !important;
+}
+
+/* ---------- CLEAN BORDERS ---------- */
+
+.address-box,
+.front-mini-item,
+.back-extra-item,
+.emergency-item,
+.certification-box,
+.id-note {
+  border-color: rgba(200,16,46,.18) !important;
+}
+
+/* keep the card outer border only */
+.id-card {
+  border: 2px solid var(--red) !important;
+}
+
+
+/* =========================================================
+   REMOVE GLITCH / DECORATIVE STRIP NEAR QR
+   FRONT + BACK
+   PRINT PRESET BELOW IS UNCHANGED
+========================================================= */
+
+/* Remove decorative honeycomb / side strips */
+.front-content::after,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove all decoration around QR containers */
+.qr-area,
+.back-qr,
+.qr-box,
+.back-qr-box {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* QR box itself stays clean white */
+.qr-box,
+.back-qr-box {
+  background: #ffffff !important;
+}
+
+/* Remove pseudo-elements around QR */
+.qr-area::before,
+.qr-area::after,
+.back-qr::before,
+.back-qr::after,
+.qr-box::before,
+.qr-box::after,
+.back-qr-box::before,
+.back-qr-box::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep QR image/canvas plain */
+.qr-box img,
+.qr-box canvas,
+.back-qr-box img,
+.back-qr-box canvas {
+  background: #ffffff !important;
+  filter: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Keep the card sides plain white */
+.front-content,
+.back-content {
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+}
+
+/* Keep only the subtle centered SK watermark */
+.front-content::before,
+.back-content::before {
+  z-index: 0 !important;
+}
+
+/* Ensure content remains above watermark */
+.front-content > *,
+.back-content > * {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+
+/* =========================================================
+   EDGE DESIGN
+   Clean honey-inspired accents around the card edges only.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* keep center clean */
+.front-content,
+.back-content {
+  background: #ffffff !important;
+}
+
+/* subtle edge honeycomb pattern */
+.id-card {
+  background-color: #ffffff !important;
+  background-image:
+    linear-gradient(30deg, rgba(245,168,0,.18) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.18) 87.5%, rgba(245,168,0,.18)),
+    linear-gradient(150deg, rgba(244,124,32,.15) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.15) 87.5%, rgba(244,124,32,.15)),
+    linear-gradient(30deg, rgba(245,168,0,.18) 12%, transparent 12.5%, transparent 87%, rgba(245,168,0,.18) 87.5%, rgba(245,168,0,.18)),
+    linear-gradient(150deg, rgba(244,124,32,.15) 12%, transparent 12.5%, transparent 87%, rgba(244,124,32,.15) 87.5%, rgba(244,124,32,.15)) !important;
+  background-size:
+    26px 45px,
+    26px 45px,
+    26px 45px,
+    26px 45px !important;
+  background-position:
+    -12px 42px,
+    -12px 42px,
+    calc(100% + 12px) 42px,
+    calc(100% + 12px) 42px !important;
+  background-repeat:
+    repeat-y,
+    repeat-y,
+    repeat-y,
+    repeat-y !important;
+}
+
+/* small gold edge accents on top and bottom */
+.id-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 18% !important;
+  width: 64% !important;
+  height: 3px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold),
+    var(--orange),
+    var(--gold),
+    transparent
+  ) !important;
+  border-radius: 999px !important;
+  transform: none !important;
+  z-index: 1 !important;
+}
+
+.id-card::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 18% !important;
+  bottom: 0 !important;
+  width: 64% !important;
+  height: 3px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold),
+    var(--orange),
+    var(--gold),
+    transparent
+  ) !important;
+  border-radius: 999px !important;
+  transform: none !important;
+  z-index: 1 !important;
+}
+
+/* keep QR areas clean */
+.qr-area,
+.qr-box,
+.back-qr,
+.back-qr-box {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* signature spacing after removing label */
+.signature-section {
+  padding-top: 6px;
+}
+
+.e-signature-image,
+.e-signature-fallback {
+  margin-top: 0 !important;
+}
+
+
+/* =========================================================
+   VISIBLE EDGE HONEYCOMB DESIGN - FINAL OVERRIDE
+   Uses inset pseudo-elements so the design is actually visible.
+   Does NOT place decoration beside/behind the QR.
+========================================================= */
+
+.id-card {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+/* Remove old full-height/right-side patterns */
+.front-content::after,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Visible honeycomb band INSIDE the LEFT edge */
+.front-content::before,
+.back-content::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 115px !important;
+  bottom: 72px !important;
+  width: 42px !important;
+  right: auto !important;
+  z-index: 0 !important;
+  opacity: .34 !important;
+  pointer-events: none !important;
+  background-image:
+    linear-gradient(30deg, #f5a800 12%, transparent 12.5%, transparent 87%, #f5a800 87.5%, #f5a800),
+    linear-gradient(150deg, #f5a800 12%, transparent 12.5%, transparent 87%, #f5a800 87.5%, #f5a800),
+    linear-gradient(30deg, #f47c20 12%, transparent 12.5%, transparent 87%, #f47c20 87.5%, #f47c20),
+    linear-gradient(150deg, #f47c20 12%, transparent 12.5%, transparent 87%, #f47c20 87.5%, #f47c20) !important;
+  background-size: 28px 49px !important;
+  background-position: -14px 0, -14px 0, 0 24.5px, 0 24.5px !important;
+  background-repeat: repeat-y !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Top-right decorative corner, kept ABOVE the QR zone */
+.id-card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 150px !important;
+  height: 52px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(145deg,
+      transparent 0 31%,
+      rgba(200,16,46,.95) 31% 58%,
+      rgba(244,124,32,.95) 58% 100%) !important;
+  border-radius: 0 18px 0 55px !important;
+  transform: none !important;
+}
+
+/* Bottom-left gold/orange corner accent */
+.id-card::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 175px !important;
+  height: 28px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(20deg,
+      #f47c20 0 48%,
+      #f5a800 48% 70%,
+      transparent 70%) !important;
+  border-radius: 0 50px 0 16px !important;
+  transform: none !important;
+}
+
+/* Keep all content above edge decoration */
+.front-content > *,
+.back-content > * {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Keep QR zone completely clean */
+.qr-area,
+.back-qr,
+.qr-box,
+.back-qr-box,
+.qr-area::before,
+.qr-area::after,
+.back-qr::before,
+.back-qr::after,
+.qr-box::before,
+.qr-box::after,
+.back-qr-box::before,
+.back-qr-box::after {
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Electronically signed label remains removed */
+.signed {
+  display: none !important;
+}
+
+
+/* =========================================================
+   TOP + BOTTOM EDGE DESIGN ONLY
+   Side design removed.
+   PRINT PRESET BELOW IS UNCHANGED.
+========================================================= */
+
+/* Remove side honeycomb design completely */
+.front-content::before,
+.back-content::before {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Remove any remaining side decoration */
+.front-content::after,
+.back-content::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Top decorative band */
+.id-card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 24px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: 28px 28px 0 0 !important;
+  transform: none !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(200,16,46,.95) 0%,
+      rgba(244,124,32,.95) 38%,
+      rgba(245,168,0,.92) 60%,
+      rgba(244,124,32,.95) 78%,
+      rgba(200,16,46,.95) 100%
+    ) !important;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 48%,
+    88% 48%,
+    84% 100%,
+    72% 48%,
+    58% 48%,
+    54% 100%,
+    42% 48%,
+    28% 48%,
+    24% 100%,
+    12% 48%,
+    0 48%
+  ) !important;
+}
+
+/* Bottom decorative band */
+.id-card::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 24px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  border-radius: 0 0 28px 28px !important;
+  transform: none !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(245,168,0,.92) 0%,
+      rgba(244,124,32,.95) 28%,
+      rgba(200,16,46,.95) 50%,
+      rgba(244,124,32,.95) 72%,
+      rgba(245,168,0,.92) 100%
+    ) !important;
+  clip-path: polygon(
+    0 52%,
+    12% 52%,
+    16% 0,
+    28% 52%,
+    42% 52%,
+    46% 0,
+    58% 52%,
+    72% 52%,
+    76% 0,
+    88% 52%,
+    100% 52%,
+    100% 100%,
+    0 100%
+  ) !important;
+}
+
+/* Keep card body white and clean */
+.front-content,
+.back-content {
+  background: #ffffff !important;
+}
+
+/* Keep QR areas plain */
+.qr-area,
+.back-qr,
+.qr-box,
+.back-qr-box {
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep all real content above decorative bands */
+.front-content > *,
+.back-content > * {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Electronically signed stays removed */
+.signed {
+  display: none !important;
+}
+
+
+/* =========================================================
+   KK HOLDER SIGNATURE / THUMBMARK
+========================================================= */
+
+.holder-signature {
+  width: 145px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.holder-signature-img {
+  display: block;
+  width: 120px;
+  height: 30px;
+  margin: 0 auto 2px;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+
+.holder-signature-line {
+  width: 130px;
+  margin: 0 auto 4px;
+  border-top: 1.5px solid #444;
+}
+
+.holder-signature-label {
+  font-size: 7px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: .4px;
+  color: #555;
+}
+
+/* =========================================================
+   PRINT - STANDARD CR80 / PHILHEALTH-LIKE ID SIZE
+   85.60 mm × 53.98 mm
+   FRONT + BACK STAY TOGETHER ON ONE PAGE
+========================================================= */
+
+@media print {
+
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #app {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .search-box,
+  .controls,
+  .side-title,
+  .view-controls {
+    display: none !important;
+  }
+
+  .cards-wrapper {
+    display: grid !important;
+    grid-template-columns: 85.60mm 85.60mm !important;
+    grid-template-rows: 53.98mm !important;
+    column-gap: 10mm !important;
+    row-gap: 0 !important;
+    align-items: start !important;
+    justify-content: start !important;
+    width: 181.20mm !important;
+    height: 53.98mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .id-side,
+  .id-side.hidden-side {
+    display: block !important;
+    position: relative !important;
+    width: 85.60mm !important;
+    height: 53.98mm !important;
+    min-width: 85.60mm !important;
+    min-height: 53.98mm !important;
+    max-width: 85.60mm !important;
+    max-height: 53.98mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /*
+    IMPORTANT:
+    Use zoom instead of transform for printing.
+    Chrome calculates page breaks using the zoomed size,
+    so the ID will not split onto a second page.
+  */
+  .id-card {
+    position: relative !important;
+    width: 950px !important;
+    height: 590px !important;
+    min-height: 590px !important;
+    max-width: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+
+    zoom: 0.3405 !important;
+    transform: none !important;
+    transform-origin: top left !important;
+
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+}
+
+</style>
+  <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
+  <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
+</head>
+
+<body>
+
+<div id="app">
+
+  <div class="search-box">
+
+    <h2>
+      ACCESS DIGITAL KK ID
+    </h2>
+
+    <p>
+      Enter your verified KK ID.
+    </p>
+
+    <input
+      id="kkInput"
+      placeholder="KK-SAP-2026-58310472"
+    >
+
+    <button onclick="openID()">
+      ACCESS DIGITAL ID
+    </button>
+
+  </div>
+
+</div>
+
+<script src="config.js?v=20260830-ENCODING-FIX"></script>
+
+<script>
+
+/* =========================================================
+   GET ID FROM URL
+========================================================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const kkID =
+  params.get("id");
+
+if (kkID) {
+  loadID(kkID);
+}
+
+
+/* =========================================================
+   OPEN ID
+========================================================= */
+
+function openID() {
+
+  const id =
+    document
+      .getElementById("kkInput")
+      .value
+      .trim();
+
+  if (!id) {
+    alert("Please enter your KK ID.");
+    return;
+  }
+
+  window.location.href =
+    "digital-id.html?id=" +
+    encodeURIComponent(id);
+}
+
+
+/* =========================================================
+   LOAD ID
+========================================================= */
+
+async function loadID(id) {
+
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div class="search-box">
+      <h2>Loading Digital KK ID...</h2>
+      <p>Please wait while we retrieve your record.</p>
+    </div>
+  `;
+
+  try {
+
+    if (
+      typeof KK_CONFIG === "undefined" ||
+      !KK_CONFIG.API_URL
+    ) {
+      throw new Error(
+        "KK API URL is missing. Check config.js."
+      );
+    }
+
+    const apiURL =
+      String(KK_CONFIG.API_URL).trim();
+
+    const url =
+      apiURL +
+      "?action=digital&id=" +
+      encodeURIComponent(id) +
+      "&t=" +
+      Date.now();
+
+    console.log("KK ID:", id);
+    console.log("KK API:", url);
+
+    const response = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "follow"
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        "KK server returned HTTP " +
+        response.status + "."
+      );
+    }
+
+    const responseText =
+      await response.text();
+
+    if (!responseText.trim()) {
+      throw new Error(
+        "KK server returned an empty response."
+      );
+    }
+
+    let result;
+
+    try {
+      result = JSON.parse(responseText);
+    } catch (jsonError) {
+      console.error(
+        "Invalid KK API response:",
+        responseText
+      );
+
+      throw new Error(
+        "KK server did not return valid JSON. Check the Apps Script deployment."
+      );
+    }
+
+    if (
+      !result.success ||
+      !result.data
+    ) {
+      showError(
+        result.message ||
+        "Digital ID not found."
+      );
+      return;
+    }
+
+    const person = result.data;
+
+    const verificationStatus =
+      String(
+        person.VERIFICATION_STATUS || ""
+      )
+      .trim()
+      .toUpperCase();
+
+    const idStatus =
+      String(
+        person.ID_STATUS || ""
+      )
+      .trim()
+      .toUpperCase();
+
+    if (verificationStatus !== "VERIFIED") {
+      showError(
+        "This registration has not yet been verified."
+      );
+      return;
+    }
+
+    if (idStatus !== "ACTIVE") {
+      showError(
+        "This Digital KK ID is not active."
+      );
+      return;
+    }
+
+    displayID(person);
+
+  } catch (error) {
+
+    console.error(
+      "DIGITAL KK ID ERROR:",
+      error
+    );
+
+    showError(
+      error.message ||
+      "Unable to connect to the KK server."
+    );
+  }
+}
+
+
+/* =========================================================
+   PHILIPPINE DATE / TIME FORMAT
+========================================================= */
+
+function formatPhilippineDate(value) {
+
+  if (!value) {
+    return "—";
+  }
+
+  const date =
+    new Date(value);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return String(value);
+  }
+
+  return new Intl.DateTimeFormat(
+    "en-PH",
+    {
+      timeZone: "Asia/Manila",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    }
+  ).format(date);
+}
+
+
+
+function formatPhilippineDateOnly(value) {
+
+  if (!value) {
+    return "—";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
+
+  return new Intl.DateTimeFormat(
+    "en-PH",
+    {
+      timeZone: "Asia/Manila",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }
+  ).format(date);
+}
+
+
+function getExpirationDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  date.setFullYear(date.getFullYear() + 1);
+  return formatPhilippineDateOnly(date);
+}
+
+function getDisplaySex(value) {
+  const sex = String(value || "").trim().toUpperCase();
+  if (sex === "MALE" || sex === "M") return "Male";
+  if (sex === "FEMALE" || sex === "F") return "Female";
+  return "—";
+}
+
+/* =========================================================
+   GOOGLE FORM / DRIVE PROFILE PHOTO
+========================================================= */
+
+function getProfilePhotoURL(value) {
+
+  if (!value) {
+    return "";
+  }
+
+  const raw =
+    String(value)
+      .split(",")[0]
+      .trim();
+
+  if (!raw) {
+    return "";
+  }
+
+  const driveMatch =
+    raw.match(
+      /\/d\/([a-zA-Z0-9_-]+)/
+    );
+
+  const idMatch =
+    raw.match(
+      /[?&]id=([a-zA-Z0-9_-]+)/
+    );
+
+  const fileID =
+    driveMatch
+      ? driveMatch[1]
+      : (
+          idMatch
+            ? idMatch[1]
+            : ""
+        );
+
+  if (fileID) {
+
+    return (
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(fileID) +
+      "&sz=w1000"
+    );
+
+  }
+
+  return raw;
+}
+
+
+/* =========================================================
+   DISPLAY FRONT + BACK
+========================================================= */
+
+function displayID(person) {
+
+  let photoHTML;
+
+  const profilePhotoURL =
+    getProfilePhotoURL(
+      person.PROFILE_PHOTO_URL
+    );
+
+  if (
+    profilePhotoURL
+  ) {
+
+    photoHTML = `
+
+      <img
+        src="${escapeHTML(
+          profilePhotoURL
+        )}"
+        class="profile-photo"
+        alt="Profile Picture"
+        onerror="
+          this.style.display='none';
+          document.getElementById('photoFallback').style.display='flex';
+        "
+      >
+
+      <div
+        id="photoFallback"
+        class="photo-placeholder"
+        style="display:none;"
+      >
+        PROFILE<br>
+        PICTURE
+      </div>
+
+    `;
+
+  } else {
+
+    photoHTML = `
+
+      <div class="photo-placeholder">
+        PROFILE<br>
+        PICTURE
+      </div>
+
+    `;
+  }
+
+
+  const app =
+    document.getElementById("app");
+
+
+  app.innerHTML = `
+
+  <div class="cards-wrapper">
+
+
+    <!-- =====================================================
+         FRONT
+    ====================================================== -->
+
+    <div id="frontSide" class="id-side">
+
+      <div class="side-title">FRONT</div>
+
+      <div class="id-card">
+
+        <div class="front-content">
+
+          <div class="id-header">
+
+            <img
+              src="images/ChatGPT Image Aug 24, 2026, 06_57_13 PM.png"
+              class="logo"
+              alt="Sangguniang Kabataan Logo"
+            >
+
+            <div class="header-center">
+              <div class="republic">Republic of the Philippines</div>
+              <div class="header-title">KATIPUNAN NG KABATAAN</div>
+              <div class="header-location">Barangay Sapilang, Bacnotan, La Union</div>
+              <div class="digital-label">DIGITAL KK ID</div>
+            </div>
+
+            <img
+              src="images/Bagong_Pilipinas_logo.png"
+              class="logo"
+              alt="Bagong Pilipinas Logo"
+            >
+
+          </div>
+
+          <div class="id-body">
+
+            <div>
+              <div class="photo-box">
+                ${photoHTML}
+              </div>
+
+              <div class="holder-signature">
+
+                <img
+                  id="holderSignature"
+                  class="holder-signature-img"
+                  src=""
+                  alt="KK Holder Signature / Thumbmark"
+                  style="display:none;"
+                >
+
+                <div class="holder-signature-line"></div>
+
+                <div class="holder-signature-label">
+                  KK HOLDER SIGNATURE / THUMBMARK
+                </div>
+
+              </div>
+            </div>
+
+            <div>
+              <div class="label">REGISTERED MEMBER</div>
+
+              <div class="member-name">
+                ${escapeHTML(person.FULL_NAME || "—")}
+              </div>
+
+              <div class="kk-number">
+                ${escapeHTML(person.KK_ID || "—")}
+              </div>
+
+              <div class="address-box">
+                <div class="label">COMPLETE ADDRESS</div>
+                <div class="address-value">
+                  ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
+                </div>
+              </div>
+
+              <div class="front-mini-grid">
+                <div class="front-mini-item">
+                  <div class="label">CITIZENSHIP</div>
+                  <div class="front-mini-value">FILIPINO</div>
+                </div>
+                <div class="front-mini-item">
+                  <div class="label">SEX</div>
+                  <div class="front-mini-value">${escapeHTML(getDisplaySex(person.SEX_ASSIGNED_AT_BIRTH))}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="qr-area">
+              <div id="qrcodeFront" class="qr-box"></div>
+              <div class="qr-label">SCAN TO VERIFY</div>
+            </div>
+
+          </div>
+
+          <div class="status-row">
+            <div class="active-status">
+              <span class="status-dot"></span>
+              VERIFIED • ACTIVE
+            </div>
+          </div>
+
+          <div class="bottom-section">
+
+            <div class="issue-expiry-grid">
+
+              <div class="issued">
+                DATE VERIFIED
+                <div class="issued-date">
+                  ${escapeHTML(
+                    formatPhilippineDateOnly(
+                      person.DATE_VERIFIED ||
+                      person.DATE_REGISTERED
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div class="issued">
+                EXPIRES ON
+                <div class="expiry-date">
+                  ${escapeHTML(
+                    getExpirationDate(
+                      person.DATE_VERIFIED ||
+                      person.DATE_REGISTERED
+                    )
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            <div class="signature-section">
+              
+              <img
+                src="images/dandy e-sig.png"
+                class="e-signature-image"
+                alt="Electronic Signature of Dandy F. Nillo"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+              >
+              <div class="e-signature-fallback" style="display:none;">Dandy F. Nillo</div>
+              <div class="signature-line"></div>
+              <div class="chairperson-name">HON. DANDY F. NILLO</div>
+              <div class="chairperson-position">SK CHAIRPERSON</div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BACK
+    ====================================================== -->
+
+    <div id="backSide" class="id-side hidden-side">
+
+      <div class="side-title">BACK</div>
+
+      <div class="id-card">
+
+        <div class="back-content">
+
+          <div class="back-header">
+            <h2>KATIPUNAN NG KABATAAN</h2>
+            <p>Barangay Sapilang, Bacnotan, La Union</p>
+          </div>
+
+          <div class="personal-title">PERSONAL INFORMATION</div>
+
+          <div class="back-extra-grid compact-back-grid">
+
+            <div class="back-extra-item">
+              <div class="label">BIRTHDAY</div>
+              <div class="back-extra-value">
+                ${escapeHTML(formatPhilippineDateOnly(person.BIRTHDAY))}
+              </div>
+            </div>
+
+            <div class="back-extra-item">
+              <div class="label">BLOOD TYPE</div>
+              <div class="back-extra-value">
+                ${escapeHTML(person.BLOOD_TYPE || "—")}
+              </div>
+            </div>
+
+            <div class="back-extra-item">
+              <div class="label">PLACE OF BIRTH</div>
+              <div class="back-extra-value">
+                ${escapeHTML(person.PLACE_OF_BIRTH || "—")}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="certification-box">
+            This is to certify that the cardholder whose name, photograph, and signature/thumbmark appear on this card is a registered member of the Katipunan ng Kabataan and a resident of Barangay Sapilang, Bacnotan, La Union, Philippines. This card is non-transferable and shall be considered void if altered or tampered with.
+          </div>
+
+          <div class="emergency-title">IN CASE OF EMERGENCY</div>
+
+          <div class="emergency-grid">
+
+            <div class="emergency-item">
+              <div class="label">CONTACT PERSON</div>
+              <div class="emergency-value">
+                ${escapeHTML(person.EMERGENCY_CONTACT_NAME || "—")}
+              </div>
+            </div>
+
+            <div class="emergency-item">
+              <div class="label">RELATIONSHIP</div>
+              <div class="emergency-value">
+                ${escapeHTML(person.EMERGENCY_CONTACT_RELATIONSHIP || "—")}
+              </div>
+            </div>
+
+            <div class="emergency-item">
+              <div class="label">CONTACT NUMBER</div>
+              <div class="emergency-value">
+                ${escapeHTML(person.EMERGENCY_CONTACT_NUMBER || "—")}
+              </div>
+            </div>
+
+            <div class="emergency-item emergency-address">
+              <div class="label">ADDRESS</div>
+              <div class="emergency-value">
+                ${escapeHTML(person.COMPLETE_ADDRESS || "—")}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="back-lower">
+
+  <div>
+
+    <div class="id-note">
+      <strong>IMPORTANT:</strong>
+      If found, please return it to the SK Office of Barangay Sapilang, Bacnotan, La Union, Philippines.
+      <div class="levelup">#LevelUpSapilang</div>
+    </div>
+
+  </div>
+
+  <div class="back-qr">
+    <div id="qrcodeBack" class="back-qr-box"></div>
+    <div class="label">VERIFY ID</div>
+  </div>
+
+</div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  <div class="controls view-controls">
+
+    <button onclick="showIDSide('front')">
+      VIEW FRONT
+    </button>
+
+    <button class="secondary-btn" onclick="showIDSide('back')">
+      VIEW BACK
+    </button>
+
+    <button onclick="showIDSide('both')">
+      VIEW BOTH
+    </button>
+
+    <button onclick="window.print()">
+      PRINT ID - ACTUAL SIZE
+    </button>
+
+  </div>
+
+  `;
+
+
+
+
+  /* =======================================================
+     KK HOLDER SIGNATURE / THUMBMARK
+  ======================================================= */
+
+  const holderSignature =
+    document.getElementById("holderSignature");
+
+  const holderSignatureURL =
+    getProfilePhotoURL(
+      person.HOLDER_SIGNATURE_URL ||
+      person.holder_signature_url ||
+      ""
+    );
+
+  if (holderSignature) {
+
+    if (holderSignatureURL) {
+
+      holderSignature.src =
+        holderSignatureURL;
+
+      holderSignature.style.display =
+        "block";
+
+      holderSignature.onerror =
+        function () {
+          this.removeAttribute("src");
+          this.style.display = "none";
+          console.warn(
+            "Unable to load KK holder signature.",
+            holderSignatureURL
+          );
+        };
+
+    } else {
+
+      holderSignature.removeAttribute("src");
+      holderSignature.style.display =
+        "none";
+    }
+  }
+
+  /* =======================================================
+     QR URL
+  ======================================================= */
+
+  const qrValue =
+
+    person.QR_CODE ||
+
+    (
+      window.location.origin +
+
+      window.location.pathname
+        .replace(
+          "digital-id.html",
+          "verify.html"
+        ) +
+
+      "?id=" +
+
+      encodeURIComponent(
+        person.KK_ID
+      )
+    );
+
+
+  if (
+    typeof QRCode !==
+    "undefined"
+  ) {
+
+    new QRCode(
+      document.getElementById(
+        "qrcodeFront"
+      ),
+      {
+        text: qrValue,
+        width: 150,
+        height: 150,
+        correctLevel:
+          QRCode.CorrectLevel.H
+      }
+    );
+
+
+    new QRCode(
+      document.getElementById(
+        "qrcodeBack"
+      ),
+      {
+        text: qrValue,
+        width: 105,
+        height: 105,
+        correctLevel:
+          QRCode.CorrectLevel.H
+      }
+    );
+
+  }
+
+}
+
+
+
+
+
+
+/* =========================================================
+   FRONT / BACK VIEW
+========================================================= */
+
+function showIDSide(side) {
+
+  const front =
+    document.getElementById("frontSide");
+
+  const back =
+    document.getElementById("backSide");
+
+  if (!front || !back) {
+    return;
+  }
+
+  if (side === "front") {
+    front.classList.remove("hidden-side");
+    back.classList.add("hidden-side");
+    front.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  if (side === "back") {
+    front.classList.add("hidden-side");
+    back.classList.remove("hidden-side");
+    back.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  front.classList.remove("hidden-side");
+  back.classList.remove("hidden-side");
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message) {
+
+  document
+    .getElementById("app")
+    .innerHTML = `
+
+      <div class="error">
+
+        <h2>
+          Digital ID Unavailable
+        </h2>
+
+        <p>
+          ${escapeHTML(message)}
+        </p>
+
+      </div>
+
+    `;
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+function escapeHTML(value) {
+
+  return String(
+    value ?? ""
+  )
+
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+}
+
+</script>
+<script src="js/frame-bridge.js?v=20260830-FINAL"></script>
+<script src="cms-config.js?v=20260903-COLLECTIONS"></script><script src="js/cms-render.js?v=20260903-COLLECTIONS"></script>
+</body>
+
+</html>

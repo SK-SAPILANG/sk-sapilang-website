@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://sk-sapilang.github.io/sk-sapilang-website/sitemap.xml

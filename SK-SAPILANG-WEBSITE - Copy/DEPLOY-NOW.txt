@@ -1,0 +1,19 @@
+SK SAPILANG WEBSITE - FINAL DEPLOY
+
+1. Extract this ZIP.
+2. Copy ALL files/folders inside SK-SAPILANG-WEBSITE-FINAL into your existing
+   SK-SAPILANG-WEBSITE repository folder. Choose Replace when Windows asks.
+3. In VS Code Terminal, run:
+
+git add .
+git commit -m "Final cross-device website fixes for presentation"
+git push origin main
+
+4. Wait about 2-5 minutes for GitHub Pages.
+5. Open:
+https://sk-sapilang.github.io/sk-sapilang-website/?refresh=20260830-FINAL
+
+IMPORTANT:
+- Do not run the old encoding repair scripts again.
+- The cache version is now 20260830-FINAL.
+- The video file is now correctly named images/final.mp4.

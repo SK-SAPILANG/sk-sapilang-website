@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<title>Katipunan ng Kabataan Portal | SK Sapilang</title>
+
+<meta
+name="description"
+content="Access the official Katipunan ng Kabataan digital portal of SK Sapilang, Bacnotan, La Union.">
+
+<meta
+name="robots"
+content="index, follow">
+
+<link
+rel="canonical"
+href="https://sk-sapilang.github.io/sk-sapilang-website/kk-portal.html">
+
+
+<!-- GOOGLE / SEARCH ENGINE IDENTITY -->
+
+<meta
+name="application-name"
+content="SK Sapilang">
+
+<meta
+name="author"
+content="Sangguniang Kabataan of Barangay Sapilang">
+
+
+<!-- OPEN GRAPH / FACEBOOK -->
+
+<meta
+property="og:type"
+content="website">
+
+<meta
+property="og:site_name"
+content="SK Sapilang">
+
+<meta
+property="og:title"
+content="Katipunan ng Kabataan Portal | SK Sapilang">
+
+<meta
+property="og:description"
+content="Access the official Katipunan ng Kabataan digital portal of SK Sapilang, Bacnotan, La Union.">
+
+<meta
+property="og:url"
+content="https://sk-sapilang.github.io/sk-sapilang-website/kk-portal.html">
+
+<meta
+property="og:image"
+content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+<meta
+property="og:image:alt"
+content="Official SK Sapilang Logo">
+
+
+<!-- SOCIAL PREVIEW -->
+
+<meta
+name="twitter:card"
+content="summary_large_image">
+
+<meta
+name="twitter:title"
+content="Katipunan ng Kabataan Portal | SK Sapilang">
+
+<meta
+name="twitter:description"
+content="Access the official Katipunan ng Kabataan digital portal of SK Sapilang, Bacnotan, La Union.">
+
+<meta
+name="twitter:image"
+content="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+
+<!-- FAVICON -->
+
+<link
+rel="icon"
+href="https://sk-sapilang.github.io/sk-sapilang-website/images/sk-logo.svg">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #071423;
+      color: #ffffff;
+    }
+
+    .header {
+      text-align: center;
+      padding: 38px 20px 20px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #bcd8ef;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .portal-container {
+      width: 100%;
+      max-width: 980px;
+      margin: 35px auto 50px;
+      padding: 0 20px;
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .portal-card {
+      background: #10243a;
+      border: 1px solid #31526f;
+      border-radius: 20px;
+      padding: 35px 28px;
+      text-align: center;
+      min-height: 240px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.20);
+
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-5px);
+      border-color: #5ec5ff;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    }
+
+    .portal-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: #17334e;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 18px;
+
+      font-size: 26px;
+      font-weight: bold;
+      color: #5ec5ff;
+    }
+
+    .portal-card h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .portal-card p {
+      color: #bcd8ef;
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 22px;
+      max-width: 340px;
+    }
+
+    .portal-btn {
+      display: inline-block;
+      min-width: 170px;
+      padding: 13px 22px;
+
+      border: none;
+      border-radius: 12px;
+
+      background: #5ec5ff;
+      color: #071423;
+
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .portal-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .portal-btn.admin {
+      background: #d7e8f7;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 0 20px 35px;
+      color: #7898b4;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 750px) {
+      .portal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portal-card {
+        min-height: 210px;
+      }
+
+      .header h1 {
+        font-size: 27px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .header {
+        padding-top: 28px;
+      }
+
+      .portal-container {
+        margin-top: 20px;
+        padding: 0 15px;
+      }
+
+      .portal-card {
+        padding: 28px 20px;
+      }
+
+      .portal-btn {
+        width: 100%;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="css/nav-universal.css?v=20260903-CONSISTENT">
+  <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
+  <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
+  <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
+</head>
+
+<body>
+
+  <header id="site-header"></header>
+
+
+  <main class="portal-container">
+
+    <div class="portal-grid">
+
+
+      <!-- =====================================================
+           KK PROFILING
+      ====================================================== -->
+
+      <section class="portal-card">
+
+        <div class="portal-icon">
+          +
+        </div>
+
+        <h2>
+          KK Profiling
+        </h2>
+
+        <p>
+          Complete the Katipunan ng Kabataan profiling form
+          to register and apply for your KK Digital ID.
+        </p>
+
+        <a
+          href="https://docs.google.com/forms/d/1muXFvpiuGCwZbD_gn1GvihklwkpEwpeaie3BtqKZSa8/viewform"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="portal-btn"
+        >
+          Register / Make an ID
+        </a>
+
+      </section>
+
+
+      <!-- =====================================================
+           DIGITAL ID
+      ====================================================== -->
+
+      <section class="portal-card">
+
+        <div class="portal-icon">
+          ID
+        </div>
+
+        <h2>
+          KK Digital ID
+        </h2>
+
+        <p>
+          View your KK Digital ID using your registered
+          KK ID number.
+        </p>
+
+        <a
+          href="digital-id.html"
+          id="digitalIdButton"
+          class="portal-btn"
+        >
+          View Digital ID
+        </a>
+
+      </section>
+
+
+      <!-- =====================================================
+           VERIFY KK ID
+      ====================================================== -->
+
+      <section class="portal-card">
+
+        <div class="portal-icon">
+          ✓
+        </div>
+
+        <h2>
+          Verify KK ID
+        </h2>
+
+        <p>
+          Check the validity, status, issuance date,
+          and expiration of a KK Digital ID.
+        </p>
+
+        <a
+          href="verify.html"
+          id="verifyButton"
+          class="portal-btn"
+        >
+          Verify ID &rarr;</a>
+
+      </section>
+
+
+      <!-- =====================================================
+           ADMIN PORTAL
+      ====================================================== -->
+
+      <section class="portal-card">
+
+        <div class="portal-icon">
+          A
+        </div>
+
+        <h2>
+          Administrator
+        </h2>
+
+        <p>
+          Access the KK registration, verification,
+          and Digital ID administration dashboard.
+        </p>
+
+        <a
+          href="admin.html"
+          class="portal-btn admin"
+        >
+          Admin Portal
+        </a>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+
+  <footer class="footer">
+
+    KK Registration and Digital Identification System
+    <br>
+    Sangguniang Kabataan of Barangay Sapilang
+
+  </footer>
+
+
+  <script>
+
+    /* =========================================================
+       GET KK ID FROM PORTAL URL
+
+       Example:
+
+       kk-portal.html?id=KK-SAP-2026-24798685
+
+       The same KK ID will automatically be passed to:
+
+       digital-id.html
+       verify.html
+    ========================================================= */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const kkId =
+      params.get("id");
+
+
+    if (kkId) {
+
+      /* DIGITAL ID */
+
+      document
+        .getElementById(
+          "digitalIdButton"
+        )
+        .href =
+          "digital-id.html?id=" +
+          encodeURIComponent(
+            kkId
+          );
+
+
+      /* VERIFY PAGE */
+
+      document
+        .getElementById(
+          "verifyButton"
+        )
+        .href =
+          "verify.html?id=" +
+          encodeURIComponent(
+            kkId
+          );
+
+    }
+
+  </script>
+<script src="js/frame-bridge.js?v=20260830-FINAL"></script>
+  <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
+</body>
+
+</html>
+
