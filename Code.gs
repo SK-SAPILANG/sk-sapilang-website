@@ -221,7 +221,7 @@ function qmsRef_(prefix){
   return prefix+'-'+Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyyMMdd-HHmmss')+'-'+Utilities.getUuid().slice(0,6).toUpperCase();
 }
 function qmsActivitySheet_(){
-  const headers=['TIMESTAMP','REFERENCE','ACTIVITY','ACTIVITY_TYPE','DATE','VENUE','PARTICIPANT','CLASSIFICATION','SPEAKER','RATING','RELEVANCE','OBJECTIVES','FACILITATOR_RATING','ORGANIZATION','VENUE_RATING','MATERIALS','TIME_MANAGEMENT','ENGAGEMENT','SPEAKER_KNOWLEDGE','SPEAKER_CLARITY','SPEAKER_ENGAGEMENT','SPEAKER_RESPONSIVENESS','SPEAKER_COMMENTS','LEARNING','LIKED_MOST','IMPROVEMENT','FUTURE','AVERAGE_SCORE','EMAIL','PROGRAM_FORMAT','CERTIFICATE_PREFERENCE'];
+  const headers=['TIMESTAMP','REFERENCE','ACTIVITY','ACTIVITY_TYPE','DATE','VENUE','PARTICIPANT','CLASSIFICATION','SPEAKER','RATING','RELEVANCE','OBJECTIVES','FACILITATOR_RATING','ORGANIZATION','VENUE_RATING','MATERIALS','TIME_MANAGEMENT','ENGAGEMENT','SPEAKER_KNOWLEDGE','SPEAKER_CLARITY','SPEAKER_ENGAGEMENT','SPEAKER_RESPONSIVENESS','SPEAKER_COMMENTS','LEARNING','LIKED_MOST','IMPROVEMENT','FUTURE','AVERAGE_SCORE','EMAIL','PROGRAM_FORMAT','CERTIFICATE_PREFERENCE','RESPONSE_EMAIL_STATUS','CERTIFICATE_ID','CERTIFICATE_EMAIL_STATUS','DELIVERY_STATUS','LAST_EMAIL_AT'];
   const ss=cmsSpreadsheet_();let sh=ss.getSheetByName('ACTIVITY_EVALUATIONS');
   if(!sh){sh=ss.insertSheet('ACTIVITY_EVALUATIONS');sh.getRange(1,1,1,headers.length).setValues([headers]);sh.setFrozenRows(1);}
   else if(sh.getLastColumn()<headers.length){sh.getRange(1,sh.getLastColumn()+1,1,headers.length-sh.getLastColumn()).setValues([headers.slice(sh.getLastColumn())]);}
@@ -240,7 +240,7 @@ function qmsSaveActivity_(p,parameters){
   const reference=qmsRef_('ACT');
   const scoreKeys=['rating','relevance','objectives','facilitatorRating','organization','venueRating','materials','timeManagement','engagement'];
   const nums=scoreKeys.map(k=>Number(p[k])).filter(n=>n>=1&&n<=5);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:0;
-  qmsActivitySheet_().appendRow([new Date(),reference,p.activity||'',p.activityType||'',p.date||'',p.venue||'',p.participant||'',p.classification||'',p.speaker||'',p.rating||'',p.relevance||'',p.objectives||'',p.facilitatorRating||'',p.organization||'',p.venueRating||'',p.materials||'',p.timeManagement||'',p.engagement||'',p.speakerKnowledge||'',p.speakerClarity||'',p.speakerEngagement||'',p.speakerResponsiveness||'',p.speakerComments||'',p.learning||'',p.likedMost||'',p.improvement||'',p.future||'',avg,email,p.programFormat||'',p.certificatePreference||'Digital Certificate']);
+  qmsActivitySheet_().appendRow([new Date(),reference,p.activity||'',p.activityType||'',p.date||'',p.venue||'',p.participant||'',p.classification||'',p.speaker||'',p.rating||'',p.relevance||'',p.objectives||'',p.facilitatorRating||'',p.organization||'',p.venueRating||'',p.materials||'',p.timeManagement||'',p.engagement||'',p.speakerKnowledge||'',p.speakerClarity||'',p.speakerEngagement||'',p.speakerResponsiveness||'',p.speakerComments||'',p.learning||'',p.likedMost||'',p.improvement||'',p.future||'',avg,email,p.programFormat||'',p.certificatePreference||'Digital Certificate','','','','','']);
 
   // Save GAD/inclusion information in the same request. This removes the second
   // browser request that previously caused the “GAD monitoring request timed out” error.
@@ -248,8 +248,21 @@ function qmsSaveActivity_(p,parameters){
   cmsGadSheet_().appendRow([new Date(),reference,'Activity / Program Evaluation',String(p.sexAssignedAtBirth||''),String(p.sexAssignedAtBirthOther||''),String(p.genderIdentity||''),String(p.genderIdentityOther||''),String(p.preferredPronouns||''),String(p.preferredPronounsOther||''),String(p.organizationOffice||''),String(p.positionDesignation||''),sectors,String(p.sectorClassificationOther||'')]);
 
   const cert=cmsIssueCertificate_({participant:p.participant,email:email,activity:p.activity,activityType:p.programFormat||p.activityType,date:p.date,venue:p.venue,speaker:p.speaker,qmsReference:reference,certificatePreference:p.certificatePreference||'Digital Certificate'});
-  return {success:true,reference:reference,score:avg,rating:cmsQualityLabel_(avg),certificateId:cert.certificateId,emailSent:cert.emailSent,certificatePreference:cert.certificatePreference,hardCopyAvailableOn:cert.hardCopyAvailableOn};
+  let responseStatus='NOT PROVIDED';
+  if(email){try{qmsSendResponseCopy_(p,reference,avg,cert);responseStatus='SENT';}catch(err){responseStatus='FAILED: '+String(err.message||err).slice(0,100);}}
+  const row=qmsActivitySheet_().getLastRow();qmsActivitySheet_().getRange(row,32,1,5).setValues([[responseStatus,cert.certificateId||'',cert.emailStatus||'',cert.certificatePreference||'',new Date()]]);
+  return {success:true,reference:reference,score:avg,rating:cmsQualityLabel_(avg),certificateId:cert.certificateId,emailSent:cert.emailSent,responseEmailStatus:responseStatus,certificatePreference:cert.certificatePreference,hardCopyAvailableOn:cert.hardCopyAvailableOn};
 }
+
+function qmsSendResponseCopy_(p,reference,avg,cert){
+  const email=String(p.email||'').trim();if(!email)return;
+  const certUrl='https://sk-sapilang.github.io/sk-sapilang-website/certificate.html?id='+encodeURIComponent(cert.certificateId||'');
+  const rows=[['Activity / Program',p.activity],['Participant',p.participant],['Date',p.date],['Venue',p.venue],['Program Format',p.programFormat||p.activityType],['Overall Rating',p.rating],['Relevance',p.relevance],['Objectives',p.objectives],['Facilitator',p.facilitatorRating],['Organization',p.organization],['Venue / Platform',p.venueRating],['Materials',p.materials],['Time Management',p.timeManagement],['Engagement',p.engagement],['Learning / Takeaway',p.learning],['What you liked most',p.likedMost],['Suggested improvement',p.improvement],['Future activities',p.future]];
+  const table=rows.filter(r=>String(r[1]||'').trim()).map(r=>'<tr><td style="padding:6px 10px;border:1px solid #ddd"><strong>'+cmsEscapeHtml_(r[0])+'</strong></td><td style="padding:6px 10px;border:1px solid #ddd">'+cmsEscapeHtml_(r[1])+'</td></tr>').join('');
+  const adminCopy=(cmsCertificateSettings_().settings||{}).adminEmail||'';
+  MailApp.sendEmail({to:email,bcc:adminCopy||undefined,subject:'Copy of your SK Sapilang Activity Evaluation – '+String(p.activity||''),htmlBody:'<p>Good day, <strong>'+cmsEscapeHtml_(p.participant)+'</strong>.</p><p>Thank you for completing the SK Sapilang activity evaluation. Below is a copy of the responses you submitted.</p><table style="border-collapse:collapse;width:100%;max-width:720px">'+table+'</table><p><strong>QMS Reference:</strong> '+cmsEscapeHtml_(reference)+'<br><strong>Average Score:</strong> '+Number(avg||0).toFixed(2)+' / 5</p><p><strong>Your digital certificate:</strong> <a href="'+certUrl+'">Open / Save E-Copy</a><br><strong>Certificate No.:</strong> '+cmsEscapeHtml_(cert.certificateId||'')+'</p><p>This email intentionally excludes optional demographic/GAD monitoring fields.</p><p>Sangguniang Kabataan of Barangay Sapilang</p>'});
+}
+
 function qmsSaveClient_(p){
   const reference=qmsRef_('CLI');const rating=Number(p.rating)||0;
   cmsVisitorSheet_().appendRow([new Date(),reference,p.name||'',p.age||'',p.birthdate||'',p.address||'',p.contact||'',p.office||'',p.position||'',p.clientType||'',p.purpose||'',p.service||'',p.date||'',p.rating||'',p.comments||'','YES']);
@@ -268,7 +281,7 @@ function qmsUpdateSuggestion_(p){
   if(/RESOLVED|CLOSED/i.test(String(p.status||'')))sh.getRange(row,12).setValue(new Date());else sh.getRange(row,12).clearContent();return {success:true};
 }
 function cmsCertificatesSheet_(){
-  const headers=['CERTIFICATE_ID','QMS_REFERENCE','PARTICIPANT','ACTIVITY','ACTIVITY_TYPE','DATE_CONDUCTED','VENUE','RESOURCE_SPEAKER','ISSUED_AT','STATUS','EMAIL','EMAIL_STATUS','DELIVERY_PREFERENCE','HARD_COPY_AVAILABLE_ON','PRINT_STATUS','CERTIFICATE_TYPE','RECIPIENT_TYPE','CITATION','TEMPLATE_ID'];
+  const headers=['CERTIFICATE_ID','QMS_REFERENCE','PARTICIPANT','ACTIVITY','ACTIVITY_TYPE','DATE_CONDUCTED','VENUE','RESOURCE_SPEAKER','ISSUED_AT','STATUS','EMAIL','EMAIL_STATUS','DELIVERY_PREFERENCE','HARD_COPY_AVAILABLE_ON','PRINT_STATUS','CERTIFICATE_TYPE','RECIPIENT_TYPE','CITATION','TEMPLATE_ID','LAST_EMAIL_AT'];
   const ss=cmsSpreadsheet_();let sheet=ss.getSheetByName('DIGITAL_CERTIFICATES');
   if(!sheet){sheet=ss.insertSheet('DIGITAL_CERTIFICATES');sheet.getRange(1,1,1,headers.length).setValues([headers]);sheet.setFrozenRows(1);}
   else if(sheet.getLastColumn()<headers.length){sheet.getRange(1,sheet.getLastColumn()+1,1,headers.length-sheet.getLastColumn()).setValues([headers.slice(sheet.getLastColumn())]);}
@@ -292,7 +305,7 @@ function cmsIssueCertificate_(p){
       emailStatus='SENT';emailSent=true;
     }catch(err){emailStatus='FAILED: '+String(err.message||err).slice(0,120);}
   }
-  sheet.appendRow([id,qmsReference,participant,activity,String(p.activityType||''),String(p.date||''),String(p.venue||''),String(p.speaker||''),new Date(),'ACTIVE',email,emailStatus,preference,hardCopyAvailableOn,hardCopyRequested?'PRINT REQUESTED':'DIGITAL / E-COPY',String(p.certificateType||'Participation'),String(p.recipientType||'Individual'),String(p.citation||''),String(p.templateId||'')]);
+  sheet.appendRow([id,qmsReference,participant,activity,String(p.activityType||''),String(p.date||''),String(p.venue||''),String(p.speaker||''),new Date(),'ACTIVE',email,emailStatus,preference,hardCopyAvailableOn,hardCopyRequested?'PRINT REQUESTED':'DIGITAL / E-COPY',String(p.certificateType||'Participation'),String(p.recipientType||'Individual'),String(p.citation||''),String(p.templateId||''),emailSent?new Date():'']);
   return {success:true,certificateId:id,existing:false,emailSent:emailSent,emailStatus:emailStatus,certificatePreference:preference,hardCopyAvailableOn:hardCopyAvailableOn};
 }
 function cmsEscapeHtml_(value){return String(value||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -413,8 +426,8 @@ function cmsJsonp_(data,callback){
 function cmsCertificateList_(){
   const sh=cmsCertificatesSheet_();
   if(sh.getLastRow()<2)return {success:true,certificates:[]};
-  const rows=sh.getRange(2,1,sh.getLastRow()-1,19).getDisplayValues().reverse();
-  return {success:true,certificates:rows.map(r=>({certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],emailStatus:r[11],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13],printStatus:r[14]||'',certificateType:r[15]||'Participation',recipientType:r[16]||'Individual',citation:r[17]||'',templateId:r[18]||''}))};
+  const rows=sh.getRange(2,1,sh.getLastRow()-1,20).getDisplayValues().reverse();
+  const responseMap={};try{const ev=qmsActivitySheet_();if(ev.getLastRow()>1){ev.getRange(2,1,ev.getLastRow()-1,36).getDisplayValues().forEach(x=>{responseMap[x[1]]=x[31]||'';});}}catch(_){} return {success:true,certificates:rows.map(r=>({certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],emailStatus:r[11],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13],printStatus:r[14]||'',certificateType:r[15]||'Participation',recipientType:r[16]||'Individual',citation:r[17]||'',templateId:r[18]||'',lastEmailAt:r[19]||'',responseEmailStatus:responseMap[r[1]]||''}))};
 }
 function cmsUpdateCertificateStatus_(p){
   if(!cmsAuthorized_(p.adminKey||p.password))throw new Error('Incorrect administrator password.');

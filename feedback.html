@@ -1389,18 +1389,34 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                               <div class="admin-schedule-field full">
                                 <label>Live Certificate Editor / Preview</label>
                                 <span class="admin-schedule-help">Click an item, then drag it anywhere on the certificate. Use the corner handle to resize. Changes are saved with this activity certificate.</span>
+                                <div class="ct-element-toolbar" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:7px;margin:10px 0">
+                                  <button type="button" class="admin-action-btn" data-ct-select="header">Header</button><button type="button" class="admin-action-btn" data-ct-select="logo1">SK Logo</button><button type="button" class="admin-action-btn" data-ct-select="logo2">Barangay Logo</button><button type="button" class="admin-action-btn" data-ct-select="heading">Title</button><button type="button" class="admin-action-btn" data-ct-select="name">Recipient</button><button type="button" class="admin-action-btn" data-ct-select="citation">Citation</button><button type="button" class="admin-action-btn" data-ct-select="signature">Signature</button><button type="button" class="admin-action-btn" data-ct-select="qr">QR Code</button><button type="button" class="admin-action-btn" data-ct-select="no">Certificate No.</button>
+                                </div>
+                                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-bottom:10px">
+                                  <label class="admin-schedule-help">Header text<input id="ctHeaderText" value="SANGGUNIANG KABATAAN OF BARANGAY SAPILANG" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">SK Logo URL<input id="ctLogo1" value="images/sk-logo.svg" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">Barangay Logo URL<input id="ctLogo2" value="images/barangay-logo.svg" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">Signatory name<input id="ctSignatory" value="DANDY F. NILLO" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">Signatory position<input id="ctSignatoryPosition" value="SK Chairperson" style="width:100%;margin-top:4px"></label>
+                                  <label class="admin-schedule-help">E-signature image URL (optional)<input id="ctSignatureUrl" placeholder="Paste uploaded signature image URL" style="width:100%;margin-top:4px"></label>
+                                </div>
                                 <div id="ctEditorWrap" style="margin-top:10px;overflow:auto;background:#eef4f7;border:1px solid #d7e4ea;border-radius:14px;padding:12px">
                                   <div id="ctEditor" style="position:relative;width:min(100%,1000px);aspect-ratio:297/210;margin:auto;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 24px #1232;overflow:hidden;user-select:none">
-                                    <div id="ctPreviewHeading" style="position:absolute;left:10%;right:10%;top:29%;text-align:center;font:700 30px Georgia,serif;pointer-events:none">Certificate of Participation</div>
-                                    <div class="ct-edit-item" data-key="name" style="left:50%;top:49%;width:62%;height:9%;font:700 34px Georgia,serif;text-align:center">SAMPLE PARTICIPANT NAME<div class="ct-resize"></div></div>
-                                    <div class="ct-edit-item" data-key="no" style="left:18%;top:91%;width:28%;height:5%;font:700 12px Arial,sans-serif">Certificate No. SK-SAP-2026-000001<div class="ct-resize"></div></div>
-                                    <div class="ct-edit-item ct-qr-placeholder" data-key="qr" style="left:83%;top:78%;width:11%;height:16%">UNIQUE<br>QR CODE<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="header">SANGGUNIANG KABATAAN OF BARANGAY SAPILANG<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="logo1"><img alt="SK Logo" style="width:100%;height:100%;object-fit:contain;pointer-events:none"><div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="logo2"><img alt="Barangay Logo" style="width:100%;height:100%;object-fit:contain;pointer-events:none"><div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="heading">Certificate of Participation<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="name">SAMPLE PARTICIPANT NAME<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="citation">Certificate citation / content appears here.<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="signature"><div style="width:100%;text-align:center"><img alt="E-signature" style="display:none;max-width:100%;height:42%;object-fit:contain;pointer-events:none"><strong class="ct-sign-name">DANDY F. NILLO</strong><br><span class="ct-sign-pos">SK Chairperson</span></div><div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item" data-key="no">Certificate No. SK-SAP-2026-000001<div class="ct-resize"></div></div>
+                                    <div class="ct-edit-item ct-qr-placeholder" data-key="qr">UNIQUE<br>QR CODE<div class="ct-resize"></div></div>
                                   </div>
                                 </div>
                                 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
                                   <button class="admin-action-btn" id="ctResetLayout" type="button">Reset Positions</button>
                                   <button class="admin-action-btn" id="ctPreviewFull" type="button">Open Full Preview</button>
-                                  <span id="ctSelectedItem" class="admin-schedule-help" style="align-self:center">Select NAME, QR CODE, or CERTIFICATE NO. to move or resize.</span>
+                                  <span id="ctSelectedItem" class="admin-schedule-help" style="align-self:center">Select any certificate element above, then drag or resize it.</span>
                                 </div>
                               </div>
                               <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn" id="ctUpload" type="button">Upload Design</button><button class="admin-action-btn primary" id="ctSave" type="button">Save Activity Certificate</button><button class="admin-action-btn" id="ctNew" type="button">New Template</button></div><div id="ctMsg" class="admin-schedule-message"></div></div>
@@ -1448,13 +1464,13 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                           </div>
                         </article>
                         <div class="admin-card" data-cert-panel="issued" style="display:none">
-                            <div class="admin-card-head"><div><small>DIGITAL & PRINT MANAGEMENT</small><h4>Certificates</h4><p>Access issued certificates, hard-copy requests and blank printable templates.</p></div></div>
+                            <div class="admin-card-head"><div><small>DELIVERY & TRACKING</small><h4>Certificate & Feedback Delivery Tracker</h4><p>Track certificate number, participant, activity, delivery preference, certificate email status, hard-copy request and certificate status. Evaluation submissions with an email automatically receive a response summary and their digital certificate link.</p></div></div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
                               <button class="admin-action-btn primary" id="integratedCertificateRefresh" type="button">Refresh Certificates</button>
                               <a class="admin-action-btn" href="certificate.html?blank=1&template=official" target="_blank" style="text-decoration:none">Print Blank Certificate</a>
                             </div>
                             <input id="integratedCertificateSearch" type="search" placeholder="Search certificate, participant, activity or status..." style="width:100%;margin-bottom:12px">
-                            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Certificate</th><th>Participant</th><th>Activity</th><th>Delivery</th><th>Hard Copy</th><th>Status</th><th>Actions</th></tr></thead><tbody id="integratedCertificateRows"><tr><td colspan="7">Open this tab to load certificate records.</td></tr></tbody></table></div>
+                            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Certificate</th><th>Participant</th><th>Activity</th><th>Delivery</th><th>Feedback Copy</th><th>Hard Copy</th><th>Status</th><th>Actions</th></tr></thead><tbody id="integratedCertificateRows"><tr><td colspan="8">Open this tab to load certificate records.</td></tr></tbody></table></div>
                         </div>
                     </section>
 
