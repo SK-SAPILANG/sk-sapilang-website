@@ -96,6 +96,7 @@ function doPost(e) {
     if(p.action==='issue-certificate') return cmsJson_(cmsIssueCertificate_(p));
     if(!cmsAuthorized_(p.password)) throw new Error('Incorrect administrator password.');
     if(p.action==='upload-frame') return cmsUploadFrame_(p);
+    if(p.action==='upload-certificate-background') return cmsJson_(cmsUpload_(p));
     let result;
     if(p.action==='login') result={success:true};
     else if(p.action==='qms-dashboard') result=cmsQmsDashboard_();
