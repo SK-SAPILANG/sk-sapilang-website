@@ -1400,7 +1400,25 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                   <label class="admin-schedule-help">Signatory position<input id="ctSignatoryPosition" value="SK Chairperson" style="width:100%;margin-top:4px"></label>
                                   <label class="admin-schedule-help">E-signature image URL (optional)<input id="ctSignatureUrl" placeholder="Paste uploaded signature image URL" style="width:100%;margin-top:4px"></label>
                                 </div>
-                                <div id="ctEditorWrap" style="margin-top:10px;overflow:auto;background:#eef4f7;border:1px solid #d7e4ea;border-radius:14px;padding:12px">
+                                <div id="ctDesignToolbar" style="position:sticky;top:0;z-index:20;background:#fff;border:1px solid #d7e4ea;border-radius:12px;padding:10px;margin:10px 0;box-shadow:0 5px 18px #1231">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+    <button type="button" class="admin-action-btn" id="ctUndo">↶ Undo</button><button type="button" class="admin-action-btn" id="ctRedo">↷ Redo</button>
+    <button type="button" class="admin-action-btn" id="ctAddText">+ Text</button><button type="button" class="admin-action-btn" id="ctAddImage">+ Image / Logo</button><input id="ctAssetFile" type="file" accept="image/*" hidden>
+    <button type="button" class="admin-action-btn" id="ctAddLine">+ Line</button><button type="button" class="admin-action-btn" id="ctDuplicate">Duplicate</button><button type="button" class="admin-action-btn" id="ctDelete">Delete</button>
+    <button type="button" class="admin-action-btn" id="ctForward">Bring Forward</button><button type="button" class="admin-action-btn" id="ctBackward">Send Backward</button>
+  </div>
+  <div id="ctFormatBar" style="display:grid;grid-template-columns:160px 78px 74px 74px 90px 90px 90px 90px;gap:6px;margin-top:8px;align-items:center">
+    <select id="ctFontFamily"><option>Arial</option><option>Georgia</option><option>Times New Roman</option><option>Verdana</option><option>Trebuchet MS</option><option>Tahoma</option><option>Courier New</option><option>Garamond</option></select>
+    <input id="ctFontSize" type="number" min="6" max="120" value="20" title="Font size">
+    <input id="ctTextColor" type="color" value="#08284a" title="Text color"><input id="ctOpacity" type="number" min="10" max="100" value="100" title="Opacity %">
+    <button type="button" class="admin-action-btn" id="ctBold"><b>B</b></button><button type="button" class="admin-action-btn" id="ctItalic"><i>I</i></button>
+    <select id="ctAlign"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select>
+    <input id="ctLetterSpacing" type="number" min="-2" max="20" step=".5" value="0" title="Letter spacing">
+    <input id="ctLineHeight" type="number" min="0.7" max="3" step=".1" value="1.2" title="Line spacing"><input id="ctRotate" type="number" min="-180" max="180" value="0" title="Rotation">
+  </div>
+  <div class="admin-schedule-help" style="margin-top:6px">Select an element to format it. Double-click custom text to edit its wording. Images/logos can be uploaded directly. Dynamic Recipient Name, QR Code and Certificate No. stay linked to each issued certificate.</div>
+</div>
+<div id="ctEditorWrap" style="margin-top:10px;overflow:auto;background:#eef4f7;border:1px solid #d7e4ea;border-radius:14px;padding:12px">
                                   <div id="ctEditor" style="position:relative;width:min(100%,1000px);aspect-ratio:297/210;margin:auto;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 24px #1232;overflow:hidden;user-select:none">
                                     <div class="ct-edit-item" data-key="header">SANGGUNIANG KABATAAN OF BARANGAY SAPILANG<div class="ct-resize"></div></div>
                                     <div class="ct-edit-item" data-key="logo1"><img alt="SK Logo" style="width:100%;height:100%;object-fit:contain;pointer-events:none"><div class="ct-resize"></div></div>
