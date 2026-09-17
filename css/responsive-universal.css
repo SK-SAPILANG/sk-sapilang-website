@@ -1,0 +1,47 @@
+/* SK Sapilang Universal Responsive Layer — 2026 */
+:root{--sk-touch:44px;--sk-page:1200px}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+body{max-width:100%;overflow-x:hidden}
+img,video,svg,canvas,iframe{max-width:100%;height:auto}
+iframe{width:100%;border:0}
+.container,.wrap,.wrapper,.page,.page-wrap,.content,.main-content,.shell{width:min(100% - 32px,var(--sk-page));max-width:var(--sk-page);margin-left:auto;margin-right:auto}
+input,select,textarea,button{max-width:100%;font:inherit}
+input:not([type="checkbox"]):not([type="radio"]),select,textarea{width:100%;min-height:44px}
+textarea{resize:vertical}
+button,.btn,[role="button"],input[type="submit"],input[type="button"]{min-height:var(--sk-touch);touch-action:manipulation}
+.form-grid,.grid,.fields,.field-grid,.admin-grid,.cards,.card-grid,.stats-grid{min-width:0}
+.form-grid>*,.grid>*,.fields>*,.field-grid>*,.admin-grid>*,.cards>*,.card-grid>*,.stats-grid>*{min-width:0}
+.table-wrap,.table-responsive,.data-table-wrap,.admin-table-wrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{max-width:100%;border-collapse:collapse}
+pre,code{max-width:100%;overflow-wrap:anywhere}
+.navbar,.nav,.header,.site-header{max-width:100%}
+@media (max-width:900px){
+ .container,.wrap,.wrapper,.page,.page-wrap,.content,.main-content,.shell{width:min(100% - 24px,var(--sk-page))}
+ .form-grid,.field-grid,.fields,.admin-grid,.card-grid,.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .admin-actions,.actions,.button-row,.toolbar{flex-wrap:wrap!important}
+ .admin-actions>*,.actions>*,.button-row>*,.toolbar>*{max-width:100%}
+}
+@media (max-width:640px){
+ :root{--sk-touch:46px}
+ .container,.wrap,.wrapper,.page,.page-wrap,.content,.main-content,.shell{width:calc(100% - 20px)}
+ .form-grid,.field-grid,.fields,.admin-grid,.grid,.cards,.card-grid,.stats-grid{grid-template-columns:1fr!important}
+ .span-2,.full,.full-width,[class*="col-span"]{grid-column:1/-1!important}
+ h1{font-size:clamp(1.65rem,8vw,2.25rem)!important;line-height:1.12}
+ h2{font-size:clamp(1.3rem,6vw,1.75rem)!important}
+ h3{font-size:clamp(1.08rem,5vw,1.35rem)!important}
+ p,label,.help,.hint,.small{overflow-wrap:anywhere}
+ .admin-actions,.actions,.button-row,.toolbar{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important}
+ .admin-actions>*,.actions>*,.button-row>*,.toolbar>*{width:100%!important}
+ .tabs,.tab-list,.admin-tabs{display:flex!important;max-width:100%;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+ .tabs>*,.tab-list>*,.admin-tabs>*{flex:0 0 auto}
+ table{font-size:.88rem}
+ th,td{padding:10px 9px!important;white-space:nowrap}
+ .modal,.dialog,.modal-content,.panel,.admin-panel{max-width:calc(100vw - 20px)!important}
+}
+@media (max-width:380px){
+ .container,.wrap,.wrapper,.page,.page-wrap,.content,.main-content,.shell{width:calc(100% - 16px)}
+ body{font-size:15px}
+}
+@media (hover:none) and (pointer:coarse){a,button,.btn,input,select,textarea{min-height:44px}}
+@media print{.no-print,.site-header,.navbar,.nav,.admin-actions,.actions,.toolbar{display:none!important}html,body{overflow:visible!important}.container,.wrap,.wrapper,.page,.page-wrap,.content,.main-content,.shell{width:100%!important;max-width:none!important;margin:0!important}}
