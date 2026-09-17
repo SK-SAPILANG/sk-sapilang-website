@@ -261,6 +261,29 @@ if(clientForm)clientForm.addEventListener("submit",async e=>{
 });
 
 
+
+async function issueDigitalCertificate(form,qmsReference){
+    const endpoint=feedbackCmsEndpoint();
+    if(!endpoint) throw new Error("Certificate endpoint is not configured.");
+    const fd=new FormData(form);
+    const body=new URLSearchParams();
+    body.set("action","issue-certificate");
+    body.set("participant",String(fd.get("participant")||"").trim());
+    body.set("email",String(fd.get("email")||"").trim());
+    body.set("activity",String(fd.get("activity")||"").trim());
+    body.set("activityType",String(fd.get("activityType")||"Activity / Program").trim());
+    body.set("date",String(fd.get("date")||"").trim());
+    body.set("venue",String(fd.get("venue")||"").trim());
+    body.set("speaker",String(fd.get("speaker")||"").trim());
+    body.set("qmsReference",String(qmsReference||"").trim());
+    body.set("certificatePreference",String(fd.get("certificatePreference")||"Digital Certificate").trim());
+    const response=await fetch(endpoint,{method:"POST",body,redirect:"follow"});
+    if(!response.ok) throw new Error("Certificate server returned an error.");
+    const data=await response.json();
+    if(!data.success) throw new Error(data.message||"Certificate could not be issued.");
+    return data;
+}
+
 document.getElementById("activityForm").addEventListener("submit",async e=>{
     e.preventDefault();
 
@@ -274,7 +297,8 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
         setSubmitting(button,true);
 
         const data=await sendToQMS("activity",form);
-        await sendGadProfile(form,"Activity / Program Evaluation",data.reference);
+        // GAD fields are saved together with the activity evaluation by the backend.
+        // Do not make certificate issuance depend on a second iframe request.
 
         showResult(
             resultBox,
@@ -283,6 +307,30 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
             data.rating,
             "seminar, training or activity evaluation"
         );
+
+        // After a successful QMS evaluation, request a digital certificate record.
+        // The certificate is stored in the CMS spreadsheet and can later be verified by QR/reference number.
+        try{
+            const cert=data.certificateId?{success:true,certificateId:data.certificateId}:await issueDigitalCertificate(form,data.reference);
+            if(cert&&cert.success&&cert.certificateId){
+                const url="certificate.html?id="+encodeURIComponent(cert.certificateId);
+                const preference=cert.certificatePreference||data.certificatePreference||new FormData(form).get("certificatePreference")||"Digital Certificate";
+                const hardCopy=cert.hardCopyAvailableOn||data.hardCopyAvailableOn||"";
+                resultBox.insertAdjacentHTML("beforeend",`
+                    <div class="result-row" style="margin-top:16px">
+                        <div class="result-item" style="width:100%">
+                            <small>Certificate of Participation</small>
+                            <strong>${integratedEscape(cert.certificateId)}</strong>
+                            <p style="margin:8px 0">Your verified digital certificate is ready. Digital certificates are highly recommended to help SK Sapilang reduce unnecessary paper use.</p>
+                            ${hardCopy?`<p style="margin:8px 0 12px"><strong>Hard Copy Requested:</strong> Your printed certificate will be available for claiming on <strong>${integratedEscape(hardCopy)}</strong> (three days after submission).</p>`:""}
+                            <p style="margin:8px 0 12px"><strong>Selected delivery:</strong> ${integratedEscape(preference)}</p>
+                            <a class="primary-button" href="${url}" target="_blank" rel="noopener">View / Print Digital Certificate</a>
+                        </div>
+                    </div>`);
+            }
+        }catch(certError){
+            resultBox.insertAdjacentHTML("beforeend",`<p class="form-help" style="margin-top:12px">Your evaluation was saved, but the certificate service could not be reached. Keep your QMS reference number and contact SK Sapilang for certificate assistance.</p>`);
+        }
 
         form.reset();
         resetGadProfile(form);
@@ -310,7 +358,7 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
         setSubmitting(button,true);
 
         const data=await sendToQMS("suggestion",form);
-        await sendGadProfile(form,"Suggestions & Recommendations",data.reference);
+        sendGadProfile(form,"Suggestions & Recommendations",data.reference).catch(()=>{});
 
         showResult(
             resultBox,
@@ -337,7 +385,27 @@ function loadScheduledActivities(){
     const run=()=>{const endpoint=feedbackCmsEndpoint(),select=document.getElementById("scheduledActivitySelect");if(!endpoint){select.innerHTML='<option value="">No CMS endpoint configured</option>';return}const callback='skSchedule'+Date.now();window[callback]=data=>{const items=(data.items||[]).filter(item=>item.type==='Scheduled Activity / Evaluation');select.innerHTML='<option value="">Select Scheduled Activity</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');select._scheduleItems=items;delete window[callback];script.remove()};const script=document.createElement('script');script.src=endpoint+'?action=public&page=feedback.html&callback='+callback+'&_='+Date.now();script.onerror=()=>{select.innerHTML='<option value="">Unable to load scheduled activities</option>'};document.head.appendChild(script)};
     if(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint'))run();else{const config=document.createElement('script');config.src='cms-config.js?v=20260903-QMS';config.onload=run;document.head.appendChild(config)}
 }
-document.getElementById("scheduledActivitySelect").addEventListener("change",function(){const option=this.selectedOptions[0];document.getElementById("scheduledActivityDate").value=option?.dataset.date||"";document.getElementById("scheduledActivityVenue").value=option?.dataset.venue||"";document.getElementById("scheduledActivitySpeaker").value=option?.dataset.speaker||""});
+function updateActivityEvaluationMode(){
+    const format=document.getElementById("activityProgramFormat")?.value||"";
+    const speaker=document.getElementById("scheduledActivitySpeaker")?.value.trim()||"";
+    const speakerSection=document.getElementById("speakerEvaluationSection");
+    const speakerApplicable=Boolean(speaker)&&format==="Seminar / Training / Workshop";
+    if(speakerSection){
+        speakerSection.style.display=speakerApplicable?"contents":"none";
+        speakerSection.querySelectorAll("select,textarea,input").forEach(el=>{
+            el.disabled=!speakerApplicable;
+            if(!speakerApplicable)el.value="";
+        });
+    }
+}
+document.getElementById("scheduledActivitySelect").addEventListener("change",function(){
+    const option=this.selectedOptions[0];
+    document.getElementById("scheduledActivityDate").value=option?.dataset.date||"";
+    document.getElementById("scheduledActivityVenue").value=option?.dataset.venue||"";
+    document.getElementById("scheduledActivitySpeaker").value=option?.dataset.speaker||"";
+    updateActivityEvaluationMode();
+});
+document.getElementById("activityProgramFormat")?.addEventListener("change",updateActivityEvaluationMode);
 loadScheduledActivities();
 
 function sendVisitorLog(form){
@@ -976,3 +1044,22 @@ if("IntersectionObserver" in window){
 }
 
 document.getElementById("year").textContent=new Date().getFullYear();
+
+
+let INTEGRATED_CERTIFICATES=[];
+async function integratedLoadCertificates(){
+    if(!INTEGRATED_ADMIN_KEY)return;
+    const body=new URLSearchParams({action:'certificate-list',password:INTEGRATED_ADMIN_KEY});
+    const response=await fetch(feedbackCmsEndpoint(),{method:'POST',body,redirect:'follow'});
+    const data=await response.json(); if(!data.success)throw new Error(data.message||'Unable to load certificates.');
+    INTEGRATED_CERTIFICATES=data.certificates||[]; integratedRenderCertificates();
+}
+function integratedRenderCertificates(){
+    const tbody=document.getElementById('integratedCertificateRows'); if(!tbody)return;
+    const q=(document.getElementById('integratedCertificateSearch')?.value||'').toLowerCase();
+    const rows=INTEGRATED_CERTIFICATES.filter(c=>[c.certificateId,c.participant,c.activity,c.deliveryPreference,c.printStatus].join(' ').toLowerCase().includes(q));
+    tbody.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${integratedEscape(c.certificateId)}</strong><br>${integratedEscape(c.qmsReference)}</td><td>${integratedEscape(c.participant)}</td><td>${integratedEscape(c.activity)}<br><small>${integratedEscape(c.activityType)}</small></td><td>${integratedEscape(c.deliveryPreference)}</td><td>${integratedEscape(c.hardCopyAvailableOn||'—')}<br><small>${integratedEscape(c.printStatus||'')}</small></td><td>${integratedEscape(c.status)}</td><td><a href="certificate.html?id=${encodeURIComponent(c.certificateId)}" target="_blank">View / Print</a> · <a href="certificate.html?blank=1&activity=${encodeURIComponent(c.activity)}&type=${encodeURIComponent(c.activityType)}&date=${encodeURIComponent(c.date||'')}&venue=${encodeURIComponent(c.venue||'')}" target="_blank">Blank</a></td></tr>`).join(''):'<tr><td colspan="7">No certificate records found.</td></tr>';
+}
+document.getElementById('integratedCertificateRefresh')?.addEventListener('click',()=>integratedLoadCertificates().catch(e=>alert(e.message)));
+document.getElementById('integratedCertificateSearch')?.addEventListener('input',integratedRenderCertificates);
+document.querySelector('[data-admin-tab="certificates"]')?.addEventListener('click',()=>integratedLoadCertificates().catch(()=>{}));

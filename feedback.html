@@ -673,7 +673,20 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     <div class="form-grid">
 
                         <input name="activityType" type="hidden" value="Scheduled Activity">
-                        <div class="form-group full"><label>Activity / Program / Training *</label><select name="activity" id="scheduledActivitySelect" required><option value="">Loading scheduled activities...</option></select><span class="form-help">Choices are created and updated by the administrator.</span></div>
+                        <div class="form-group full"><label>Activity / Program / Training <strong>* Required</strong></label><select name="activity" id="scheduledActivitySelect" required><option value="">Loading scheduled activities...</option></select><span class="form-help">Required. Select the SK activity you actually attended. Choices are created and updated by the administrator.</span></div>
+
+                        <div class="form-group full">
+                            <label>Activity Format <strong>* Required</strong></label>
+                            <select name="programFormat" id="activityProgramFormat" required>
+                                <option value="">Select Activity Format</option>
+                                <option value="Seminar / Training / Workshop">Seminar / Training / Workshop — with learning session or facilitator</option>
+                                <option value="Community Program / Distribution / Exchange">Community Program / Distribution / Exchange — e.g. kaBOTEhan, school supplies distribution</option>
+                                <option value="Sports / Recreation">Sports / Recreation</option>
+                                <option value="Assembly / Community Event">Assembly / Community Event</option>
+                                <option value="Other SK Program">Other SK Program</option>
+                            </select>
+                            <span class="form-help">Required. This changes the evaluation questions so programs without a resource speaker are evaluated appropriately.</span>
+                        </div>
 
                         <div class="form-group">
                             <label>Date Conducted</label>
@@ -686,12 +699,29 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group">
-                            <label>Participant Name</label>
-                            <input name="participant" type="text">
+                            <label>Participant Name <strong>* Required</strong></label>
+                            <input name="participant" type="text" required autocomplete="name"><span class="form-help">Required. Use your complete name exactly as you want it to appear on your digital certificate.</span>
                         </div>
 
                         <div class="form-group">
-                            <label>Participant Classification</label>
+                            <label>Email Address <span>(Optional)</span></label>
+                            <input name="email" type="email" autocomplete="email" placeholder="name@example.com">
+                            <span class="form-help">Optional. If provided, your digital certificate and verification link will also be sent to this email. No email? You may leave this blank.</span>
+                        </div>
+
+                        <div class="form-group full" style="background:#f5fbf6;border:1px solid #b9dec0;border-radius:14px;padding:16px">
+                            <label>Certificate Delivery Preference <strong>* Required</strong></label>
+                            <select name="certificatePreference" required>
+                                <option value="">Select Certificate Preference</option>
+                                <option value="Digital Certificate">Digital Certificate — Highly Recommended</option>
+                                <option value="Hard Copy Certificate">Printed / Hard Copy Certificate</option>
+                                <option value="Both Digital and Hard Copy">Both Digital and Printed Copy</option>
+                            </select>
+                            <span class="form-help"><strong>Paper-Saving Notice:</strong> SK Sapilang highly recommends digital certificates as part of our effort to reduce unnecessary paper use and promote sustainable, accessible public services. Printed certificates remain available when needed. If you request a hard copy, it will be available for claiming <strong>three (3) days after successful submission</strong>.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Participant Classification <span>(Optional)</span></label>
                             <select name="classification">
                                 <option value="">Select Classification</option>
                                 <option>Katipunan ng Kabataan Member</option>
@@ -708,7 +738,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group full">
-                            <label>Resource Speaker / Trainer / Facilitator</label>
+                            <label>Resource Speaker / Trainer / Facilitator <span>(Not required for programs without a speaker)</span></label>
                             <input name="speaker" id="scheduledActivitySpeaker" type="text" readonly>
                         </div>
 
@@ -859,9 +889,10 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
+                        <div id="speakerEvaluationSection" style="display:contents">
                         <div class="form-group full">
                             <div class="rating-title" style="margin-top:4px">
-                                <h4>Resource Speaker / Trainer / Facilitator Feedback</h4>
+                                <h4>Resource Speaker / Trainer / Facilitator Feedback <span>(Optional when applicable)</span></h4>
                                 <p>Provide additional feedback about the person who delivered or facilitated the session. If the activity had no resource speaker, you may write “Not Applicable.”</p>
                             </div>
                         </div>
@@ -922,9 +953,10 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Comments for the Resource Speaker / Trainer / Facilitator</label>
                             <textarea name="speakerComments" placeholder="What did the speaker do well? What could be improved?"></textarea>
                         </div>
+                        </div>
 
                         <div class="form-group full">
-                            <label>What did you learn or benefit from?</label>
+                            <label>What did you learn or benefit from? <span>(Optional)</span></label>
                             <textarea
                                 name="learning"
                                 placeholder="Share your main learning, skills gained, insights or benefits."
@@ -932,7 +964,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group full">
-                            <label>What did you like most about the activity?</label>
+                            <label>What did you like most about the activity? <span>(Optional)</span></label>
                             <textarea
                                 name="likedMost"
                                 placeholder="Tell us which part of the activity was most useful or engaging."
@@ -940,7 +972,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group full">
-                            <label>What can we improve?</label>
+                            <label>What can we improve? <span>(Optional)</span></label>
                             <textarea
                                 name="improvement"
                                 placeholder="Share suggestions on content, facilitation, venue, schedule, logistics or implementation."
@@ -948,7 +980,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group full">
-                            <label>Suggested future seminars, trainings or activities</label>
+                            <label>Suggested future seminars, trainings or activities <span>(Optional)</span></label>
                             <textarea
                                 name="future"
                                 placeholder="Suggest topics, trainings, sports activities, workshops or programs you want SK Sapilang to conduct."
@@ -1151,6 +1183,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <button class="admin-tab-btn" data-admin-tab="activities" type="button">Activity Evaluations</button>
                         <button class="admin-tab-btn" data-admin-tab="speakers" type="button">Resource Speakers</button>
                         <button class="admin-tab-btn" data-admin-tab="suggestions" type="button">Suggestions</button>
+                        <button class="admin-tab-btn" data-admin-tab="certificates" type="button">Certificates</button>
                         <button class="admin-tab-btn" data-admin-tab="manage" type="button">Manage Activities</button>
                     </div>
 
@@ -1308,6 +1341,18 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                 </div>
                             </div>
                         </article>
+                    </section>
+
+                    <section class="admin-tab-content" id="integratedCertificatesTab">
+                        <div class="admin-card">
+                            <div class="admin-card-head"><div><small>DIGITAL & PRINT MANAGEMENT</small><h4>Certificates</h4><p>Access issued certificates, hard-copy requests and blank printable templates.</p></div></div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+                              <button class="admin-action-btn primary" id="integratedCertificateRefresh" type="button">Refresh Certificates</button>
+                              <a class="admin-action-btn" href="certificate.html?blank=1&template=official" target="_blank" style="text-decoration:none">Print Blank Certificate</a>
+                            </div>
+                            <input id="integratedCertificateSearch" type="search" placeholder="Search certificate, participant, activity or status..." style="width:100%;margin-bottom:12px">
+                            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Certificate</th><th>Participant</th><th>Activity</th><th>Delivery</th><th>Hard Copy</th><th>Status</th><th>Actions</th></tr></thead><tbody id="integratedCertificateRows"><tr><td colspan="7">Open this tab to load certificate records.</td></tr></tbody></table></div>
+                        </div>
                     </section>
 
                     <section class="admin-tab-content" id="integratedManageTab">

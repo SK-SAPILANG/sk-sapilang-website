@@ -1,0 +1,28 @@
+SK SAPILANG — QMS + AUTOMATIC DIGITAL CERTIFICATE SETUP
+
+1. Open the Google Apps Script project currently used by feedback.html.
+2. Replace its Code.gs contents with the included CMS-Code.gs.
+3. Save.
+4. Run setupWebsiteCMS() once and authorize the requested permissions.
+   This creates/updates: WEBSITE_CONTENT, WEBSITE_ITEMS, VISITOR_LOGBOOK,
+   GAD_INCLUSION_DATA, ACTIVITY_EVALUATIONS, SUGGESTIONS_RECOMMENDATIONS,
+   and DIGITAL_CERTIFICATES.
+5. Run setWebsiteCMSPassword() if you need to set/reset the CMS/QMS admin password.
+6. Deploy > Manage deployments > Edit > New version > Deploy.
+7. Keep the same Web App URL if editing the existing deployment. If the URL changes,
+   update BOTH cms-config.js and QMS_WEB_APP_URL in js/feedback-page.js.
+8. Upload/commit all website files to GitHub Pages.
+9. In the website admin/QMS area, add a Scheduled Activity / Evaluation.
+10. Test: select activity > complete evaluation > submit. A certificate number and
+    View / Print Digital Certificate button should appear automatically.
+11. Scan the QR on the certificate to test certificate-verify.html.
+
+SECURITY / CONTROL
+- Certificates are created server-side only after the activity evaluation is saved.
+- One certificate is issued per QMS reference.
+- Certificate records are stored in DIGITAL_CERTIFICATES.
+- To invalidate a certificate, change STATUS from ACTIVE to REVOKED in that sheet.
+
+NOTE
+This version uses successful completion of the official activity evaluation as the
+certificate eligibility condition. It does not require a separate attendance sheet.
