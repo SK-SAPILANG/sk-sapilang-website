@@ -836,7 +836,7 @@ function integratedRenderClients(rows){
             <td><strong>${integratedEscape(row.name||"Anonymous")}</strong><br><span class="admin-muted">${integratedEscape(row.email)}</span></td>
             <td>${integratedEscape(row.service)}</td>
             <td class="admin-rating">${Number(row.rating).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
-            <td>${integratedEscape(row.comments)}</td>
+            <td>${integratedEscape(row.comments)}</td><td><button class="admin-action-btn danger" type="button" data-qms-delete="client" data-ref="${integratedEscape(row.reference)}">Delete</button></td>
         </tr>
     `).join("")
     : `<tr><td colspan="6" class="admin-empty">No client feedback records yet.</td></tr>`;
@@ -852,9 +852,10 @@ function integratedRenderActivities(rows){
             <td class="admin-ref">${integratedEscape(row.reference)}</td>
             <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} • ${integratedEscape(row.venue)}</span></td>
             <td>${integratedEscape(row.participant||"Anonymous")}<br><span class="admin-muted">${integratedEscape(row.classification)}</span></td>
+            <td><strong>${integratedEscape(row.mobileNumber||"No mobile")}</strong><br><span class="admin-muted">${integratedEscape(row.email||"No email")}</span><br><span class="admin-muted">SMS: ${integratedEscape(row.smsConsent||"NO")} • Email: ${integratedEscape(row.emailUpdatesConsent||"NO")}</span></td>
             <td>${integratedEscape(row.speaker||"N/A")}</td>
             <td class="admin-rating">${Number(row.averageScore).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
-            <td><strong>Learning:</strong> ${integratedEscape(row.learning)}<br><br><strong>Improve:</strong> ${integratedEscape(row.improvement)}</td>
+            <td><strong>Learning:</strong> ${integratedEscape(row.learning)}<br><br><strong>Improve:</strong> ${integratedEscape(row.improvement)}</td><td><button class="admin-action-btn danger" type="button" data-qms-delete="activity" data-ref="${integratedEscape(row.reference)}">Delete</button></td>
         </tr>
     `).join("")
     : `<tr><td colspan="7" class="admin-empty">No activity evaluations yet.</td></tr>`;
@@ -908,10 +909,10 @@ function integratedRenderSuggestions(rows){
                     <textarea data-integrated-action="${integratedEscape(row.reference)}" placeholder="Record action taken, follow-up, response or resolution...">${integratedEscape(row.actionTaken)}</textarea>
                     <button type="button" class="admin-update-btn" data-integrated-update="${integratedEscape(row.reference)}">Save Administrative Action</button>
                 </div>
-            </td>
+            </td><td><button class="admin-action-btn danger" type="button" data-qms-delete="suggestion" data-ref="${integratedEscape(row.reference)}">Delete</button></td>
         </tr>
     `).join("")
-    : `<tr><td colspan="6" class="admin-empty">No suggestions or recommendations yet.</td></tr>`;
+    : `<tr><td colspan="7" class="admin-empty">No suggestions or recommendations yet.</td></tr>`;
 
     document.querySelectorAll("[data-integrated-update]").forEach(button=>{
         button.addEventListener("click",()=>integratedUpdateSuggestion(button.dataset.integratedUpdate));
@@ -1058,8 +1059,24 @@ function integratedRenderCertificates(){
     const tbody=document.getElementById('integratedCertificateRows'); if(!tbody)return;
     const q=(document.getElementById('integratedCertificateSearch')?.value||'').toLowerCase();
     const rows=INTEGRATED_CERTIFICATES.filter(c=>[c.certificateId,c.participant,c.activity,c.deliveryPreference,c.printStatus].join(' ').toLowerCase().includes(q));
-    tbody.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${integratedEscape(c.certificateId)}</strong><br>${integratedEscape(c.qmsReference)}</td><td>${integratedEscape(c.participant)}</td><td>${integratedEscape(c.activity)}<br><small>${integratedEscape(c.activityType)}</small></td><td>${integratedEscape(c.deliveryPreference)}</td><td>${integratedEscape(c.hardCopyAvailableOn||'—')}<br><small>${integratedEscape(c.printStatus||'')}</small></td><td>${integratedEscape(c.status)}</td><td><a href="certificate.html?id=${encodeURIComponent(c.certificateId)}" target="_blank">View / Print</a> · <a href="certificate.html?blank=1&activity=${encodeURIComponent(c.activity)}&type=${encodeURIComponent(c.activityType)}&date=${encodeURIComponent(c.date||'')}&venue=${encodeURIComponent(c.venue||'')}" target="_blank">Blank</a></td></tr>`).join(''):'<tr><td colspan="7">No certificate records found.</td></tr>';
+    tbody.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${integratedEscape(c.certificateId)}</strong><br>${integratedEscape(c.qmsReference)}</td><td>${integratedEscape(c.participant)}</td><td>${integratedEscape(c.activity)}<br><small>${integratedEscape(c.activityType)}</small></td><td>${integratedEscape(c.deliveryPreference)}</td><td>${integratedEscape(c.hardCopyAvailableOn||'—')}<br><small>${integratedEscape(c.printStatus||'')}</small></td><td>${integratedEscape(c.status)}</td><td><a href="certificate.html?id=${encodeURIComponent(c.certificateId)}" target="_blank">View / Print</a> · <a href="certificate.html?blank=1&activity=${encodeURIComponent(c.activity)}&type=${encodeURIComponent(c.activityType)}&date=${encodeURIComponent(c.date||'')}&venue=${encodeURIComponent(c.venue||'')}" target="_blank">Blank</a>${c.email?' · <button type="button" class="admin-action-btn" data-resend-cert="'+integratedEscape(c.certificateId)+'">Resend Email</button>':''}<br><small>${integratedEscape(c.emailStatus||'')}</small></td></tr>`).join(''):'<tr><td colspan="7">No certificate records found.</td></tr>';
 }
 document.getElementById('integratedCertificateRefresh')?.addEventListener('click',()=>integratedLoadCertificates().catch(e=>alert(e.message)));
 document.getElementById('integratedCertificateSearch')?.addEventListener('input',integratedRenderCertificates);
 document.querySelector('[data-admin-tab="certificates"]')?.addEventListener('click',()=>integratedLoadCertificates().catch(()=>{}));
+
+
+// QMS delete/recycle, certificate template and Drive backup
+async function qmsAdminAction(params){return integratedAdminPost(Object.assign({password:INTEGRATED_ADMIN_KEY},params));}
+document.addEventListener('click',async e=>{
+ const del=e.target.closest('[data-qms-delete]'); if(del){if(!confirm('Move this QMS record to the Recycle Bin? You can restore it later.'))return;try{await qmsAdminAction({action:'qms-delete-record',recordType:del.dataset.qmsDelete,reference:del.dataset.ref});await integratedLoadDashboard();alert('Moved to Recycle Bin.');}catch(err){alert(err.message)}return;}
+ const resend=e.target.closest('[data-resend-cert]');if(resend){try{await qmsAdminAction({action:'resend-certificate',certificateId:resend.dataset.resendCert});alert('Certificate email sent again.');await integratedLoadCertificates();}catch(err){alert(err.message)}return;}
+ const restore=e.target.closest('[data-recycle-restore]');if(restore){try{await qmsAdminAction({action:'recycle-restore',reference:restore.dataset.recycleRestore});await loadRecycle();await integratedLoadDashboard();alert('Record restored.');}catch(err){alert(err.message)}}
+});
+async function loadRecycle(){const d=await qmsAdminAction({action:'recycle-list'}),tb=document.getElementById('recycleRows');const rows=d.records||[];tb.innerHTML=rows.length?rows.map(r=>{let x={};try{x=JSON.parse(r.data||'{}')}catch(_){ }return `<tr><td>${integratedEscape(r.deletedAt)}</td><td>${integratedEscape(r.type)}</td><td>${integratedEscape(r.reference)}</td><td>${integratedEscape(x.ACTIVITY||x.FULL_NAME||x.SUBJECT||x.NAME||'QMS record')}</td><td><button class="admin-action-btn" type="button" data-recycle-restore="${integratedEscape(r.reference)}">Restore</button></td></tr>`}).join(''):'<tr><td colspan="5">Recycle Bin is empty.</td></tr>'}
+document.getElementById('recycleRefreshBtn')?.addEventListener('click',()=>loadRecycle().catch(e=>alert(e.message)));
+document.querySelector('[data-admin-tab="recycle"]')?.addEventListener('click',()=>loadRecycle().catch(()=>{}));
+document.getElementById('qmsBackupBtn')?.addEventListener('click',async()=>{const m=document.getElementById('qmsBackupMessage');m.textContent='Creating Google Drive backup...';try{const d=await qmsAdminAction({action:'qms-backup'});m.innerHTML=`Backup created: <a href="${d.url}" target="_blank">${integratedEscape(d.name)}</a>`}catch(e){m.textContent=e.message}});
+async function loadCertificateTemplate(){const d=await qmsAdminAction({action:'certificate-settings'}),x=d.settings||{};[['certTplTitle','title'],['certTplBody','body'],['certTplLogo1','logo1'],['certTplLogo2','logo2'],['certTplSignatory1','signatory1'],['certTplPosition1','position1'],['certTplSignatory2','signatory2'],['certTplPosition2','position2'],['certTplDesign','design'],['certTplAdminEmail','adminEmail']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.value=x[k]||''})}
+document.querySelector('[data-admin-tab="certificateTemplate"]')?.addEventListener('click',()=>loadCertificateTemplate().catch(()=>{}));
+document.getElementById('certificateTemplateForm')?.addEventListener('submit',async e=>{e.preventDefault();const m=document.getElementById('certificateTemplateMessage');m.textContent='Saving template...';try{await qmsAdminAction({action:'save-certificate-settings',title:certTplTitle.value,body:certTplBody.value,logo1:certTplLogo1.value,logo2:certTplLogo2.value,signatory1:certTplSignatory1.value,position1:certTplPosition1.value,signatory2:certTplSignatory2.value,position2:certTplPosition2.value,design:certTplDesign.value,adminEmail:certTplAdminEmail.value});m.textContent='Certificate template saved.'}catch(err){m.textContent=err.message}});

@@ -709,13 +709,27 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <span class="form-help">Optional. If provided, your digital certificate and verification link will also be sent to this email. No email? You may leave this blank.</span>
                         </div>
 
+                        <div class="form-group">
+                            <label>Mobile Number <span>(Optional)</span></label>
+                            <input name="mobileNumber" type="tel" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX">
+                            <span class="form-help">Optional. Used for certificate or activity coordination when necessary. Providing a number does not automatically subscribe you to future announcements.</span>
+                        </div>
+
+                        <div class="form-group full" style="background:#f7fbff;border:1px solid #bdd7ea;border-radius:14px;padding:16px">
+                            <label>Stay Updated with SK Sapilang <span>(Optional)</span></label>
+                            <span class="form-help" style="display:block;margin-bottom:10px">You may choose to receive future SK Sapilang program announcements, activity invitations, services, registration opportunities and other youth-related updates. This is voluntary and will not affect your evaluation or certificate.</span>
+                            <div class="consent" style="margin-top:8px"><input id="activitySmsConsent" name="smsConsent" type="checkbox" value="YES"><label for="activitySmsConsent"><strong>SMS / Mobile Updates</strong> — I consent to receive future SK Sapilang announcements through the mobile number I provided.</label></div>
+                            <div class="consent" style="margin-top:8px"><input id="activityEmailConsent" name="emailUpdatesConsent" type="checkbox" value="YES"><label for="activityEmailConsent"><strong>Email Updates</strong> — I consent to receive future SK Sapilang announcements through the email address I provided.</label></div>
+                            <span class="form-help">Certificate delivery and future-activity consent are separate. You may provide an email for your certificate without subscribing to announcements. You may withdraw this communication consent by contacting SK Sapilang.</span>
+                        </div>
+
                         <div class="form-group full" style="background:#f5fbf6;border:1px solid #b9dec0;border-radius:14px;padding:16px">
                             <label>Certificate Delivery Preference <strong>* Required</strong></label>
                             <select name="certificatePreference" required>
                                 <option value="">Select Certificate Preference</option>
                                 <option value="Digital Certificate">Digital Certificate — Highly Recommended</option>
                                 <option value="Hard Copy Certificate">Printed / Hard Copy Certificate</option>
-                                <option value="Both Digital and Hard Copy">Both Digital and Printed Copy</option>
+                                
                             </select>
                             <span class="form-help"><strong>Paper-Saving Notice:</strong> SK Sapilang highly recommends digital certificates as part of our effort to reduce unnecessary paper use and promote sustainable, accessible public services. Printed certificates remain available when needed. If you request a hard copy, it will be available for claiming <strong>three (3) days after successful submission</strong>.</span>
                         </div>
@@ -739,7 +753,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 
                         <div class="form-group full">
                             <label>Resource Speaker / Trainer / Facilitator <span>(Not required for programs without a speaker)</span></label>
-                            <input name="speaker" id="scheduledActivitySpeaker" type="text" readonly>
+                            <input name="speaker" id="scheduledActivitySpeaker" type="text" placeholder="Type the resource speaker / trainer / facilitator name, or leave blank if none"><span class="form-help">Optional. The administrator or evaluator may type the name manually. Leave blank for programs without a speaker.</span>
                         </div>
 
                     </div>
@@ -1185,6 +1199,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <button class="admin-tab-btn" data-admin-tab="suggestions" type="button">Suggestions</button>
                         <button class="admin-tab-btn" data-admin-tab="certificates" type="button">Certificates</button>
                         <button class="admin-tab-btn" data-admin-tab="manage" type="button">Manage Activities</button>
+                        <button class="admin-tab-btn" data-admin-tab="certificateTemplate" type="button">Certificate Template</button>
+                        <button class="admin-tab-btn" data-admin-tab="recycle" type="button">Recycle Bin</button>
                     </div>
 
                     <section class="admin-tab-content active" id="integratedOverviewTab">
@@ -1255,7 +1271,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                     <table class="admin-table">
                                         <thead><tr>
                                             <th>Date / Time</th><th>Reference</th><th>Client</th>
-                                            <th>Service</th><th>Rating</th><th>Comments</th>
+                                            <th>Service</th><th>Rating</th><th>Comments</th><th>Action</th>
                                         </tr></thead>
                                         <tbody id="integratedClientRows"></tbody>
                                     </table>
@@ -1281,8 +1297,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                     <table class="admin-table">
                                         <thead><tr>
                                             <th>Date / Time</th><th>Reference</th><th>Activity</th>
-                                            <th>Participant</th><th>Resource Speaker</th>
-                                            <th>Average</th><th>Improvement / Learning</th>
+                                            <th>Participant</th><th>Contact / Consent</th><th>Resource Speaker</th>
+                                            <th>Average</th><th>Improvement / Learning</th><th>Action</th>
                                         </tr></thead>
                                         <tbody id="integratedActivityRows"></tbody>
                                     </table>
@@ -1334,7 +1350,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                     <table class="admin-table">
                                         <thead><tr>
                                             <th>Date / Time</th><th>Reference</th><th>Submission</th>
-                                            <th>Message / Proposed Action</th><th>Status</th><th>Administrative Action</th>
+                                            <th>Message / Proposed Action</th><th>Status</th><th>Administrative Action</th><th>Action</th>
                                         </tr></thead>
                                         <tbody id="integratedSuggestionRows"></tbody>
                                     </table>
@@ -1355,6 +1371,29 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
                     </section>
 
+
+                    <section class="admin-tab-content" id="integratedCertificateTemplateTab">
+                      <article class="admin-panel"><div class="admin-panel-head"><h4>Certificate Template Designer</h4><p>Customize certificate wording, logos and design. Changes apply to digital, printed and blank certificates.</p></div><div class="admin-panel-body">
+                        <form id="certificateTemplateForm" class="admin-schedule-form">
+                          <div class="admin-schedule-field full"><label>Certificate Title</label><input id="certTplTitle" value="Certificate of Participation"></div>
+                          <div class="admin-schedule-field full"><label>Certificate Description / Body</label><textarea id="certTplBody" rows="4" placeholder="for successfully participating in"></textarea></div>
+                          <div class="admin-schedule-field"><label>SK Logo URL</label><input id="certTplLogo1" placeholder="images/sk-logo.svg or https://..."></div>
+                          <div class="admin-schedule-field"><label>Second Logo URL</label><input id="certTplLogo2" placeholder="images/barangay-logo.svg or https://..."></div>
+                          <div class="admin-schedule-field"><label>Primary Signatory</label><input id="certTplSignatory1" placeholder="Name"></div>
+                          <div class="admin-schedule-field"><label>Primary Position</label><input id="certTplPosition1" placeholder="SK Chairperson"></div>
+                          <div class="admin-schedule-field"><label>Second Signatory</label><input id="certTplSignatory2" placeholder="Name / Office"></div>
+                          <div class="admin-schedule-field"><label>Second Position</label><input id="certTplPosition2" placeholder="Position"></div>
+                          <div class="admin-schedule-field"><label>Admin Certificate Copy Email (Optional)</label><input id="certTplAdminEmail" type="email" placeholder="Official SK email"></div><div class="admin-schedule-field"><label>Design</label><select id="certTplDesign"><option value="auto">Automatic by Activity</option><option value="official">Official / Civic</option><option value="environmental">Environmental</option><option value="education">Education</option><option value="sports">Sports</option></select></div>
+                          <div class="admin-schedule-field full"><button class="admin-action-btn primary" type="submit">Save Certificate Template</button> <a class="admin-action-btn" href="certificate.html?blank=1" target="_blank">Preview Blank Certificate</a></div>
+                        </form><div id="certificateTemplateMessage" class="admin-muted"></div>
+                      </div></article>
+                    </section>
+                    <section class="admin-tab-content" id="integratedRecycleTab">
+                      <article class="admin-panel"><div class="admin-panel-head"><h4>QMS Recycle Bin</h4><p>Deleted evaluations, client feedback and suggestions are kept here instead of being permanently removed.</p></div><div class="admin-panel-body">
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button id="recycleRefreshBtn" class="admin-action-btn primary" type="button">Refresh Recycle Bin</button><button id="qmsBackupBtn" class="admin-action-btn" type="button">Create Google Drive QMS Backup</button></div>
+                        <div id="qmsBackupMessage" class="admin-muted"></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Deleted</th><th>Type</th><th>Reference</th><th>Record</th><th>Action</th></tr></thead><tbody id="recycleRows"><tr><td colspan="5">Open this tab to load deleted records.</td></tr></tbody></table></div>
+                      </div></article>
+                    </section>
                     <section class="admin-tab-content" id="integratedManageTab">
                         <article class="admin-panel">
                             <div class="admin-panel-head">
