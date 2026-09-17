@@ -595,6 +595,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 .ct-resize{display:none;position:absolute;right:-7px;bottom:-7px;width:15px;height:15px;border-radius:4px;background:#ff9d00;border:2px solid #fff;box-shadow:0 1px 4px #0004;cursor:nwse-resize}
 .ct-edit-item.ct-selected .ct-resize{display:block}.ct-qr-placeholder{background:#fff;border:2px solid #142b3b;font:700 11px Arial,sans-serif;line-height:1.2;text-align:center}
 </style>
+<link rel="stylesheet" href="global-readability.css">
 </head>
 
 <body>
@@ -1488,15 +1489,15 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                               <input id="certBackgroundUrl" type="hidden">
                               <div class="admin-schedule-field full">
                                 <label>DIRECT VISUAL EDITOR</label>
-                                <div style="margin:6px 0 10px;color:#617486;font-size:13px">Click an item, drag it anywhere, then drag its orange corner handle to resize it. What you see here is what the generated certificate will use.</div>
+                                <div style="margin:6px 0 10px;color:#617486;font-size:15px;line-height:1.6;font-weight:600">Click an item, drag it anywhere, then drag its orange corner handle to resize it. What you see here is what the generated certificate will use.</div>
                                 <div id="certVisualStage" style="position:relative;width:100%;max-width:1050px;aspect-ratio:297/210;margin:auto;background:#f4f4f4 center/100% 100% no-repeat;border:2px solid #d9e2e8;border-radius:8px;overflow:hidden;touch-action:none;box-shadow:0 10px 28px rgba(0,0,0,.08)">
                                   <div id="certVisualEmpty" style="position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:#6c7d88"><div><strong style="display:block;font-size:18px;color:#18394c">Upload your Canva certificate</strong>Select a PNG/JPG above to start positioning the personalized fields.</div></div>
                                   <div id="certDragName" class="cert-edit-item" data-kind="name" style="position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);font-family:Georgia,serif;font-size:44px;font-weight:700;white-space:nowrap;text-align:center;color:#172b3a;cursor:move">SAMPLE PARTICIPANT NAME<span class="cert-resize-handle"></span></div>
                                   <div id="certDragQr" class="cert-edit-item cert-qr-sample" data-kind="qr" style="position:absolute;left:83%;top:78%;transform:translate(-50%,-50%);width:96px;height:96px;background:#fff;border:5px solid #111;cursor:move;display:grid;place-items:center;font-size:11px;font-weight:800;text-align:center">UNIQUE<br>QR<span class="cert-resize-handle"></span></div>
                                   <div id="certDragNo" class="cert-edit-item" data-kind="no" style="position:absolute;left:7%;top:91%;font-size:14px;font-weight:700;white-space:nowrap;color:#172b3a;cursor:move">Certificate No. SK-SAP-2026-000001<span class="cert-resize-handle"></span></div>
                                 </div>
-                                <style>.cert-edit-item{z-index:3;user-select:none}.cert-edit-item.cert-selected{outline:2px dashed #ff9900;outline-offset:5px}.cert-resize-handle{display:none;position:absolute;width:18px;height:18px;right:-12px;bottom:-12px;background:#ff9900;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 5px #555;cursor:nwse-resize}.cert-selected>.cert-resize-handle{display:block}</style>
-                                <div id="certSelectedInfo" style="margin-top:10px;font-size:13px;font-weight:700;color:#35576a">Select an item on the certificate to move or resize it.</div>
+                                <style>.cert-edit-item{z-index:20;user-select:none;-webkit-user-select:none;touch-action:none;pointer-events:auto}.cert-edit-item *{pointer-events:none}.cert-resize-handle{pointer-events:auto!important}.cert-dragging,.cert-dragging *{cursor:grabbing!important}.cert-edit-item.cert-selected{outline:2px dashed #ff9900;outline-offset:5px}.cert-resize-handle{display:none;position:absolute;width:18px;height:18px;right:-12px;bottom:-12px;background:#ff9900;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 5px #555;cursor:nwse-resize}.cert-selected>.cert-resize-handle{display:block}</style>
+                                <div id="certSelectedInfo" style="margin-top:10px;font-size:15px;line-height:1.5;font-weight:700;color:#35576a">Select an item on the certificate to move or resize it.</div>
                               </div>
                               <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button id="certUploadDesign" class="admin-action-btn" type="button">Upload / Replace Background</button><button id="certSaveDesign" class="admin-action-btn primary" type="button">SAVE POSITIONS & MASTER CERTIFICATE</button><button id="certResetPositions" class="admin-action-btn" type="button">Reset Positions</button><a class="admin-action-btn" href="certificate.html?blank=1" target="_blank" style="text-decoration:none">Generate Test Certificate</a></div><div id="certDesignMsg" class="admin-schedule-message"></div></div>
                             </div>

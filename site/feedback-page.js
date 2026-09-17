@@ -1134,17 +1134,36 @@ function certSetBackground(url){const st=document.getElementById('certVisualStag
 function certSelect(el){document.querySelectorAll('.cert-edit-item').forEach(x=>x.classList.toggle('cert-selected',x===el));const i=document.getElementById('certSelectedInfo');if(el&&i)i.textContent=(el.dataset.kind==='name'?'Participant Name':el.dataset.kind==='qr'?'QR Code':'Certificate Number')+' selected — drag to move; drag the orange corner to resize.'}
 function certEnableDirectEditor(){
  const stage=document.getElementById('certVisualStage');if(!stage)return;
+ // Robust document-level pointer tracking: the selected layer follows the pointer
+ // even when the cursor moves faster than the element or crosses child text/QR nodes.
  stage.querySelectorAll('.cert-edit-item').forEach(el=>{
-  el.addEventListener('pointerdown',e=>{certSelect(el);if(e.target.classList.contains('cert-resize-handle'))return;e.preventDefault();el.setPointerCapture(e.pointerId);const r=stage.getBoundingClientRect(),kind=el.dataset.kind,startX=e.clientX,startY=e.clientY,x0=CERT_STATE[kind+'X'],y0=CERT_STATE[kind+'Y'];
-   const move=ev=>{CERT_STATE[kind+'X']=Math.max(0,Math.min(100,x0+(ev.clientX-startX)/r.width*100));CERT_STATE[kind+'Y']=Math.max(0,Math.min(100,y0+(ev.clientY-startY)/r.height*100));certApplyVisual()};
-   const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up)};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up)
+  el.style.touchAction='none';
+  el.style.pointerEvents='auto';
+  el.addEventListener('pointerdown',e=>{
+   if(e.button!==undefined&&e.button!==0)return;
+   if(e.target.closest?.('.cert-resize-handle'))return;
+   e.preventDefault();e.stopPropagation();certSelect(el);
+   const r=stage.getBoundingClientRect(),kind=el.dataset.kind;
+   const startX=e.clientX,startY=e.clientY,x0=Number(CERT_STATE[kind+'X'])||0,y0=Number(CERT_STATE[kind+'Y'])||0;
+   document.body.classList.add('cert-dragging');
+   const move=ev=>{
+    ev.preventDefault();
+    const nx=x0+(ev.clientX-startX)/r.width*100,ny=y0+(ev.clientY-startY)/r.height*100;
+    CERT_STATE[kind+'X']=Math.max(0,Math.min(100,nx));CERT_STATE[kind+'Y']=Math.max(0,Math.min(100,ny));
+    certApplyVisual();certPersistLocal();
+   };
+   const up=()=>{document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);document.body.classList.remove('cert-dragging');certPersistLocal()};
+   document.addEventListener('pointermove',move,{passive:false});document.addEventListener('pointerup',up,{once:true});document.addEventListener('pointercancel',up,{once:true});
   });
-  const h=el.querySelector('.cert-resize-handle');h?.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();h.setPointerCapture(e.pointerId);const kind=el.dataset.kind,start=e.clientX,size0=kind==='name'?CERT_STATE.nameSize:kind==='qr'?CERT_STATE.qrSize:CERT_STATE.noSize;
-   const move=ev=>{const d=ev.clientX-start;if(kind==='name')CERT_STATE.nameSize=Math.max(18,Math.min(90,size0+d*.25));else if(kind==='qr')CERT_STATE.qrSize=Math.max(55,Math.min(180,size0+d));else CERT_STATE.noSize=Math.max(9,Math.min(32,size0+d*.12));certApplyVisual()};
-   const up=()=>{h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',up)};h.addEventListener('pointermove',move);h.addEventListener('pointerup',up)
-  })
+  const h=el.querySelector('.cert-resize-handle');
+  h?.addEventListener('pointerdown',e=>{
+   e.preventDefault();e.stopPropagation();certSelect(el);const kind=el.dataset.kind,start=e.clientX,size0=kind==='name'?Number(CERT_STATE.nameSize):kind==='qr'?Number(CERT_STATE.qrSize):Number(CERT_STATE.noSize);
+   const move=ev=>{ev.preventDefault();const d=ev.clientX-start;if(kind==='name')CERT_STATE.nameSize=Math.max(18,Math.min(90,size0+d*.25));else if(kind==='qr')CERT_STATE.qrSize=Math.max(55,Math.min(220,size0+d));else CERT_STATE.noSize=Math.max(10,Math.min(36,size0+d*.12));certApplyVisual();certPersistLocal()};
+   const up=()=>{document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);document.removeEventListener('pointercancel',up);certPersistLocal()};
+   document.addEventListener('pointermove',move,{passive:false});document.addEventListener('pointerup',up,{once:true});document.addEventListener('pointercancel',up,{once:true});
+  });
  });
- stage.addEventListener('pointerdown',e=>{if(e.target===stage)certSelect(null)})
+ stage.addEventListener('pointerdown',e=>{if(e.target===stage)certSelect(null)});
 }
 async function certLoadDesign(){
  try{const r=await integratedCmsApi({action:'certificate-settings'}),x=r.settings||{};document.getElementById('certCanvaUrl').value=x.canvaEditUrl||'';document.getElementById('certBackgroundUrl').value=x.certificateBackground||'';CERT_STATE={nameX:certNum(x.nameX)||50,nameY:certNum(x.nameY)||49,nameSize:certNum(x.nameSize)||44,qrX:certNum(x.qrX)||83,qrY:certNum(x.qrY)||78,qrSize:certNum(x.qrSize)||96,noX:certNum(x.noX)||7,noY:certNum(x.noY)||91,noSize:certNum(x.noSize)||14};certRestoreLocal();certApplyVisual();certSetBackground(x.certificateBackground||'');const a=document.getElementById('certOpenCanva');a.href=x.canvaEditUrl||'#';document.getElementById('certDesignMsg').textContent=x.certificateBackground?'Master certificate loaded. Drag the personalized fields directly on the preview.':'Choose your Canva PNG/JPG above to begin.'}catch(e){document.getElementById('certDesignMsg').textContent=e.message}
