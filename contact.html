@@ -1622,6 +1622,8 @@ button{
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
   <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
 <style>.emergency-image,.provincial-slide{pointer-events:none!important;cursor:default!important;user-select:none!important;-webkit-user-drag:none!important}</style>
+<style id="directory-search-style">.directory-search-box{margin:16px 0 22px;padding:16px;border:1px solid #d7e0e8;border-radius:16px;background:#fff}.directory-search-box label{color:#0b2545}.directory-search-box input{width:100%;margin-top:8px;padding:12px 14px;border:1px solid #b9c8d4;border-radius:10px;background:#fff!important;color:#111827!important;font-size:16px}.gov-directory-results{display:grid;gap:9px;margin-top:10px}.dir-result{padding:12px;border:1px solid #dbe4ea;border-radius:11px;background:#f8fafc}.dir-result strong,.dir-result span{display:block;color:#172033!important}.dir-result small{color:#52657a!important}.dir-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.dir-actions a{padding:8px 10px;border-radius:8px;background:#f59e0b;color:#10233d!important;text-decoration:none;font-weight:800;font-size:13px}@media(max-width:600px){.dir-actions a{flex:1;text-align:center;min-width:120px}}</style>
+<link rel="stylesheet" href="css/universal-device-2026.css?v=20260917">
 </head>
 
 
@@ -1768,6 +1770,12 @@ button{
 
           <div class="gov-intro">
             <span><strong>Separate from SK Sapilang.</strong> These contacts belong to the municipal and provincial government response network.</span>
+          </div>
+
+          <div class="directory-search-box">
+            <label for="govDirectorySearch"><strong>Search Government Directory</strong></label>
+            <input id="govDirectorySearch" type="search" placeholder="Search: PNP Balaoan, Bacnotan hospital, PDRRMO..." autocomplete="off">
+            <div id="govDirectoryResults" class="gov-directory-results"></div>
           </div>
 
           <div class="government-directory">
@@ -2228,6 +2236,18 @@ document.getElementById(
 </script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
   <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
+<script id="government-directory-search">(function(){const data=[
+{name:'Municipality of Bacnotan',area:'Bacnotan',phone:'0726074261',email:'lgubacnotan@gmail.com'},
+{name:'Bacnotan MDRRMO',area:'Bacnotan',phone:'09494724161',phone2:'09177739994'},
+{name:'Bacnotan BFP EMS',area:'Bacnotan',phone:'09159348187'},
+{name:'Bacnotan District Hospital',area:'Bacnotan',phone:'0726075453',phone2:'0726071417',email:'bdh@launion.gov.ph'},
+{name:'Balaoan Municipal Police Station (PNP)',area:'Balaoan',phone:'0726071961'},
+{name:'Balaoan MDRRMO',area:'Balaoan',phone:'09611009900',phone2:'09460722976'},
+{name:'Balaoan District Hospital',area:'Balaoan',phone:'0726070882',phone2:'0726030280'},
+{name:'Provincial Government of La Union',area:'San Fernando City',phone:'0722425550',email:'info@launion.gov.ph'},
+{name:'La Union PDRRMO',area:'Province of La Union',phone:'09985611519'},
+{name:'Emergency Hotline',area:'Philippines',phone:'911'}];
+const q=document.getElementById('govDirectorySearch'),out=document.getElementById('govDirectoryResults');if(!q||!out)return;const clean=v=>String(v||'').replace(/[^0-9+]/g,'');function draw(){const v=q.value.trim().toLowerCase();if(!v){out.innerHTML='<small>Type an office or municipality to find a callable contact.</small>';return}const r=data.filter(x=>(x.name+' '+x.area).toLowerCase().includes(v));out.innerHTML=r.length?r.map(x=>`<div class="dir-result"><strong>${x.name}</strong><small>${x.area}</small><div class="dir-actions">${x.phone?`<a href="tel:${clean(x.phone)}">Call ${x.phone}</a>`:''}${x.phone2?`<a href="tel:${clean(x.phone2)}">Call ${x.phone2}</a>`:''}${x.email?`<a href="mailto:${x.email}?subject=Inquiry">Compose Email</a>`:''}</div></div>`).join(''):'<div class="dir-result"><span>No matching verified directory entry in this website list yet.</span></div>'}q.addEventListener('input',draw);draw()})();</script>
 </body>
 
 </html>

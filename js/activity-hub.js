@@ -1,0 +1,8 @@
+(function(){
+ const ENDPOINT=window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint')||''; if(!ENDPOINT)return;
+ const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const cb='skAct'+Date.now(); window[cb]=d=>{try{render(d.items||[])}finally{delete window[cb];sc.remove()}};
+ const sc=document.createElement('script'); sc.src=ENDPOINT+'?action=public&page=feedback.html&callback='+cb+'&_='+Date.now();document.head.appendChild(sc);
+ function card(x){let photos=String(x.photos||'').split(/\n+/).map(v=>v.trim()).filter(Boolean);return `<article class="activity-card">${x.mediaUrl?`<img src="${esc(x.mediaUrl)}" alt="${esc(x.title)} pubmat" loading="lazy">`:''}<div class="activity-copy"><span>${esc(x.status||'')}</span><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p><small>${esc(x.date||'')} ${x.venue?'• '+esc(x.venue):''}</small>${photos.length?`<div class="activity-photos">${photos.slice(0,8).map(u=>`<img src="${esc(u)}" loading="lazy" alt="Activity documentation">`).join('')}</div>`:''}${x.linkUrl?`<a href="${esc(x.linkUrl)}" target="_blank" rel="noopener noreferrer">View on Facebook</a>`:''}</div></article>`}
+ function render(items){items=items.filter(x=>x.type==='Scheduled Activity / Evaluation');const future=items.filter(x=>!/completed|finished/i.test(x.status)),done=items.filter(x=>/completed|finished/i.test(x.status));document.getElementById('futureActivities').innerHTML=future.length?future.map(card).join(''):'<p>No future activities posted yet.</p>';document.getElementById('finishedActivities').innerHTML=done.length?done.map(card).join(''):'<p>No finished activities posted yet.</p>'}
+})();
