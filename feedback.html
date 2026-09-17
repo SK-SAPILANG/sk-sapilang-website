@@ -588,8 +588,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
   <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
   <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
-  <link rel="stylesheet" href="css/universal-readability.css">
-<style>.canva-cert-editor{display:grid;grid-template-columns:minmax(280px,390px) minmax(0,1fr);gap:22px;align-items:start}.canva-cert-tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}.canva-cert-tools .full{grid-column:1/-1}.canva-cert-stage{position:sticky;top:12px}.canva-cert-paper{aspect-ratio:1.414/1;background:#fffdf8;border:10px solid #f5ead0;outline:3px solid #b78a2b;outline-offset:-16px;padding:5% 7%;text-align:center;box-shadow:0 14px 36px #0002;overflow:hidden}.cc-top{display:flex;justify-content:center;align-items:center;gap:3%;font:700 clamp(8px,1vw,13px)/1.3 Georgia,serif}.cc-top img{width:8%;aspect-ratio:1;object-fit:contain}.cc-label{margin-top:2%;font-size:clamp(7px,.9vw,11px);font-weight:800;letter-spacing:2px}.cc-title{font:700 clamp(25px,4.5vw,55px)/1 Georgia,serif;color:#6b3c18;margin:2% 0}.cc-presented{font:clamp(9px,1.4vw,16px) Georgia,serif;margin-top:3%}.cc-name{font:700 clamp(18px,3vw,36px) Georgia,serif;color:#b78a2b;border-bottom:2px solid #222;margin:1% auto 2%;width:70%;padding:1%}.cc-body{font-size:clamp(9px,1.3vw,15px)}.cc-activity{font-size:clamp(11px,1.5vw,18px);font-weight:800;margin-top:1%}.cc-sign{width:35%;margin:6% 8% 0 auto;border-top:1px solid #222;padding-top:1%;display:flex;flex-direction:column;font-size:clamp(8px,1.2vw,14px)}.cc-sign img{height:45px;max-width:180px;object-fit:contain;margin:-45px auto 0}@media(max-width:950px){.canva-cert-editor{grid-template-columns:1fr}.canva-cert-stage{position:static}.canva-cert-tools{grid-template-columns:1fr}}</style></head>
+</head>
 
 <body>
 <div class="future-bg"><div class="orb one"></div><div class="orb two"></div></div>
@@ -710,27 +709,13 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <span class="form-help">Optional. If provided, your digital certificate and verification link will also be sent to this email. No email? You may leave this blank.</span>
                         </div>
 
-                        <div class="form-group">
-                            <label>Mobile Number <span>(Optional)</span></label>
-                            <input name="mobileNumber" type="tel" inputmode="tel" autocomplete="tel" placeholder="09XXXXXXXXX">
-                            <span class="form-help">Optional. Used for certificate or activity coordination when necessary. Providing a number does not automatically subscribe you to future announcements.</span>
-                        </div>
-
-                        <div class="form-group full" style="background:#f7fbff;border:1px solid #bdd7ea;border-radius:14px;padding:16px">
-                            <label>Stay Updated with SK Sapilang <span>(Optional)</span></label>
-                            <span class="form-help" style="display:block;margin-bottom:10px">You may choose to receive future SK Sapilang program announcements, activity invitations, services, registration opportunities and other youth-related updates. This is voluntary and will not affect your evaluation or certificate.</span>
-                            <div class="consent" style="margin-top:8px"><input id="activitySmsConsent" name="smsConsent" type="checkbox" value="YES"><label for="activitySmsConsent"><strong>SMS / Mobile Updates</strong> — I consent to receive future SK Sapilang announcements through the mobile number I provided.</label></div>
-                            <div class="consent" style="margin-top:8px"><input id="activityEmailConsent" name="emailUpdatesConsent" type="checkbox" value="YES"><label for="activityEmailConsent"><strong>Email Updates</strong> — I consent to receive future SK Sapilang announcements through the email address I provided.</label></div>
-                            <span class="form-help">Certificate delivery and future-activity consent are separate. You may provide an email for your certificate without subscribing to announcements. You may withdraw this communication consent by contacting SK Sapilang.</span>
-                        </div>
-
                         <div class="form-group full" style="background:#f5fbf6;border:1px solid #b9dec0;border-radius:14px;padding:16px">
                             <label>Certificate Delivery Preference <strong>* Required</strong></label>
                             <select name="certificatePreference" required>
                                 <option value="">Select Certificate Preference</option>
                                 <option value="Digital Certificate">Digital Certificate — Highly Recommended</option>
                                 <option value="Hard Copy Certificate">Printed / Hard Copy Certificate</option>
-                                
+                                <option value="Both Digital and Hard Copy">Both Digital and Printed Copy</option>
                             </select>
                             <span class="form-help"><strong>Paper-Saving Notice:</strong> SK Sapilang highly recommends digital certificates as part of our effort to reduce unnecessary paper use and promote sustainable, accessible public services. Printed certificates remain available when needed. If you request a hard copy, it will be available for claiming <strong>three (3) days after successful submission</strong>.</span>
                         </div>
@@ -754,7 +739,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 
                         <div class="form-group full">
                             <label>Resource Speaker / Trainer / Facilitator <span>(Not required for programs without a speaker)</span></label>
-                            <input name="speaker" id="scheduledActivitySpeaker" type="text" placeholder="Type the resource speaker / trainer / facilitator name, or leave blank if none"><span class="form-help">Optional. The administrator or evaluator may type the name manually. Leave blank for programs without a speaker.</span>
+                            <input name="speaker" id="scheduledActivitySpeaker" type="text" readonly>
                         </div>
 
                     </div>
@@ -1200,8 +1185,6 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <button class="admin-tab-btn" data-admin-tab="suggestions" type="button">Suggestions</button>
                         <button class="admin-tab-btn" data-admin-tab="certificates" type="button">Certificates</button>
                         <button class="admin-tab-btn" data-admin-tab="manage" type="button">Manage Activities</button>
-                        <button class="admin-tab-btn" data-admin-tab="certificateTemplate" type="button">Certificate Template</button>
-                        <button class="admin-tab-btn" data-admin-tab="recycle" type="button">Recycle Bin</button>
                     </div>
 
                     <section class="admin-tab-content active" id="integratedOverviewTab">
@@ -1272,7 +1255,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                     <table class="admin-table">
                                         <thead><tr>
                                             <th>Date / Time</th><th>Reference</th><th>Client</th>
-                                            <th>Service</th><th>Rating</th><th>Comments</th><th>Action</th>
+                                            <th>Service</th><th>Rating</th><th>Comments</th>
                                         </tr></thead>
                                         <tbody id="integratedClientRows"></tbody>
                                     </table>
@@ -1298,8 +1281,8 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                     <table class="admin-table">
                                         <thead><tr>
                                             <th>Date / Time</th><th>Reference</th><th>Activity</th>
-                                            <th>Participant</th><th>Contact / Consent</th><th>Resource Speaker</th>
-                                            <th>Average</th><th>Improvement / Learning</th><th>Action</th>
+                                            <th>Participant</th><th>Resource Speaker</th>
+                                            <th>Average</th><th>Improvement / Learning</th>
                                         </tr></thead>
                                         <tbody id="integratedActivityRows"></tbody>
                                     </table>
@@ -1351,7 +1334,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                                     <table class="admin-table">
                                         <thead><tr>
                                             <th>Date / Time</th><th>Reference</th><th>Submission</th>
-                                            <th>Message / Proposed Action</th><th>Status</th><th>Administrative Action</th><th>Action</th>
+                                            <th>Message / Proposed Action</th><th>Status</th><th>Administrative Action</th>
                                         </tr></thead>
                                         <tbody id="integratedSuggestionRows"></tbody>
                                     </table>
@@ -1361,7 +1344,76 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     </section>
 
                     <section class="admin-tab-content" id="integratedCertificatesTab">
-                        <div class="admin-card">
+                        <article class="admin-panel" style="margin-bottom:14px">
+                          <div class="admin-panel-head"><h4>Certificate Center</h4><p>Work in four simple steps. Activities saved in Activity Manager are automatically available here.</p></div>
+                          <div class="admin-panel-body">
+                            <div class="admin-schedule-card-actions" style="gap:8px;flex-wrap:wrap">
+                              <button type="button" class="admin-action-btn primary" data-cert-nav="designs">1. Activity Designs</button>
+                              <button type="button" class="admin-action-btn" data-cert-nav="issue">2. Issue Certificate</button>
+                              <button type="button" class="admin-action-btn" data-cert-nav="issued">3. Issued Certificates</button>
+                              <button type="button" class="admin-action-btn" data-cert-nav="master">4. Master / Default</button>
+                              <button type="button" class="admin-action-btn" id="certReloadActivities">↻ Refresh Activities</button>
+                            </div>
+                            <div style="margin-top:10px;font-size:13px"><strong id="certActivityCount">Loading activities...</strong></div>
+                            <div id="certActivityEmpty" style="display:none;margin-top:10px;padding:12px;border:1px solid #ffd18a;border-radius:10px;background:#fff8e8">No activities found. Go to <strong>Manage Activities → Activity Manager</strong>, add/save the activity once, then click <strong>Refresh Activities</strong> here.</div>
+                          </div>
+                        </article>
+                        <article class="admin-panel" data-cert-panel="designs" style="margin-bottom:18px">
+                          <div class="admin-panel-head"><h4>Activity Certificate Designs</h4><p>Choose an activity already in your QMS, then assign its certificate design and wording. Each activity may use a different Canva background and certificate content.</p></div>
+                          <div class="admin-panel-body">
+                            <div class="admin-schedule-form">
+                              <div class="admin-schedule-field"><label>Linked Activity / Program</label><select id="ctActivity"><option value="">Select an activity...</option></select><span class="admin-schedule-help">Certificate designs are linked to an activity already saved in your QMS/website. Use Custom Activity only when needed.</span></div>
+                              <div class="admin-schedule-field"><label>Custom Activity (optional)</label><input id="ctCustomActivity" placeholder="Only if the activity is not yet in the system"></div>
+                              <div class="admin-schedule-field"><label>Certificate Type</label><select id="ctType"><option>Participation</option><option>Completion</option><option>Recognition</option><option>Appreciation</option><option>Resource Speaker</option><option>Partnership</option><option>Facilitator / Trainer</option><option>Volunteer</option><option>Sponsor / Donor</option><option>Other / Custom</option></select></div>
+                              <div class="admin-schedule-field full"><label>Certificate Heading / Title</label><input id="ctHeading" value="Certificate of Participation"></div>
+                              <div class="admin-schedule-field full"><label>Certificate Content / Citation</label><textarea id="ctCitation" rows="4" placeholder="Enter the wording that belongs to this activity and certificate type. You can change it anytime."></textarea></div>
+                              <div class="admin-schedule-field full"><label>Private Canva Edit Link</label><input id="ctCanva" type="url" placeholder="Paste the Canva edit link for this design"></div>
+                              <div class="admin-schedule-field full"><label>Canva Certificate Background (PNG/JPG)</label><input id="ctFile" type="file" accept="image/png,image/jpeg,image/webp"><input id="ctBg" type="hidden"></div>
+                              <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn" id="ctUpload" type="button">Upload Design</button><button class="admin-action-btn primary" id="ctSave" type="button">Save Activity Certificate</button><button class="admin-action-btn" id="ctNew" type="button">New Template</button></div><div id="ctMsg" class="admin-schedule-message"></div></div>
+                              <div class="admin-schedule-field full"><label>Saved Activity Certificate Designs</label><div id="ctList" style="display:grid;gap:8px"></div></div>
+                            </div>
+                          </div>
+                        </article>
+
+                        <article class="admin-panel" data-cert-panel="issue" style="margin-bottom:18px;display:none">
+                          <div class="admin-panel-head"><h4>Issue Certificate</h4><p>Issue certificates to participants, resource speakers, partner organizations, sponsors, volunteers and others. Every certificate gets its own verification number and QR.</p></div>
+                          <div class="admin-panel-body"><div class="admin-schedule-form">
+                            <div class="admin-schedule-field"><label>Saved Design</label><select id="ciTemplate"><option value="">Use Master Certificate</option></select></div>
+                            <div class="admin-schedule-field"><label>Recipient Type</label><select id="ciRecipientType"><option>Individual</option><option>Organization / Partner</option></select></div>
+                            <div class="admin-schedule-field"><label>Recipient / Organization Name</label><input id="ciName" placeholder="Complete name or organization"></div>
+                            <div class="admin-schedule-field"><label>Certificate Type</label><select id="ciType"><option>Participation</option><option>Completion</option><option>Recognition</option><option>Appreciation</option><option>Resource Speaker</option><option>Partnership</option><option>Facilitator / Trainer</option><option>Volunteer</option><option>Sponsor / Donor</option><option>Other / Custom</option></select></div>
+                            <div class="admin-schedule-field"><label>Linked Activity / Program</label><select id="ciActivity"><option value="">Select an activity...</option></select><span class="admin-schedule-help">Choose the activity first. Its saved certificate design and content will be selected automatically when available.</span></div><div class="admin-schedule-field"><label>Date</label><input id="ciDate" type="date"></div>
+                            <div class="admin-schedule-field full"><label>Custom Citation / Role (optional)</label><textarea id="ciCitation" rows="3"></textarea></div>
+                            <div class="admin-schedule-field"><label>Delivery</label><select id="ciDelivery"><option>Digital / E-Copy</option><option>Printed / Hard Copy</option></select></div>
+                            <div class="admin-schedule-field"><label>Email for E-Copy (optional)</label><input id="ciEmail" type="email"></div>
+                            <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn primary" id="ciIssue" type="button">Issue Certificate</button></div><div id="ciMsg" class="admin-schedule-message"></div></div>
+                          </div></div>
+                        </article>
+
+                        <article class="admin-panel" data-cert-panel="master" style="margin-bottom:18px;display:none">
+                          <div class="admin-panel-head"><h4>Master Certificate Setup</h4><p>Edit the permanent design in Canva. Here, upload the exported PNG/JPG and directly drag or resize the participant name, QR code and certificate number on the certificate itself.</p></div>
+                          <div class="admin-panel-body">
+                            <div class="admin-schedule-form">
+                              <div class="admin-schedule-field full"><label for="certCanvaUrl">Private Canva Edit Link</label><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="certCanvaUrl" type="url" placeholder="Paste your Canva edit link" style="flex:1;min-width:260px"><a id="certOpenCanva" class="admin-action-btn" target="_blank" rel="noopener" style="text-decoration:none">EDIT IN CANVA</a></div><span class="admin-schedule-help">Administrator only. This link is never shown on participant certificates.</span></div>
+                              <div class="admin-schedule-field full"><label for="certMasterFile">Certificate Background from Canva (PNG/JPG)</label><input id="certMasterFile" type="file" accept="image/png,image/jpeg,image/webp"><span class="admin-schedule-help">Choosing a file previews it immediately below. Click Upload / Replace Background when ready.</span></div>
+                              <input id="certBackgroundUrl" type="hidden">
+                              <div class="admin-schedule-field full">
+                                <label>DIRECT VISUAL EDITOR</label>
+                                <div style="margin:6px 0 10px;color:#617486;font-size:13px">Click an item, drag it anywhere, then drag its orange corner handle to resize it. What you see here is what the generated certificate will use.</div>
+                                <div id="certVisualStage" style="position:relative;width:100%;max-width:1050px;aspect-ratio:297/210;margin:auto;background:#f4f4f4 center/100% 100% no-repeat;border:2px solid #d9e2e8;border-radius:8px;overflow:hidden;touch-action:none;box-shadow:0 10px 28px rgba(0,0,0,.08)">
+                                  <div id="certVisualEmpty" style="position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:#6c7d88"><div><strong style="display:block;font-size:18px;color:#18394c">Upload your Canva certificate</strong>Select a PNG/JPG above to start positioning the personalized fields.</div></div>
+                                  <div id="certDragName" class="cert-edit-item" data-kind="name" style="position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);font-family:Georgia,serif;font-size:44px;font-weight:700;white-space:nowrap;text-align:center;color:#172b3a;cursor:move">SAMPLE PARTICIPANT NAME<span class="cert-resize-handle"></span></div>
+                                  <div id="certDragQr" class="cert-edit-item cert-qr-sample" data-kind="qr" style="position:absolute;left:83%;top:78%;transform:translate(-50%,-50%);width:96px;height:96px;background:#fff;border:5px solid #111;cursor:move;display:grid;place-items:center;font-size:11px;font-weight:800;text-align:center">UNIQUE<br>QR<span class="cert-resize-handle"></span></div>
+                                  <div id="certDragNo" class="cert-edit-item" data-kind="no" style="position:absolute;left:7%;top:91%;font-size:14px;font-weight:700;white-space:nowrap;color:#172b3a;cursor:move">Certificate No. SK-SAP-2026-000001<span class="cert-resize-handle"></span></div>
+                                </div>
+                                <style>.cert-edit-item{z-index:3;user-select:none}.cert-edit-item.cert-selected{outline:2px dashed #ff9900;outline-offset:5px}.cert-resize-handle{display:none;position:absolute;width:18px;height:18px;right:-12px;bottom:-12px;background:#ff9900;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 5px #555;cursor:nwse-resize}.cert-selected>.cert-resize-handle{display:block}</style>
+                                <div id="certSelectedInfo" style="margin-top:10px;font-size:13px;font-weight:700;color:#35576a">Select an item on the certificate to move or resize it.</div>
+                              </div>
+                              <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button id="certUploadDesign" class="admin-action-btn" type="button">Upload / Replace Background</button><button id="certSaveDesign" class="admin-action-btn primary" type="button">SAVE POSITIONS & MASTER CERTIFICATE</button><button id="certResetPositions" class="admin-action-btn" type="button">Reset Positions</button><a class="admin-action-btn" href="certificate.html?blank=1" target="_blank" style="text-decoration:none">Generate Test Certificate</a></div><div id="certDesignMsg" class="admin-schedule-message"></div></div>
+                            </div>
+                          </div>
+                        </article>
+                        <div class="admin-card" data-cert-panel="issued" style="display:none">
                             <div class="admin-card-head"><div><small>DIGITAL & PRINT MANAGEMENT</small><h4>Certificates</h4><p>Access issued certificates, hard-copy requests and blank printable templates.</p></div></div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
                               <button class="admin-action-btn primary" id="integratedCertificateRefresh" type="button">Refresh Certificates</button>
@@ -1372,75 +1424,30 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
                     </section>
 
-
-                    <section class="admin-tab-content" id="integratedCertificateTemplateTab">
-                      <article class="admin-panel"><div class="admin-panel-head"><h4>Certificate Template Designer</h4><p>Customize certificate wording, logos and design. Changes apply to digital, printed and blank certificates.</p></div><div class="admin-panel-body">
-                        <div class="canva-cert-editor">
-  <div class="canva-cert-tools">
-    <div class="admin-schedule-field full"><label>Program / Certificate Theme</label><select id="certTplProfile"><option value="default">Default / Other Programs</option><option value="nutriwise">NUTRIWISE</option><option value="wildwise">WILDWISE</option><option value="wastewise">WASTEWISE</option><option value="kabotehan">kaBOTEhan</option><option value="sulong">PROJECT SULONG</option><option value="sibol">PROJECT SIBOL</option><option value="pawsitive">PAWSITIVE COMMUNITY</option><option value="sports">Sports / Tournaments</option><option value="custom">Custom Program</option></select></div>
-    <div class="admin-schedule-field full" id="certTplCustomWrap" hidden><label>Custom Program Key / Name</label><input id="certTplCustomKey" placeholder="Example: project-4ward"></div>
-    <div class="admin-schedule-field full"><label>Certificate Title</label><input id="certTplTitle" value="Certificate of Participation"></div>
-    <div class="admin-schedule-field full"><label>Certificate Description / Body</label><textarea id="certTplBody" rows="4"></textarea></div>
-    <div class="admin-schedule-field"><label>SK Logo URL</label><input id="certTplLogo1"></div><div class="admin-schedule-field"><label>Program / Partner Logo URL</label><input id="certTplLogo2"></div>
-    <div class="admin-schedule-field"><label>Signatory Name</label><input id="certTplSignatory1" value="DANDY F. NILLO"></div><div class="admin-schedule-field"><label>Position</label><input id="certTplPosition1" value="SK Chairperson"></div>
-    <div class="admin-schedule-field full"><label>Your E-Signature</label><input id="certTplSignatureFile" type="file" accept="image/png,image/jpeg,image/webp"><img id="certTplSignaturePreview" alt="E-signature preview" style="display:none;max-width:220px;max-height:90px;margin-top:8px;object-fit:contain"><input id="certTplSignatureData" type="hidden"></div>
-    <div class="admin-schedule-field"><label>Theme</label><select id="certTplDesign"><option value="official">Official / Gold</option><option value="nutrition">Nutrition / Fresh</option><option value="wildlife">Wildlife / Forest</option><option value="waste">WasteWise / Clean Green</option><option value="environmental">Environmental</option><option value="education">Education</option><option value="sports">Sports</option></select></div><div class="admin-schedule-field"><label>Admin Copy Email</label><input id="certTplAdminEmail" type="email"></div>
-    <div class="admin-schedule-field full"><button class="admin-action-btn primary" id="certTplSaveBtn" type="button">Save Complete Design</button> <button class="admin-action-btn" id="certTplPreviewBtn" type="button">Open Full Preview / Print</button></div>
-  </div>
-  <div class="canva-cert-stage"><div class="canva-cert-paper" id="certLiveCanvas"><div class="cc-top"><img id="liveLogo1" src="images/sk-logo.svg"><div>REPUBLIC OF THE PHILIPPINES<br>PROVINCE OF LA UNION<br>MUNICIPALITY OF BACNOTAN<br><b>OFFICE OF THE SANGGUNIANG KABATAAN</b></div><img id="liveLogo2" src="images/barangay-logo.svg"></div><div class="cc-label" id="liveProgram">PROGRAM CERTIFICATE</div><div class="cc-title" id="liveTitle">Certificate of Participation</div><div class="cc-presented">This certificate is proudly presented to</div><div class="cc-name">PARTICIPANT NAME</div><div class="cc-body" id="liveBody">for successfully participating in</div><div class="cc-activity">PROGRAM / ACTIVITY TITLE</div><div class="cc-sign"><img id="liveSign" hidden><strong id="liveSigName">DANDY F. NILLO</strong><span id="liveSigPos">SK Chairperson</span></div></div><p class="admin-muted">Edit the controls on the left. The certificate changes instantly, similar to a simple Canva editor. Save once when finished.</p></div>
-</div><div id="certificateTemplateMessage" class="admin-muted"></div>
-                      </div></article>
-                    </section>
-                    <section class="admin-tab-content" id="integratedRecycleTab">
-                      <article class="admin-panel"><div class="admin-panel-head"><h4>QMS Recycle Bin</h4><p>Deleted evaluations, client feedback and suggestions are kept here instead of being permanently removed.</p></div><div class="admin-panel-body">
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button id="recycleRefreshBtn" class="admin-action-btn primary" type="button">Refresh Recycle Bin</button><button id="qmsBackupBtn" class="admin-action-btn" type="button">Create Google Drive QMS Backup</button></div>
-                        <div id="qmsBackupMessage" class="admin-muted"></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Deleted</th><th>Type</th><th>Reference</th><th>Record</th><th>Action</th></tr></thead><tbody id="recycleRows"><tr><td colspan="5">Open this tab to load deleted records.</td></tr></tbody></table></div>
-                      </div></article>
-                    </section>
                     <section class="admin-tab-content" id="integratedManageTab">
                         <article class="admin-panel">
-                            <div class="admin-panel-head">
-                                <h4>Manage Scheduled Activities</h4>
-                                <p>Add or update activities that people can select in the Activity / Program Evaluation form.</p>
-                            </div>
-                            <div class="admin-panel-body">
-                                <form id="integratedScheduleForm" class="admin-schedule-form">
-                                    <div class="admin-schedule-field full">
-                                        <label for="integratedScheduleTitle">Activity / Project / Training Name *</label>
-                                        <input id="integratedScheduleTitle" required>
-                                    </div>
-                                    <div class="admin-schedule-field">
-                                        <label for="integratedScheduleDate">Date *</label>
-                                        <input id="integratedScheduleDate" type="date" required>
-                                    </div>
-                                    <div class="admin-schedule-field">
-                                        <label for="integratedScheduleVenue">Venue *</label>
-                                        <input id="integratedScheduleVenue" required>
-                                    </div>
-                                    <div class="admin-schedule-field full">
-                                        <label for="integratedScheduleSpeaker">Resource Speaker / Trainer / Facilitator</label>
-                                        <input id="integratedScheduleSpeaker">
-                                    </div>
-                                    <div class="admin-schedule-field full">
-                                        <label for="integratedScheduleDescription">Short Description</label>
-                                        <textarea id="integratedScheduleDescription"></textarea>
-                                    </div>
-                                    <div class="admin-schedule-field full">
-                                        <label for="integratedCmsPassword">Website CMS Password</label>
-                                        <input id="integratedCmsPassword" type="password" autocomplete="current-password" placeholder="Leave blank if it is the same as the QMS access code">
-                                        <span class="admin-schedule-help">The QMS access code will be used automatically when this is blank.</span>
-                                    </div>
-                                    <div class="admin-schedule-field full">
-                                        <div class="admin-schedule-card-actions">
-                                            <button class="admin-action-btn primary" type="submit" id="integratedScheduleSave">Add Scheduled Activity</button>
-                                            <button class="admin-action-btn" type="button" id="integratedScheduleClear">Clear Form</button>
-                                            <button class="admin-action-btn" type="button" id="integratedScheduleReload">Refresh List</button>
-                                        </div>
-                                        <div class="admin-schedule-message" id="integratedScheduleMessage"></div>
-                                    </div>
-                                </form>
-                                <div class="admin-schedule-list" id="integratedScheduleList"><div class="admin-empty">Loading scheduled activities...</div></div>
-                            </div>
+                          <div class="admin-panel-head">
+                            <h4>Activity Manager</h4>
+                            <p>Add an activity or program once. The same record is used for evaluations, certificates, and the public Updates & Programs page.</p>
+                          </div>
+                          <div class="admin-panel-body">
+                            <form id="webActivityForm" class="admin-schedule-form">
+                              <div class="admin-schedule-field full"><label>Activity / Program Title *</label><input id="webActTitle" required></div>
+                              <div class="admin-schedule-field"><label>Date *</label><input id="webActDate" type="date" required></div>
+                              <div class="admin-schedule-field"><label>Status *</label><select id="webActStatus"><option>Upcoming</option><option>Ongoing</option><option>Completed</option></select></div>
+                              <div class="admin-schedule-field full"><label>Short Description</label><textarea id="webActDescription" placeholder="Brief description shown on the website and activity records."></textarea></div>
+                              <div class="admin-schedule-field"><label>Venue</label><input id="webActVenue"></div>
+                              <div class="admin-schedule-field"><label>Resource Speaker / Trainer / Facilitator</label><input id="webActSpeaker"></div>
+                              <div class="admin-schedule-field"><label>Pubmat Image URL</label><input id="webActPubmat" type="url" placeholder="Public image URL"></div>
+                              <div class="admin-schedule-field"><label>Facebook Post / Album Link</label><input id="webActFacebook" type="url" placeholder="Facebook post or album URL"></div>
+                              <div class="admin-schedule-field full"><label>Documentation Photos <span>(for completed activities)</span></label><textarea id="webActPhotos" placeholder="Paste public photo URLs, one per line"></textarea></div>
+                              <div class="admin-schedule-field full"><label>Website Visibility</label><div style="display:flex;gap:14px;flex-wrap:wrap"><label style="font-weight:600"><input id="webActShowUpdates" type="checkbox" checked> Show in Updates</label><label style="font-weight:600"><input id="webActShowPrograms" type="checkbox" checked> Show in Programs</label><label style="font-weight:600"><input id="webActEvaluation" type="checkbox" checked> Available for Evaluation</label><label style="font-weight:600"><input id="webActCertificates" type="checkbox" checked> Available for Certificates</label></div></div>
+                              <div class="admin-schedule-field full"><label for="integratedCmsPassword">Website CMS Password</label><input id="integratedCmsPassword" type="password" autocomplete="current-password" placeholder="Leave blank if same as QMS access code"><span class="admin-schedule-help">Enter it once. It is used by Activity Manager and Certificate Center.</span></div>
+                              <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn primary" id="webActSave" type="submit">Add Activity / Program</button><button class="admin-action-btn" id="webActClear" type="button">Clear</button><button class="admin-action-btn" id="webActReload" type="button">Refresh Activities</button></div><div id="webActMsg" class="admin-schedule-message"></div></div>
+                            </form>
+                            <div style="margin:14px 0 8px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="admin-action-btn primary" data-activity-filter="all">All</button><button type="button" class="admin-action-btn" data-activity-filter="Upcoming">Upcoming</button><button type="button" class="admin-action-btn" data-activity-filter="Ongoing">Ongoing</button><button type="button" class="admin-action-btn" data-activity-filter="Completed">Completed</button></div>
+                            <div id="webActList" class="admin-schedule-list"></div>
+                          </div>
                         </article>
                     </section>
 
@@ -1486,43 +1493,3 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
 </body>
 </html>
-<style>
-/* Friendly direct certificate editor */
-.canva-cert-editor{display:block!important}.canva-cert-tools{display:none!important}.canva-cert-stage{max-width:1180px;margin:auto}.friendly-cert-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 12px;padding:12px;background:#f7f9fc;border:1px solid #dbe3ec;border-radius:12px}.friendly-cert-bar button,.friendly-cert-bar select,.friendly-cert-bar input{min-height:42px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;padding:8px 11px;font:inherit}.friendly-cert-bar button{cursor:pointer;font-weight:700}.friendly-cert-bar .primary{background:#17344c;color:#fff}.friendly-help{margin:0 0 12px;color:#334155;font-weight:600}.canva-cert-paper{position:relative!important;overflow:hidden;min-height:690px!important;touch-action:none}.canva-cert-paper .direct-edit{position:absolute!important;cursor:move;outline:1px dashed transparent;min-width:40px;z-index:3}.canva-cert-paper .direct-edit:hover{outline-color:#94a3b8}.canva-cert-paper .direct-edit.selected{outline:2px solid #2563eb;outline-offset:4px}.canva-cert-paper [contenteditable=true]{cursor:text}.canva-cert-paper .cc-top{position:static!important}.canva-cert-paper #liveLogo1{left:5%;top:4%;width:72px;height:72px}.canva-cert-paper #liveLogo2{right:5%;top:4%;width:72px;height:72px}.canva-cert-paper #liveGov{left:24%;top:3%;width:52%;text-align:center}.canva-cert-paper #liveProgram{left:30%;top:15%;width:40%;text-align:center}.canva-cert-paper #liveTitle{left:12%;top:20%;width:76%;text-align:center}.canva-cert-paper #livePresented{left:25%;top:39%;width:50%;text-align:center}.canva-cert-paper #liveName{left:20%;top:45%;width:60%;text-align:center;font:700 34px Georgia,serif;border-bottom:2px solid #333;min-height:48px}.canva-cert-paper #liveBody{left:10%;top:56%;width:80%;text-align:center;line-height:1.45}.canva-cert-paper #liveActivity{left:20%;top:70%;width:60%;text-align:center;font-weight:800}.canva-cert-paper #liveSignWrap{left:34%;top:82%;width:32%;text-align:center}.canva-cert-paper #liveSign{max-height:58px;max-width:190px}.canva-cert-paper #liveSigName,.canva-cert-paper #liveSigPos{position:static!important;display:block}.friendly-file{display:none}@media(max-width:700px){.friendly-cert-bar{position:sticky;top:0;z-index:20}.canva-cert-paper{min-height:520px!important;transform-origin:top left}.friendly-help{font-size:13px}}
-</style>
-<script>
-(()=>{
- const old=document.querySelector('.canva-cert-stage'); if(!old||document.getElementById('friendlyCertBar'))return;
- const paper=document.getElementById('certLiveCanvas'); if(!paper)return;
- // Give important pieces independent editable/drag positions.
- const top=paper.querySelector('.cc-top'); const gov=top?.children[1]; if(gov)gov.id='liveGov';
- const presented=paper.querySelector('.cc-presented'); if(presented)presented.id='livePresented';
- const name=paper.querySelector('.cc-name'); if(name)name.id='liveName';
- const activity=paper.querySelector('.cc-activity'); if(activity)activity.id='liveActivity';
- const sign=paper.querySelector('.cc-sign'); if(sign)sign.id='liveSignWrap';
- const editable=['liveGov','liveProgram','liveTitle','livePresented','liveName','liveBody','liveActivity','liveSigName','liveSigPos'];
- const movable=['liveLogo1','liveLogo2','liveGov','liveProgram','liveTitle','livePresented','liveName','liveBody','liveActivity','liveSignWrap'];
- editable.forEach(id=>{const e=document.getElementById(id);if(e){e.contentEditable='true';e.classList.add('direct-edit')}});
- movable.forEach(id=>document.getElementById(id)?.classList.add('direct-edit'));
- const bar=document.createElement('div');bar.id='friendlyCertBar';bar.className='friendly-cert-bar';bar.innerHTML=`<select id="friendlyProfile"><option value="default">Default</option><option value="nutriwise">NUTRIWISE</option><option value="wildwise">WILDWISE</option><option value="wastewise">WASTEWISE</option><option value="kabotehan">kaBOTEhan</option><option value="sulong">PROJECT SULONG</option><option value="sibol">PROJECT SIBOL</option><option value="pawsitive">PAWSITIVE</option><option value="sports">Sports</option></select><button id="friendlyLogo1">Replace Left Logo</button><button id="friendlyLogo2">Replace Right Logo</button><button id="friendlySign">Upload E-Sign</button><select id="friendlyFont"><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option></select><button id="friendlySmaller">A−</button><button id="friendlyBigger">A+</button><input id="friendlyColor" type="color" value="#222222" title="Text color"><button id="friendlyReset">Reset Position</button><button class="primary" id="friendlySave">Save Template</button>`;
- old.parentNode.insertBefore(bar,old); const help=document.createElement('p');help.className='friendly-help';help.textContent='Click any text and type. Drag anything to where you want it. Click a logo or use Replace Logo. When finished, click Save Template.';old.parentNode.insertBefore(help,old);
- const f1=document.createElement('input'),f2=document.createElement('input'),fs=document.createElement('input');[f1,f2,fs].forEach(f=>{f.type='file';f.accept='image/png,image/jpeg,image/webp,image/svg+xml';f.className='friendly-file';document.body.appendChild(f)});
- let selected=null,layout={};
- function select(el){document.querySelectorAll('#certLiveCanvas .selected').forEach(x=>x.classList.remove('selected'));selected=el;el?.classList.add('selected')}
- paper.addEventListener('pointerdown',e=>{const el=e.target.closest('.direct-edit');if(!el)return;select(el);if(el.isContentEditable&&e.detail>=2)return;const r=paper.getBoundingClientRect(),er=el.getBoundingClientRect(),sx=e.clientX,sy=e.clientY,sl=er.left-r.left,st=er.top-r.top;el.setPointerCapture?.(e.pointerId);const mv=ev=>{if(el.isContentEditable&&document.activeElement===el)return;let l=sl+(ev.clientX-sx),t=st+(ev.clientY-sy);l=Math.max(0,Math.min(r.width-el.offsetWidth,l));t=Math.max(0,Math.min(r.height-el.offsetHeight,t));el.style.left=(l/r.width*100)+'%';el.style.top=(t/r.height*100)+'%'};const up=()=>{el.removeEventListener('pointermove',mv);el.removeEventListener('pointerup',up);capture()};el.addEventListener('pointermove',mv);el.addEventListener('pointerup',up)});
- paper.addEventListener('click',e=>{const el=e.target.closest('.direct-edit');if(el)select(el)});
- function readFile(file,cb){if(!file)return;const rd=new FileReader();rd.onload=()=>cb(rd.result);rd.readAsDataURL(file)}
- friendlyLogo1.onclick=()=>f1.click();friendlyLogo2.onclick=()=>f2.click();friendlySign.onclick=()=>fs.click();f1.onchange=()=>readFile(f1.files[0],d=>{liveLogo1.src=d;certTplLogo1.value=d});f2.onchange=()=>readFile(f2.files[0],d=>{liveLogo2.src=d;liveLogo2.style.visibility='visible';certTplLogo2.value=d});fs.onchange=()=>readFile(fs.files[0],d=>{liveSign.src=d;liveSign.hidden=false;certTplSignatureData.value=d});
- friendlyFont.onchange=()=>{if(selected){selected.style.fontFamily=friendlyFont.value;capture()}};friendlyColor.oninput=()=>{if(selected){selected.style.color=friendlyColor.value;capture()}};friendlyBigger.onclick=()=>resize(2);friendlySmaller.onclick=()=>resize(-2);function resize(n){if(!selected)return;selected.style.fontSize=(parseFloat(getComputedStyle(selected).fontSize)+n)+'px';capture()}
- function capture(){layout={};movable.forEach(id=>{const e=document.getElementById(id);if(!e)return;layout[id]={left:e.style.left,top:e.style.top,width:e.style.width,fontSize:e.style.fontSize,fontFamily:e.style.fontFamily,color:e.style.color,textAlign:e.style.textAlign}})}
- function applyLayout(o){layout=o||{};Object.entries(layout).forEach(([id,s])=>{const e=document.getElementById(id);if(e)Object.assign(e.style,s)})}
- function syncHidden(){certTplTitle.value=liveTitle.innerText.trim();certTplBody.value=liveBody.innerText.trim();certTplSignatory1.value=liveSigName.innerText.trim();certTplPosition1.value=liveSigPos.innerText.trim();}
- async function loadFriendly(){certTplProfile.value=friendlyProfile.value;await loadCertificateTemplate();setTimeout(()=>{try{applyLayout(JSON.parse(window.__certLayout||certTplLayout?.value||'{}'))}catch(e){}},100)}
- friendlyProfile.onchange=loadFriendly;
- friendlyReset.onclick=()=>{movable.forEach(id=>{const e=document.getElementById(id);if(e){e.style.left='';e.style.top='';e.style.width='';e.style.fontSize='';e.style.fontFamily='';e.style.color='';e.style.textAlign=''}});location.reload()};
- friendlySave.onclick=async()=>{syncHidden();capture();const m=document.getElementById('certificateTemplateMessage');m.textContent='Saving...';try{await qmsAdminAction({action:'save-certificate-settings',profile:certProfileKey(),title:certTplTitle.value,body:certTplBody.value,logo1:certTplLogo1.value,logo2:certTplLogo2.value,signatory1:certTplSignatory1.value,position1:certTplPosition1.value,design:certTplDesign.value,adminEmail:certTplAdminEmail.value,signatureData:certTplSignatureData.value,layout:JSON.stringify(layout),profileLabel:liveProgram.innerText.trim()});m.textContent='Saved. This program will keep this certificate layout.'}catch(e){m.textContent=e.message}};
- // intercept settings loader response by wrapping existing function
- const original=window.loadCertificateTemplate;window.loadCertificateTemplate=async function(){await original();try{const d=await qmsAdminAction({action:'certificate-settings',profile:certProfileKey()});window.__certLayout=d.settings?.layout||'{}';applyLayout(JSON.parse(window.__certLayout));if(d.settings?.profileLabel)liveProgram.innerText=d.settings.profileLabel}catch(e){}};
- friendlyProfile.value=certTplProfile.value||'default';setTimeout(()=>window.loadCertificateTemplate().catch(()=>{}),300);
-})();
-</script>

@@ -60,7 +60,7 @@ function doGet(e) {
     if(action==='public') result={success:true,changes:cmsList_(String(p.page||'')),items:cmsItems_(String(p.page||''))};
     else if(action==='visitor-status') result=cmsVisitorStatus_(String(p.reference||''));
     else if(action==='verify-certificate') result=cmsVerifyCertificate_(String(p.id||''));
-    else if(action==='certificate-settings') result=cmsCertificateSettings_(p,true);
+    else if(action==='certificate-settings') result=cmsCertificateSettings_();
     else {
       if(!cmsAuthorized_(p.password)) throw new Error('Incorrect administrator password.');
       if(action==='login') result={success:true};
@@ -72,7 +72,7 @@ function doGet(e) {
       else if(action==='list-items') result={success:true,items:cmsItems_(String(p.page||''))};
       else if(action==='save-item') result=cmsSaveItem_(p);
       else if(action==='delete-item') result=cmsDeleteItem_(String(p.id||''));
-      else if(action==='certificate-settings') result=cmsCertificateSettings_(p,false);
+      else if(action==='certificate-settings') result=cmsCertificateSettings_();
       else if(action==='recycle-list') result=qmsRecycleList_();
       else if(action==='qms-backup') result=qmsBackupToDrive_();
       else throw new Error('Invalid request.');
@@ -93,7 +93,9 @@ function doPost(e) {
     if(p.action==='gad-profile-log') return cmsGadProfileLog_(p,e.parameters||{});
     if(p.action==='issue-certificate') return cmsJson_(cmsIssueCertificate_(p));
     if(!cmsAuthorized_(p.password)) throw new Error('Incorrect administrator password.');
+    if(p.action==='admin-issue-certificate') return cmsJson_(cmsIssueCertificate_(p));
     if(p.action==='upload-frame') return cmsUploadFrame_(p);
+    if(p.action==='upload-certificate-background') return cmsJson_(cmsUpload_(p));
     let result;
     if(p.action==='login') result={success:true};
     else if(p.action==='qms-dashboard') result=cmsQmsDashboard_();
@@ -104,7 +106,7 @@ function doPost(e) {
     else if(p.action==='list-items') result={success:true,items:cmsItems_(String(p.page||''))};
     else if(p.action==='save-item') result=cmsSaveItem_(p);
     else if(p.action==='delete-item') result=cmsDeleteItem_(String(p.id||''));
-    else if(p.action==='certificate-settings') result=cmsCertificateSettings_(p,false);
+    else if(p.action==='certificate-settings') result=cmsCertificateSettings_();
     else if(p.action==='save-certificate-settings') result=cmsSaveCertificateSettings_(p);
     else if(p.action==='qms-delete-record') result=qmsMoveToRecycle_(String(p.recordType||''),String(p.reference||''));
     else if(p.action==='recycle-list') result=qmsRecycleList_();
@@ -219,7 +221,7 @@ function qmsRef_(prefix){
   return prefix+'-'+Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyyMMdd-HHmmss')+'-'+Utilities.getUuid().slice(0,6).toUpperCase();
 }
 function qmsActivitySheet_(){
-  const headers=['TIMESTAMP','REFERENCE','ACTIVITY','ACTIVITY_TYPE','DATE','VENUE','PARTICIPANT','CLASSIFICATION','SPEAKER','RATING','RELEVANCE','OBJECTIVES','FACILITATOR_RATING','ORGANIZATION','VENUE_RATING','MATERIALS','TIME_MANAGEMENT','ENGAGEMENT','SPEAKER_KNOWLEDGE','SPEAKER_CLARITY','SPEAKER_ENGAGEMENT','SPEAKER_RESPONSIVENESS','SPEAKER_COMMENTS','LEARNING','LIKED_MOST','IMPROVEMENT','FUTURE','AVERAGE_SCORE','EMAIL','PROGRAM_FORMAT','CERTIFICATE_PREFERENCE','MOBILE_NUMBER','SMS_CONSENT','EMAIL_UPDATES_CONSENT','COMMUNICATION_CONSENT_DATE','CONSENT_SOURCE_ACTIVITY'];
+  const headers=['TIMESTAMP','REFERENCE','ACTIVITY','ACTIVITY_TYPE','DATE','VENUE','PARTICIPANT','CLASSIFICATION','SPEAKER','RATING','RELEVANCE','OBJECTIVES','FACILITATOR_RATING','ORGANIZATION','VENUE_RATING','MATERIALS','TIME_MANAGEMENT','ENGAGEMENT','SPEAKER_KNOWLEDGE','SPEAKER_CLARITY','SPEAKER_ENGAGEMENT','SPEAKER_RESPONSIVENESS','SPEAKER_COMMENTS','LEARNING','LIKED_MOST','IMPROVEMENT','FUTURE','AVERAGE_SCORE','EMAIL','PROGRAM_FORMAT','CERTIFICATE_PREFERENCE'];
   const ss=cmsSpreadsheet_();let sh=ss.getSheetByName('ACTIVITY_EVALUATIONS');
   if(!sh){sh=ss.insertSheet('ACTIVITY_EVALUATIONS');sh.getRange(1,1,1,headers.length).setValues([headers]);sh.setFrozenRows(1);}
   else if(sh.getLastColumn()<headers.length){sh.getRange(1,sh.getLastColumn()+1,1,headers.length-sh.getLastColumn()).setValues([headers.slice(sh.getLastColumn())]);}
@@ -238,13 +240,7 @@ function qmsSaveActivity_(p,parameters){
   const reference=qmsRef_('ACT');
   const scoreKeys=['rating','relevance','objectives','facilitatorRating','organization','venueRating','materials','timeManagement','engagement'];
   const nums=scoreKeys.map(k=>Number(p[k])).filter(n=>n>=1&&n<=5);const avg=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:0;
-  const mobile=String(p.mobileNumber||'').trim();
-  const smsConsent=String(p.smsConsent||'').toUpperCase()==='YES'?'YES':'NO';
-  const emailUpdatesConsent=String(p.emailUpdatesConsent||'').toUpperCase()==='YES'?'YES':'NO';
-  if(smsConsent==='YES'&&!mobile)throw new Error('Please enter a mobile number if you consent to SMS updates.');
-  if(emailUpdatesConsent==='YES'&&!email)throw new Error('Please enter an email address if you consent to email updates.');
-  const consentDate=(smsConsent==='YES'||emailUpdatesConsent==='YES')?new Date():'';
-  qmsActivitySheet_().appendRow([new Date(),reference,p.activity||'',p.activityType||'',p.date||'',p.venue||'',p.participant||'',p.classification||'',p.speaker||'',p.rating||'',p.relevance||'',p.objectives||'',p.facilitatorRating||'',p.organization||'',p.venueRating||'',p.materials||'',p.timeManagement||'',p.engagement||'',p.speakerKnowledge||'',p.speakerClarity||'',p.speakerEngagement||'',p.speakerResponsiveness||'',p.speakerComments||'',p.learning||'',p.likedMost||'',p.improvement||'',p.future||'',avg,email,p.programFormat||'',p.certificatePreference||'Digital Certificate',mobile,smsConsent,emailUpdatesConsent,consentDate,p.activity||'']);
+  qmsActivitySheet_().appendRow([new Date(),reference,p.activity||'',p.activityType||'',p.date||'',p.venue||'',p.participant||'',p.classification||'',p.speaker||'',p.rating||'',p.relevance||'',p.objectives||'',p.facilitatorRating||'',p.organization||'',p.venueRating||'',p.materials||'',p.timeManagement||'',p.engagement||'',p.speakerKnowledge||'',p.speakerClarity||'',p.speakerEngagement||'',p.speakerResponsiveness||'',p.speakerComments||'',p.learning||'',p.likedMost||'',p.improvement||'',p.future||'',avg,email,p.programFormat||'',p.certificatePreference||'Digital Certificate']);
 
   // Save GAD/inclusion information in the same request. This removes the second
   // browser request that previously caused the “GAD monitoring request timed out” error.
@@ -272,20 +268,20 @@ function qmsUpdateSuggestion_(p){
   if(/RESOLVED|CLOSED/i.test(String(p.status||'')))sh.getRange(row,12).setValue(new Date());else sh.getRange(row,12).clearContent();return {success:true};
 }
 function cmsCertificatesSheet_(){
-  const headers=['CERTIFICATE_ID','QMS_REFERENCE','PARTICIPANT','ACTIVITY','ACTIVITY_TYPE','DATE_CONDUCTED','VENUE','RESOURCE_SPEAKER','ISSUED_AT','STATUS','EMAIL','EMAIL_STATUS','DELIVERY_PREFERENCE','HARD_COPY_AVAILABLE_ON','PRINT_STATUS'];
+  const headers=['CERTIFICATE_ID','QMS_REFERENCE','PARTICIPANT','ACTIVITY','ACTIVITY_TYPE','DATE_CONDUCTED','VENUE','RESOURCE_SPEAKER','ISSUED_AT','STATUS','EMAIL','EMAIL_STATUS','DELIVERY_PREFERENCE','HARD_COPY_AVAILABLE_ON','PRINT_STATUS','CERTIFICATE_TYPE','RECIPIENT_TYPE','CITATION','TEMPLATE_ID'];
   const ss=cmsSpreadsheet_();let sheet=ss.getSheetByName('DIGITAL_CERTIFICATES');
   if(!sheet){sheet=ss.insertSheet('DIGITAL_CERTIFICATES');sheet.getRange(1,1,1,headers.length).setValues([headers]);sheet.setFrozenRows(1);}
   else if(sheet.getLastColumn()<headers.length){sheet.getRange(1,sheet.getLastColumn()+1,1,headers.length-sheet.getLastColumn()).setValues([headers.slice(sheet.getLastColumn())]);}
   return sheet;
 }
 function cmsIssueCertificate_(p){
-  const participant=String(p.participant||'').trim(),email=String(p.email||'').trim(),activity=String(p.activity||'').trim(),qmsReference=String(p.qmsReference||'').trim(),preference=String(p.certificatePreference||'Digital Certificate').trim();
-  if(!participant||!activity||!qmsReference)throw new Error('Participant, activity and QMS reference are required.');
+  const participant=String(p.participant||'').trim(),email=String(p.email||'').trim(),activity=String(p.activity||'').trim(),qmsReference=String(p.qmsReference||qmsRef_('CERT')).trim(),preference=String(p.certificatePreference||'Digital / E-Copy').trim();
+  if(!participant||!activity)throw new Error('Recipient and activity are required.');
   const sheet=cmsCertificatesSheet_();
   if(sheet.getLastRow()>1){const rows=sheet.getRange(2,1,sheet.getLastRow()-1,15).getDisplayValues();const ex=rows.find(r=>r[1]===qmsReference);if(ex)return {success:true,certificateId:ex[0],existing:true,emailSent:/SENT/i.test(ex[11]||''),certificatePreference:ex[12]||'Digital Certificate',hardCopyAvailableOn:ex[13]||''};}
   const year=Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyy');const seq=String(Math.max(sheet.getLastRow(),1)).padStart(6,'0');const id='SKSAP-'+year+'-'+seq;
   const certificateUrl='https://sk-sapilang.github.io/sk-sapilang-website/certificate.html?id='+encodeURIComponent(id);
-  const hardCopyRequested=/Hard Copy/i.test(preference);
+  const hardCopyRequested=/Hard Copy|Printed/i.test(preference);
   const hardCopyDate=new Date(); hardCopyDate.setDate(hardCopyDate.getDate()+3);
   const hardCopyAvailableOn=hardCopyRequested?Utilities.formatDate(hardCopyDate,Session.getScriptTimeZone()||'Asia/Manila','MMMM d, yyyy'):'';
   let emailStatus='NOT PROVIDED',emailSent=false;
@@ -296,17 +292,17 @@ function cmsIssueCertificate_(p){
       emailStatus='SENT';emailSent=true;
     }catch(err){emailStatus='FAILED: '+String(err.message||err).slice(0,120);}
   }
-  sheet.appendRow([id,qmsReference,participant,activity,String(p.activityType||''),String(p.date||''),String(p.venue||''),String(p.speaker||''),new Date(),'ACTIVE',email,emailStatus,preference,hardCopyAvailableOn,hardCopyRequested?'PRINT REQUESTED':'DIGITAL ONLY']);
+  sheet.appendRow([id,qmsReference,participant,activity,String(p.activityType||''),String(p.date||''),String(p.venue||''),String(p.speaker||''),new Date(),'ACTIVE',email,emailStatus,preference,hardCopyAvailableOn,hardCopyRequested?'PRINT REQUESTED':'DIGITAL / E-COPY',String(p.certificateType||'Participation'),String(p.recipientType||'Individual'),String(p.citation||''),String(p.templateId||'')]);
   return {success:true,certificateId:id,existing:false,emailSent:emailSent,emailStatus:emailStatus,certificatePreference:preference,hardCopyAvailableOn:hardCopyAvailableOn};
 }
 function cmsEscapeHtml_(value){return String(value||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function cmsVerifyCertificate_(id){
   id=String(id||'').trim().toUpperCase();if(!/^SKSAP-\d{4}-\d{6}$/.test(id))return {success:true,found:false};const sh=cmsCertificatesSheet_();if(sh.getLastRow()<2)return {success:true,found:false};
-  const rows=sh.getRange(2,1,sh.getLastRow()-1,15).getDisplayValues(),r=rows.find(x=>String(x[0]).toUpperCase()===id);if(!r)return {success:true,found:false};return {success:true,found:true,certificate:{certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13]||'',printStatus:r[14]||''}};
+  const rows=sh.getRange(2,1,sh.getLastRow()-1,19).getDisplayValues(),r=rows.find(x=>String(x[0]).toUpperCase()===id);if(!r)return {success:true,found:false};return {success:true,found:true,certificate:{certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13]||'',printStatus:r[14]||'',certificateType:r[15]||'Participation',recipientType:r[16]||'Individual',citation:r[17]||'',templateId:r[18]||''}};
 }
 function cmsQmsDashboard_(){
   const av=qmsActivitySheet_().getDataRange().getDisplayValues(),sv=qmsSuggestionSheet_().getDataRange().getDisplayValues(),cv=cmsVisitorSheet_().getDataRange().getDisplayValues();
-  const activities=av.slice(1).slice(-300).reverse().map(r=>({timestamp:r[0],reference:r[1],activity:r[2],activityType:r[3],date:r[4],venue:r[5],participant:r[6],classification:r[7],speaker:r[8],rating:r[9],relevance:r[10],objectives:r[11],facilitatorRating:r[12],organization:r[13],venueRating:r[14],materials:r[15],timeManagement:r[16],engagement:r[17],speakerKnowledge:r[18],speakerClarity:r[19],speakerEngagement:r[20],speakerResponsiveness:r[21],speakerComments:r[22],learning:r[23],likedMost:r[24],improvement:r[25],future:r[26],averageScore:Number(r[27])||0,email:r[28]||'',programFormat:r[29]||'',certificatePreference:r[30]||'',mobileNumber:r[31]||'',smsConsent:r[32]||'NO',emailUpdatesConsent:r[33]||'NO',communicationConsentDate:r[34]||'',consentSourceActivity:r[35]||'',quality:cmsQualityLabel_(r[27])}));
+  const activities=av.slice(1).slice(-300).reverse().map(r=>({timestamp:r[0],reference:r[1],activity:r[2],activityType:r[3],date:r[4],venue:r[5],participant:r[6],classification:r[7],speaker:r[8],rating:r[9],relevance:r[10],objectives:r[11],facilitatorRating:r[12],organization:r[13],venueRating:r[14],materials:r[15],timeManagement:r[16],engagement:r[17],speakerKnowledge:r[18],speakerClarity:r[19],speakerEngagement:r[20],speakerResponsiveness:r[21],speakerComments:r[22],learning:r[23],likedMost:r[24],improvement:r[25],future:r[26],averageScore:Number(r[27])||0,quality:cmsQualityLabel_(r[27])}));
   const clients=cv.slice(1).slice(-100).reverse().map(r=>({timestamp:r[0],reference:r[1],name:r[2],age:r[3],birthdate:r[4],address:r[5],contact:r[6],office:r[7],position:r[8],clientType:r[9],purpose:r[10],service:r[11],serviceDate:r[12],rating:Number(r[13])||0,quality:cmsQualityLabel_(r[13]),comments:r[14],consent:r[15]}));
   const suggestions=sv.slice(1).slice(-300).reverse().map(r=>({timestamp:r[0],reference:r[1],name:r[2],email:r[3],category:r[4],area:r[5],subject:r[6],message:r[7],solution:r[8],status:r[9]||'NEW',actionTaken:r[10],dateResolved:r[11]}));
   const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0,as=avg(activities.map(x=>x.averageScore).filter(Boolean)),cr=clients.map(x=>x.rating).filter(Boolean),ca=avg(cr);
@@ -417,8 +413,8 @@ function cmsJsonp_(data,callback){
 function cmsCertificateList_(){
   const sh=cmsCertificatesSheet_();
   if(sh.getLastRow()<2)return {success:true,certificates:[]};
-  const rows=sh.getRange(2,1,sh.getLastRow()-1,15).getDisplayValues().reverse();
-  return {success:true,certificates:rows.map(r=>({certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],emailStatus:r[11],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13],printStatus:r[14]||''}))};
+  const rows=sh.getRange(2,1,sh.getLastRow()-1,19).getDisplayValues().reverse();
+  return {success:true,certificates:rows.map(r=>({certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],emailStatus:r[11],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13],printStatus:r[14]||'',certificateType:r[15]||'Participation',recipientType:r[16]||'Individual',citation:r[17]||'',templateId:r[18]||''}))};
 }
 function cmsUpdateCertificateStatus_(p){
   if(!cmsAuthorized_(p.adminKey||p.password))throw new Error('Incorrect administrator password.');
@@ -438,12 +434,10 @@ function qmsRecycleSheet_(){
 }
 function cmsCertificateSettingsSheet_(){
   const ss=cmsSpreadsheet_(); let sh=ss.getSheetByName('CERTIFICATE_SETTINGS');
-  if(!sh){sh=ss.insertSheet('CERTIFICATE_SETTINGS');sh.appendRow(['KEY','VALUE']);[['default.title','Certificate of Participation'],['default.body','for successfully participating in'],['default.logo1','images/sk-logo.svg'],['default.logo2','images/barangay-logo.svg'],['default.signatory1','DANDY F. NILLO'],['default.position1','SK Chairperson'],['default.design','official'],['adminEmail','']].forEach(r=>sh.appendRow(r));} return sh;
+  if(!sh){sh=ss.insertSheet('CERTIFICATE_SETTINGS');sh.appendRow(['KEY','VALUE']);[['title','Certificate of Participation'],['body','for successfully participating in'],['logo1','images/sk-logo.svg'],['logo2','images/barangay-logo.svg'],['signatory1','DANDY F. NILLO'],['position1','SK Chairperson'],['signatory2','SANGGUNIANG KABATAAN'],['position2','Barangay Sapilang'],['design','canva'],['adminEmail',''],['certificateBackground',''],['canvaEditUrl',''],['nameY','49'],['nameSize','44'],['qrX','83'],['qrY','78'],['noX','7'],['noY','91']].forEach(r=>sh.appendRow(r));} return sh;
 }
-function cmsCertProfile_(v){v=String(v||'default').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');return v||'default';}
-function cmsCertDefaults_(profile){const labels={default:'Official SK Sapilang Program',nutriwise:'NUTRIWISE',wildwise:'WILDWISE',wastewise:'WASTEWISE',kabotehan:'kaBOTEhan',sulong:'PROJECT SULONG',sibol:'PROJECT SIBOL',pawsitive:'PAWSITIVE COMMUNITY',sports:'Sports / Tournaments'},designs={nutriwise:'nutrition',wildwise:'wildlife',wastewise:'waste',kabotehan:'environmental',sulong:'education',sibol:'environmental',pawsitive:'official',sports:'sports'};return {title:'Certificate of Participation',body:'for successfully participating in',logo1:'images/sk-logo.svg',logo2:'images/barangay-logo.svg',signatory1:'DANDY F. NILLO',position1:'SK Chairperson',design:designs[profile]||'official',signatureData:'',profileLabel:labels[profile]||profile.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()),adminEmail:''};}
-function cmsCertificateSettings_(p,isPublic){const profile=cmsCertProfile_(p&&p.profile),v=cmsCertificateSettingsSheet_().getDataRange().getDisplayValues().slice(1),all={};v.forEach(r=>all[r[0]]=r[1]);const x=cmsCertDefaults_(profile),keys=['title','body','logo1','logo2','signatory1','position1','design','signatureData','profileLabel','layout'];keys.forEach(k=>{if(all[profile+'.'+k]!==undefined&&all[profile+'.'+k]!=='')x[k]=all[profile+'.'+k];else if(profile!=='default'&&all['default.'+k]!==undefined&&all['default.'+k]!=='')x[k]=all['default.'+k];else if(all[k]!==undefined&&all[k]!=='')x[k]=all[k]});if(!isPublic)x.adminEmail=all.adminEmail||'';return {success:true,profile:profile,settings:x};}
-function cmsSaveCertificateSettings_(p){const sh=cmsCertificateSettingsSheet_(),profile=cmsCertProfile_(p.profile),keys=['title','body','logo1','logo2','signatory1','position1','design','signatureData','profileLabel','layout'],vals=sh.getDataRange().getDisplayValues();function set(k,v){let i=vals.findIndex((r,n)=>n>0&&r[0]===k);if(i>0)sh.getRange(i+1,2).setValue(String(v||''));else{sh.appendRow([k,String(v||'')]);vals.push([k,String(v||'')])}}keys.forEach(k=>set(profile+'.'+k,p[k]));if(p.adminEmail!==undefined)set('adminEmail',p.adminEmail);return {success:true,profile:profile};}
+function cmsCertificateSettings_(){const v=cmsCertificateSettingsSheet_().getDataRange().getDisplayValues().slice(1),x={};v.forEach(r=>x[r[0]]=r[1]);return {success:true,settings:x};}
+function cmsSaveCertificateSettings_(p){const sh=cmsCertificateSettingsSheet_(),keys=['title','body','logo1','logo2','signatory1','position1','signatory2','position2','design','adminEmail','certificateBackground','canvaEditUrl','nameX','nameY','nameSize','qrX','qrY','qrSize','noX','noY','noSize'],vals=sh.getDataRange().getDisplayValues();keys.forEach(k=>{let i=vals.findIndex((r,n)=>n>0&&r[0]===k);if(i>0)sh.getRange(i+1,2).setValue(String(p[k]||''));else sh.appendRow([k,String(p[k]||'')]);});return {success:true};}
 function qmsMoveToRecycle_(type,reference){
   const map={activity:'ACTIVITY_EVALUATIONS',client:'VISITOR_LOGBOOK',suggestion:'SUGGESTIONS_RECOMMENDATIONS'}; const name=map[type]; if(!name)throw new Error('Invalid QMS record type.');
   const sh=cmsSpreadsheet_().getSheetByName(name); if(!sh||sh.getLastRow()<2)throw new Error('Record not found.'); const vals=sh.getDataRange().getDisplayValues(),headers=vals[0],refCol=headers.indexOf('REFERENCE'); const i=vals.findIndex((r,n)=>n>0&&r[refCol]===reference); if(i<1)throw new Error('Record not found.');

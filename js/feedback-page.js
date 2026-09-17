@@ -276,7 +276,6 @@ async function issueDigitalCertificate(form,qmsReference){
     body.set("venue",String(fd.get("venue")||"").trim());
     body.set("speaker",String(fd.get("speaker")||"").trim());
     body.set("qmsReference",String(qmsReference||"").trim());
-    body.set("certificatePreference",String(fd.get("certificatePreference")||"Digital Certificate").trim());
     const response=await fetch(endpoint,{method:"POST",body,redirect:"follow"});
     if(!response.ok) throw new Error("Certificate server returned an error.");
     const data=await response.json();
@@ -314,16 +313,12 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
             const cert=data.certificateId?{success:true,certificateId:data.certificateId}:await issueDigitalCertificate(form,data.reference);
             if(cert&&cert.success&&cert.certificateId){
                 const url="certificate.html?id="+encodeURIComponent(cert.certificateId);
-                const preference=cert.certificatePreference||data.certificatePreference||new FormData(form).get("certificatePreference")||"Digital Certificate";
-                const hardCopy=cert.hardCopyAvailableOn||data.hardCopyAvailableOn||"";
                 resultBox.insertAdjacentHTML("beforeend",`
                     <div class="result-row" style="margin-top:16px">
                         <div class="result-item" style="width:100%">
-                            <small>Certificate of Participation</small>
+                            <small>Digital Certificate</small>
                             <strong>${integratedEscape(cert.certificateId)}</strong>
-                            <p style="margin:8px 0">Your verified digital certificate is ready. Digital certificates are highly recommended to help SK Sapilang reduce unnecessary paper use.</p>
-                            ${hardCopy?`<p style="margin:8px 0 12px"><strong>Hard Copy Requested:</strong> Your printed certificate will be available for claiming on <strong>${integratedEscape(hardCopy)}</strong> (three days after submission).</p>`:""}
-                            <p style="margin:8px 0 12px"><strong>Selected delivery:</strong> ${integratedEscape(preference)}</p>
+                            <p style="margin:8px 0 12px">Your Certificate of Participation is ready.</p>
                             <a class="primary-button" href="${url}" target="_blank" rel="noopener">View / Print Digital Certificate</a>
                         </div>
                     </div>`);
@@ -382,7 +377,7 @@ document.getElementById("suggestionForm").addEventListener("submit",async e=>{
 
 function feedbackCmsEndpoint(){return window.SK_CMS_ENDPOINT||localStorage.getItem("skCmsEndpoint")||""}
 function loadScheduledActivities(){
-    const run=()=>{const endpoint=feedbackCmsEndpoint(),select=document.getElementById("scheduledActivitySelect");if(!endpoint){select.innerHTML='<option value="">No CMS endpoint configured</option>';return}const callback='skSchedule'+Date.now();window[callback]=data=>{const items=(data.items||[]).filter(item=>item.type==='Scheduled Activity / Evaluation');select.innerHTML='<option value="">Select Scheduled Activity</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');select._scheduleItems=items;delete window[callback];script.remove()};const script=document.createElement('script');script.src=endpoint+'?action=public&page=feedback.html&callback='+callback+'&_='+Date.now();script.onerror=()=>{select.innerHTML='<option value="">Unable to load scheduled activities</option>'};document.head.appendChild(script)};
+    const run=()=>{const endpoint=feedbackCmsEndpoint(),select=document.getElementById("scheduledActivitySelect");if(!endpoint){select.innerHTML='<option value="">No CMS endpoint configured</option>';return}const callback='skSchedule'+Date.now();window[callback]=data=>{const items=unifiedActivityDedupe(data.items||[]).filter(item=>item.status!=='Completed');select.innerHTML='<option value="">Select Activity / Program</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');select._scheduleItems=items;delete window[callback];script.remove()};const script=document.createElement('script');script.src=endpoint+'?action=public&page=events.html&callback='+callback+'&_='+Date.now();script.onerror=()=>{select.innerHTML='<option value="">Unable to load scheduled activities</option>'};document.head.appendChild(script)};
     if(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint'))run();else{const config=document.createElement('script');config.src='cms-config.js?v=20260903-QMS';config.onload=run;document.head.appendChild(config)}
 }
 function updateActivityEvaluationMode(){
@@ -485,107 +480,22 @@ function integratedCmsPassword(){
     return document.getElementById("integratedCmsPassword").value.trim()||INTEGRATED_ADMIN_KEY;
 }
 
-function integratedCmsApi(params){
+function integratedCmsApi(params,attempt=0){
     return new Promise((resolve,reject)=>{
         const endpoint=feedbackCmsEndpoint();
         if(!endpoint){reject(new Error("The website CMS address is not configured."));return;}
         const callback="skQmsCms"+Date.now()+Math.floor(Math.random()*10000);
         const script=document.createElement("script");
-        const timer=setTimeout(()=>{cleanup();reject(new Error("The website CMS request timed out."));},20000);
-        function cleanup(){clearTimeout(timer);delete window[callback];script.remove();}
+        const timer=setTimeout(()=>{cleanup();if(attempt<1){setTimeout(()=>integratedCmsApi(params,attempt+1).then(resolve).catch(reject),700);}else reject(new Error("The certificate/CMS server is taking too long to respond. Your unsaved certificate layout is still kept on this device. Try Refresh once, then check the Apps Script deployment if it continues."));},45000);
+        function cleanup(){clearTimeout(timer);try{delete window[callback]}catch(_){window[callback]=undefined}script.remove();}
         window[callback]=response=>{cleanup();response&&response.success?resolve(response):reject(new Error(response&&response.message||"Website CMS request failed."));};
-        script.onerror=()=>{cleanup();reject(new Error("Unable to connect to the website CMS."));};
+        script.onerror=()=>{cleanup();if(attempt<1){setTimeout(()=>integratedCmsApi(params,attempt+1).then(resolve).catch(reject),700);}else reject(new Error("Unable to connect to the website CMS. Your certificate edits on this device were not erased."));};
         script.src=endpoint+"?"+new URLSearchParams({...params,callback,_:Date.now()}).toString();
         document.head.appendChild(script);
     });
 }
 
-function integratedScheduleMessage(message,error=false){
-    const el=document.getElementById("integratedScheduleMessage");
-    el.textContent=message;
-    el.style.color=error?"#ffaaaa":"";
-}
-
-function integratedClearScheduleForm(){
-    const cmsPassword=document.getElementById("integratedCmsPassword").value;
-    INTEGRATED_SCHEDULE_EDIT_ID="";
-    document.getElementById("integratedScheduleForm").reset();
-    document.getElementById("integratedCmsPassword").value=cmsPassword;
-    document.getElementById("integratedScheduleSave").textContent="Add Scheduled Activity";
-    integratedScheduleMessage("");
-}
-
-function integratedRenderSchedules(items){
-    INTEGRATED_SCHEDULE_ITEMS=items;
-    const list=document.getElementById("integratedScheduleList");
-    list.innerHTML=items.length?items.map(item=>`
-        <article class="admin-schedule-card">
-            <div><strong>${integratedEscape(item.title)}</strong><span>${integratedEscape(item.date||"No date")} • ${integratedEscape(item.venue||"No venue")}<br>${integratedEscape(item.speaker||"No resource speaker listed")}</span></div>
-            <div class="admin-schedule-card-actions"><button class="admin-action-btn" type="button" data-schedule-edit="${integratedEscape(item.id)}">Edit</button><button class="admin-action-btn danger" type="button" data-schedule-delete="${integratedEscape(item.id)}">Delete</button></div>
-        </article>`).join(""):'<div class="admin-empty">No scheduled activities yet. Add the first activity above.</div>';
-    list.querySelectorAll("[data-schedule-edit]").forEach(button=>button.addEventListener("click",()=>integratedEditSchedule(button.dataset.scheduleEdit)));
-    list.querySelectorAll("[data-schedule-delete]").forEach(button=>button.addEventListener("click",()=>integratedDeleteSchedule(button.dataset.scheduleDelete)));
-}
-
-async function integratedLoadSchedules(){
-    integratedScheduleMessage("Loading scheduled activities...");
-    try{
-        const response=await integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page:"feedback.html"});
-        integratedRenderSchedules((response.items||[]).filter(item=>item.type==="Scheduled Activity / Evaluation"));
-        integratedScheduleMessage("Scheduled activities are up to date.");
-    }catch(error){
-        integratedScheduleMessage(error.message+" If your CMS password differs from the QMS code, enter it above.",true);
-    }
-}
-
-function integratedEditSchedule(id){
-    const item=INTEGRATED_SCHEDULE_ITEMS.find(row=>row.id===id);
-    if(!item)return;
-    INTEGRATED_SCHEDULE_EDIT_ID=id;
-    document.getElementById("integratedScheduleTitle").value=item.title||"";
-    document.getElementById("integratedScheduleDate").value=item.date||"";
-    document.getElementById("integratedScheduleVenue").value=item.venue||"";
-    document.getElementById("integratedScheduleSpeaker").value=item.speaker||"";
-    document.getElementById("integratedScheduleDescription").value=item.description||"";
-    document.getElementById("integratedScheduleSave").textContent="Save Activity Update";
-    integratedScheduleMessage("Editing "+item.title+".");
-    document.getElementById("integratedScheduleTitle").focus();
-}
-
-async function integratedDeleteSchedule(id){
-    const item=INTEGRATED_SCHEDULE_ITEMS.find(row=>row.id===id);
-    if(!item||!confirm("Delete “"+item.title+"” from the evaluation choices?"))return;
-    integratedScheduleMessage("Deleting activity...");
-    try{
-        await integratedCmsApi({action:"delete-item",password:integratedCmsPassword(),id});
-        integratedClearScheduleForm();
-        await integratedLoadSchedules();
-        loadScheduledActivities();
-    }catch(error){integratedScheduleMessage(error.message,true);}
-}
-
-document.getElementById("integratedScheduleForm").addEventListener("submit",async event=>{
-    event.preventDefault();
-    const button=document.getElementById("integratedScheduleSave");
-    button.disabled=true;
-    integratedScheduleMessage("Saving scheduled activity...");
-    try{
-        await integratedCmsApi({
-            action:"save-item",password:integratedCmsPassword(),id:INTEGRATED_SCHEDULE_EDIT_ID,page:"feedback.html",
-            itemType:"Scheduled Activity / Evaluation",title:document.getElementById("integratedScheduleTitle").value.trim(),
-            description:document.getElementById("integratedScheduleDescription").value.trim(),status:"Upcoming",
-            eventDate:document.getElementById("integratedScheduleDate").value,venue:document.getElementById("integratedScheduleVenue").value.trim(),
-            speaker:document.getElementById("integratedScheduleSpeaker").value.trim(),mediaUrl:"",linkUrl:""
-        });
-        integratedClearScheduleForm();
-        await integratedLoadSchedules();
-        loadScheduledActivities();
-        integratedScheduleMessage("Activity saved. It is now available in the evaluation form.");
-    }catch(error){integratedScheduleMessage(error.message,true);}finally{button.disabled=false;}
-});
-
-document.getElementById("integratedScheduleClear").addEventListener("click",integratedClearScheduleForm);
-document.getElementById("integratedScheduleReload").addEventListener("click",integratedLoadSchedules);
+function integratedLoadSchedules(){ return typeof webActLoad==='function'?webActLoad():Promise.resolve(); }
 
 function integratedEscape(value){
     return String(value??"")
@@ -836,7 +746,7 @@ function integratedRenderClients(rows){
             <td><strong>${integratedEscape(row.name||"Anonymous")}</strong><br><span class="admin-muted">${integratedEscape(row.email)}</span></td>
             <td>${integratedEscape(row.service)}</td>
             <td class="admin-rating">${Number(row.rating).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
-            <td>${integratedEscape(row.comments)}</td><td><button class="admin-action-btn danger" type="button" data-qms-delete="client" data-ref="${integratedEscape(row.reference)}">Delete</button></td>
+            <td>${integratedEscape(row.comments)}</td>
         </tr>
     `).join("")
     : `<tr><td colspan="6" class="admin-empty">No client feedback records yet.</td></tr>`;
@@ -852,10 +762,9 @@ function integratedRenderActivities(rows){
             <td class="admin-ref">${integratedEscape(row.reference)}</td>
             <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} • ${integratedEscape(row.venue)}</span></td>
             <td>${integratedEscape(row.participant||"Anonymous")}<br><span class="admin-muted">${integratedEscape(row.classification)}</span></td>
-            <td><strong>${integratedEscape(row.mobileNumber||"No mobile")}</strong><br><span class="admin-muted">${integratedEscape(row.email||"No email")}</span><br><span class="admin-muted">SMS: ${integratedEscape(row.smsConsent||"NO")} • Email: ${integratedEscape(row.emailUpdatesConsent||"NO")}</span></td>
             <td>${integratedEscape(row.speaker||"N/A")}</td>
             <td class="admin-rating">${Number(row.averageScore).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
-            <td><strong>Learning:</strong> ${integratedEscape(row.learning)}<br><br><strong>Improve:</strong> ${integratedEscape(row.improvement)}</td><td><button class="admin-action-btn danger" type="button" data-qms-delete="activity" data-ref="${integratedEscape(row.reference)}">Delete</button></td>
+            <td><strong>Learning:</strong> ${integratedEscape(row.learning)}<br><br><strong>Improve:</strong> ${integratedEscape(row.improvement)}</td>
         </tr>
     `).join("")
     : `<tr><td colspan="7" class="admin-empty">No activity evaluations yet.</td></tr>`;
@@ -909,10 +818,10 @@ function integratedRenderSuggestions(rows){
                     <textarea data-integrated-action="${integratedEscape(row.reference)}" placeholder="Record action taken, follow-up, response or resolution...">${integratedEscape(row.actionTaken)}</textarea>
                     <button type="button" class="admin-update-btn" data-integrated-update="${integratedEscape(row.reference)}">Save Administrative Action</button>
                 </div>
-            </td><td><button class="admin-action-btn danger" type="button" data-qms-delete="suggestion" data-ref="${integratedEscape(row.reference)}">Delete</button></td>
+            </td>
         </tr>
     `).join("")
-    : `<tr><td colspan="7" class="admin-empty">No suggestions or recommendations yet.</td></tr>`;
+    : `<tr><td colspan="6" class="admin-empty">No suggestions or recommendations yet.</td></tr>`;
 
     document.querySelectorAll("[data-integrated-update]").forEach(button=>{
         button.addEventListener("click",()=>integratedUpdateSuggestion(button.dataset.integratedUpdate));
@@ -1046,55 +955,157 @@ if("IntersectionObserver" in window){
 
 document.getElementById("year").textContent=new Date().getFullYear();
 
-
-let INTEGRATED_CERTIFICATES=[];
-async function integratedLoadCertificates(){
-    if(!INTEGRATED_ADMIN_KEY)return;
-    const body=new URLSearchParams({action:'certificate-list',password:INTEGRATED_ADMIN_KEY});
-    const response=await fetch(feedbackCmsEndpoint(),{method:'POST',body,redirect:'follow'});
-    const data=await response.json(); if(!data.success)throw new Error(data.message||'Unable to load certificates.');
-    INTEGRATED_CERTIFICATES=data.certificates||[]; integratedRenderCertificates();
+/* 2026-09 Canva certificate + direct visual certificate editor */
+let CERT_STATE={nameX:50,nameY:49,nameSize:44,qrX:83,qrY:78,qrSize:96,noX:7,noY:91,noSize:14};
+const certNum=v=>Number(v)||0;
+function certPersistLocal(){try{localStorage.setItem('skCertLayoutDraft',JSON.stringify(CERT_STATE))}catch(_){}}
+function certRestoreLocal(){try{const x=JSON.parse(localStorage.getItem('skCertLayoutDraft')||'null');if(x&&typeof x==='object')CERT_STATE={...CERT_STATE,...x}}catch(_){}}
+function certApplyVisual(){
+ const stage=document.getElementById('certVisualStage'),name=document.getElementById('certDragName'),qr=document.getElementById('certDragQr'),no=document.getElementById('certDragNo');if(!stage||!name)return;
+ name.style.left=CERT_STATE.nameX+'%';name.style.top=CERT_STATE.nameY+'%';name.style.fontSize=CERT_STATE.nameSize+'px';
+ qr.style.left=CERT_STATE.qrX+'%';qr.style.top=CERT_STATE.qrY+'%';qr.style.width=CERT_STATE.qrSize+'px';qr.style.height=CERT_STATE.qrSize+'px';
+ no.style.left=CERT_STATE.noX+'%';no.style.top=CERT_STATE.noY+'%';no.style.fontSize=CERT_STATE.noSize+'px';
 }
-function integratedRenderCertificates(){
-    const tbody=document.getElementById('integratedCertificateRows'); if(!tbody)return;
-    const q=(document.getElementById('integratedCertificateSearch')?.value||'').toLowerCase();
-    const rows=INTEGRATED_CERTIFICATES.filter(c=>[c.certificateId,c.participant,c.activity,c.deliveryPreference,c.printStatus].join(' ').toLowerCase().includes(q));
-    tbody.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${integratedEscape(c.certificateId)}</strong><br>${integratedEscape(c.qmsReference)}</td><td>${integratedEscape(c.participant)}</td><td>${integratedEscape(c.activity)}<br><small>${integratedEscape(c.activityType)}</small></td><td>${integratedEscape(c.deliveryPreference)}</td><td>${integratedEscape(c.hardCopyAvailableOn||'—')}<br><small>${integratedEscape(c.printStatus||'')}</small></td><td>${integratedEscape(c.status)}</td><td><a href="certificate.html?id=${encodeURIComponent(c.certificateId)}" target="_blank">View / Print</a> · <a href="certificate.html?blank=1&activity=${encodeURIComponent(c.activity)}&type=${encodeURIComponent(c.activityType)}&date=${encodeURIComponent(c.date||'')}&venue=${encodeURIComponent(c.venue||'')}" target="_blank">Blank</a>${c.email?' · <button type="button" class="admin-action-btn" data-resend-cert="'+integratedEscape(c.certificateId)+'">Resend Email</button>':''}<br><small>${integratedEscape(c.emailStatus||'')}</small></td></tr>`).join(''):'<tr><td colspan="7">No certificate records found.</td></tr>';
+function certSetBackground(url){const st=document.getElementById('certVisualStage');if(!st)return;st.style.backgroundImage=url?`url("${String(url).replaceAll('"','%22')}")`:'';document.getElementById('certVisualEmpty').style.display=url?'none':'grid'}
+function certSelect(el){document.querySelectorAll('.cert-edit-item').forEach(x=>x.classList.toggle('cert-selected',x===el));const i=document.getElementById('certSelectedInfo');if(el&&i)i.textContent=(el.dataset.kind==='name'?'Participant Name':el.dataset.kind==='qr'?'QR Code':'Certificate Number')+' selected — drag to move; drag the orange corner to resize.'}
+function certEnableDirectEditor(){
+ const stage=document.getElementById('certVisualStage');if(!stage)return;
+ stage.querySelectorAll('.cert-edit-item').forEach(el=>{
+  el.addEventListener('pointerdown',e=>{certSelect(el);if(e.target.classList.contains('cert-resize-handle'))return;e.preventDefault();el.setPointerCapture(e.pointerId);const r=stage.getBoundingClientRect(),kind=el.dataset.kind,startX=e.clientX,startY=e.clientY,x0=CERT_STATE[kind+'X'],y0=CERT_STATE[kind+'Y'];
+   const move=ev=>{CERT_STATE[kind+'X']=Math.max(0,Math.min(100,x0+(ev.clientX-startX)/r.width*100));CERT_STATE[kind+'Y']=Math.max(0,Math.min(100,y0+(ev.clientY-startY)/r.height*100));certApplyVisual()};
+   const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up)};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up)
+  });
+  const h=el.querySelector('.cert-resize-handle');h?.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();h.setPointerCapture(e.pointerId);const kind=el.dataset.kind,start=e.clientX,size0=kind==='name'?CERT_STATE.nameSize:kind==='qr'?CERT_STATE.qrSize:CERT_STATE.noSize;
+   const move=ev=>{const d=ev.clientX-start;if(kind==='name')CERT_STATE.nameSize=Math.max(18,Math.min(90,size0+d*.25));else if(kind==='qr')CERT_STATE.qrSize=Math.max(55,Math.min(180,size0+d));else CERT_STATE.noSize=Math.max(9,Math.min(32,size0+d*.12));certApplyVisual()};
+   const up=()=>{h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',up)};h.addEventListener('pointermove',move);h.addEventListener('pointerup',up)
+  })
+ });
+ stage.addEventListener('pointerdown',e=>{if(e.target===stage)certSelect(null)})
 }
-document.getElementById('integratedCertificateRefresh')?.addEventListener('click',()=>integratedLoadCertificates().catch(e=>alert(e.message)));
-document.getElementById('integratedCertificateSearch')?.addEventListener('input',integratedRenderCertificates);
-document.querySelector('[data-admin-tab="certificates"]')?.addEventListener('click',()=>integratedLoadCertificates().catch(()=>{}));
+async function certLoadDesign(){
+ try{const r=await integratedCmsApi({action:'certificate-settings'}),x=r.settings||{};document.getElementById('certCanvaUrl').value=x.canvaEditUrl||'';document.getElementById('certBackgroundUrl').value=x.certificateBackground||'';CERT_STATE={nameX:certNum(x.nameX)||50,nameY:certNum(x.nameY)||49,nameSize:certNum(x.nameSize)||44,qrX:certNum(x.qrX)||83,qrY:certNum(x.qrY)||78,qrSize:certNum(x.qrSize)||96,noX:certNum(x.noX)||7,noY:certNum(x.noY)||91,noSize:certNum(x.noSize)||14};certRestoreLocal();certApplyVisual();certSetBackground(x.certificateBackground||'');const a=document.getElementById('certOpenCanva');a.href=x.canvaEditUrl||'#';document.getElementById('certDesignMsg').textContent=x.certificateBackground?'Master certificate loaded. Drag the personalized fields directly on the preview.':'Choose your Canva PNG/JPG above to begin.'}catch(e){document.getElementById('certDesignMsg').textContent=e.message}
+}
+document.getElementById('certMasterFile')?.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;if(window.CERT_LOCAL_PREVIEW)URL.revokeObjectURL(window.CERT_LOCAL_PREVIEW);window.CERT_LOCAL_PREVIEW=URL.createObjectURL(f);certSetBackground(window.CERT_LOCAL_PREVIEW);document.getElementById('certDesignMsg').textContent='Preview ready. Drag the name, QR and certificate number into position, then upload and save.'});
+document.getElementById('certCanvaUrl')?.addEventListener('input',e=>{document.getElementById('certOpenCanva').href=e.target.value.trim()||'#'});
+async function certUploadDesign(){const file=document.getElementById('certMasterFile').files[0],msg=document.getElementById('certDesignMsg');if(!file){msg.textContent='Choose your exported Canva PNG/JPG first.';return}if(file.size>10*1024*1024){msg.textContent='Image must be 10 MB or smaller.';return}msg.textContent='Uploading certificate background...';try{const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(new Error('Unable to read image.'));r.readAsDataURL(file)}),x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:file.name,data});document.getElementById('certBackgroundUrl').value=x.url||'';certSetBackground(x.url||window.CERT_LOCAL_PREVIEW||'');msg.textContent='Background uploaded. Now click SAVE POSITIONS & MASTER CERTIFICATE.'}catch(e){msg.textContent=e.message}}
+async function certSaveDesign(){const msg=document.getElementById('certDesignMsg'),canva=document.getElementById('certCanvaUrl').value.trim(),bg=document.getElementById('certBackgroundUrl').value.trim();if(!bg){msg.textContent='Upload / Replace Background first so the certificate image is saved online.';return}msg.textContent='Saving certificate design and positions...';try{await integratedAdminPost({action:'save-certificate-settings',password:integratedCmsPassword(),title:'Certificate of Participation',body:'',logo1:'',logo2:'',signatory1:'',position1:'',signatory2:'',position2:'',design:'canva',adminEmail:'',certificateBackground:bg,canvaEditUrl:canva,...CERT_STATE});certPersistLocal();document.getElementById('certOpenCanva').href=canva||'#';msg.textContent='Saved. Every certificate will use this design and these exact positions, with a unique name, certificate number and QR.'}catch(e){msg.textContent=e.message}}
+document.getElementById('certUploadDesign')?.addEventListener('click',certUploadDesign);document.getElementById('certSaveDesign')?.addEventListener('click',certSaveDesign);document.getElementById('certResetPositions')?.addEventListener('click',()=>{CERT_STATE={nameX:50,nameY:49,nameSize:44,qrX:83,qrY:78,qrSize:96,noX:7,noY:91,noSize:14};certApplyVisual();document.getElementById('certDesignMsg').textContent='Positions reset in preview. Click Save to keep the reset.'});certEnableDirectEditor();
 
+function isUnifiedActivityItem(x){
+ const t=String(x?.type||'').trim();
+ return ['Website Activity / Program','Scheduled Activity / Evaluation','Upcoming Event','Finished Activity','Project / Program','Activity / Program'].includes(t);
+}
+function unifiedActivityStatus(x){
+ const raw=String(x?.status||'').trim();
+ if(raw==='Completed'||x?.type==='Finished Activity')return 'Completed';
+ if(raw==='Ongoing')return 'Ongoing';
+ return 'Upcoming';
+}
+function unifiedActivityDedupe(items){
+ const seen=new Set();
+ return (items||[]).filter(isUnifiedActivityItem).map(x=>({...x,status:unifiedActivityStatus(x)})).filter(x=>{
+   const k=String(x.id||'')||[String(x.title||'').trim().toLowerCase(),String(x.date||'')].join('|');
+   if(seen.has(k))return false;seen.add(k);return true;
+ });
+}
+let WEB_ACTIVITY_ITEMS=[];
+let WEB_ACTIVITY_EDIT_ID='';
+let WEB_ACTIVITY_FILTER='all';
+function webActMsg(t){const e=document.getElementById("webActMsg");if(e)e.textContent=t||""}
+function webActClear(){WEB_ACTIVITY_EDIT_ID="";const f=document.getElementById("webActivityForm");if(f)f.reset();const st=document.getElementById("webActStatus");if(st)st.value="Upcoming";["webActShowUpdates","webActShowPrograms","webActEvaluation","webActCertificates"].forEach(id=>{const e=document.getElementById(id);if(e)e.checked=true});const b=document.getElementById("webActSave");if(b)b.textContent="Add Activity / Program";webActMsg("")}
+function webActVisible(items){return WEB_ACTIVITY_FILTER==='all'?items:items.filter(x=>(x.status||'Upcoming')===WEB_ACTIVITY_FILTER)}
+function webActRender(items){WEB_ACTIVITY_ITEMS=unifiedActivityDedupe(items);items=WEB_ACTIVITY_ITEMS;if(typeof ctSyncActivitySelects==='function')ctSyncActivitySelects(WEB_ACTIVITY_ITEMS);const box=document.getElementById("webActList");if(!box)return;const show=webActVisible(items);box.innerHTML=show.length?show.map(x=>`<article class="admin-schedule-card"><div>${x.mediaUrl?`<img src="${integratedEscape(x.mediaUrl)}" alt="" style="width:88px;height:64px;object-fit:cover;border-radius:8px;float:left;margin-right:12px">`:""}<strong>${integratedEscape(x.title)}</strong><span>${integratedEscape(x.status||"Upcoming")} • ${integratedEscape(x.date||"No date")}<br>${integratedEscape(x.venue||"")} ${x.speaker?'• '+integratedEscape(x.speaker):''}</span></div><div class="admin-schedule-card-actions"><button type="button" class="admin-action-btn" data-wa-edit="${integratedEscape(x.id)}">Edit</button><button type="button" class="admin-action-btn danger" data-wa-delete="${integratedEscape(x.id)}">Delete</button></div></article>`).join(""):'<div class="admin-empty">No activities in this view.</div>';box.querySelectorAll('[data-wa-edit]').forEach(b=>b.onclick=()=>webActEdit(b.dataset.waEdit));box.querySelectorAll('[data-wa-delete]').forEach(b=>b.onclick=()=>webActDelete(b.dataset.waDelete))}
+async function webActLoad(){
+ try{
+  webActMsg("Loading all activities...");
+  const pages=["news-events.html","feedback.html","events.html"];
+  const results=await Promise.all(pages.map(page=>integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page}).catch(()=>({items:[]}))));
+  const merged=[]; results.forEach((r,i)=>(r.items||[]).forEach(x=>merged.push({...x,_sourcePage:pages[i]})));
+  webActRender(unifiedActivityDedupe(merged));
+  INTEGRATED_SCHEDULE_ITEMS=WEB_ACTIVITY_ITEMS;
+  webActSyncEvaluationSelect();
+  webActMsg(`${WEB_ACTIVITY_ITEMS.length} activit${WEB_ACTIVITY_ITEMS.length===1?'y':'ies'} loaded. One Activity Manager now reads your existing and new records.`);
+  if(typeof ctSyncActivitySelects==='function')ctSyncActivitySelects(WEB_ACTIVITY_ITEMS);
+ }catch(e){webActMsg(e.message)}
+}
+function webActSyncEvaluationSelect(){
+ const select=document.getElementById("scheduledActivitySelect");if(!select)return;
+ const items=(WEB_ACTIVITY_ITEMS||[]).filter(x=>x.status!=="Completed");
+ const keep=select.value;
+ select.innerHTML='<option value="">Select Activity / Program</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');
+ select._scheduleItems=items;if([...select.options].some(o=>o.value===keep))select.value=keep;
+}
+function webActEdit(id){const x=WEB_ACTIVITY_ITEMS.find(v=>v.id===id);if(!x)return;WEB_ACTIVITY_EDIT_ID=id;document.getElementById("webActTitle").value=x.title||"";document.getElementById("webActDate").value=x.date||"";document.getElementById("webActStatus").value=x.status||"Upcoming";document.getElementById("webActDescription").value=x.description||"";document.getElementById("webActVenue").value=x.venue||"";document.getElementById("webActSpeaker").value=x.speaker||"";document.getElementById("webActPubmat").value=x.mediaUrl||"";document.getElementById("webActFacebook").value=x.linkUrl||"";document.getElementById("webActPhotos").value="";document.getElementById("webActSave").textContent="Save Activity Update";webActMsg("Editing "+x.title);document.getElementById("webActTitle").focus()}
+async function webActDelete(id){const x=WEB_ACTIVITY_ITEMS.find(v=>v.id===id);if(!x||!confirm('Delete “'+x.title+'”? This removes it from Activity Manager, evaluation choices and certificate activity choices.'))return;try{await integratedCmsApi({action:"delete-item",password:integratedCmsPassword(),id});webActClear();await webActLoad();loadScheduledActivities()}catch(e){webActMsg(e.message)}}
+document.getElementById("webActivityForm")?.addEventListener("submit",async e=>{e.preventDefault();const b=document.getElementById("webActSave");b.disabled=true;try{const status=document.getElementById("webActStatus").value;await integratedCmsApi({action:"save-item",password:integratedCmsPassword(),id:WEB_ACTIVITY_EDIT_ID,page:(WEB_ACTIVITY_ITEMS.find(v=>v.id===WEB_ACTIVITY_EDIT_ID)?._sourcePage||"news-events.html"),itemType:"Activity / Program",title:document.getElementById("webActTitle").value.trim(),description:document.getElementById("webActDescription").value.trim(),status,eventDate:document.getElementById("webActDate").value,venue:document.getElementById("webActVenue").value.trim(),speaker:document.getElementById("webActSpeaker").value.trim(),mediaUrl:document.getElementById("webActPubmat").value.trim(),linkUrl:document.getElementById("webActFacebook").value.trim()});webActClear();await webActLoad();loadScheduledActivities();webActMsg(status==='Completed'?"Saved. This activity is now shown as Completed / Finished and remains available for certificates.":"Saved. This upcoming/ongoing activity is now available for evaluations, certificates, and the public Updates & Programs feed.")}catch(err){webActMsg(err.message)}finally{b.disabled=false}});
+document.getElementById("webActClear")?.addEventListener("click",webActClear);document.getElementById("webActReload")?.addEventListener("click",webActLoad);
+document.querySelectorAll('[data-activity-filter]').forEach(b=>b.addEventListener('click',()=>{WEB_ACTIVITY_FILTER=b.dataset.activityFilter;webActRender(WEB_ACTIVITY_ITEMS)}));
+setTimeout(()=>{certLoadDesign();webActLoad()},700);
 
-// QMS delete/recycle, certificate template and Drive backup
-async function qmsAdminAction(params){return integratedAdminPost(Object.assign({password:INTEGRATED_ADMIN_KEY},params));}
-document.addEventListener('click',async e=>{
- const del=e.target.closest('[data-qms-delete]'); if(del){if(!confirm('Move this QMS record to the Recycle Bin? You can restore it later.'))return;try{await qmsAdminAction({action:'qms-delete-record',recordType:del.dataset.qmsDelete,reference:del.dataset.ref});await integratedLoadDashboard();alert('Moved to Recycle Bin.');}catch(err){alert(err.message)}return;}
- const resend=e.target.closest('[data-resend-cert]');if(resend){try{await qmsAdminAction({action:'resend-certificate',certificateId:resend.dataset.resendCert});alert('Certificate email sent again.');await integratedLoadCertificates();}catch(err){alert(err.message)}return;}
- const restore=e.target.closest('[data-recycle-restore]');if(restore){try{await qmsAdminAction({action:'recycle-restore',reference:restore.dataset.recycleRestore});await loadRecycle();await integratedLoadDashboard();alert('Record restored.');}catch(err){alert(err.message)}}
-});
-async function loadRecycle(){const d=await qmsAdminAction({action:'recycle-list'}),tb=document.getElementById('recycleRows');const rows=d.records||[];tb.innerHTML=rows.length?rows.map(r=>{let x={};try{x=JSON.parse(r.data||'{}')}catch(_){ }return `<tr><td>${integratedEscape(r.deletedAt)}</td><td>${integratedEscape(r.type)}</td><td>${integratedEscape(r.reference)}</td><td>${integratedEscape(x.ACTIVITY||x.FULL_NAME||x.SUBJECT||x.NAME||'QMS record')}</td><td><button class="admin-action-btn" type="button" data-recycle-restore="${integratedEscape(r.reference)}">Restore</button></td></tr>`}).join(''):'<tr><td colspan="5">Recycle Bin is empty.</td></tr>'}
-document.getElementById('recycleRefreshBtn')?.addEventListener('click',()=>loadRecycle().catch(e=>alert(e.message)));
-document.querySelector('[data-admin-tab="recycle"]')?.addEventListener('click',()=>loadRecycle().catch(()=>{}));
-document.getElementById('qmsBackupBtn')?.addEventListener('click',async()=>{const m=document.getElementById('qmsBackupMessage');m.textContent='Creating Google Drive backup...';try{const d=await qmsAdminAction({action:'qms-backup'});m.innerHTML=`Backup created: <a href="${d.url}" target="_blank">${integratedEscape(d.name)}</a>`}catch(e){m.textContent=e.message}});
-function certProfileKey(){return certTplProfile.value==='custom'?(certTplCustomKey.value.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-')||'custom'):certTplProfile.value}
-async function loadCertificateTemplate(){const profile=certProfileKey();const d=await qmsAdminAction({action:'certificate-settings',profile});const x=d.settings||{};[['certTplTitle','title'],['certTplBody','body'],['certTplLogo1','logo1'],['certTplLogo2','logo2'],['certTplSignatory1','signatory1'],['certTplPosition1','position1'],['certTplDesign','design'],['certTplAdminEmail','adminEmail'],['certTplSignatureData','signatureData']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.value=x[k]||''});const im=document.getElementById('certTplSignaturePreview');if(im){im.src=x.signatureData||'';im.style.display=x.signatureData?'block':'none'}}
-document.querySelector('[data-admin-tab="certificateTemplate"]')?.addEventListener('click',()=>loadCertificateTemplate().catch(()=>{}));
-document.getElementById('certTplProfile')?.addEventListener('change',()=>{certTplCustomWrap.hidden=certTplProfile.value!=='custom';if(certTplProfile.value!=='custom')loadCertificateTemplate().catch(()=>{})});
-document.getElementById('certTplCustomKey')?.addEventListener('change',()=>loadCertificateTemplate().catch(()=>{}));
-document.getElementById('certTplSignatureFile')?.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{const maxW=520,maxH=180,scale=Math.min(1,maxW/img.width,maxH/img.height),c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);const data=c.toDataURL('image/png');certTplSignatureData.value=data;certTplSignaturePreview.src=data;certTplSignaturePreview.style.display='block'};img.src=rd.result};rd.readAsDataURL(f)});
-document.getElementById('certTplPreviewBtn')?.addEventListener('click',()=>{const u=new URL('certificate.html',location.href);u.searchParams.set('blank','1');u.searchParams.set('profile',certProfileKey());window.open(u.href,'_blank')});
-document.getElementById('certificateTemplateForm')?.addEventListener('submit',async e=>{e.preventDefault();const m=document.getElementById('certificateTemplateMessage');m.textContent='Saving this program template...';try{await qmsAdminAction({action:'save-certificate-settings',profile:certProfileKey(),title:certTplTitle.value,body:certTplBody.value,logo1:certTplLogo1.value,logo2:certTplLogo2.value,signatory1:certTplSignatory1.value,position1:certTplPosition1.value,design:certTplDesign.value,adminEmail:certTplAdminEmail.value,signatureData:certTplSignatureData.value});m.textContent='Program certificate template saved.'}catch(err){m.textContent=err.message}});
-
-// Simple Canva-style certificate editor: instant live preview + one-click save
-(function(){
- const ids=['certTplTitle','certTplBody','certTplLogo1','certTplLogo2','certTplSignatory1','certTplPosition1','certTplSignatureData','certTplProfile'];
- function live(){
-  const v=id=>document.getElementById(id)?.value||'';
-  const set=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t};
-  set('liveTitle',v('certTplTitle')||'Certificate of Participation'); set('liveBody',v('certTplBody')||'for successfully participating in'); set('liveSigName',v('certTplSignatory1')||'DANDY F. NILLO'); set('liveSigPos',v('certTplPosition1')||'SK Chairperson'); set('liveProgram',(v('certTplProfile')||'program').replace(/-/g,' ').toUpperCase());
-  const l1=document.getElementById('liveLogo1'),l2=document.getElementById('liveLogo2'),sg=document.getElementById('liveSign'); if(l1&&v('certTplLogo1'))l1.src=v('certTplLogo1'); if(l2){l2.src=v('certTplLogo2')||'images/barangay-logo.svg';l2.style.visibility=v('certTplLogo2')===''?'hidden':'visible'} if(sg){sg.src=v('certTplSignatureData');sg.hidden=!v('certTplSignatureData')}
- }
- ids.forEach(id=>document.getElementById(id)?.addEventListener('input',live)); document.getElementById('certTplDesign')?.addEventListener('change',live); setTimeout(live,500);
- document.getElementById('certTplSaveBtn')?.addEventListener('click',async()=>{const m=document.getElementById('certificateTemplateMessage');m.textContent='Saving complete certificate design...';try{await qmsAdminAction({action:'save-certificate-settings',profile:certProfileKey(),title:certTplTitle.value,body:certTplBody.value,logo1:certTplLogo1.value,logo2:certTplLogo2.value,signatory1:certTplSignatory1.value,position1:certTplPosition1.value,design:certTplDesign.value,adminEmail:certTplAdminEmail.value,signatureData:certTplSignatureData.value});m.textContent='Complete certificate design saved.'}catch(e){m.textContent=e.message}});
-})();
+/* MULTI-ACTIVITY CERTIFICATE CENTER */
+let CERT_TEMPLATES=[];
+let CERT_ACTIVITY_ITEMS=[];
+let CT_EDIT='';
+function ctMsg(t){const e=document.getElementById('ctMsg');if(e)e.textContent=t}
+function ctParse(x){try{return JSON.parse(x.description||'{}')}catch{return {}}}
+function ctActivityKey(x){return String((x&&x.id)||'')}
+function ctActivityLabel(x){return `${x.title||'Untitled Activity'}${x.date?' — '+x.date:''}`}
+function ctSyncActivitySelects(items){
+ CERT_ACTIVITY_ITEMS=unifiedActivityDedupe(items||[]).map(x=>({...x,_source:x._source||'Activity Manager'}));
+ ['ctActivity','ciActivity'].forEach(id=>{const sel=document.getElementById(id);if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">Select an activity...</option>'+CERT_ACTIVITY_ITEMS.map(x=>`<option value="${integratedEscape(ctActivityKey(x))}">${integratedEscape(ctActivityLabel(x))}</option>`).join('');if([...sel.options].some(o=>o.value===keep))sel.value=keep});
+ const count=document.getElementById('certActivityCount');if(count)count.textContent=CERT_ACTIVITY_ITEMS.length?`${CERT_ACTIVITY_ITEMS.length} activities available`:'No activities found yet';
+ const empty=document.getElementById('certActivityEmpty');if(empty)empty.style.display=CERT_ACTIVITY_ITEMS.length?'none':'block';
+}
+async function ctLoadActivities(){
+  const all=[];
+  const add=(items,source,type)=>{(items||[]).filter(x=>type?x.type===type:isUnifiedActivityItem(x)).forEach(x=>all.push({...x,status:unifiedActivityStatus(x),_source:source}))};
+  // FIRST: use activities already loaded elsewhere in this same QMS page.
+  // This makes the Certificate Center usable even if a second CMS request is slow.
+  add(typeof WEB_ACTIVITY_ITEMS!=='undefined'?WEB_ACTIVITY_ITEMS:[],'Activity Manager');
+  // SECOND: refresh from the backend and merge the results.
+  try{const rs=await Promise.all(['news-events.html','feedback.html','events.html'].map(page=>integratedCmsApi({action:'list-items',password:integratedCmsPassword(),page}).catch(()=>({items:[]}))));rs.forEach(r=>add(unifiedActivityDedupe(r.items||[]),'Activity Manager'))}catch(_){ }
+  const seen=new Set();
+  CERT_ACTIVITY_ITEMS=all.filter(x=>{const k=String(x.id||'')||((x.title||'')+'|'+(x.date||''));if(seen.has(k))return false;seen.add(k);return true});
+  ['ctActivity','ciActivity'].forEach(id=>{const sel=document.getElementById(id);if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">Select an activity...</option>'+CERT_ACTIVITY_ITEMS.map(x=>`<option value="${integratedEscape(ctActivityKey(x))}">${integratedEscape(ctActivityLabel(x))} · ${integratedEscape(x._source)}</option>`).join('');if([...sel.options].some(o=>o.value===keep))sel.value=keep});
+  const count=document.getElementById('certActivityCount');if(count)count.textContent=CERT_ACTIVITY_ITEMS.length?`${CERT_ACTIVITY_ITEMS.length} activities available`:'No activities found yet';
+  const empty=document.getElementById('certActivityEmpty');if(empty)empty.style.display=CERT_ACTIVITY_ITEMS.length?'none':'block';
+  return CERT_ACTIVITY_ITEMS;
+}
+async function ctLoad(){
+  try{
+    await ctLoadActivities();
+    const r=await integratedCmsApi({action:'list-items',password:integratedCmsPassword(),page:'certificate-templates'});
+    CERT_TEMPLATES=(r.items||[]).filter(x=>x.type==='Certificate Template');
+    const list=document.getElementById('ctList'),sel=document.getElementById('ciTemplate');
+    if(list)list.innerHTML=CERT_TEMPLATES.length?CERT_TEMPLATES.map(x=>{const d=ctParse(x);return `<div style="border:1px solid #d8e1e6;border-radius:10px;padding:10px;display:flex;justify-content:space-between;gap:10px;align-items:center"><div><strong>${integratedEscape(x.title)}</strong><div style="font-size:12px;color:#6a7c87">${integratedEscape(d.certType||'Certificate')} • ${integratedEscape(d.heading||'')} ${d.activityId?'• Linked to activity':''}</div></div><button class="admin-action-btn" type="button" onclick="ctEdit('${x.id}')">Edit</button></div>`}).join(''):'No saved activity certificate designs yet.';
+    if(sel)sel.innerHTML='<option value="">Auto-select from Activity / Use Master</option>'+CERT_TEMPLATES.map(x=>`<option value="${x.id}">${integratedEscape(x.title)} — ${integratedEscape(ctParse(x).certType||'Certificate')}</option>`).join('');
+  }catch(e){ctMsg(e.message)}
+}
+window.ctEdit=id=>{const x=CERT_TEMPLATES.find(v=>v.id===id);if(!x)return;const d=ctParse(x);CT_EDIT=id;const a=document.getElementById('ctActivity');a.value=d.activityId||'';document.getElementById('ctCustomActivity').value=d.activityId?'':(x.title||'');document.getElementById('ctType').value=d.certType||'Participation';document.getElementById('ctHeading').value=d.heading||'';document.getElementById('ctCitation').value=d.citation||'';document.getElementById('ctCanva').value=x.linkUrl||'';document.getElementById('ctBg').value=x.mediaUrl||'';ctMsg('Editing '+x.title+' — '+(d.certType||'Certificate'))}
+function ctClear(){CT_EDIT='';['ctCitation','ctCanva','ctBg','ctCustomActivity'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('ctActivity').value='';document.getElementById('ctType').value='Participation';document.getElementById('ctHeading').value='Certificate of Participation';const f=document.getElementById('ctFile');if(f)f.value='';ctMsg('Ready. Select the activity this certificate belongs to.')}
+document.getElementById('ctNew')?.addEventListener('click',ctClear);
+document.getElementById('ctUpload')?.addEventListener('click',async()=>{const f=document.getElementById('ctFile').files[0];if(!f)return ctMsg('Choose the Canva PNG/JPG first.');try{ctMsg('Uploading activity certificate design...');const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(f)}),x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:f.name,data});document.getElementById('ctBg').value=x.url||'';ctMsg('Design uploaded. Click Save Activity Certificate.') }catch(e){ctMsg(e.message)}});
+document.getElementById('ctSave')?.addEventListener('click',async()=>{const activityId=document.getElementById('ctActivity').value,linked=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId),custom=document.getElementById('ctCustomActivity').value.trim(),activity=linked?.title||custom,type=document.getElementById('ctType').value;if(!activity)return ctMsg('Select the activity this certificate belongs to, or enter a Custom Activity.');try{await integratedCmsApi({action:'save-item',password:integratedCmsPassword(),id:CT_EDIT,page:'certificate-templates',itemType:'Certificate Template',title:activity,description:JSON.stringify({activityId:linked?.id||'',activitySource:linked?._source||'Custom',activityDate:linked?.date||'',certType:type,heading:document.getElementById('ctHeading').value.trim(),citation:document.getElementById('ctCitation').value.trim()}),status:'ACTIVE',mediaUrl:document.getElementById('ctBg').value.trim(),linkUrl:document.getElementById('ctCanva').value.trim()});ctMsg('Saved and linked to '+activity+'.');CT_EDIT='';await ctLoad()}catch(e){ctMsg(e.message)}});
+function ciApplyActivity(activityId){
+  const activity=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId);if(!activity)return;
+  const matches=CERT_TEMPLATES.filter(t=>{const d=ctParse(t);return d.activityId===activityId || (!d.activityId && String(t.title||'').toLowerCase()===String(activity.title||'').toLowerCase())});
+  const t=matches[0];
+  if(t){const d=ctParse(t);document.getElementById('ciTemplate').value=t.id;document.getElementById('ciType').value=d.certType||'Participation';document.getElementById('ciCitation').value=d.citation||''}
+  else{document.getElementById('ciTemplate').value='';document.getElementById('ciCitation').value=''}
+  if(activity.date)document.getElementById('ciDate').value=String(activity.date).slice(0,10);
+  const msg=document.getElementById('ciMsg');if(msg)msg.textContent=t?'Activity linked. Its saved certificate design and content were selected automatically.':'Activity selected. No special design is saved yet, so the Master Certificate will be used.';
+}
+document.getElementById('ciActivity')?.addEventListener('change',e=>ciApplyActivity(e.target.value));
+document.getElementById('ciTemplate')?.addEventListener('change',e=>{const x=CERT_TEMPLATES.find(v=>v.id===e.target.value);if(!x)return;const d=ctParse(x);if(d.activityId && [...document.getElementById('ciActivity').options].some(o=>o.value===d.activityId))document.getElementById('ciActivity').value=d.activityId;document.getElementById('ciType').value=d.certType||'Participation';document.getElementById('ciCitation').value=d.citation||'';if(d.activityDate)document.getElementById('ciDate').value=String(d.activityDate).slice(0,10)});
+document.getElementById('ciIssue')?.addEventListener('click',async()=>{const msg=document.getElementById('ciMsg'),name=document.getElementById('ciName').value.trim(),activityId=document.getElementById('ciActivity').value,activityObj=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId),template=CERT_TEMPLATES.find(x=>x.id===document.getElementById('ciTemplate').value),activity=activityObj?.title||template?.title||'';if(!name||!activity){msg.textContent='Recipient and linked activity are required.';return}msg.textContent='Issuing unique certificate...';try{const x=await integratedAdminPost({action:'admin-issue-certificate',password:integratedCmsPassword(),participant:name,recipientType:document.getElementById('ciRecipientType').value,certificateType:document.getElementById('ciType').value,activity,activityId,activitySource:activityObj?._source||'',date:document.getElementById('ciDate').value,citation:document.getElementById('ciCitation').value.trim(),certificatePreference:document.getElementById('ciDelivery').value,email:document.getElementById('ciEmail').value.trim(),templateId:document.getElementById('ciTemplate').value});msg.innerHTML=`Issued successfully: <strong>${integratedEscape(x.certificateId||'')}</strong> — <a href="certificate.html?id=${encodeURIComponent(x.certificateId)}" target="_blank">Open Certificate</a>`;document.getElementById('integratedCertificateRefresh')?.click()}catch(e){msg.textContent=e.message}});
+document.getElementById('certReloadActivities')?.addEventListener('click',async()=>{ctMsg('Refreshing activities...');await ctLoadActivities();ctMsg(CERT_ACTIVITY_ITEMS.length?`${CERT_ACTIVITY_ITEMS.length} activities loaded. Choose one below.`:'No activities were returned. Add an activity in Manage Activities, then click Refresh Activities.')});
+function certCenterShow(panel){
+ document.querySelectorAll('[data-cert-panel]').forEach(x=>x.style.display=x.dataset.certPanel===panel?'block':'none');
+ document.querySelectorAll('[data-cert-nav]').forEach(x=>x.classList.toggle('primary',x.dataset.certNav===panel));
+ try{localStorage.setItem('skCertCenterPanel',panel)}catch(_){}
+ if(panel==='designs')ctLoad();
+ if(panel==='issue')ctLoadActivities();
+}
+document.querySelectorAll('[data-cert-nav]').forEach(b=>b.addEventListener('click',()=>certCenterShow(b.dataset.certNav)));
+setTimeout(()=>{let p='designs';try{p=localStorage.getItem('skCertCenterPanel')||'designs'}catch(_){}certCenterShow(p)},950);
+setTimeout(ctLoad,900);
