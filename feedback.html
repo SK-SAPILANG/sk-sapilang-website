@@ -588,7 +588,6 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
   <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
   <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
-<link rel="stylesheet" href="css/responsive-universal.css">
 </head>
 
 <body>
@@ -1376,17 +1375,19 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     <section class="admin-tab-content" id="integratedCertificateTemplateTab">
                       <article class="admin-panel"><div class="admin-panel-head"><h4>Certificate Template Designer</h4><p>Customize certificate wording, logos and design. Changes apply to digital, printed and blank certificates.</p></div><div class="admin-panel-body">
                         <form id="certificateTemplateForm" class="admin-schedule-form">
-                          <div class="admin-schedule-field full"><label>Certificate Title</label><input id="certTplTitle" value="Certificate of Participation"></div>
-                          <div class="admin-schedule-field full"><label>Certificate Description / Body</label><textarea id="certTplBody" rows="4" placeholder="for successfully participating in"></textarea></div>
-                          <div class="admin-schedule-field"><label>SK Logo URL</label><input id="certTplLogo1" placeholder="images/sk-logo.svg or https://..."></div>
-                          <div class="admin-schedule-field"><label>Second Logo URL</label><input id="certTplLogo2" placeholder="images/barangay-logo.svg or https://..."></div>
-                          <div class="admin-schedule-field"><label>Primary Signatory</label><input id="certTplSignatory1" placeholder="Name"></div>
-                          <div class="admin-schedule-field"><label>Primary Position</label><input id="certTplPosition1" placeholder="SK Chairperson"></div>
-                          <div class="admin-schedule-field"><label>Second Signatory</label><input id="certTplSignatory2" placeholder="Name / Office"></div>
-                          <div class="admin-schedule-field"><label>Second Position</label><input id="certTplPosition2" placeholder="Position"></div>
-                          <div class="admin-schedule-field"><label>Admin Certificate Copy Email (Optional)</label><input id="certTplAdminEmail" type="email" placeholder="Official SK email"></div><div class="admin-schedule-field"><label>Design</label><select id="certTplDesign"><option value="auto">Automatic by Activity</option><option value="official">Official / Civic</option><option value="environmental">Environmental</option><option value="education">Education</option><option value="sports">Sports</option></select></div>
-                          <div class="admin-schedule-field full"><button class="admin-action-btn primary" type="submit">Save Certificate Template</button> <a class="admin-action-btn" href="certificate.html?blank=1" target="_blank">Preview Blank Certificate</a></div>
-                        </form><div id="certificateTemplateMessage" class="admin-muted"></div>
+  <div class="admin-schedule-field full"><label>Program / Certificate Theme</label><select id="certTplProfile"><option value="default">Default / Other Programs</option><option value="nutriwise">NUTRIWISE</option><option value="wildwise">WILDWISE</option><option value="wastewise">WASTEWISE</option><option value="kabotehan">kaBOTEhan</option><option value="sulong">PROJECT SULONG</option><option value="sibol">PROJECT SIBOL</option><option value="pawsitive">PAWSITIVE COMMUNITY</option><option value="sports">Sports / Tournaments</option><option value="custom">Custom Program</option></select></div>
+  <div class="admin-schedule-field full" id="certTplCustomWrap" hidden><label>Custom Program Key / Name</label><input id="certTplCustomKey" placeholder="Example: project-4ward"></div>
+  <div class="admin-schedule-field full"><label>Certificate Title</label><input id="certTplTitle" value="Certificate of Participation"></div>
+  <div class="admin-schedule-field full"><label>Certificate Description / Body</label><textarea id="certTplBody" rows="4" placeholder="for successfully participating in"></textarea></div>
+  <div class="admin-schedule-field"><label>SK Logo URL</label><input id="certTplLogo1" placeholder="images/sk-logo.svg or https://..."></div>
+  <div class="admin-schedule-field"><label>Program / Partner Logo URL (Optional)</label><input id="certTplLogo2" placeholder="images/program-logo.png or https://..."></div>
+  <div class="admin-schedule-field"><label>Signatory Name</label><input id="certTplSignatory1" value="DANDY F. NILLO"></div>
+  <div class="admin-schedule-field"><label>Position</label><input id="certTplPosition1" value="SK Chairperson"></div>
+  <div class="admin-schedule-field full"><label>Your E-Signature</label><input id="certTplSignatureFile" type="file" accept="image/png,image/jpeg,image/webp"><small>Upload your transparent PNG signature if available. It will be resized for the certificate.</small><div><img id="certTplSignaturePreview" alt="E-signature preview" style="display:none;max-width:220px;max-height:90px;margin-top:8px;object-fit:contain"></div><input id="certTplSignatureData" type="hidden"></div>
+  <div class="admin-schedule-field"><label>Admin Certificate Copy Email (Optional)</label><input id="certTplAdminEmail" type="email" placeholder="Official SK email"></div>
+  <div class="admin-schedule-field"><label>Theme</label><select id="certTplDesign"><option value="official">Official / Gold</option><option value="nutrition">Nutrition / Fresh</option><option value="wildlife">Wildlife / Forest</option><option value="waste">WasteWise / Clean Green</option><option value="environmental">Environmental</option><option value="education">Education</option><option value="sports">Sports</option></select></div>
+  <div class="admin-schedule-field full"><button class="admin-action-btn primary" type="submit">Save This Program Template</button> <button class="admin-action-btn" id="certTplPreviewBtn" type="button">Preview Blank Certificate</button></div>
+</form><div id="certificateTemplateMessage" class="admin-muted"></div>
                       </div></article>
                     </section>
                     <section class="admin-tab-content" id="integratedRecycleTab">
