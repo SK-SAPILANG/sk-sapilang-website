@@ -266,7 +266,7 @@
         activityId: isBlank ? previewActivityId : ''
       };
 
-      const endpointFromUrl = q.get('api') || '';
+      const endpointFromUrl = qs.get('api') || '';
       if(endpointFromUrl){
         try{
           localStorage.setItem('skCmsEndpoint',endpointFromUrl);
@@ -282,7 +282,7 @@
           if (!endpoint) return resolve(null);
           const cb = 'c_' + Date.now() + Math.floor(Math.random() * 1000);
           const s = document.createElement('script');
-          const t = setTimeout(() => { s.remove(); resolve(null); }, 15000);
+          const t = setTimeout(() => { s.remove(); resolve(null); }, (isBlank || isPreview) ? 2500 : 12000);
           window[cb] = (r) => { clearTimeout(t); s.remove(); delete window[cb]; resolve(r); };
           s.onerror = () => { clearTimeout(t); s.remove(); delete window[cb]; resolve(null); };
           s.src = endpoint + '?' + new URLSearchParams({ ...params, callback: cb, _: Date.now() });
@@ -319,7 +319,7 @@
         // 2. Fetch certificate template for this activity (or master template)
         
       // V44: Live Preview must render immediately even without a certificate record.
-      if ((q.get('blank') === '1' || q.get('preview') === '1') && q.get('activityId')) {
+      if ((qs.get('blank') === '1' || qs.get('preview') === '1') && qs.get('activityId')) {
         try {
           var cachedPreview = JSON.parse(localStorage.getItem('sk_cert_preview_template') || '{}');
           if (cachedPreview && Object.keys(cachedPreview).length) {
@@ -761,50 +761,17 @@
 </script>
 
 
-<script id="v44-loading-guard">
-(function(){
-  window.__v44CertificateRendered = false;
-  setTimeout(function(){
-    if(window.__v44CertificateRendered) return;
-    var loading=document.getElementById('loadingState') ||
-      document.querySelector('.loading-card') ||
-      document.querySelector('[data-loading-certificate]');
-    if(loading){
-      loading.innerHTML =
-        '<strong style="font-size:20px">Certificate could not finish loading.</strong>'+
-        '<div style="margin-top:8px;font-size:15px;line-height:1.5">'+
-        'Return to QMS and open Live Certificate Preview again. If this is a certificate link from email, refresh the page once.'+
-        '</div>';
-    }
-  },12000);
-})();
-</script>
 
-
-<script id="v45-preview-guard">
+<script id="v46-certificate-guard">
 (function(){
-  var q=new URLSearchParams(location.search);
-  if(q.get('preview')!=='1' && q.get('blank')!=='1') return;
-  function reveal(){
-    var stage=document.getElementById('certificateStage') ||
-              document.querySelector('.certificate-stage') ||
-              document.querySelector('.certificate-wrap') ||
-              document.querySelector('.certificate');
-    var loading=document.getElementById('loadingState') ||
-                document.querySelector('.loading-card') ||
-                document.querySelector('[data-loading-certificate]');
-    if(stage){
-      stage.style.display='';
-      stage.hidden=false;
-      if(loading) loading.style.display='none';
-      window.__v44CertificateRendered=true;
-    }
-  }
-  document.addEventListener('DOMContentLoaded',function(){
-    setTimeout(reveal,100);
-    setTimeout(reveal,800);
-    setTimeout(reveal,1800);
-  });
+ var p=new URLSearchParams(location.search), preview=p.get('preview')==='1'||p.get('blank')==='1';
+ setTimeout(function(){
+   var loading=document.getElementById('loading'), canvas=document.getElementById('certificateCanvas');
+   if(preview && loading && loading.style.display!=='none' && canvas){
+     // The main renderer normally completes first; this is a last-resort preview fallback.
+     loading.style.display='none'; canvas.style.display='block';
+   }
+ },4000);
 })();
 </script>
 
