@@ -1,3 +1,252 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verify Certificate | SK Sapilang</title><link rel="stylesheet" href="css/style.css"><style>body{background:#f3f6f7}.wrap{max-width:760px;margin:60px auto;padding:20px}.card{background:#fff;border-radius:20px;padding:30px;box-shadow:0 12px 35px #0001}.row{padding:12px 0;border-bottom:1px solid #e7ecef}.row small{display:block;color:#687985}.row strong{font-size:18px}.valid{color:#18733b}.invalid{color:#a52828}.search{display:flex;gap:8px;margin:20px 0}.search input{flex:1;padding:12px;border:1px solid #ccd6dc;border-radius:10px}.search button{padding:12px 18px;border:0;border-radius:10px;background:#16324a;color:#fff;font-weight:700}</style>  <link rel="stylesheet" href="css/universal-readability.css">
-</head><body><main class="wrap"><div class="card"><h1>SK Sapilang Certificate Verification</h1><p>Enter the certificate number or scan the QR code printed on a digital certificate.</p><div class="search"><input id="id" placeholder="e.g. SKSAP-2026-000001"><button id="go">Verify</button></div><div id="result"></div></div></main><script src="cms-config.js"></script><script>
-const input=document.getElementById('id'),result=document.getElementById('result');input.value=new URLSearchParams(location.search).get('id')||'';function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function verify(){const id=input.value.trim(),ep=window.SK_CMS_ENDPOINT||'';if(!id){result.innerHTML='<p class="invalid">Enter a certificate number.</p>';return}result.innerHTML='<p>Checking certificate…</p>';const cb='verify'+Date.now();window[cb]=r=>{delete window[cb];s.remove();if(!r.success||!r.found||r.certificate.status==='REVOKED'){result.innerHTML='<h2 class="invalid">Not Verified</h2><p>No active SK Sapilang certificate matches this number.</p>';return}const c=r.certificate;result.innerHTML=`<h2 class="valid">✓ VALID CERTIFICATE</h2><div class="row"><small>Certificate Number</small><strong>${esc(c.certificateId)}</strong></div><div class="row"><small>Participant</small><strong>${esc(c.participant)}</strong></div><div class="row"><small>Activity / Program</small><strong>${esc(c.activity)}</strong></div><div class="row"><small>Date</small><strong>${esc(c.date||'—')}</strong></div><div class="row"><small>Venue</small><strong>${esc(c.venue||'—')}</strong></div><div class="row"><small>Issued By</small><strong>Sangguniang Kabataan of Barangay Sapilang</strong></div>`};const s=document.createElement('script');s.src=ep+'?action=verify-certificate&id='+encodeURIComponent(id)+'&callback='+cb+'&_='+Date.now();s.onerror=()=>result.innerHTML='<p class="invalid">Unable to reach the verification server.</p>';document.head.appendChild(s)}document.getElementById('go').onclick=verify;input.addEventListener('keydown',e=>{if(e.key==='Enter')verify()});if(input.value)verify();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Certificate Verification | SK Sapilang</title>
+  <meta name="description" content="Verify the authenticity of digital certificates issued by the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union.">
+  <link rel="stylesheet" href="css/qms-style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .verify-card {
+      max-width: 680px;
+      margin: 40px auto;
+      background: var(--sk-white);
+      border: 1px solid var(--sk-border);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 10px 30px rgba(10, 37, 64, 0.08);
+      text-align: center;
+    }
+    .verify-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .verify-valid {
+      background: #DCFCE7;
+      color: #15803D;
+      border: 1px solid #86EFAC;
+    }
+    .verify-revoked {
+      background: #FEE2E2;
+      color: #B91C1C;
+      border: 1px solid #FCA5A5;
+    }
+    .verify-details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      text-align: left;
+      margin: 24px 0;
+      background: var(--sk-bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--sk-border);
+    }
+    .verify-field small {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sk-text-muted);
+      text-transform: uppercase;
+    }
+    .verify-field strong {
+      display: block;
+      font-size: 15px;
+      color: var(--sk-navy);
+      margin-top: 4px;
+    }
+    .verify-field.full {
+      grid-column: 1 / -1;
+    }
+    .privacy-notice {
+      font-size: 12px;
+      color: var(--sk-text-muted);
+      border-top: 1px solid var(--sk-border);
+      padding-top: 16px;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="feedback.html" class="brand-group">
+        <div class="brand-titles">
+          <h1>SK Sapilang Digital Verification Portal</h1>
+          <p>Official Public Certificate Registry • Bacnotan, La Union</p>
+        </div>
+      </a>
+      <div class="header-nav">
+        <a href="feedback.html" class="btn-header btn-header-outline">Back to QMS</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="verify-card" id="verifyCard">
+      <div id="loadingState">
+        <h3 style="color: var(--sk-navy); font-size: 20px;">Verifying Certificate Records...</h3>
+        <p style="color: var(--sk-text-muted); font-size: 13px; margin-top: 6px;">Querying the official Sangguniang Kabataan certificate registry.</p>
+      </div>
+
+      <div id="resultState" style="display: none;">
+        <div id="statusBadgeContainer"></div>
+        <h2 id="participantName" style="color: var(--sk-navy); font-size: 26px; font-weight: 800;"></h2>
+        <p id="activityTitle" style="color: var(--sk-text-muted); font-size: 15px; margin-top: 4px;"></p>
+
+        <div class="verify-details-grid">
+          <div class="verify-field">
+            <small>Certificate Number</small>
+            <strong id="certNumber">—</strong>
+          </div>
+          <div class="verify-field">
+            <small>Certificate Type</small>
+            <strong id="certType">Certificate of Participation</strong>
+          </div>
+          <div class="verify-field">
+            <small>Date Issued / Conducted</small>
+            <strong id="dateIssued">—</strong>
+          </div>
+          <div class="verify-field">
+            <small>Verification Status</small>
+            <strong id="statusText">Active</strong>
+          </div>
+          <div class="verify-field full">
+            <small>Issuing Authority</small>
+            <strong>Office of the Sangguniang Kabataan of Barangay Sapilang</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a id="viewCertBtn" href="#" class="btn-header btn-header-orange" style="padding: 10px 22px;">View / Print Digital Certificate</a>
+          <a href="feedback.html" class="btn-header btn-header-outline" style="color: var(--sk-navy); border-color: var(--sk-border-strong); padding: 10px 22px;">QMS Center</a>
+        </div>
+
+        <div class="privacy-notice">
+          <strong>Data Privacy & Security Safeguard:</strong><br>
+          In accordance with Republic Act No. 10173 (Data Privacy Act of 2012), this public verification view displays only official issuance credentials. Contact numbers, email addresses, personal demographic data, and private evaluation scores are strictly protected and never displayed publicly.
+        </div>
+      </div>
+
+      <div id="errorState" style="display: none;">
+        <div class="verify-badge verify-revoked">Certificate Not Found</div>
+        <h3 style="color: var(--sk-navy); font-size: 22px; font-weight: 800; margin-top: 10px;">Record Unverified</h3>
+        <p style="color: var(--sk-text-muted); font-size: 14px; margin: 10px 0 20px;">
+          The requested certificate identifier does not match any active record in the official SK Sapilang database. Please verify that the full certificate number or QR link was scanned correctly.
+        </p>
+        <a href="feedback.html" class="btn-header btn-header-orange">Return to QMS Portal</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong>Sangguniang Kabataan of Barangay Sapilang</strong></p>
+      <p>Bacnotan, La Union • Official Quality Management System</p>
+    </div>
+  </footer>
+
+  <script src="cms-config.js"></script>
+  <script>
+    (async function() {
+      const qs = new URLSearchParams(location.search);
+      const certId = (qs.get('id') || qs.get('cert') || '').trim();
+
+      const loadingEl = document.getElementById('loadingState');
+      const resultEl = document.getElementById('resultState');
+      const errorEl = document.getElementById('errorState');
+
+      if (!certId) {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      // Query verification
+      try {
+        const endpoint = window.SK_CMS_ENDPOINT || localStorage.getItem('skCmsEndpoint') || '';
+        let found = false;
+        let certData = null;
+
+        if (endpoint) {
+          // JSONP query to Apps Script
+          const resp = await new Promise((resolve, reject) => {
+            const cb = 'verifyCb_' + Date.now();
+            const s = document.createElement('script');
+            const timer = setTimeout(() => { s.remove(); resolve(null); }, 12000);
+            window[cb] = (data) => { clearTimeout(timer); s.remove(); delete window[cb]; resolve(data); };
+            s.onerror = () => { clearTimeout(timer); s.remove(); delete window[cb]; resolve(null); };
+            s.src = endpoint + '?action=verify-certificate&id=' + encodeURIComponent(certId) + '&callback=' + cb;
+            document.head.appendChild(s);
+          });
+
+          if (resp && resp.success && resp.found) {
+            found = true;
+            certData = resp.certificate;
+          }
+        }
+
+        // Fallback: Check client-side storage if offline or running in mock preview
+        if (!found) {
+          const localCerts = JSON.parse(localStorage.getItem('sk_issued_certificates') || '[]');
+          const match = localCerts.find(c => (c.certificateNumber || c.id || '').toUpperCase() === certId.toUpperCase());
+          if (match) {
+            found = true;
+            certData = {
+              certificateId: match.certificateNumber || match.id,
+              participant: match.participantName,
+              activity: match.activityTitle,
+              activityType: match.certificateType || 'Participation',
+              date: match.dateIssued || new Date().toISOString().slice(0, 10),
+              status: match.status || 'ACTIVE'
+            };
+          }
+        }
+
+        loadingEl.style.display = 'none';
+
+        if (!found || !certData) {
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        resultEl.style.display = 'block';
+        const isRevoked = String(certData.status || '').toUpperCase() === 'REVOKED';
+
+        const badgeContainer = document.getElementById('statusBadgeContainer');
+        badgeContainer.innerHTML = isRevoked 
+          ? '<div class="verify-badge verify-revoked">⚠ REVOKED CERTIFICATE</div>'
+          : '<div class="verify-badge verify-valid">✓ VALID & AUTHENTIC CERTIFICATE</div>';
+
+        document.getElementById('participantName').textContent = certData.participant || 'Participant';
+        document.getElementById('activityTitle').textContent = certData.activity || 'Youth Activity / Program';
+        document.getElementById('certNumber').textContent = certData.certificateId || certId;
+        document.getElementById('certType').textContent = certData.activityType || 'Certificate of Participation';
+        document.getElementById('dateIssued').textContent = certData.date || certData.issuedAt || 'Official Record';
+        document.getElementById('statusText').textContent = isRevoked ? 'Revoked by Administrator' : 'Active / Verified';
+
+        const viewLink = document.getElementById('viewCertBtn');
+        viewLink.href = 'certificate.html?id=' + encodeURIComponent(certData.certificateId || certId);
+        if (isRevoked) {
+          viewLink.style.display = 'none';
+        }
+
+      } catch (err) {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+      }
+    })();
+  </script>
+</body>
+</html>

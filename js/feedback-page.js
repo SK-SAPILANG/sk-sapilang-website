@@ -1,1294 +1,1867 @@
-const menuButton=document.getElementById("menuButton");
-const navLinks=document.getElementById("navLinks");
+/**
+ * ============================================================================
+ * SANGGUNIANG KABATAAN NG BARANGAY SAPILANG
+ * Quality Management System (QMS) & Digital Certificate Studio
+ * JavaScript Engine (js/feedback-page.js)
+ * 
+ * Version: 2026.3.0 - Unified Rebuilt Edition
+ * ============================================================================
+ */
 
-if(menuButton&&navLinks){
-    menuButton.addEventListener("click",()=>{
-        const open=navLinks.classList.toggle("open");
-        menuButton.setAttribute("aria-expanded",open?"true":"false");
-        menuButton.textContent=open?"✕":"☰";
-    });
+(function () {
+  'use strict';
 
-    navLinks.querySelectorAll("a").forEach(link=>{
-        link.addEventListener("click",()=>{
-            navLinks.classList.remove("open");
-            menuButton.setAttribute("aria-expanded","false");
-            menuButton.textContent="☰";
-        });
-    });
-}
+  // --- CONFIGURATION & ENDPOINTS ---
+  function getCmsEndpoint() {
+    return window.SK_CMS_ENDPOINT || localStorage.getItem('skCmsEndpoint') || '';
+  }
 
-const adminHeaderLogin=document.getElementById("adminHeaderLogin");
+  // --- GLOBAL STATE ---
+  let activitiesList = [];
+  let currentAdminPassword = sessionStorage.getItem('skQmsAdminKey') || '';
+  let issuedCertificates = [];
+  let activeSelectedObj = 'name'; // 'name' | 'qr' | 'no'
 
-if(adminHeaderLogin){
-    adminHeaderLogin.addEventListener("click",()=>{
-        const adminTab=document.querySelector('.form-tab[data-form="admin"]');
+  // Per-activity certificate templates dictionary
+  // Structure: { [activityId]: { backgroundUrl, layout: { nameX, nameY, ... } } }
+  let activityTemplates = {};
 
-        if(adminTab){
-            adminTab.click();
-
-            setTimeout(()=>{
-                document.getElementById("qms-center").scrollIntoView({
-                    behavior:"smooth",
-                    block:"start"
-                });
-
-                const keyInput=document.getElementById("integratedAdminKey");
-
-                if(keyInput){
-                    setTimeout(()=>keyInput.focus(),450);
-                }
-            },50);
-        }
-    });
-}
-
-const tabs=document.querySelectorAll(".form-tab");
-const panels={
-    activity:document.getElementById("activityPanel"),
-    suggestion:document.getElementById("suggestionPanel"),
-    visitor:document.getElementById("visitorPanel"),
-    admin:document.getElementById("adminPanel")
-};
-
-tabs.forEach(tab=>{
-    tab.addEventListener("click",()=>{
-        tabs.forEach(t=>t.classList.remove("active"));
-        Object.values(panels).forEach(p=>p.classList.remove("active"));
-        tab.classList.add("active");
-        panels[tab.dataset.form].classList.add("active");
-    });
-});
-
-if(location.hash==="#admin"||new URLSearchParams(location.search).get("admin")==="1"){
-    const adminTab=document.querySelector('.form-tab[data-form="admin"]');
-    if(adminTab)setTimeout(()=>adminTab.click(),0);
-}
-
-const QMS_WEB_APP_URL =
-    "https://script.google.com/macros/s/AKfycbxG-b_P47JMJu-S8AvU-Az-tZFJiGhxs9IzKrPCZgxTJwdI7Se2bbyx0z6DKvYnZ90Jqg/exec";
-
-function gadProfileMarkup(prefix,includeOrganization){
-    const organization=includeOrganization?`
-        <div class="form-group"><label for="${prefix}Organization">Organization / Office</label><input id="${prefix}Organization" name="organizationOffice" type="text" autocomplete="organization"></div>
-        <div class="form-group"><label for="${prefix}Position">Position / Designation</label><input id="${prefix}Position" name="positionDesignation" type="text" autocomplete="organization-title"></div>`:"";
-    return `<section class="gad-profile" aria-labelledby="${prefix}GadTitle">
-        <h4 id="${prefix}GadTitle">GAD and Inclusion Profile</h4>
-        <p>For sex-disaggregated statistics and inclusive program planning. Sensitive questions are voluntary, and “Prefer not to say” is available.</p>
-        <div class="form-grid">
-            <div class="form-group"><label for="${prefix}Sex">Sex Assigned at Birth</label><select id="${prefix}Sex" name="sexAssignedAtBirth"><option value="">Select an option</option><option>Female</option><option>Male</option><option>Intersex</option><option>Prefer not to say</option><option>Other</option></select><input class="gad-other" hidden data-other-for="${prefix}Sex" name="sexAssignedAtBirthOther" placeholder="Please specify"></div>
-            <div class="form-group"><label for="${prefix}Gender">Gender Identity / Expression (Optional)</label><select id="${prefix}Gender" name="genderIdentity"><option value="">Select an option</option><option>Woman</option><option>Man</option><option>Non-binary / Gender-diverse</option><option>Transgender woman</option><option>Transgender man</option><option>Prefer not to say</option><option>Self-describe</option></select><input class="gad-other" hidden data-other-for="${prefix}Gender" name="genderIdentityOther" placeholder="Please self-describe"></div>
-            <div class="form-group"><label for="${prefix}Pronouns">Preferred Pronouns (Optional)</label><select id="${prefix}Pronouns" name="preferredPronouns"><option value="">Select an option</option><option>She / Her</option><option>He / Him</option><option>They / Them</option><option>Use my name</option><option>Prefer not to say</option><option>Other</option></select><input class="gad-other" hidden data-other-for="${prefix}Pronouns" name="preferredPronounsOther" placeholder="Please specify"></div>
-            ${organization}
-            <div class="form-group full"><label>Sector / Inclusion Classification (Select all that apply)</label>
-                <div class="sector-options">
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Youth (15–30)"><span>Youth (15–30)</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Person with Disability (PWD)"><span>Person with Disability (PWD)</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Senior Citizen"><span>Senior Citizen</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Indigenous Cultural Community / Indigenous Peoples"><span>Indigenous Peoples</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Solo Parent"><span>Solo Parent</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Out-of-School Youth"><span>Out-of-School Youth</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Student"><span>Student</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Working Youth"><span>Working Youth</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="LGBTQIA+ Sector"><span>LGBTQIA+ Sector</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="4Ps Household Member"><span>4Ps Household Member</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Prefer not to say"><span>Prefer not to say</span></label>
-                    <label class="sector-option"><input type="checkbox" name="sectorClassification" value="Other" data-sector-other="${prefix}"><span>Other</span></label>
-                </div>
-                <input class="gad-other" hidden data-sector-other-input="${prefix}" name="sectorClassificationOther" placeholder="Please specify another sector or classification">
-            </div>
-        </div>
-    </section>`;
-}
-
-document.querySelectorAll("[data-gad-profile]").forEach(container=>{
-    const prefix=container.dataset.prefix;
-    container.innerHTML=gadProfileMarkup(prefix,container.dataset.organization==="yes");
-    container.querySelectorAll("select").forEach(select=>select.addEventListener("change",()=>{
-        const input=container.querySelector('[data-other-for="'+select.id+'"]');
-        if(!input)return;
-        const show=select.value==="Other"||select.value==="Self-describe";
-        input.hidden=!show;if(!show)input.value="";
-    }));
-    const otherCheck=container.querySelector('[data-sector-other="'+prefix+'"]');
-    const otherInput=container.querySelector('[data-sector-other-input="'+prefix+'"]');
-    otherCheck.addEventListener("change",()=>{otherInput.hidden=!otherCheck.checked;if(!otherCheck.checked)otherInput.value="";});
-});
-
-function resetGadProfile(form){
-    form.querySelectorAll(".gad-other").forEach(input=>{input.hidden=true;input.value="";});
-}
-
-
-function setSubmitting(button, submitting){
-    if(!button) return;
-
-    if(submitting){
-        button.dataset.originalText=button.textContent;
-        button.disabled=true;
-        button.textContent="Saving Submission...";
-        button.style.opacity=".65";
-        button.style.cursor="wait";
-    } else {
-        button.disabled=false;
-        button.textContent=button.dataset.originalText||"Submit";
-        button.style.opacity="";
-        button.style.cursor="";
+  // Master / Fallback Template State (Percentage-based)
+  const DEFAULT_MASTER_TEMPLATE = {
+    backgroundUrl: '',
+    canvaUrl: '',
+    certType: 'Certificate of Participation',
+    layout: {
+      nameX: 50,
+      nameY: 48,
+      nameSize: 38,
+      nameFont: 'Georgia, serif',
+      nameColor: '#0A2540',
+      nameBold: true,
+      nameAlign: 'center',
+      qrX: 84,
+      qrY: 80,
+      qrSize: 96,
+      noX: 18,
+      noY: 92,
+      noSize: 13,
+      noColor: '#0A2540'
     }
-}
+  };
 
+  let activeStudioTemplate = JSON.parse(JSON.stringify(DEFAULT_MASTER_TEMPLATE));
 
-async function sendToQMS(type, form){
-    const payload=new URLSearchParams();
-    payload.append("type",type);
-
-    const formData=new FormData(form);
-
-    for(const [key,value] of formData.entries()){
-        payload.append(key,value);
+  // Default seed activities if fresh install
+  const SEED_ACTIVITIES = [
+    {
+      id: 'ACT-NUTRIWISE',
+      title: 'NUTRIWISE: Community Nutrition & Health Workshop',
+      date: '2026-09-24',
+      status: 'Upcoming',
+      venue: 'Sapilang Barangay Covered Court',
+      speaker: 'Dr. Maria Elena Santos, RND',
+      description: 'Educational seminar on balanced youth nutrition and adolescent wellness.'
+    },
+    {
+      id: 'ACT-WASTEWISE',
+      title: 'WASTEWISE: Youth Ecological Solid Waste Summit',
+      date: '2026-10-12',
+      status: 'Upcoming',
+      venue: 'Bacnotan Cultural Center',
+      speaker: 'Engr. Carlos Mendoza, EnP',
+      description: 'Hands-on training on zero-waste barangay practices and composting.'
+    },
+    {
+      id: 'ACT-KABOTEHAN',
+      title: 'kaBOTEhan: Plastic Bottle Upcycling Drive',
+      date: '2026-08-15',
+      status: 'Completed',
+      venue: 'Barangay Hall Grounds',
+      speaker: '', // No speaker: tests adaptive question hiding!
+      description: 'Community plastic bottle exchange for school supplies.'
     }
+  ];
 
-    const response=await fetch(
-        QMS_WEB_APP_URL,
-        {
-            method:"POST",
-            body:payload,
-            redirect:"follow"
-        }
-    );
+  // --- HELPER: JSONP / API CALLS ---
+  function callApi(params) {
+    return new Promise((resolve, reject) => {
+      const endpoint = getCmsEndpoint();
+      if (!endpoint) {
+        return resolve(null); // Fallback to local storage if endpoint unset
+      }
+      const cb = 'qms_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+      const s = document.createElement('script');
+      const timer = setTimeout(() => {
+        s.remove();
+        delete window[cb];
+        resolve(null);
+      }, 15000);
 
-    if(!response.ok){
-        throw new Error("The QMS server returned an error.");
-    }
+      window[cb] = (data) => {
+        clearTimeout(timer);
+        s.remove();
+        delete window[cb];
+        resolve(data);
+      };
 
-    const data=await response.json();
+      s.onerror = () => {
+        clearTimeout(timer);
+        s.remove();
+        delete window[cb];
+        resolve(null);
+      };
 
-    if(!data.success){
-        throw new Error(
-            data.message ||
-            "The submission could not be saved."
-        );
-    }
-
-    return data;
-}
-
-
-function showResult(el,reference,score,rating,type){
-    el.innerHTML=`
-        <div class="result-status">Saved to QMS Database</div>
-        <h4>Thank you for your feedback.</h4>
-        <p>
-            Your ${type} has been successfully recorded in the
-            SK Sapilang Quality Management System.
-            Please keep your reference number for your records.
-        </p>
-
-        <div class="result-row">
-            <div class="result-item">
-                <small>Reference Number</small>
-                <strong>${reference}</strong>
-            </div>
-
-            ${score!==null&&score!==undefined?`
-            <div class="result-item">
-                <small>Quality Score</small>
-                <strong>${Number(score).toFixed(2)} / 5</strong>
-            </div>
-
-            <div class="result-item">
-                <small>Quality Rating</small>
-                <strong>${rating||""}</strong>
-            </div>
-            `:""}
-        </div>
-    `;
-
-    el.removeAttribute("style");
-    el.classList.add("show");
-    el.scrollIntoView({behavior:"smooth",block:"center"});
-}
-
-
-function showSubmissionError(el,message){
-    el.innerHTML=`
-        <div class="result-status" style="color:#ff8d8d">
-            Submission Not Saved
-        </div>
-        <h4>Unable to complete the submission.</h4>
-        <p>${message}</p>
-    `;
-
-    el.style.borderColor="rgba(255,107,107,.35)";
-    el.style.background="rgba(100,25,25,.12)";
-    el.classList.add("show");
-    el.scrollIntoView({behavior:"smooth",block:"center"});
-}
-
-
-const clientForm=document.getElementById("clientForm");
-if(clientForm)clientForm.addEventListener("submit",async e=>{
-    e.preventDefault();
-
-    const form=e.currentTarget;
-    const button=form.querySelector('button[type="submit"]');
-    const resultBox=document.getElementById("clientResult");
-
-    resultBox.classList.remove("show");
-
-    try{
-        setSubmitting(button,true);
-
-        const data=await sendToQMS("client",form);
-
-        showResult(
-            resultBox,
-            data.reference,
-            data.score,
-            data.rating,
-            "client feedback"
-        );
-
-        form.reset();
-        resetGadProfile(form);
-    }catch(error){
-        showSubmissionError(
-            resultBox,
-            error.message || "Unable to connect to the QMS database."
-        );
-    }finally{
-        setSubmitting(button,false);
-    }
-});
-
-
-
-async function issueDigitalCertificate(form,qmsReference){
-    const endpoint=feedbackCmsEndpoint();
-    if(!endpoint) throw new Error("Certificate endpoint is not configured.");
-    const fd=new FormData(form);
-    const body=new URLSearchParams();
-    body.set("action","issue-certificate");
-    body.set("participant",String(fd.get("participant")||"").trim());
-    body.set("email",String(fd.get("email")||"").trim());
-    body.set("activity",String(fd.get("activity")||"").trim());
-    body.set("activityType",String(fd.get("activityType")||"Activity / Program").trim());
-    body.set("date",String(fd.get("date")||"").trim());
-    body.set("venue",String(fd.get("venue")||"").trim());
-    body.set("speaker",String(fd.get("speaker")||"").trim());
-    body.set("qmsReference",String(qmsReference||"").trim());
-    const response=await fetch(endpoint,{method:"POST",body,redirect:"follow"});
-    if(!response.ok) throw new Error("Certificate server returned an error.");
-    const data=await response.json();
-    if(!data.success) throw new Error(data.message||"Certificate could not be issued.");
-    return data;
-}
-
-document.getElementById("activityForm").addEventListener("submit",async e=>{
-    e.preventDefault();
-
-    const form=e.currentTarget;
-    const button=form.querySelector('button[type="submit"]');
-    const resultBox=document.getElementById("activityResult");
-
-    resultBox.classList.remove("show");
-
-    try{
-        setSubmitting(button,true);
-
-        const data=await sendToQMS("activity",form);
-        // GAD fields are saved together with the activity evaluation by the backend.
-        // Do not make certificate issuance depend on a second iframe request.
-
-        showResult(
-            resultBox,
-            data.reference,
-            data.score,
-            data.rating,
-            "seminar, training or activity evaluation"
-        );
-
-        // After a successful QMS evaluation, request a digital certificate record.
-        // The certificate is stored in the CMS spreadsheet and can later be verified by QR/reference number.
-        try{
-            const cert=data.certificateId?{success:true,certificateId:data.certificateId}:await issueDigitalCertificate(form,data.reference);
-            if(cert&&cert.success&&cert.certificateId){
-                const url="certificate.html?id="+encodeURIComponent(cert.certificateId);
-                resultBox.insertAdjacentHTML("beforeend",`
-                    <div class="result-row" style="margin-top:16px">
-                        <div class="result-item" style="width:100%">
-                            <small>Digital Certificate</small>
-                            <strong>${integratedEscape(cert.certificateId)}</strong>
-                            <p style="margin:8px 0 12px">Your Certificate of Participation is ready.</p>
-                            <a class="primary-button" href="${url}" target="_blank" rel="noopener">View / Print Digital Certificate</a>
-                        </div>
-                    </div>`);
-            }
-        }catch(certError){
-            resultBox.insertAdjacentHTML("beforeend",`<p class="form-help" style="margin-top:12px">Your evaluation was saved, but the certificate service could not be reached. Keep your QMS reference number and contact SK Sapilang for certificate assistance.</p>`);
-        }
-
-        form.reset();
-        resetGadProfile(form);
-    }catch(error){
-        showSubmissionError(
-            resultBox,
-            error.message || "Unable to connect to the QMS database."
-        );
-    }finally{
-        setSubmitting(button,false);
-    }
-});
-
-
-document.getElementById("suggestionForm").addEventListener("submit",async e=>{
-    e.preventDefault();
-
-    const form=e.currentTarget;
-    const button=form.querySelector('button[type="submit"]');
-    const resultBox=document.getElementById("suggestionResult");
-
-    resultBox.classList.remove("show");
-
-    try{
-        setSubmitting(button,true);
-
-        const data=await sendToQMS("suggestion",form);
-        sendGadProfile(form,"Suggestions & Recommendations",data.reference).catch(()=>{});
-
-        showResult(
-            resultBox,
-            data.reference,
-            null,
-            null,
-            "suggestion or recommendation"
-        );
-
-        form.reset();
-        resetGadProfile(form);
-    }catch(error){
-        showSubmissionError(
-            resultBox,
-            error.message || "Unable to connect to the QMS database."
-        );
-    }finally{
-        setSubmitting(button,false);
-    }
-});
-
-function feedbackCmsEndpoint(){return window.SK_CMS_ENDPOINT||localStorage.getItem("skCmsEndpoint")||""}
-function loadScheduledActivities(){
-    const run=()=>{const endpoint=feedbackCmsEndpoint(),select=document.getElementById("scheduledActivitySelect");if(!endpoint){select.innerHTML='<option value="">No CMS endpoint configured</option>';return}const callback='skSchedule'+Date.now();window[callback]=data=>{const items=unifiedActivityDedupe(data.items||[]).filter(item=>item.status!=='Completed');select.innerHTML='<option value="">Select Activity / Program</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');select._scheduleItems=items;delete window[callback];script.remove()};const script=document.createElement('script');script.src=endpoint+'?action=public&page=events.html&callback='+callback+'&_='+Date.now();script.onerror=()=>{select.innerHTML='<option value="">Unable to load scheduled activities</option>'};document.head.appendChild(script)};
-    if(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint'))run();else{const config=document.createElement('script');config.src='cms-config.js?v=20260903-QMS';config.onload=run;document.head.appendChild(config)}
-}
-function setAdaptiveEvalField(groupId,labelId,helpId,label,help,visible=true){
-    const group=document.getElementById(groupId);
-    const labelEl=document.getElementById(labelId);
-    const helpEl=document.getElementById(helpId);
-    if(labelEl&&label)labelEl.textContent=label;
-    if(helpEl&&help)helpEl.textContent=help;
-    if(group){
-        group.style.display=visible?"":"none";
-        group.querySelectorAll("select,input,textarea").forEach(el=>{
-            el.disabled=!visible;
-            // Detailed questions support Not Applicable. Only the overall activity rating remains mandatory.
-            if(el.tagName==="SELECT") el.required=false;
-            if(!visible)el.value="";
-        });
-    }
-}
-function inferActivityFormat(title,speaker){
-    const t=String(title||"").toLowerCase();
-    if(speaker)return "Seminar / Training / Workshop";
-    if(/basketball|pickleball|volleyball|sports|tournament|zumba|plogging|laro ng lahi|game/.test(t))return "Sports / Recreation";
-    if(/assembly|mass|movie night|community event|celebration/.test(t))return "Assembly / Community Event";
-    if(/distribution|exchange|kabotehan|kaBOTEhan|supply|seedling|punla|binhi|pawsitive|feeding/.test(t))return "Community Program / Distribution / Exchange";
-    if(/seminar|training|workshop|orientation|education|nutriwise|wastewise|wildwise|awareness/.test(t))return "Seminar / Training / Workshop";
-    return "Other SK Program";
-}
-function updateActivityEvaluationMode(){
-    const format=document.getElementById("activityProgramFormat")?.value||"Other SK Program";
-    const speaker=document.getElementById("scheduledActivitySpeaker")?.value.trim()||"";
-    const hasSpeaker=Boolean(speaker);
-    const speakerSection=document.getElementById("speakerEvaluationSection");
-    const facilitatorGroup=document.getElementById("facilitatorRatingGroup");
-
-    // Speaker questions only appear when the selected activity actually has a named speaker/facilitator.
-    [speakerSection,facilitatorGroup].forEach(section=>{
-        if(!section)return;
-        section.style.display=hasSpeaker?(section.id==="speakerEvaluationSection"?"contents":""):"none";
-        section.querySelectorAll("select,textarea,input").forEach(el=>{
-            el.disabled=!hasSpeaker;
-            if(!hasSpeaker)el.value="";
-        });
+      s.src = endpoint + '?' + new URLSearchParams({ ...params, callback: cb, _: Date.now() });
+      document.head.appendChild(s);
     });
+  }
 
-    const profiles={
-        "Seminar / Training / Workshop":{
-            title:"Learning Session / Training Evaluation",
-            help:"Rate the learning experience. Speaker questions appear only when the activity has a resource speaker, trainer or facilitator.",
-            relevance:["Relevance of Topic / Learning Session *","How useful and appropriate the topic or learning session was to participants."],
-            objectives:["Achievement of Learning Objectives *","How well the session achieved its intended learning outcomes."],
-            organization:["Organization & Facilitation *","How smoothly registration, instructions, coordination and the flow of the session were managed."],
-            venue:["Venue / Learning Environment *","How suitable, accessible, comfortable and safe the learning environment was."],
-            materials:["Learning Materials / Equipment *","Quality and usefulness of presentations, handouts, equipment or learning resources used."],
-            time:["Time Management *","Whether the schedule allowed enough time for learning activities, discussion and questions."],
-            engagement:["Participant Engagement *","How well the session encouraged participation, interaction and involvement."],
-            learning:"What did you learn or benefit from?"
-        },
-        "Community Program / Distribution / Exchange":{
-            title:"Community Program Evaluation",help:"Rate the implementation, accessibility and benefit of the community program. Speaker-related questions are not shown when there is no speaker.",
-            relevance:["Relevance / Community Need *","How responsive the program was to an actual need or priority of participants/community."],
-            objectives:["Program Benefit / Achievement of Purpose *","How well the program delivered its intended assistance, service or community benefit."],
-            organization:["Organization & Service Process *","How orderly, clear and efficient registration, queuing, distribution/exchange and assistance were."],
-            venue:["Accessibility & Safety of Venue *","How accessible, orderly and safe the program area was."],
-            materials:["Quality / Availability of Items or Resources *","Availability, condition and usefulness of supplies, food, materials or resources provided/used."],
-            time:["Timeliness & Waiting Time *","How efficiently the activity was conducted and whether waiting time was reasonable."],
-            engagement:["Participant Experience & Inclusiveness *","How welcoming, fair and responsive the program was to participants."],
-            learning:"What benefit did you receive from the program?"
-        },
-        "Sports / Recreation":{
-            title:"Sports / Recreation Evaluation",help:"Rate the organization, safety, fairness and participant experience of the sports or recreational activity.",
-            relevance:["Relevance / Enjoyment of Activity *","How appropriate, enjoyable and beneficial the activity was for participants."],
-            objectives:["Achievement of Sports / Recreation Objectives *","How well the activity promoted participation, recreation, sportsmanship or youth engagement."],
-            organization:["Tournament / Activity Organization *","How clear and organized registration, mechanics, scheduling, officiating and coordination were."],
-            venue:["Playing Area / Venue Safety *","Suitability, accessibility and safety of the court, field or activity area."],
-            materials:["Sports Equipment / Activity Resources *","Availability, condition and suitability of equipment and other resources used."],
-            time:["Schedule & Time Management *","How well game/activity schedules and waiting times were managed."],
-            engagement:["Fairness, Sportsmanship & Participation *","How well the activity encouraged fair play, inclusion, teamwork and active participation."],
-            learning:"What did you enjoy, learn or gain from the activity?"
-        },
-        "Assembly / Community Event":{
-            title:"Assembly / Community Event Evaluation",help:"Rate the relevance, organization, accessibility and participation of the assembly or community event.",
-            relevance:["Relevance of Agenda / Event *","How relevant the agenda, information or event was to participants/community."],
-            objectives:["Achievement of Event Objectives *","How well the assembly/event achieved its intended purpose."],
-            organization:["Organization & Program Flow *","How clear and orderly registration, announcements, program flow and coordination were."],
-            venue:["Venue / Accessibility *","How accessible, comfortable, appropriate and safe the venue was."],
-            materials:["Information / Materials / Resources *","Quality and usefulness of information, materials, equipment or resources used, when applicable."],
-            time:["Time Management *","How well the event followed its schedule and used participants’ time."],
-            engagement:["Participation & Inclusiveness *","How well the event encouraged participation, representation and involvement."],
-            learning:"What was the most useful or meaningful part of the event?"
-        },
-        "Other SK Program":{
-            title:"Activity / Program Evaluation",help:"Rate the parts of the activity that apply to your experience. Speaker questions appear only when a speaker is recorded for the activity.",
-            relevance:["Relevance / Usefulness *","How useful and appropriate the activity was to participants."],
-            objectives:["Achievement of Purpose *","How well the activity achieved its intended purpose."],
-            organization:["Organization & Implementation *","How organized, clear and smoothly implemented the activity was."],
-            venue:["Venue / Accessibility / Safety *","How suitable, accessible and safe the venue or activity area was."],
-            materials:["Materials / Equipment / Resources *","Quality and usefulness of materials, equipment or resources used in the activity."],
-            time:["Time Management *","How effectively the activity schedule and participant time were managed."],
-            engagement:["Participation / Engagement *","How effectively the activity encouraged participation and involvement."],
-            learning:"What did you learn, enjoy or benefit from?"
-        }
-    };
-    const p=profiles[format]||profiles["Other SK Program"];
-    const title=document.getElementById("adaptiveEvaluationTitle"),help=document.getElementById("adaptiveEvaluationHelp");
-    if(title)title.textContent=p.title;if(help)help.textContent=p.help;
-    setAdaptiveEvalField("evalRelevanceGroup","evalRelevanceLabel","evalRelevanceHelp",...p.relevance,true);
-    setAdaptiveEvalField("evalObjectivesGroup","evalObjectivesLabel","evalObjectivesHelp",...p.objectives,true);
-    setAdaptiveEvalField("evalOrganizationGroup","evalOrganizationLabel","evalOrganizationHelp",...p.organization,true);
-    setAdaptiveEvalField("evalVenueGroup","evalVenueLabel","evalVenueHelp",...p.venue,true);
-    setAdaptiveEvalField("evalMaterialsGroup","evalMaterialsLabel","evalMaterialsHelp",...p.materials,true);
-    setAdaptiveEvalField("evalTimeGroup","evalTimeLabel","evalTimeHelp",...p.time,true);
-    setAdaptiveEvalField("evalEngagementGroup","evalEngagementLabel","evalEngagementHelp",...p.engagement,true);
-    const learningLabel=document.getElementById("evalLearningLabel");if(learningLabel)learningLabel.innerHTML=p.learning+' <span>(Optional)</span>';
-    const learning=document.getElementById("evalLearningInput");if(learning)learning.placeholder=p.learning;
-}
-document.getElementById("scheduledActivitySelect").addEventListener("change",function(){
-    const option=this.selectedOptions[0];
-    document.getElementById("scheduledActivityDate").value=option?.dataset.date||"";
-    document.getElementById("scheduledActivityVenue").value=option?.dataset.venue||"";
-    document.getElementById("scheduledActivitySpeaker").value=option?.dataset.speaker||"";
-    const formatSelect=document.getElementById("activityProgramFormat");
-    if(formatSelect&&option?.value) formatSelect.value=inferActivityFormat(option.value,option?.dataset.speaker||"");
-    updateActivityEvaluationMode();
-});
-document.getElementById("activityProgramFormat")?.addEventListener("change",updateActivityEvaluationMode);
-loadScheduledActivities();
-setTimeout(()=>notifyPopulateActivities(),1200);
+  async function postApi(params) {
+    const endpoint = getCmsEndpoint();
+    if (!endpoint) return null;
 
-function sendVisitorLog(form){
-    return new Promise((resolve,reject)=>{
-        const endpoint=feedbackCmsEndpoint();
-        if(!endpoint){reject(new Error("The visitor logbook is not configured."));return;}
-        const reference="VIS-"+Date.now().toString(36).toUpperCase()+"-"+Math.random().toString(36).slice(2,8).toUpperCase();
-        const target="visitorLogFrame"+Date.now(),frame=document.createElement("iframe"),post=document.createElement("form");
-        frame.name=target;frame.hidden=true;post.method="POST";post.action=endpoint;post.target=target;
-        new FormData(form).forEach((value,name)=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
-        [["action","visitor-log"],["clientReference",reference]].forEach(([name,value])=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
-        let attempts=0,done=false;
-        function finish(error,data){if(done)return;done=true;frame.remove();post.remove();error?reject(error):resolve(data);}
-        function check(){
-            if(done)return;
-            attempts++;
-            const callback="skVisitorStatus"+Date.now()+Math.random().toString(36).slice(2);
-            const script=document.createElement("script");
-            window[callback]=data=>{delete window[callback];script.remove();if(data?.found)finish(null,{success:true,reference});else if(attempts<30)setTimeout(check,1500);else finish(new Error("The visitor logbook could not confirm the saved record."));};
-            script.onerror=()=>{delete window[callback];script.remove();if(attempts<30)setTimeout(check,1500);else finish(new Error("Unable to confirm the visitor logbook record."));};
-            script.src=endpoint+"?action=visitor-status&reference="+encodeURIComponent(reference)+"&callback="+callback+"&_="+Date.now();
-            document.head.appendChild(script);
-        }
-        document.body.append(frame,post);post.submit();setTimeout(check,1500);
+    const body = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => body.append(k, v ?? ''));
+
+    const resp = await fetch(endpoint, {
+      method: 'POST',
+      body,
+      redirect: 'follow'
     });
-}
-
-function sendGadProfile(form,formType,reference){
-    return new Promise((resolve,reject)=>{
-        const endpoint=feedbackCmsEndpoint();
-        if(!endpoint){reject(new Error("The GAD monitoring database is not configured."));return;}
-        const target="gadLogFrame"+Date.now(),frame=document.createElement("iframe"),post=document.createElement("form");
-        frame.name=target;frame.hidden=true;post.method="POST";post.action=endpoint;post.target=target;
-        new FormData(form).forEach((value,name)=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
-        [["action","gad-profile-log"],["formType",formType],["reference",reference||""],["consent","yes"]].forEach(([name,value])=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;post.appendChild(input);});
-        const timer=setTimeout(()=>finish(new Error("The GAD monitoring request timed out.")),25000);
-        function receive(event){if(event.data?.source!=="sk-gad-profile-log")return;event.data.success?finish(null,event.data):finish(new Error(event.data.message||"Unable to save the GAD profile."));}
-        function finish(error,data){clearTimeout(timer);window.removeEventListener("message",receive);frame.remove();post.remove();error?reject(error):resolve(data);}
-        window.addEventListener("message",receive);document.body.append(frame,post);post.submit();
-    });
-}
-
-document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
-document.getElementById("visitorForm").addEventListener("submit",async function(event){
-    event.preventDefault();
-    const form=event.currentTarget,result=document.getElementById("visitorResult"),button=form.querySelector('button[type="submit"]');
-    result.classList.remove("show");setSubmitting(button,true);
-    try{
-        const selectedRating=form.querySelector('input[name="rating"]:checked');
-        const visitor=await sendVisitorLog(form);
-        const ratingLabels={1:"Very Dissatisfied",2:"Dissatisfied",3:"Satisfactory",4:"Very Satisfied",5:"Excellent"};
-        const score=selectedRating?Number(selectedRating.value):null;
-        showResult(result,visitor.reference,score,score?ratingLabels[score]:null,selectedRating?"visitor logbook and service feedback":"visitor logbook entry");
-        form.reset();resetGadProfile(form);document.getElementById("visitorServiceDate").value=new Date().toISOString().slice(0,10);
-    }catch(error){showSubmissionError(result,error.message||"Unable to record the visit.");}
-    finally{setSubmitting(button,false);}
-});
-
-
-
-
-/* =========================================================
-   CONSENT-BASED FUTURE ACTIVITY COMMUNICATIONS
-========================================================= */
-let NOTIFY_CONTACTS=[];
-function notifyPopulateActivities(){
-    const target=document.getElementById('notifyActivity'); if(!target)return;
-    const src=document.getElementById('scheduledActivitySelect');
-    const vals=src?Array.from(src.options).filter(o=>o.value).map(o=>o.value):[];
-    const unique=[...new Set(vals)];
-    target.innerHTML='<option value="">All activities</option>'+unique.map(v=>`<option value="${integratedEscape(v)}">${integratedEscape(v)}</option>`).join('');
-}
-async function notifyLoadContacts(){
-    const status=document.getElementById('notifyStatus'); if(status)status.textContent='Loading consented contacts...';
-    try{
-        const r=await integratedCmsApi({action:'notification-subscribers',password:integratedCmsPassword()});
-        NOTIFY_CONTACTS=r.items||[];
-        const email=NOTIFY_CONTACTS.filter(x=>x.emailConsent&&x.email).length;
-        const sms=NOTIFY_CONTACTS.filter(x=>x.smsConsent&&x.contact).length;
-        const box=document.getElementById('notifySummary');
-        if(box)box.innerHTML=`<div class="admin-detail-card"><small>Email Consent</small><strong>${email}</strong><span>contacts</span></div><div class="admin-detail-card"><small>SMS Consent</small><strong>${sms}</strong><span>contacts</span></div><div class="admin-detail-card"><small>Total Consent Records</small><strong>${NOTIFY_CONTACTS.length}</strong><span>participants</span></div>`;
-        if(status)status.textContent='Consent list refreshed. Only opted-in contacts are eligible.';
-    }catch(e){if(status)status.textContent=e.message||'Unable to load consented contacts.';}
-}
-document.getElementById('notifyRefresh')?.addEventListener('click',notifyLoadContacts);
-document.getElementById('notifySend')?.addEventListener('click',async()=>{
-    const status=document.getElementById('notifyStatus');
-    const channel=document.getElementById('notifyChannel').value;
-    const group=document.getElementById('notifyGroup').value;
-    const activity=document.getElementById('notifyActivity').value;
-    const subject=document.getElementById('notifySubject').value.trim();
-    const message=document.getElementById('notifyMessage').value.trim();
-    if(!message){status.textContent='Write the announcement message first.';return;}
-    if(group==='activity'&&!activity){status.textContent='Select an activity for the participant group.';return;}
-    if(!confirm(`Send this ${channel==='sms'?'text/SMS':'email'} announcement to the selected consented group?`))return;
-    status.textContent='Sending announcement...';
-    try{
-        const r=await integratedAdminPost({action:'send-notification-broadcast',password:integratedCmsPassword(),channel,group,activity,subject,message});
-        status.textContent=`Finished: ${r.sent||0} sent, ${r.failed||0} failed, ${r.skipped||0} skipped. ${r.note||''}`;
-        notifyLoadContacts();
-    }catch(e){status.textContent=e.message||'Unable to send announcement.';}
-});
-
-/* =========================================================
-   INTEGRATED QMS ADMIN DASHBOARD
-========================================================= */
-
-let INTEGRATED_ADMIN_KEY="";
-let INTEGRATED_DASHBOARD_DATA=null;
-let INTEGRATED_SCHEDULE_EDIT_ID="";
-let INTEGRATED_SCHEDULE_ITEMS=[];
-
-const integratedAdminLoginArea=document.getElementById("adminLoginArea");
-const integratedAdminDashboard=document.getElementById("integratedAdminDashboard");
-const integratedAdminLoginForm=document.getElementById("adminLoginForm");
-const integratedAdminLoginError=document.getElementById("integratedAdminLoginError");
-const integratedAdminLoading=document.getElementById("integratedAdminLoading");
-
-function integratedCmsPassword(){
-    const cert=document.getElementById("certAdminPassword");
-    const cms=document.getElementById("integratedCmsPassword");
-    return (cert&&cert.value.trim())||(cms&&cms.value.trim())||INTEGRATED_ADMIN_KEY||sessionStorage.getItem("skQmsAdminKey")||"";
-}
-function certSyncAdminState(message){
-    const input=document.getElementById("certAdminPassword"), status=document.getElementById("certAdminStatus");
-    const saved=INTEGRATED_ADMIN_KEY||sessionStorage.getItem("skQmsAdminKey")||"";
-    if(input&&saved&&!input.value) input.value=saved;
-    if(status) status.textContent=message||(saved?"Administrator authenticated. Certificate tools are unlocked.":"Enter the same administrator password used for the QMS.");
-}
-document.getElementById("certAdminUnlock")?.addEventListener("click",async()=>{
-    const input=document.getElementById("certAdminPassword"),status=document.getElementById("certAdminStatus"),btn=document.getElementById("certAdminUnlock");
-    const key=(input?.value||"").trim();
-    if(!key){if(status)status.textContent="Enter the QMS administrator password first.";return;}
-    btn.disabled=true;if(status)status.textContent="Verifying administrator access...";
-    try{await integratedCmsApi({action:"login",password:key});INTEGRATED_ADMIN_KEY=key;sessionStorage.setItem("skQmsAdminKey",key);const cms=document.getElementById("integratedCmsPassword");if(cms&&!cms.value)cms.value=key;certSyncAdminState("Administrator authenticated. Certificate Center unlocked.");}
-    catch(e){if(status)status.textContent=e.message||"Incorrect administrator password.";}finally{btn.disabled=false;}
-});
-
-function integratedCmsApi(params,attempt=0){
-    return new Promise((resolve,reject)=>{
-        const endpoint=feedbackCmsEndpoint();
-        if(!endpoint){reject(new Error("The website CMS address is not configured."));return;}
-        const callback="skQmsCms"+Date.now()+Math.floor(Math.random()*10000);
-        const script=document.createElement("script");
-        const timer=setTimeout(()=>{cleanup();if(attempt<1){setTimeout(()=>integratedCmsApi(params,attempt+1).then(resolve).catch(reject),700);}else reject(new Error("The certificate/CMS server is taking too long to respond. Your unsaved certificate layout is still kept on this device. Try Refresh once, then check the Apps Script deployment if it continues."));},45000);
-        function cleanup(){clearTimeout(timer);try{delete window[callback]}catch(_){window[callback]=undefined}script.remove();}
-        window[callback]=response=>{cleanup();response&&response.success?resolve(response):reject(new Error(response&&response.message||"Website CMS request failed."));};
-        script.onerror=()=>{cleanup();if(attempt<1){setTimeout(()=>integratedCmsApi(params,attempt+1).then(resolve).catch(reject),700);}else reject(new Error("Unable to connect to the website CMS. Your certificate edits on this device were not erased."));};
-        script.src=endpoint+"?"+new URLSearchParams({...params,callback,_:Date.now()}).toString();
-        document.head.appendChild(script);
-    });
-}
-
-function integratedLoadSchedules(){ return typeof webActLoad==='function'?webActLoad():Promise.resolve(); }
-
-function integratedEscape(value){
-    return String(value??"")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-function integratedShowLoading(show){
-    integratedAdminLoading.classList.toggle("show",show);
-}
-
-async function integratedAdminPost(params){
-    const body=new URLSearchParams();
-
-    Object.entries(params).forEach(([key,value])=>{
-        body.append(key,value??"");
-    });
-
-    const response=await fetch(QMS_WEB_APP_URL,{
-        method:"POST",
-        body,
-        redirect:"follow"
-    });
-
-    if(!response.ok){
-        throw new Error("QMS server returned an error.");
-    }
-
-    const data=await response.json();
-
-    if(!data.success){
-        throw new Error(data.message||"Unable to complete the request.");
-    }
-
-    return data;
-}
-
-async function integratedLoadDashboard(){
-    integratedShowLoading(true);
-
-    try{
-        const response=await integratedCmsApi({
-            action:"qms-dashboard",
-            password:INTEGRATED_ADMIN_KEY
-        });
-
-        INTEGRATED_DASHBOARD_DATA=response.dashboard;
-        integratedRenderDashboard(INTEGRATED_DASHBOARD_DATA);
-
-        integratedAdminLoginArea.style.display="none";
-        integratedAdminDashboard.classList.add("show");
-        integratedLoadSchedules();
-        sessionStorage.setItem("skQmsAdminKey",INTEGRATED_ADMIN_KEY);
-        certSyncAdminState();
-        integratedAdminLoginError.classList.remove("show");
-    }catch(error){
-        sessionStorage.removeItem("skQmsAdminKey");
-        integratedAdminLoginArea.style.display="";
-        integratedAdminDashboard.classList.remove("show");
-        integratedAdminLoginError.textContent=error.message;
-        integratedAdminLoginError.classList.add("show");
-        throw error;
-    }finally{
-        integratedShowLoading(false);
-    }
-}
-
-integratedAdminLoginForm.addEventListener("submit",async event=>{
-    event.preventDefault();
-    INTEGRATED_ADMIN_KEY=document.getElementById("integratedAdminKey").value.trim();
-    if(!INTEGRATED_ADMIN_KEY)return;
-    try{await integratedLoadDashboard()}catch(error){}
-});
-
-document.getElementById("integratedRefreshBtn").addEventListener("click",async()=>{
-    if(!INTEGRATED_ADMIN_KEY)return;
-    try{await integratedLoadDashboard()}catch(error){}
-});
-
-document.getElementById("integratedPrintBtn").addEventListener("click",()=>integratedPrintReport());
-document.getElementById("integratedGeneratePrintBtn").addEventListener("click",()=>integratedPrintReport());
-document.getElementById("integratedPrintScope").addEventListener("change",function(){
-    document.getElementById("integratedPrintActivity").disabled=this.value!=="activity";
-    document.getElementById("integratedPrintService").disabled=this.value!=="service";
-});
-
-document.getElementById("integratedLogoutBtn").addEventListener("click",()=>{
-    INTEGRATED_ADMIN_KEY="";
-    INTEGRATED_DASHBOARD_DATA=null;
-    sessionStorage.removeItem("skQmsAdminKey");
-    document.getElementById("integratedAdminKey").value="";
-    integratedAdminDashboard.classList.remove("show");
-    integratedAdminLoginArea.style.display="";
-});
-
-document.querySelectorAll(".admin-tab-btn").forEach(button=>{
-    button.addEventListener("click",()=>{
-        document.querySelectorAll(".admin-tab-btn").forEach(btn=>btn.classList.remove("active"));
-        document.querySelectorAll(".admin-tab-content").forEach(tab=>tab.classList.remove("active"));
-
-        button.classList.add("active");
-        document.getElementById("integrated"+button.dataset.adminTab.charAt(0).toUpperCase()+button.dataset.adminTab.slice(1)+"Tab").classList.add("active");
-    });
-});
-
-function integratedMetric(label,value,sub){
-    return `
-        <article class="admin-metric">
-            <small>${integratedEscape(label)}</small>
-            <strong>${integratedEscape(value)}</strong>
-            <span>${integratedEscape(sub)}</span>
-        </article>
-    `;
-}
-
-function integratedRenderDashboard(data){
-    const s=data.summary;
-
-    document.getElementById("integratedGeneratedText").textContent=
-        "Live QMS data generated "+integratedFormatDateTime(data.generatedAt)+".";
-
-    document.getElementById("integratedSummaryGrid").innerHTML=`
-        ${integratedMetric("Client Feedback",s.clientResponses,s.averageClientSatisfaction.toFixed(2)+" / 5 • "+s.clientQuality)}
-        ${integratedMetric("Activity Evaluations",s.activityEvaluations,s.averageActivityScore.toFixed(2)+" / 5 • "+s.activityQuality)}
-        ${integratedMetric("Speaker Evaluations",s.speakerEvaluations,s.averageSpeakerScore.toFixed(2)+" / 5 • "+s.speakerQuality)}
-        ${integratedMetric("Suggestions / Concerns",s.suggestions,s.newSuggestions+" New • "+s.inProgressSuggestions+" In Progress")}
-    `;
-
-    integratedRenderBars("integratedActivityTypeBars",data.activityTypes);
-    integratedRenderBars("integratedDevelopmentBars",data.developmentAreas);
-    integratedRenderBars("integratedClientQualityBars",data.qualityDistribution.client);
-    integratedRenderBars("integratedActivityQualityBars",data.qualityDistribution.activity);
-
-    document.getElementById("integratedSuggestionStatusCards").innerHTML=
-        data.suggestionStatuses.length
-        ? data.suggestionStatuses.map(item=>`
-            <div class="admin-detail-card">
-                <small>${integratedEscape(item.label)}</small>
-                <strong>${item.value}</strong>
-                <span>Submission${item.value===1?"":"s"}</span>
-            </div>
-        `).join("")
-        : `<div class="admin-empty">No suggestion records yet.</div>`;
-
-    integratedPopulateActivityTypeFilter(data.activityTypes);
-    integratedPopulatePrintActivities(data.activities||[]);
-    integratedPopulatePrintServices(data.clients||[]);
-    integratedRenderClients(data.clients);
-    integratedRenderActivities(data.activities);
-    integratedRenderSpeakers(data.activities,s);
-    integratedRenderSuggestions(data.suggestions);
-}
-
-function integratedPopulatePrintServices(rows){const select=document.getElementById('integratedPrintService');const services=[...new Set(rows.map(row=>String(row.service||'').trim()).filter(Boolean))].sort();select.innerHTML='<option value="">Select Service Availed</option>'+services.map(service=>`<option>${integratedEscape(service)}</option>`).join('')}
-
-function integratedPopulatePrintActivities(rows){
-    const select=document.getElementById("integratedPrintActivity");
-    const names=[...new Set(rows.map(row=>String(row.activity||"").trim()).filter(Boolean))].sort();
-    select.innerHTML='<option value="">Select Project / Activity</option>'+names.map(name=>`<option value="${integratedEscape(name)}">${integratedEscape(name)}</option>`).join("");
-}
-
-function integratedAverage(rows,key){
-    const values=rows.map(row=>Number(row[key])).filter(value=>Number.isFinite(value)&&value>0);
-    return values.length?(values.reduce((sum,value)=>sum+value,0)/values.length).toFixed(2):"—";
-}
-
-function integratedCommonEntries(rows,keys,limit=10){
-    const counts=new Map();
-    rows.forEach(row=>keys.forEach(key=>{
-        const value=String(row[key]||"").trim();
-        if(value&&value.toLowerCase()!=="not applicable") counts.set(value,(counts.get(value)||0)+1);
-    }));
-    return [...counts.entries()].sort((a,b)=>b[1]-a[1]).slice(0,limit);
-}
-
-function integratedPrintReport(){
-    if(!INTEGRATED_DASHBOARD_DATA){alert("Load the QMS dashboard before printing.");return;}
-    const data=INTEGRATED_DASHBOARD_DATA;
-    const scope=document.getElementById("integratedPrintScope").value;
-    const activityName=document.getElementById("integratedPrintActivity").value;
-    const serviceName=document.getElementById("integratedPrintService").value;
-    if(scope==="activity"&&!activityName){alert("Please select a project or activity.");return;}
-    if(scope==="service"&&!serviceName){alert("Please select a service availed.");return;}
-
-    const activities=(data.activities||[]).filter(row=>scope!=="activity"||row.activity===activityName);
-    const clients=scope==="activity"||scope==="suggestions"?[]:(data.clients||[]).filter(row=>scope!=="service"||row.service===serviceName);
-    const suggestions=scope==="activity"||scope==="clients"?[]:(data.suggestions||[]);
-    const selectedReferences=new Set([...activities,...clients,...suggestions].map(row=>row.reference).filter(Boolean));
-    const gadProfiles=(data.gadProfiles||[]).filter(row=>scope==="all"||selectedReferences.has(row.reference));
-    const ratings=[
-        ["Overall Rating","averageScore"],["Relevance of Topic / Activity","relevance"],
-        ["Achievement of Objectives","objectives"],["Resource Speaker / Facilitator","facilitatorRating"],
-        ["Organization & Facilitation","organization"],["Venue / Facilities","venueRating"],
-        ["Materials / Equipment","materials"],["Time Management","timeManagement"],
-        ["Participation / Engagement","engagement"],["Speaker Knowledge","speakerKnowledge"],
-        ["Speaker Clarity","speakerClarity"],["Speaker Engagement","speakerEngagement"],
-        ["Speaker Responsiveness","speakerResponsiveness"]
-    ];
-    const common=integratedCommonEntries(activities,["improvement","future","learning"]).concat(integratedCommonEntries(suggestions,["message","solution"])).slice(0,12);
-    const reportTitle=scope==="activity"?activityName+" — Evaluation Report":scope==="service"?serviceName+" — Service Feedback Report":scope==="clients"?"Client Feedback Report":scope==="suggestions"?"Suggestions Report":"Complete QMS Report";
-    const row=(cells)=>`<tr>${cells.map(cell=>`<td>${integratedEscape(cell)}</td>`).join("")}</tr>`;
-    const popup=window.open("","_blank");
-    if(!popup){alert("Please allow pop-ups to print the report.");return;}
-    popup.document.write(`<!doctype html><html><head><title>${integratedEscape(reportTitle)}</title><style>
-      @page{size:A4 landscape;margin:12mm}*{box-sizing:border-box}body{font:10px Arial,sans-serif;color:#102a40;margin:0}h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;border-bottom:2px solid #f59e0b;padding-bottom:6px;margin-top:20px}.head{border-bottom:4px solid #f59e0b;padding-bottom:10px}.meta{color:#526d7d}.confidential{margin-top:7px;padding:6px 8px;background:#fff1d2;border-left:4px solid #f59e0b;font-weight:700}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.metric{border:1px solid #b9cbd6;padding:8px}.metric strong{display:block;font-size:17px}table{width:100%;border-collapse:collapse;margin-top:8px;page-break-inside:auto}tr{page-break-inside:avoid}th,td{border:1px solid #b9cbd6;padding:5px;text-align:left;vertical-align:top;overflow-wrap:anywhere}td{white-space:pre-line}th{background:#0b2545;color:#fff}.break{break-before:page}.empty{color:#647b88;font-style:italic}ol{padding-left:20px}footer{margin-top:20px;border-top:1px solid #b9cbd6;padding-top:8px;color:#526d7d}@media print{button{display:none}}
-    </style></head><body><header class="head"><h1>SK Sapilang Quality Management System</h1><strong>${integratedEscape(reportTitle)}</strong><div class="meta">Generated ${integratedEscape(new Date().toLocaleString())}</div><div class="confidential">CONFIDENTIAL — Contains personal and GAD-related information. For authorized official use only and subject to the Data Privacy Act of 2012.</div></header>
-    <div class="summary"><div class="metric">Activity Evaluations<strong>${activities.length}</strong></div><div class="metric">Client Feedback<strong>${clients.length}</strong></div><div class="metric">Suggestions<strong>${suggestions.length}</strong></div></div>
-    ${activities.length?`<h2>Average Rating per Question</h2><table><thead><tr><th>Evaluation Question</th><th>Average / 5</th></tr></thead><tbody>${ratings.map(item=>row([item[0],integratedAverage(activities,item[1])])).join("")}</tbody></table><h2>Common Suggestions and Learning</h2>${common.length?`<ol>${common.map(item=>`<li>${integratedEscape(item[0])}${item[1]>1?` <strong>(${item[1]} responses)</strong>`:""}</li>`).join("")}</ol>`:'<p class="empty">No written suggestions available.</p>'}<h2>Individual Activity Evaluations</h2><table><thead><tr><th>Date</th><th>Reference</th><th>Activity</th><th>Rating</th><th>Learning / Improvement</th></tr></thead><tbody>${activities.map(item=>row([item.timestamp,item.reference,item.activity,integratedAverage([item],"averageScore"),[item.learning,item.improvement,item.future].filter(Boolean).join(" | ")])).join("")}</tbody></table>`:""}
-    ${clients.length?`<h2>Visitor Logbook and Client / Service Feedback</h2><table><thead><tr><th>Date / Reference</th><th>Personal Details</th><th>Contact / Address</th><th>Office / Classification</th><th>Visit and Service Details</th><th>Feedback</th></tr></thead><tbody>${clients.map(item=>row([[item.timestamp,item.reference].filter(Boolean).join("\n"),[item.name,"Age: "+(item.age||"—"),"Birthdate: "+(item.birthdate||"—")].join("\n"),[item.contact||"No contact",item.address||"No address"].join("\n"),[item.office||"No office",item.position||"No position",item.clientType||"No classification"].join("\n"),["Purpose: "+(item.purpose||"—"),"Service: "+(item.service||"—"),"Service date: "+(item.serviceDate||"—")].join("\n"),[item.rating?item.rating+" / 5 — "+item.quality:"No rating",item.comments||"No comments"].join("\n")])).join("")}</tbody></table>`:""}
-    ${gadProfiles.length?`<h2>GAD and Inclusion Profiles</h2><table><thead><tr><th>Reference / Form</th><th>Sex Assigned at Birth</th><th>Gender Identity / Expression</th><th>Preferred Pronouns</th><th>Organization / Position</th><th>Sector / Inclusion Classification</th></tr></thead><tbody>${gadProfiles.map(item=>row([[item.reference,item.formType].filter(Boolean).join("\n"),[item.sexAssignedAtBirth,item.sexOther].filter(Boolean).join(" — ")||"Not provided",[item.genderIdentity,item.genderOther].filter(Boolean).join(" — ")||"Not provided",[item.preferredPronouns,item.pronounsOther].filter(Boolean).join(" — ")||"Not provided",[item.organizationOffice,item.positionDesignation].filter(Boolean).join(" — ")||"Not provided",[item.sectors,item.sectorOther].filter(Boolean).join(" | ")||"Not provided"])).join("")}</tbody></table>`:""}
-    ${suggestions.length?`<h2>Suggestions, Recommendations and Concerns</h2><table><thead><tr><th>Date</th><th>Reference</th><th>Category / Area</th><th>Message</th><th>Status / Action</th></tr></thead><tbody>${suggestions.map(item=>row([item.timestamp,item.reference,[item.category,item.area].filter(Boolean).join(" / "),[item.message,item.solution].filter(Boolean).join(" | Proposed: "),[item.status,item.actionTaken].filter(Boolean).join(" — ")])).join("")}</tbody></table>`:""}
-    <footer>Official QMS report of the Sangguniang Kabataan of Barangay Sapilang, Bacnotan, La Union</footer></body></html>`);
-    popup.document.close();
-    setTimeout(()=>{popup.focus();popup.print();},350);
-}
-
-function integratedRenderBars(id,items){
-    const el=document.getElementById(id);
-
-    if(!items||!items.length){
-        el.innerHTML=`<div class="admin-empty">No data available yet.</div>`;
-        return;
-    }
-
-    const max=Math.max(...items.map(item=>Number(item.value)||0),1);
-
-    el.innerHTML=items.map(item=>{
-        const width=((Number(item.value)||0)/max)*100;
-
-        return `
-            <div class="admin-bar-item">
-                <div class="admin-bar-label" title="${integratedEscape(item.label)}">${integratedEscape(item.label)}</div>
-                <div class="admin-bar-track"><div class="admin-bar-fill" style="width:${width}%"></div></div>
-                <div class="admin-bar-value">${integratedEscape(item.value)}</div>
-            </div>
-        `;
-    }).join("");
-}
-
-function integratedRenderClients(rows){
-    document.getElementById("integratedClientRows").innerHTML=rows.length
-    ? rows.map(row=>`
-        <tr>
-            <td>${integratedEscape(row.timestamp)}</td>
-            <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.name||"Anonymous")}</strong><br><span class="admin-muted">${integratedEscape(row.email)}</span></td>
-            <td>${integratedEscape(row.service)}</td>
-            <td class="admin-rating">${Number(row.rating).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
-            <td>${integratedEscape(row.comments)}</td>
-        </tr>
-    `).join("")
-    : `<tr><td colspan="6" class="admin-empty">No client feedback records yet.</td></tr>`;
-
-    integratedFilterClients();
-}
-
-function integratedRenderActivities(rows){
-    document.getElementById("integratedActivityRows").innerHTML=rows.length
-    ? rows.map(row=>`
-        <tr data-type="${integratedEscape(row.activityType)}">
-            <td>${integratedEscape(row.timestamp)}</td>
-            <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.activityType)} • ${integratedEscape(row.venue)}</span></td>
-            <td>${integratedEscape(row.participant||"Anonymous")}<br><span class="admin-muted">${integratedEscape(row.classification)}</span></td>
-            <td>${integratedEscape(row.speaker||"N/A")}</td>
-            <td class="admin-rating">${Number(row.averageScore).toFixed(2)} / 5<br>${integratedEscape(row.quality)}</td>
-            <td><strong>Learning:</strong> ${integratedEscape(row.learning)}<br><br><strong>Improve:</strong> ${integratedEscape(row.improvement)}</td>
-        </tr>
-    `).join("")
-    : `<tr><td colspan="7" class="admin-empty">No activity evaluations yet.</td></tr>`;
-
-    integratedFilterActivities();
-}
-
-function integratedRenderSpeakers(rows,summary){
-    document.getElementById("integratedSpeakerSummary").innerHTML=`
-        <div class="admin-detail-card"><small>Speaker Evaluations</small><strong>${summary.speakerEvaluations}</strong><span>Responses with speaker ratings</span></div>
-        <div class="admin-detail-card"><small>Average Speaker Score</small><strong>${Number(summary.averageSpeakerScore).toFixed(2)}</strong><span>${integratedEscape(summary.speakerQuality)}</span></div>
-        <div class="admin-detail-card"><small>Activities With Named Speaker</small><strong>${rows.filter(row=>row.speaker).length}</strong><span>Latest stored records</span></div>
-        <div class="admin-detail-card"><small>Quality Target</small><strong>4.50+</strong><span>Excellent</span></div>
-    `;
-
-    const speakerRows=rows.filter(row=>
-        row.speaker ||
-        row.speakerKnowledge!=="" ||
-        row.speakerClarity!=="" ||
-        row.speakerEngagement!=="" ||
-        row.speakerResponsiveness!==""
-    );
-
-    document.getElementById("integratedSpeakerRows").innerHTML=speakerRows.length
-    ? speakerRows.map(row=>`
-        <tr>
-            <td><strong>${integratedEscape(row.activity)}</strong><br><span class="admin-muted">${integratedEscape(row.reference)}</span></td>
-            <td>${integratedEscape(row.speaker||"Not specified")}</td>
-            <td class="admin-rating">${integratedScoreOrDash(row.speakerKnowledge)}</td>
-            <td class="admin-rating">${integratedScoreOrDash(row.speakerClarity)}</td>
-            <td class="admin-rating">${integratedScoreOrDash(row.speakerEngagement)}</td>
-            <td class="admin-rating">${integratedScoreOrDash(row.speakerResponsiveness)}</td>
-            <td>${integratedEscape(row.speakerComments)}</td>
-        </tr>
-    `).join("")
-    : `<tr><td colspan="7" class="admin-empty">No resource speaker evaluations yet.</td></tr>`;
-}
-
-function integratedRenderSuggestions(rows){
-    document.getElementById("integratedSuggestionRows").innerHTML=rows.length
-    ? rows.map(row=>`
-        <tr data-status="${integratedEscape(row.status)}">
-            <td>${integratedEscape(row.timestamp)}</td>
-            <td class="admin-ref">${integratedEscape(row.reference)}</td>
-            <td><strong>${integratedEscape(row.subject)}</strong><br><span class="admin-muted">${integratedEscape(row.category)} • ${integratedEscape(row.area)}${row.name?" • "+integratedEscape(row.name):""}</span></td>
-            <td>${integratedEscape(row.message)}${row.solution?`<br><br><strong>Proposed:</strong> ${integratedEscape(row.solution)}`:""}</td>
-            <td>${integratedStatusBadge(row.status)}${row.dateResolved?`<br><span class="admin-muted">${integratedEscape(row.dateResolved)}</span>`:""}</td>
-            <td>
-                <div class="admin-action-area">
-                    <select data-integrated-status="${integratedEscape(row.reference)}">${integratedStatusOptions(row.status)}</select>
-                    <textarea data-integrated-action="${integratedEscape(row.reference)}" placeholder="Record action taken, follow-up, response or resolution...">${integratedEscape(row.actionTaken)}</textarea>
-                    <button type="button" class="admin-update-btn" data-integrated-update="${integratedEscape(row.reference)}">Save Administrative Action</button>
-                </div>
-            </td>
-        </tr>
-    `).join("")
-    : `<tr><td colspan="6" class="admin-empty">No suggestions or recommendations yet.</td></tr>`;
-
-    document.querySelectorAll("[data-integrated-update]").forEach(button=>{
-        button.addEventListener("click",()=>integratedUpdateSuggestion(button.dataset.integratedUpdate));
-    });
-
-    integratedFilterSuggestions();
-}
-
-async function integratedUpdateSuggestion(reference){
-    const esc=CSS.escape(reference);
-    const status=document.querySelector(`[data-integrated-status="${esc}"]`).value;
-    const actionTaken=document.querySelector(`[data-integrated-action="${esc}"]`).value;
-
-    integratedShowLoading(true);
-
-    try{
-        await integratedAdminPost({
-            type:"admin-update-suggestion",
-            adminKey:INTEGRATED_ADMIN_KEY,
-            reference,
-            status,
-            actionTaken
-        });
-
-        await integratedLoadDashboard();
-    }catch(error){
-        alert(error.message);
-    }finally{
-        integratedShowLoading(false);
-    }
-}
-
-function integratedStatusOptions(current){
-    const statuses=["NEW","UNDER REVIEW","IN PROGRESS","RESOLVED","CLOSED"];
-
-    return statuses.map(status=>
-        `<option ${status===String(current).toUpperCase()?"selected":""}>${status}</option>`
-    ).join("");
-}
-
-function integratedStatusBadge(status){
-    const normalized=String(status||"NEW").toUpperCase();
-    let klass="";
-
-    if(normalized==="RESOLVED"||normalized==="CLOSED")klass="resolved";
-    else if(normalized==="IN PROGRESS"||normalized==="UNDER REVIEW")klass="progress";
-
-    return `<span class="admin-status-badge ${klass}">${integratedEscape(normalized)}</span>`;
-}
-
-function integratedScoreOrDash(value){
-    if(value===""||value===null||value===undefined)return"—";
-    return `${Number(value).toFixed(2)} / 5`;
-}
-
-function integratedPopulateActivityTypeFilter(items){
-    const select=document.getElementById("integratedActivityTypeFilter");
-    const current=select.value;
-
-    select.innerHTML=`<option value="">All Activity Types</option>`+
-        items.map(item=>`<option>${integratedEscape(item.label)}</option>`).join("");
-
-    if([...select.options].some(option=>option.value===current)){
-        select.value=current;
-    }
-}
-
-function integratedFilterClients(){
-    const q=document.getElementById("integratedClientSearch").value.trim().toLowerCase();
-    document.querySelectorAll("#integratedClientRows tr").forEach(row=>{
-        row.style.display=!q||row.textContent.toLowerCase().includes(q)?"":"none";
-    });
-}
-
-function integratedFilterActivities(){
-    const q=document.getElementById("integratedActivitySearch").value.trim().toLowerCase();
-    const type=document.getElementById("integratedActivityTypeFilter").value;
-
-    document.querySelectorAll("#integratedActivityRows tr").forEach(row=>{
-        const matchSearch=!q||row.textContent.toLowerCase().includes(q);
-        const matchType=!type||row.dataset.type===type;
-        row.style.display=matchSearch&&matchType?"":"none";
-    });
-}
-
-function integratedFilterSuggestions(){
-    const q=document.getElementById("integratedSuggestionSearch").value.trim().toLowerCase();
-    const status=document.getElementById("integratedSuggestionStatusFilter").value;
-
-    document.querySelectorAll("#integratedSuggestionRows tr").forEach(row=>{
-        const matchSearch=!q||row.textContent.toLowerCase().includes(q);
-        const matchStatus=!status||String(row.dataset.status||"").toUpperCase()===status;
-        row.style.display=matchSearch&&matchStatus?"":"none";
-    });
-}
-
-document.getElementById("integratedClientSearch").addEventListener("input",integratedFilterClients);
-document.getElementById("integratedActivitySearch").addEventListener("input",integratedFilterActivities);
-document.getElementById("integratedActivityTypeFilter").addEventListener("change",integratedFilterActivities);
-document.getElementById("integratedSuggestionSearch").addEventListener("input",integratedFilterSuggestions);
-document.getElementById("integratedSuggestionStatusFilter").addEventListener("change",integratedFilterSuggestions);
-
-function integratedFormatDateTime(value){
-    if(!value)return"";
-    const date=new Date(value);
-    return Number.isNaN(date.getTime())?String(value):date.toLocaleString();
-}
-
-const integratedSavedKey=sessionStorage.getItem("skQmsAdminKey");
-setTimeout(()=>certSyncAdminState(),0);
-
-if(integratedSavedKey){
-    INTEGRATED_ADMIN_KEY=integratedSavedKey;
-    document.getElementById("integratedAdminKey").value=integratedSavedKey;
-}
-
-
-const revealItems=document.querySelectorAll(".reveal");
-if("IntersectionObserver" in window){
-    const observer=new IntersectionObserver(entries=>{
-        entries.forEach(entry=>{
-            if(entry.isIntersecting){
-                entry.target.classList.add("visible");
-                observer.unobserve(entry.target);
-            }
-        });
-    },{threshold:.10});
-    revealItems.forEach(item=>observer.observe(item));
-}else{
-    revealItems.forEach(item=>item.classList.add("visible"));
-}
-
-document.getElementById("year").textContent=new Date().getFullYear();
-
-/* 2026-09 Canva certificate + direct visual certificate editor */
-let CERT_STATE={nameX:50,nameY:49,nameSize:44,qrX:83,qrY:78,qrSize:96,noX:7,noY:91,noSize:14};
-const certNum=v=>Number(v)||0;
-function certPersistLocal(){try{localStorage.setItem('skCertLayoutDraft',JSON.stringify(CERT_STATE))}catch(_){}}
-function certRestoreLocal(){try{const x=JSON.parse(localStorage.getItem('skCertLayoutDraft')||'null');if(x&&typeof x==='object')CERT_STATE={...CERT_STATE,...x}}catch(_){}}
-function certApplyVisual(){
- const stage=document.getElementById('certVisualStage'),name=document.getElementById('certDragName'),qr=document.getElementById('certDragQr'),no=document.getElementById('certDragNo');if(!stage||!name)return;
- name.style.left=CERT_STATE.nameX+'%';name.style.top=CERT_STATE.nameY+'%';name.style.fontSize=CERT_STATE.nameSize+'px';
- qr.style.left=CERT_STATE.qrX+'%';qr.style.top=CERT_STATE.qrY+'%';qr.style.width=CERT_STATE.qrSize+'px';qr.style.height=CERT_STATE.qrSize+'px';
- no.style.left=CERT_STATE.noX+'%';no.style.top=CERT_STATE.noY+'%';no.style.fontSize=CERT_STATE.noSize+'px';
-}
-function certSetBackground(url){const st=document.getElementById('certVisualStage');if(!st)return;st.style.backgroundImage=url?`url("${String(url).replaceAll('"','%22')}")`:'';document.getElementById('certVisualEmpty').style.display=url?'none':'grid'}
-function certSelect(el){document.querySelectorAll('.cert-edit-item').forEach(x=>x.classList.toggle('cert-selected',x===el));const i=document.getElementById('certSelectedInfo');if(el&&i)i.textContent=(el.dataset.kind==='name'?'Participant Name':el.dataset.kind==='qr'?'QR Code':'Certificate Number')+' selected — drag to move; drag the orange corner to resize.'}
-function certEnableDirectEditor(){
- const stage=document.getElementById('certVisualStage');if(!stage)return;
- stage.querySelectorAll('.cert-edit-item').forEach(el=>{
-  el.addEventListener('pointerdown',e=>{certSelect(el);if(e.target.classList.contains('cert-resize-handle'))return;e.preventDefault();el.setPointerCapture(e.pointerId);const r=stage.getBoundingClientRect(),kind=el.dataset.kind,startX=e.clientX,startY=e.clientY,x0=CERT_STATE[kind+'X'],y0=CERT_STATE[kind+'Y'];
-   const move=ev=>{CERT_STATE[kind+'X']=Math.max(0,Math.min(100,x0+(ev.clientX-startX)/r.width*100));CERT_STATE[kind+'Y']=Math.max(0,Math.min(100,y0+(ev.clientY-startY)/r.height*100));certApplyVisual()};
-   const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up)};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up)
+    return resp.json();
+  }
+
+  // --- INITIALIZATION ---
+  document.addEventListener('DOMContentLoaded', async () => {
+    initTabNavigation();
+    initVisitorForm();
+    initEvaluationForm();
+    initSuggestionForm();
+    initAdminAuthentication();
+    initActivityManager();
+    initCertificateStudio();
+    initIssuedTracker();
+
+    await loadAllActivities();
+    loadLocalTemplates();
+    loadLocalIssuedCerts();
   });
-  const h=el.querySelector('.cert-resize-handle');h?.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();h.setPointerCapture(e.pointerId);const kind=el.dataset.kind,start=e.clientX,size0=kind==='name'?CERT_STATE.nameSize:kind==='qr'?CERT_STATE.qrSize:CERT_STATE.noSize;
-   const move=ev=>{const d=ev.clientX-start;if(kind==='name')CERT_STATE.nameSize=Math.max(18,Math.min(90,size0+d*.25));else if(kind==='qr')CERT_STATE.qrSize=Math.max(55,Math.min(180,size0+d));else CERT_STATE.noSize=Math.max(9,Math.min(32,size0+d*.12));certApplyVisual()};
-   const up=()=>{h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',up)};h.addEventListener('pointermove',move);h.addEventListener('pointerup',up)
-  })
- });
- stage.addEventListener('pointerdown',e=>{if(e.target===stage)certSelect(null)})
-}
-async function certLoadDesign(){
- try{const r=await integratedCmsApi({action:'certificate-settings'}),x=r.settings||{};document.getElementById('certCanvaUrl').value=x.canvaEditUrl||'';document.getElementById('certBackgroundUrl').value=x.certificateBackground||'';CERT_STATE={nameX:certNum(x.nameX)||50,nameY:certNum(x.nameY)||49,nameSize:certNum(x.nameSize)||44,qrX:certNum(x.qrX)||83,qrY:certNum(x.qrY)||78,qrSize:certNum(x.qrSize)||96,noX:certNum(x.noX)||7,noY:certNum(x.noY)||91,noSize:certNum(x.noSize)||14};certRestoreLocal();certApplyVisual();certSetBackground(x.certificateBackground||'');const a=document.getElementById('certOpenCanva');a.href=x.canvaEditUrl||'#';document.getElementById('certDesignMsg').textContent=x.certificateBackground?'Master certificate loaded. Drag the personalized fields directly on the preview.':'Choose your Canva PNG/JPG above to begin.'}catch(e){document.getElementById('certDesignMsg').textContent=e.message}
-}
-document.getElementById('certMasterFile')?.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;if(window.CERT_LOCAL_PREVIEW)URL.revokeObjectURL(window.CERT_LOCAL_PREVIEW);window.CERT_LOCAL_PREVIEW=URL.createObjectURL(f);certSetBackground(window.CERT_LOCAL_PREVIEW);document.getElementById('certDesignMsg').textContent='Preview ready. Drag the name, QR and certificate number into position, then upload and save.'});
-document.getElementById('certCanvaUrl')?.addEventListener('input',e=>{document.getElementById('certOpenCanva').href=e.target.value.trim()||'#'});
-async function certUploadDesign(){const file=document.getElementById('certMasterFile').files[0],msg=document.getElementById('certDesignMsg');if(!file){msg.textContent='Choose your exported Canva PNG/JPG first.';return}if(file.size>10*1024*1024){msg.textContent='Image must be 10 MB or smaller.';return}msg.textContent='Uploading certificate background...';try{const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(new Error('Unable to read image.'));r.readAsDataURL(file)}),x=await integratedAdminPost({action:'upload-certificate-background',password:integratedCmsPassword(),name:file.name,data});document.getElementById('certBackgroundUrl').value=x.url||'';certSetBackground(x.url||window.CERT_LOCAL_PREVIEW||'');msg.textContent='Background uploaded. Now click SAVE POSITIONS & MASTER CERTIFICATE.'}catch(e){msg.textContent=e.message}}
-async function certSaveDesign(){const msg=document.getElementById('certDesignMsg'),canva=document.getElementById('certCanvaUrl').value.trim(),bg=document.getElementById('certBackgroundUrl').value.trim();if(!bg){msg.textContent='Upload / Replace Background first so the certificate image is saved online.';return}msg.textContent='Saving certificate design and positions...';try{await integratedAdminPost({action:'save-certificate-settings',password:integratedCmsPassword(),title:'Certificate of Participation',body:'',logo1:'',logo2:'',signatory1:'',position1:'',signatory2:'',position2:'',design:'canva',adminEmail:'',certificateBackground:bg,canvaEditUrl:canva,...CERT_STATE});certPersistLocal();document.getElementById('certOpenCanva').href=canva||'#';msg.textContent='Saved. Every certificate will use this design and these exact positions, with a unique name, certificate number and QR.'}catch(e){msg.textContent=e.message}}
-document.getElementById('certUploadDesign')?.addEventListener('click',certUploadDesign);document.getElementById('certSaveDesign')?.addEventListener('click',certSaveDesign);document.getElementById('certResetPositions')?.addEventListener('click',()=>{CERT_STATE={nameX:50,nameY:49,nameSize:44,qrX:83,qrY:78,qrSize:96,noX:7,noY:91,noSize:14};certApplyVisual();document.getElementById('certDesignMsg').textContent='Positions reset in preview. Click Save to keep the reset.'});certEnableDirectEditor();
 
-function isUnifiedActivityItem(x){
- const t=String(x?.type||'').trim();
- return ['Website Activity / Program','Scheduled Activity / Evaluation','Upcoming Event','Finished Activity','Project / Program','Activity / Program'].includes(t);
-}
-function unifiedActivityStatus(x){
- const raw=String(x?.status||'').trim();
- if(raw==='Completed'||x?.type==='Finished Activity')return 'Completed';
- if(raw==='Ongoing')return 'Ongoing';
- return 'Upcoming';
-}
-function unifiedActivityDedupe(items){
- const seen=new Set();
- return (items||[]).filter(isUnifiedActivityItem).map(x=>({...x,status:unifiedActivityStatus(x)})).filter(x=>{
-   const k=String(x.id||'')||[String(x.title||'').trim().toLowerCase(),String(x.date||'')].join('|');
-   if(seen.has(k))return false;seen.add(k);return true;
- });
-}
-let WEB_ACTIVITY_ITEMS=[];
-let WEB_ACTIVITY_EDIT_ID='';
-let WEB_ACTIVITY_FILTER='all';
-function webActMsg(t){const e=document.getElementById("webActMsg");if(e)e.textContent=t||""}
-function webActClear(){WEB_ACTIVITY_EDIT_ID="";const f=document.getElementById("webActivityForm");if(f)f.reset();const st=document.getElementById("webActStatus");if(st)st.value="Upcoming";["webActShowUpdates","webActShowPrograms","webActEvaluation","webActCertificates"].forEach(id=>{const e=document.getElementById(id);if(e)e.checked=true});const b=document.getElementById("webActSave");if(b)b.textContent="Add Activity / Program";webActMsg("")}
-function webActVisible(items){return WEB_ACTIVITY_FILTER==='all'?items:items.filter(x=>(x.status||'Upcoming')===WEB_ACTIVITY_FILTER)}
-function webActRender(items){WEB_ACTIVITY_ITEMS=unifiedActivityDedupe(items);items=WEB_ACTIVITY_ITEMS;if(typeof ctSyncActivitySelects==='function')ctSyncActivitySelects(WEB_ACTIVITY_ITEMS);const box=document.getElementById("webActList");if(!box)return;const show=webActVisible(items);box.innerHTML=show.length?show.map(x=>`<article class="admin-schedule-card"><div>${x.mediaUrl?`<img src="${integratedEscape(x.mediaUrl)}" alt="" style="width:88px;height:64px;object-fit:cover;border-radius:8px;float:left;margin-right:12px">`:""}<strong>${integratedEscape(x.title)}</strong><span>${integratedEscape(x.status||"Upcoming")} • ${integratedEscape(x.date||"No date")}<br>${integratedEscape(x.venue||"")} ${x.speaker?'• '+integratedEscape(x.speaker):''}</span></div><div class="admin-schedule-card-actions"><button type="button" class="admin-action-btn" data-wa-edit="${integratedEscape(x.id)}">Edit</button><button type="button" class="admin-action-btn danger" data-wa-delete="${integratedEscape(x.id)}">Delete</button></div></article>`).join(""):'<div class="admin-empty">No activities in this view.</div>';box.querySelectorAll('[data-wa-edit]').forEach(b=>b.onclick=()=>webActEdit(b.dataset.waEdit));box.querySelectorAll('[data-wa-delete]').forEach(b=>b.onclick=()=>webActDelete(b.dataset.waDelete))}
-async function webActLoad(){
- try{
-  // Show the last successful activity list instantly while the server refreshes it.
-  if(!WEB_ACTIVITY_ITEMS.length){try{const cached=JSON.parse(sessionStorage.getItem('skUnifiedActivities')||'[]');if(Array.isArray(cached)&&cached.length){webActRender(cached);INTEGRATED_SCHEDULE_ITEMS=WEB_ACTIVITY_ITEMS;webActSyncEvaluationSelect();webActMsg(`${WEB_ACTIVITY_ITEMS.length} activities ready. Refreshing in background...`)}}catch(_){}}
-  if(!WEB_ACTIVITY_ITEMS.length)webActMsg("Loading all activities...");
-  const pages=["news-events.html","feedback.html","events.html"];
-  const results=await Promise.all(pages.map(page=>integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page}).catch(()=>({items:[]}))));
-  const merged=[]; results.forEach((r,i)=>(r.items||[]).forEach(x=>merged.push({...x,_sourcePage:pages[i]})));
-  webActRender(unifiedActivityDedupe(merged));
-  try{sessionStorage.setItem('skUnifiedActivities',JSON.stringify(WEB_ACTIVITY_ITEMS))}catch(_){}
-  INTEGRATED_SCHEDULE_ITEMS=WEB_ACTIVITY_ITEMS;
-  webActSyncEvaluationSelect();
-  webActMsg(`${WEB_ACTIVITY_ITEMS.length} activit${WEB_ACTIVITY_ITEMS.length===1?'y':'ies'} loaded. One Activity Manager now reads your existing and new records.`);
-  if(typeof ctSyncActivitySelects==='function')ctSyncActivitySelects(WEB_ACTIVITY_ITEMS);
- }catch(e){webActMsg(e.message)}
-}
-function webActSyncEvaluationSelect(){
- const select=document.getElementById("scheduledActivitySelect");if(!select)return;
- const items=(WEB_ACTIVITY_ITEMS||[]).filter(x=>x.status!=="Completed");
- const keep=select.value;
- select.innerHTML='<option value="">Select Activity / Program</option>'+items.map(item=>`<option value="${integratedEscape(item.title)}" data-date="${integratedEscape(item.date)}" data-venue="${integratedEscape(item.venue)}" data-speaker="${integratedEscape(item.speaker)}">${integratedEscape(item.title)}${item.date?' — '+integratedEscape(item.date):''}</option>`).join('');
- select._scheduleItems=items;if([...select.options].some(o=>o.value===keep))select.value=keep;
-}
-function webActEdit(id){const x=WEB_ACTIVITY_ITEMS.find(v=>v.id===id);if(!x)return;WEB_ACTIVITY_EDIT_ID=id;document.getElementById("webActTitle").value=x.title||"";document.getElementById("webActDate").value=x.date||"";document.getElementById("webActStatus").value=x.status||"Upcoming";document.getElementById("webActDescription").value=x.description||"";document.getElementById("webActVenue").value=x.venue||"";document.getElementById("webActSpeaker").value=x.speaker||"";document.getElementById("webActPubmat").value=x.mediaUrl||"";document.getElementById("webActFacebook").value=x.linkUrl||"";document.getElementById("webActPhotos").value="";document.getElementById("webActSave").textContent="Save Activity Update";webActMsg("Editing "+x.title);document.getElementById("webActTitle").focus()}
-async function webActDelete(id){const x=WEB_ACTIVITY_ITEMS.find(v=>v.id===id);if(!x||!confirm('Delete “'+x.title+'”? This removes it from Activity Manager, evaluation choices and certificate activity choices.'))return;try{await integratedCmsApi({action:"delete-item",password:integratedCmsPassword(),id});webActClear();await webActLoad();loadScheduledActivities()}catch(e){webActMsg(e.message)}}
-document.getElementById("webActivityForm")?.addEventListener("submit",async e=>{e.preventDefault();const b=document.getElementById("webActSave");b.disabled=true;try{const status=document.getElementById("webActStatus").value;await integratedCmsApi({action:"save-item",password:integratedCmsPassword(),id:WEB_ACTIVITY_EDIT_ID,page:(WEB_ACTIVITY_ITEMS.find(v=>v.id===WEB_ACTIVITY_EDIT_ID)?._sourcePage||"news-events.html"),itemType:"Activity / Program",title:document.getElementById("webActTitle").value.trim(),description:document.getElementById("webActDescription").value.trim(),status,eventDate:document.getElementById("webActDate").value,venue:document.getElementById("webActVenue").value.trim(),speaker:document.getElementById("webActSpeaker").value.trim(),mediaUrl:document.getElementById("webActPubmat").value.trim(),linkUrl:document.getElementById("webActFacebook").value.trim()});webActClear();await webActLoad();loadScheduledActivities();webActMsg(status==='Completed'?"Saved. This activity is now shown as Completed / Finished and remains available for certificates.":"Saved. This upcoming/ongoing activity is now available for evaluations, certificates, and the public Updates & Programs feed.")}catch(err){webActMsg(err.message)}finally{b.disabled=false}});
-document.getElementById("webActClear")?.addEventListener("click",webActClear);document.getElementById("webActReload")?.addEventListener("click",webActLoad);
-document.querySelectorAll('[data-activity-filter]').forEach(b=>b.addEventListener('click',()=>{WEB_ACTIVITY_FILTER=b.dataset.activityFilter;webActRender(WEB_ACTIVITY_ITEMS)}));
-// FAST START: begin independent requests immediately instead of waiting 700 ms.
-Promise.allSettled([certLoadDesign(),webActLoad()]);
+  // --- TAB NAVIGATION ---
+  function initTabNavigation() {
+    const tabButtons = document.querySelectorAll('.qms-tab-btn');
+    const panels = {
+      visitor: document.getElementById('visitorPanel'),
+      activity: document.getElementById('activityPanel'),
+      suggestion: document.getElementById('suggestionPanel'),
+      admin: document.getElementById('adminPanel')
+    };
 
-/* MULTI-ACTIVITY CERTIFICATE CENTER */
-let CERT_TEMPLATES=[];
-let CERT_ACTIVITY_ITEMS=[];
-let CT_EDIT='';
-function ctMsg(t){const e=document.getElementById('ctMsg');if(e)e.textContent=t}
-function ctParse(x){try{return JSON.parse(x.description||'{}')}catch{return {}}}
-function ctActivityKey(x){return String((x&&x.id)||'')}
-function ctActivityLabel(x){return `${x.title||'Untitled Activity'}${x.date?' — '+x.date:''}`}
-function ctSyncActivitySelects(items){
- CERT_ACTIVITY_ITEMS=unifiedActivityDedupe(items||[]).map(x=>({...x,_source:x._source||'Activity Manager'}));
- ['ctActivity','ciActivity'].forEach(id=>{const sel=document.getElementById(id);if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">Select an activity...</option>'+CERT_ACTIVITY_ITEMS.map(x=>`<option value="${integratedEscape(ctActivityKey(x))}">${integratedEscape(ctActivityLabel(x))}</option>`).join('');if([...sel.options].some(o=>o.value===keep))sel.value=keep});
- const count=document.getElementById('certActivityCount');if(count)count.textContent=CERT_ACTIVITY_ITEMS.length?`${CERT_ACTIVITY_ITEMS.length} activities available`:'No activities found yet';
- const empty=document.getElementById('certActivityEmpty');if(empty)empty.style.display=CERT_ACTIVITY_ITEMS.length?'none':'block';
-}
-async function ctLoadActivities(){
-  const all=[];
-  const add=(items,source,type)=>{(items||[]).filter(x=>type?x.type===type:isUnifiedActivityItem(x)).forEach(x=>all.push({...x,status:unifiedActivityStatus(x),_source:source}))};
-  // FIRST: use activities already loaded elsewhere in this same QMS page.
-  // This makes the Certificate Center usable even if a second CMS request is slow.
-  add(typeof WEB_ACTIVITY_ITEMS!=='undefined'?WEB_ACTIVITY_ITEMS:[],'Activity Manager');
-  // SECOND: refresh from the backend and merge the results.
-  try{const rs=await Promise.all(['news-events.html','feedback.html','events.html'].map(page=>integratedCmsApi({action:'list-items',password:integratedCmsPassword(),page}).catch(()=>({items:[]}))));rs.forEach(r=>add(unifiedActivityDedupe(r.items||[]),'Activity Manager'))}catch(_){ }
-  const seen=new Set();
-  CERT_ACTIVITY_ITEMS=all.filter(x=>{const k=String(x.id||'')||((x.title||'')+'|'+(x.date||''));if(seen.has(k))return false;seen.add(k);return true});
-  ['ctActivity','ciActivity'].forEach(id=>{const sel=document.getElementById(id);if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">Select an activity...</option>'+CERT_ACTIVITY_ITEMS.map(x=>`<option value="${integratedEscape(ctActivityKey(x))}">${integratedEscape(ctActivityLabel(x))} · ${integratedEscape(x._source)}</option>`).join('');if([...sel.options].some(o=>o.value===keep))sel.value=keep});
-  const count=document.getElementById('certActivityCount');if(count)count.textContent=CERT_ACTIVITY_ITEMS.length?`${CERT_ACTIVITY_ITEMS.length} activities available`:'No activities found yet';
-  const empty=document.getElementById('certActivityEmpty');if(empty)empty.style.display=CERT_ACTIVITY_ITEMS.length?'none':'block';
-  return CERT_ACTIVITY_ITEMS;
-}
-async function ctLoad(){
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        tabButtons.forEach(b => b.classList.remove('active'));
+        Object.values(panels).forEach(p => p && p.classList.remove('active'));
+
+        btn.classList.add('active');
+        if (panels[target]) panels[target].classList.add('active');
+      });
+    });
+
+    const triggerAdmin = document.getElementById('btnAdminTrigger');
+    if (triggerAdmin) {
+      triggerAdmin.addEventListener('click', () => {
+        const adminBtn = document.querySelector('.qms-tab-btn[data-tab="admin"]');
+        if (adminBtn) adminBtn.click();
+      });
+    }
+
+    const navEval = document.getElementById('navEvalLink');
+    if (navEval) {
+      navEval.addEventListener('click', (e) => {
+        e.preventDefault();
+        const actBtn = document.querySelector('.qms-tab-btn[data-tab="activity"]');
+        if (actBtn) actBtn.click();
+        document.getElementById('activityPanel').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }
+
+  // ==========================================================================
+  // ACTIVITY MANAGER (Single Source of Truth)
+  // ==========================================================================
+  async function loadAllActivities() {
+    try {
+      // 1. Fetch from Google Apps Script if online
+      const remote = await callApi({ action: 'get-activities' });
+      if (remote && remote.success && Array.isArray(remote.activities) && remote.activities.length) {
+        activitiesList = remote.activities;
+      } else {
+        // 2. Fallback to local storage or seeds
+        const local = localStorage.getItem('sk_activities');
+        if (local) {
+          activitiesList = JSON.parse(local);
+        } else {
+          activitiesList = SEED_ACTIVITIES;
+          localStorage.setItem('sk_activities', JSON.stringify(activitiesList));
+        }
+      }
+    } catch (e) {
+      activitiesList = SEED_ACTIVITIES;
+    }
+
+    syncActivitiesToUI();
+  }
+
+  function syncActivitiesToUI() {
+    // 1. Evaluation Form Select
+    const evalSelect = document.getElementById('evalActivitySelect');
+    if (evalSelect) {
+      const currentVal = evalSelect.value;
+      evalSelect.innerHTML = '<option value="">-- Choose Youth Activity / Program --</option>' +
+        activitiesList.map(a => `<option value="${escapeHtml(a.id)}" data-title="${escapeHtml(a.title)}">${escapeHtml(a.title)} (${a.status})</option>`).join('');
+      if (currentVal) evalSelect.value = currentVal;
+    }
+
+    // 2. Certificate Studio Select
+    const studioSelect = document.getElementById('studioActivitySelect');
+    if (studioSelect) {
+      const currentStudio = studioSelect.value;
+      studioSelect.innerHTML = '<option value="master">★ Master / Fallback Certificate Template</option>' +
+        activitiesList.map(a => `<option value="${escapeHtml(a.id)}">${escapeHtml(a.title)}</option>`).join('');
+      if (currentStudio) studioSelect.value = currentStudio;
+    }
+
+    // 3. Admin Activities Table
+    renderActivitiesTable();
+  }
+
+  function renderActivitiesTable() {
+    const tbody = document.getElementById('activitiesTableBody');
+    if (!tbody) return;
+
+    if (!activitiesList.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--sk-text-muted);">No activities recorded. Add one above.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = activitiesList.map(a => `
+      <tr>
+        <td><strong>${escapeHtml(a.title)}</strong></td>
+        <td>${escapeHtml(a.date || '—')}</td>
+        <td>${escapeHtml(a.venue || '—')}</td>
+        <td>${escapeHtml(a.speaker || 'None')}</td>
+        <td>
+          <span class="status-badge ${a.status === 'Completed' ? 'status-valid' : 'status-revoked'}" style="background: #E0F2FE; color: #0369A1;">
+            ${escapeHtml(a.status || 'Upcoming')}
+          </span>
+        </td>
+        <td>
+          <button type="button" class="studio-btn" onclick="window.editActivity('${escapeHtml(a.id)}')">Edit</button>
+          <button type="button" class="studio-btn" style="color: var(--sk-red);" onclick="window.deleteActivity('${escapeHtml(a.id)}')">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function initActivityManager() {
+    const form = document.getElementById('actManagerForm');
+    const clearBtn = document.getElementById('btnClearActivity');
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const editId = document.getElementById('actEditId').value.trim();
+        const title = document.getElementById('actTitle').value.trim();
+        const date = document.getElementById('actDate').value;
+        const status = document.getElementById('actStatus').value;
+        const venue = document.getElementById('actVenue').value.trim();
+        const speaker = document.getElementById('actSpeaker').value.trim();
+        const desc = document.getElementById('actDesc').value.trim();
+
+        const actData = {
+          id: editId || ('ACT-' + Date.now().toString(36).toUpperCase()),
+          title,
+          date,
+          status,
+          venue,
+          speaker,
+          description: desc
+        };
+
+        if (editId) {
+          const idx = activitiesList.findIndex(a => a.id === editId);
+          if (idx >= 0) activitiesList[idx] = actData;
+        } else {
+          activitiesList.unshift(actData);
+        }
+
+        // Save locally and attempt backend sync
+        localStorage.setItem('sk_activities', JSON.stringify(activitiesList));
+        syncActivitiesToUI();
+
+        if (currentAdminPassword) {
+          postApi({
+            action: 'save-item',
+            password: currentAdminPassword,
+            id: actData.id,
+            page: 'news-events.html',
+            itemType: 'Activity / Program',
+            title: actData.title,
+            description: actData.description,
+            status: actData.status,
+            eventDate: actData.date,
+            venue: actData.venue,
+            speaker: actData.speaker
+          }).catch(() => {});
+        }
+
+        form.reset();
+        document.getElementById('actEditId').value = '';
+        document.getElementById('btnSaveActivity').textContent = 'Save Activity';
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        form.reset();
+        document.getElementById('actEditId').value = '';
+        document.getElementById('btnSaveActivity').textContent = 'Save Activity';
+      });
+    }
+
+    window.editActivity = (id) => {
+      const item = activitiesList.find(a => a.id === id);
+      if (!item) return;
+      document.getElementById('actEditId').value = item.id;
+      document.getElementById('actTitle').value = item.title;
+      document.getElementById('actDate').value = item.date;
+      document.getElementById('actStatus').value = item.status;
+      document.getElementById('actVenue').value = item.venue || '';
+      document.getElementById('actSpeaker').value = item.speaker || '';
+      document.getElementById('actDesc').value = item.description || '';
+      document.getElementById('btnSaveActivity').textContent = 'Update Activity';
+      form.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.deleteActivity = (id) => {
+      if (!confirm('Are you sure you want to delete this activity?')) return;
+      activitiesList = activitiesList.filter(a => a.id !== id);
+      localStorage.setItem('sk_activities', JSON.stringify(activitiesList));
+      syncActivitiesToUI();
+
+      if (currentAdminPassword) {
+        postApi({ action: 'delete-item', password: currentAdminPassword, id }).catch(() => {});
+      }
+    };
+  }
+
+  // ==========================================================================
+  // ADAPTIVE ACTIVITY EVALUATION & AUTO CERTIFICATE ISSUANCE
+  // ==========================================================================
+  function initEvaluationForm() {
+    const actSelect = document.getElementById('evalActivitySelect');
+    const speakerArea = document.getElementById('adaptiveSpeakerArea');
+    const form = document.getElementById('activityEvalForm');
+    const resultBox = document.getElementById('activityResult');
+
+    // Adaptive Speaker Questions Logic
+    if (actSelect) {
+      actSelect.addEventListener('change', () => {
+        const selectedId = actSelect.value;
+        const act = activitiesList.find(a => a.id === selectedId);
+
+        if (act) {
+          document.getElementById('evalDate').value = act.date || '';
+          document.getElementById('evalVenue').value = act.venue || '';
+          document.getElementById('evalSpeaker').value = act.speaker || '';
+
+          // IF activity has a speaker -> show speaker questions. IF NOT -> hide them!
+          if (act.speaker && act.speaker.trim().length > 0) {
+            speakerArea.style.display = 'block';
+          } else {
+            speakerArea.style.display = 'none';
+          }
+        } else {
+          document.getElementById('evalDate').value = '';
+          document.getElementById('evalVenue').value = '';
+          document.getElementById('evalSpeaker').value = '';
+          speakerArea.style.display = 'none';
+        }
+      });
+    }
+
+    // Form Submission & Automatic Certificate Issuance
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btnSubmitEval');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Processing & Issuing Certificate...';
+        resultBox.classList.remove('show');
+
+        const formData = new FormData(form);
+        const participantName = (formData.get('participant') || '').trim();
+        const activityId = formData.get('activity');
+        const activityObj = activitiesList.find(a => a.id === activityId);
+        const activityTitle = activityObj ? activityObj.title : 'Youth Activity';
+
+        // Unique Certificate Number Generation: SK-SAP-2026-000001
+        const year = new Date().getFullYear();
+        const seq = String(Math.floor(1000 + Math.random() * 9000));
+        const certNumber = `SK-SAP-${year}-${seq}`;
+        const refNumber = `ACT-${Date.now().toString(36).toUpperCase()}`;
+
+        // Prepare Certificate Record
+        const newCert = {
+          id: 'CERT-' + Date.now(),
+          certificateNumber: certNumber,
+          qmsReference: refNumber,
+          participantName: participantName, // SINGLE SOURCE OF TRUTH
+          activityId: activityId,
+          activityTitle: activityTitle,
+          certificateType: 'Certificate of Participation',
+          dateIssued: new Date().toISOString().slice(0, 10),
+          email: formData.get('email') || '',
+          status: 'ACTIVE',
+          emailStatus: formData.get('email') ? 'QUEUED' : 'NOT PROVIDED',
+          deliveryPreference: formData.get('certificatePreference') || 'Digital Certificate'
+        };
+
+        // Attempt Backend Submission
+        try {
+          const backendParams = {
+            type: 'activity',
+            action: 'activity-evaluation',
+            participant: participantName,
+            activity: activityTitle,
+            activityId: activityId,
+            rating: formData.get('rating') || '5',
+            email: formData.get('email') || '',
+            contact: formData.get('contact') || '',
+            futureEmailConsent: formData.get('futureEmailConsent') || 'no',
+            futureSmsConsent: formData.get('futureSmsConsent') || 'no',
+            certificatePreference: formData.get('certificatePreference') || 'Digital Certificate',
+            date: formData.get('date') || '',
+            venue: formData.get('venue') || '',
+            speaker: formData.get('speaker') || '',
+            learning: formData.get('learning') || '',
+            improvement: formData.get('improvement') || ''
+          };
+
+          const res = await postApi(backendParams);
+          if (res && res.certificateId) {
+            newCert.certificateNumber = res.certificateId;
+          }
+        } catch (err) {
+          // Offline / local resilience
+        }
+
+        // Save certificate locally
+        issuedCertificates.unshift(newCert);
+        localStorage.setItem('sk_issued_certificates', JSON.stringify(issuedCertificates));
+        renderIssuedTable();
+
+        // Render Success Outcome with direct links
+        const certViewUrl = `certificate.html?id=${encodeURIComponent(newCert.certificateNumber)}`;
+        const verifyUrl = `certificate-verify.html?id=${encodeURIComponent(newCert.certificateNumber)}`;
+
+        resultBox.innerHTML = `
+          <div class="result-badge">✓ Official Evaluation Recorded</div>
+          <h3>Thank You, ${escapeHtml(participantName)}!</h3>
+          <p>Your evaluation has been successfully submitted and your official Digital Certificate of Participation has been issued.</p>
+
+          <div class="result-card-details">
+            <div class="result-metric">
+              <small>Certificate Number</small>
+              <strong>${newCert.certificateNumber}</strong>
+            </div>
+            <div class="result-metric">
+              <small>QMS Reference</small>
+              <strong>${refNumber}</strong>
+            </div>
+            <div class="result-metric">
+              <small>Activity</small>
+              <strong>${escapeHtml(activityTitle)}</strong>
+            </div>
+            <div class="result-metric">
+              <small>Status</small>
+              <strong style="color: var(--sk-green);">ACTIVE / VERIFIED</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;">
+            <a href="${certViewUrl}" target="_blank" class="btn-header btn-header-orange" style="padding: 10px 20px;">
+              View / Print Digital Certificate
+            </a>
+            <a href="${verifyUrl}" target="_blank" class="btn-header btn-header-outline" style="color: var(--sk-navy); border-color: var(--sk-border-strong); padding: 10px 20px;">
+              Verify QR Record
+            </a>
+          </div>
+        `;
+
+        resultBox.classList.add('show');
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Evaluation & Generate Certificate';
+      });
+    }
+  }
+
+  // ==========================================================================
+  // VISITOR LOGBOOK & SUGGESTIONS
+  // ==========================================================================
+  function initVisitorForm() {
+    const form = document.getElementById('visitorForm');
+    const resultBox = document.getElementById('visitorResult');
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btnSubmitVisitor');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Recording visit...';
+
+        const fd = new FormData(form);
+        const ref = 'VIS-' + Date.now().toString(36).toUpperCase();
+        const visitorName = fd.get('name');
+
+        try {
+          await postApi({
+            action: 'visitor-log',
+            name: visitorName,
+            clientType: fd.get('clientType'),
+            age: fd.get('age'),
+            address: fd.get('address'),
+            contact: fd.get('contact'),
+            purpose: fd.get('purpose'),
+            service: fd.get('service'),
+            rating: fd.get('rating') || '',
+            comments: fd.get('comments') || '',
+            consent: 'yes',
+            clientReference: ref
+          });
+        } catch (err) {}
+
+        resultBox.innerHTML = `
+          <div class="result-badge">✓ Visitor Logbook Recorded</div>
+          <h3>Welcome, ${escapeHtml(visitorName)}!</h3>
+          <p>Your visit has been officially logged in the Sangguniang Kabataan Visitor Logbook.</p>
+          <div class="result-metric" style="max-width: 260px; margin: 14px 0;">
+            <small>Visitor Reference Code</small>
+            <strong>${ref}</strong>
+          </div>
+        `;
+        resultBox.classList.add('show');
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Visitor Logbook Entry';
+      });
+    }
+  }
+
+  function initSuggestionForm() {
+    const form = document.getElementById('suggestionForm');
+    const resultBox = document.getElementById('suggestionResult');
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btnSubmitSuggestion');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        const fd = new FormData(form);
+        const ref = 'SUG-' + Date.now().toString(36).toUpperCase();
+
+        try {
+          await postApi({
+            type: 'suggestion',
+            name: fd.get('name') || 'Anonymous',
+            email: fd.get('email') || '',
+            category: fd.get('category'),
+            area: fd.get('area'),
+            subject: fd.get('subject'),
+            message: fd.get('message'),
+            solution: fd.get('solution') || '',
+            reference: ref
+          });
+        } catch (err) {}
+
+        resultBox.innerHTML = `
+          <div class="result-badge">✓ Proposal Received</div>
+          <h3>Thank you for your valuable idea!</h3>
+          <p>Your suggestion has been logged for review during the next regular SK session.</p>
+          <div class="result-metric" style="max-width: 260px; margin: 14px 0;">
+            <small>Submission Reference</small>
+            <strong>${ref}</strong>
+          </div>
+        `;
+        resultBox.classList.add('show');
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Suggestion';
+      });
+    }
+  }
+
+  // ==========================================================================
+  // CERTIFICATE STUDIO (REBUILT FROM SCRATCH — SINGLE IMPLEMENTATION)
+  // ==========================================================================
+  function initCertificateStudio() {
+    const canvas = document.getElementById('studioCanvas');
+    const actSelect = document.getElementById('studioActivitySelect');
+    const fileInput = document.getElementById('studioFileInput');
+    const btnUpload = document.getElementById('btnPermanentUpload');
+    const uploadStatus = document.getElementById('uploadStatusMsg');
+    const feedbackMsg = document.getElementById('studioFeedbackMsg');
+    const btnSave = document.getElementById('btnSaveTemplate');
+    const btnReset = document.getElementById('btnResetPositions');
+
+    const objName = document.getElementById('objName');
+    const objQr = document.getElementById('objQr');
+    const objNo = document.getElementById('objNo');
+
+    // Controls
+    const fontSelect = document.getElementById('fontFamilySelect');
+    const fontSizeInput = document.getElementById('fontSizeInput');
+    const fontColorInput = document.getElementById('fontColorInput');
+    const btnBold = document.getElementById('btnBoldToggle');
+    const alignSelect = document.getElementById('textAlignSelect');
+    const certTypeSelect = document.getElementById('studioCertType');
+
+    // 1. Select Activity -> Loads That Activity's Saved Design
+    if (actSelect) {
+      actSelect.addEventListener('change', async () => {
+        const actId = actSelect.value;
+        let loaded = null;
+        // Load the persisted server template first so another browser/device sees the same design.
+        if (actId !== 'master') {
+          try {
+            const remote = await callApi({ action: 'get-template', activityId: actId });
+            if (remote && remote.success && remote.found && remote.template) {
+              loaded = {
+                backgroundUrl: remote.template.backgroundUrl || remote.mediaUrl || '',
+                canvaUrl: remote.template.canvaUrl || '',
+                certType: remote.template.certType || 'Certificate of Participation',
+                layout: { ...DEFAULT_MASTER_TEMPLATE.layout, ...(remote.template.layout || {}) }
+              };
+              activityTemplates[actId] = JSON.parse(JSON.stringify(loaded));
+              localStorage.setItem('sk_cert_templates', JSON.stringify(activityTemplates));
+            }
+          } catch (e) {}
+        }
+        if (loaded) activeStudioTemplate = loaded;
+        else if (actId === 'master') activeStudioTemplate = JSON.parse(JSON.stringify(activityTemplates['master'] || DEFAULT_MASTER_TEMPLATE));
+        else if (activityTemplates[actId]) activeStudioTemplate = JSON.parse(JSON.stringify(activityTemplates[actId]));
+        else activeStudioTemplate = JSON.parse(JSON.stringify(activityTemplates['master'] || DEFAULT_MASTER_TEMPLATE));
+        applyStudioTemplateToUI();
+        if (certTypeSelect) certTypeSelect.value = activeStudioTemplate.certType || 'Certificate of Participation';
+        feedbackMsg.textContent = `Loaded design for: ${actSelect.options[actSelect.selectedIndex].text}`;
+      });
+    }
+
+    // 2. Canva File Upload: Temporary Local Preview + Drive Permanent Upload
+    if (fileInput) {
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Immediate local preview using FileReader data URL
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          activeStudioTemplate.backgroundUrl = evt.target.result;
+          canvas.style.backgroundImage = `url("${evt.target.result}")`;
+          uploadStatus.innerHTML = `<span style="color: var(--sk-orange);">Local preview active. Click "Permanently Upload to Drive" to save permanently.</span>`;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Permanent Backend Upload
+    if (btnUpload) {
+      btnUpload.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+        if (!file) {
+          alert('Please choose a Canva-exported PNG or JPG file first.');
+          return;
+        }
+
+        btnUpload.disabled = true;
+        btnUpload.textContent = 'Uploading to Drive...';
+        uploadStatus.textContent = 'Uploading file to Google Drive...';
+
+        try {
+          const reader = new FileReader();
+          reader.onload = async (evt) => {
+            const base64Data = evt.target.result;
+            const res = await postApi({
+              action: 'upload-certificate-background',
+              password: currentAdminPassword,
+              name: file.name,
+              data: base64Data
+            });
+
+            if (res && res.success && res.url) {
+              activeStudioTemplate.backgroundUrl = res.url;
+              canvas.style.backgroundImage = `url("${res.url}")`;
+              uploadStatus.innerHTML = `<span style="color: var(--sk-green); font-weight: 700;">✓ Permanently uploaded to Google Drive! Permanent URL saved.</span>`;
+            } else {
+              // Retain base64 if Drive upload not connected
+              uploadStatus.innerHTML = `<span style="color: var(--sk-navy);">Saved locally in browser template.</span>`;
+            }
+            btnUpload.disabled = false;
+            btnUpload.textContent = 'Permanently Upload to Drive';
+          };
+          reader.readAsDataURL(file);
+        } catch (err) {
+          btnUpload.disabled = false;
+          btnUpload.textContent = 'Permanently Upload to Drive';
+          uploadStatus.textContent = 'Upload note: Stored in local layout cache.';
+        }
+      });
+    }
+
+
+    // LIVE PREVIEW: always preview the currently selected activity/template.
+    const btnTestPreview = document.getElementById('btnTestPreview');
+    if (btnTestPreview) {
+      btnTestPreview.addEventListener('click', (e) => {
+        e.preventDefault();
+        const actId = (actSelect && actSelect.value) ? actSelect.value : 'master';
+
+        // Keep the latest editor state available to certificate.html immediately.
+        activeStudioTemplate.certType = certTypeSelect ? certTypeSelect.value : (activeStudioTemplate.certType || 'Certificate of Participation');
+        activityTemplates[actId] = JSON.parse(JSON.stringify(activeStudioTemplate));
+        localStorage.setItem('sk_cert_templates', JSON.stringify(activityTemplates));
+        localStorage.setItem('sk_cert_preview_activity', actId);
+        localStorage.setItem('sk_cert_preview_template', JSON.stringify(activeStudioTemplate));
+
+        const url = 'certificate.html?blank=1&activityId=' + encodeURIComponent(actId) + '&preview=1&_=' + Date.now();
+        window.open(url, '_blank', 'noopener');
+      });
+    }
+
+    // 3. Selection & Direct Visual Dragging with Pointer Events
+    [objName, objQr, objNo].forEach(el => {
+      el.addEventListener('pointerdown', (e) => {
+        if (e.target.classList.contains('cert-resize-handle')) return; // handled separately
+        e.preventDefault();
+        selectStudioObject(el.dataset.kind);
+
+        const rect = canvas.getBoundingClientRect();
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const kind = el.dataset.kind;
+
+        const initialX = activeStudioTemplate.layout[kind + 'X'];
+        const initialY = activeStudioTemplate.layout[kind + 'Y'];
+
+        function onPointerMove(moveEvent) {
+          const deltaX = ((moveEvent.clientX - startX) / rect.width) * 100;
+          const deltaY = ((moveEvent.clientY - startY) / rect.height) * 100;
+
+          const newX = Math.max(5, Math.min(95, initialX + deltaX));
+          const newY = Math.max(5, Math.min(95, initialY + deltaY));
+
+          activeStudioTemplate.layout[kind + 'X'] = Math.round(newX * 10) / 10;
+          activeStudioTemplate.layout[kind + 'Y'] = Math.round(newY * 10) / 10;
+
+          el.style.left = activeStudioTemplate.layout[kind + 'X'] + '%';
+          el.style.top = activeStudioTemplate.layout[kind + 'Y'] + '%';
+        }
+
+        function onPointerUp() {
+          window.removeEventListener('pointermove', onPointerMove);
+          window.removeEventListener('pointerup', onPointerUp);
+        }
+
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+      });
+
+      // Resize Handle Pointer Events
+      const handle = el.querySelector('.cert-resize-handle');
+      if (handle) {
+        handle.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const kind = el.dataset.kind;
+          const startX = e.clientX;
+
+          const initSize = kind === 'name' 
+            ? activeStudioTemplate.layout.nameSize 
+            : kind === 'qr' 
+            ? activeStudioTemplate.layout.qrSize 
+            : activeStudioTemplate.layout.noSize;
+
+          function onResizeMove(moveEvent) {
+            const diff = (moveEvent.clientX - startX) * 0.4;
+            if (kind === 'name') {
+              activeStudioTemplate.layout.nameSize = Math.max(14, Math.min(80, Math.round(initSize + diff)));
+              document.getElementById('objNameText').style.fontSize = activeStudioTemplate.layout.nameSize + 'px';
+              fontSizeInput.value = activeStudioTemplate.layout.nameSize;
+            } else if (kind === 'qr') {
+              activeStudioTemplate.layout.qrSize = Math.max(48, Math.min(220, Math.round(initSize + diff * 2)));
+              objQr.style.width = activeStudioTemplate.layout.qrSize + 'px';
+              objQr.style.height = activeStudioTemplate.layout.qrSize + 'px';
+            } else if (kind === 'no') {
+              activeStudioTemplate.layout.noSize = Math.max(9, Math.min(30, Math.round(initSize + diff * 0.3)));
+              document.getElementById('objNoText').style.fontSize = activeStudioTemplate.layout.noSize + 'px';
+            }
+          }
+
+          function onResizeUp() {
+            window.removeEventListener('pointermove', onResizeMove);
+            window.removeEventListener('pointerup', onResizeUp);
+          }
+
+          window.addEventListener('pointermove', onResizeMove);
+          window.addEventListener('pointerup', onResizeUp);
+        });
+      }
+    });
+
+    function selectStudioObject(kind) {
+      activeSelectedObj = kind;
+      [objName, objQr, objNo].forEach(el => {
+        el.classList.toggle('selected', el.dataset.kind === kind);
+      });
+
+      // Update control values to match selected
+      const certTypeSelect = document.getElementById('studioCertType');
+    if (certTypeSelect) certTypeSelect.value = activeStudioTemplate.certType || 'Certificate of Participation';
+    const l = activeStudioTemplate.layout;
+      if (kind === 'name') {
+        fontSelect.value = l.nameFont || 'Georgia, serif';
+        fontSizeInput.value = l.nameSize || 38;
+        fontColorInput.value = l.nameColor || '#0A2540';
+        alignSelect.value = l.nameAlign || 'center';
+        btnBold.classList.toggle('active', !!l.nameBold);
+        feedbackMsg.textContent = 'Selected: PARTICIPANT NAME. Drag to move, or drag orange handle to resize.';
+      } else if (kind === 'qr') {
+        fontSizeInput.value = l.qrSize || 96;
+        feedbackMsg.textContent = 'Selected: UNIQUE QR CODE. Drag to position on your Canva layout.';
+      } else if (kind === 'no') {
+        fontSizeInput.value = l.noSize || 13;
+        fontColorInput.value = l.noColor || '#0A2540';
+        feedbackMsg.textContent = 'Selected: CERTIFICATE NUMBER. Drag to position on your Canva layout.';
+      }
+    }
+
+    // Formatting Toolbar Event Listeners
+    if (fontSelect) {
+      fontSelect.addEventListener('change', () => {
+        if (activeSelectedObj === 'name') {
+          activeStudioTemplate.layout.nameFont = fontSelect.value;
+          document.getElementById('objNameText').style.fontFamily = fontSelect.value;
+        }
+      });
+    }
+
+    if (fontSizeInput) {
+      fontSizeInput.addEventListener('input', () => {
+        const val = Number(fontSizeInput.value);
+        if (!val) return;
+        if (activeSelectedObj === 'name') {
+          activeStudioTemplate.layout.nameSize = val;
+          document.getElementById('objNameText').style.fontSize = val + 'px';
+        } else if (activeSelectedObj === 'qr') {
+          activeStudioTemplate.layout.qrSize = val;
+          objQr.style.width = val + 'px';
+          objQr.style.height = val + 'px';
+        } else if (activeSelectedObj === 'no') {
+          activeStudioTemplate.layout.noSize = val;
+          document.getElementById('objNoText').style.fontSize = val + 'px';
+        }
+      });
+    }
+
+    if (fontColorInput) {
+      fontColorInput.addEventListener('input', () => {
+        const val = fontColorInput.value;
+        if (activeSelectedObj === 'name') {
+          activeStudioTemplate.layout.nameColor = val;
+          document.getElementById('objNameText').style.color = val;
+        } else if (activeSelectedObj === 'no') {
+          activeStudioTemplate.layout.noColor = val;
+          document.getElementById('objNoText').style.color = val;
+        }
+      });
+    }
+
+    if (btnBold) {
+      btnBold.addEventListener('click', () => {
+        if (activeSelectedObj === 'name') {
+          activeStudioTemplate.layout.nameBold = !activeStudioTemplate.layout.nameBold;
+          btnBold.classList.toggle('active', activeStudioTemplate.layout.nameBold);
+          document.getElementById('objNameText').style.fontWeight = activeStudioTemplate.layout.nameBold ? '700' : '400';
+        }
+      });
+    }
+
+    if (alignSelect) {
+      alignSelect.addEventListener('change', () => {
+        if (activeSelectedObj === 'name') {
+          activeStudioTemplate.layout.nameAlign = alignSelect.value;
+          document.getElementById('objNameText').style.textAlign = alignSelect.value;
+        }
+      });
+    }
+
+    if (certTypeSelect) {
+      certTypeSelect.addEventListener('change', () => {
+        activeStudioTemplate.certType = certTypeSelect.value;
+      });
+    }
+
+    // Save Template (Per-Activity & Master)
+    if (btnSave) {
+      btnSave.addEventListener('click', async () => {
+        const actId = actSelect.value;
+        activeStudioTemplate.certType = certTypeSelect ? certTypeSelect.value : (activeStudioTemplate.certType || 'Certificate of Participation');
+        activityTemplates[actId] = JSON.parse(JSON.stringify(activeStudioTemplate));
+        localStorage.setItem('sk_cert_templates', JSON.stringify(activityTemplates));
+
+        btnSave.disabled = true;
+        btnSave.textContent = 'Saving...';
+
+        // Also push to backend
+        try {
+          if (actId === 'master') {
+            await postApi({
+              action: 'save-certificate-settings',
+              password: currentAdminPassword,
+              certificateBackground: activeStudioTemplate.backgroundUrl,
+              certificateType: activeStudioTemplate.certType,
+              ...activeStudioTemplate.layout
+            });
+          } else {
+            await postApi({
+              action: 'save-certificate-template',
+              password: currentAdminPassword,
+              activityId: actId,
+              title: actSelect.options[actSelect.selectedIndex].text,
+              backgroundUrl: activeStudioTemplate.backgroundUrl,
+              certType: activeStudioTemplate.certType,
+              ...activeStudioTemplate.layout
+            });
+          }
+        } catch (e) {}
+
+        btnSave.disabled = false;
+        btnSave.textContent = 'Save Design for Activity';
+        feedbackMsg.textContent = `✓ Layout permanently saved for: ${actSelect.options[actSelect.selectedIndex].text}`;
+      });
+    }
+
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        activeStudioTemplate.layout = JSON.parse(JSON.stringify(DEFAULT_MASTER_TEMPLATE.layout));
+        applyStudioTemplateToUI();
+        feedbackMsg.textContent = 'Coordinates reset to default positions.';
+      });
+    }
+
+    // Initial render
+    applyStudioTemplateToUI();
+    selectStudioObject('name');
+  }
+
+  function applyStudioTemplateToUI() {
+    const canvas = document.getElementById('studioCanvas');
+    const objName = document.getElementById('objName');
+    const objNameText = document.getElementById('objNameText');
+    const objQr = document.getElementById('objQr');
+    const objNo = document.getElementById('objNo');
+    const objNoText = document.getElementById('objNoText');
+
+    if (!canvas || !activeStudioTemplate) return;
+
+    // Apply Background
+    if (activeStudioTemplate.backgroundUrl) {
+      canvas.style.backgroundImage = `url("${activeStudioTemplate.backgroundUrl}")`;
+    } else {
+      canvas.style.backgroundImage = 'none';
+      canvas.style.backgroundColor = '#FFFFFF';
+    }
+
+    const l = activeStudioTemplate.layout;
+
+    // Name
+    objName.style.left = l.nameX + '%';
+    objName.style.top = l.nameY + '%';
+    objNameText.style.fontSize = l.nameSize + 'px';
+    objNameText.style.fontFamily = l.nameFont || 'Georgia, serif';
+    objNameText.style.color = l.nameColor || '#0A2540';
+    objNameText.style.fontWeight = l.nameBold ? '700' : '400';
+    objNameText.style.textAlign = l.nameAlign || 'center';
+
+    // QR
+    objQr.style.left = l.qrX + '%';
+    objQr.style.top = l.qrY + '%';
+    objQr.style.width = l.qrSize + 'px';
+    objQr.style.height = l.qrSize + 'px';
+
+    // No
+    objNo.style.left = l.noX + '%';
+    objNo.style.top = l.noY + '%';
+    objNoText.style.fontSize = l.noSize + 'px';
+    objNoText.style.color = l.noColor || '#0A2540';
+  }
+
+  function loadLocalTemplates() {
+    try {
+      const saved = localStorage.getItem('sk_cert_templates');
+      if (saved) {
+        activityTemplates = JSON.parse(saved);
+        if (activityTemplates['master']) {
+          activeStudioTemplate = JSON.parse(JSON.stringify(activityTemplates['master']));
+          applyStudioTemplateToUI();
+        }
+      }
+    } catch (e) {}
+  }
+
+  // ==========================================================================
+  // ISSUED CERTIFICATE TRACKER
+  // ==========================================================================
+  function initIssuedTracker() {
+    const searchInput = document.getElementById('certSearchInput');
+    const refreshBtn = document.getElementById('btnRefreshCerts');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.toLowerCase().trim();
+        const rows = document.querySelectorAll('#certsTableBody tr');
+        rows.forEach(r => {
+          r.style.display = !q || r.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', async () => {
+        await fetchRemoteCertificates();
+      });
+    }
+  }
+
+  async function fetchRemoteCertificates() {
+    if (!currentAdminPassword) return;
+    try {
+      const resp = await callApi({ action: 'certificate-list', password: currentAdminPassword });
+      if (resp && resp.success && Array.isArray(resp.certificates)) {
+        issuedCertificates = resp.certificates.map(c => ({
+          id: c.certificateId,
+          certificateNumber: c.certificateId,
+          participantName: c.participant,
+          activityTitle: c.activity,
+          dateIssued: c.issuedAt || c.date,
+          status: c.status || 'ACTIVE',
+          email: c.email || '',
+          emailStatus: c.emailStatus || ''
+        }));
+        localStorage.setItem('sk_issued_certificates', JSON.stringify(issuedCertificates));
+        renderIssuedTable();
+      }
+    } catch (e) {}
+  }
+
+  function loadLocalIssuedCerts() {
+    try {
+      const local = localStorage.getItem('sk_issued_certificates');
+      if (local) {
+        issuedCertificates = JSON.parse(local);
+        renderIssuedTable();
+      }
+    } catch (e) {}
+  }
+
+  function renderIssuedTable() {
+    const tbody = document.getElementById('certsTableBody');
+    const kpiCerts = document.getElementById('kpiTotalCerts');
+    if (kpiCerts) kpiCerts.textContent = issuedCertificates.length;
+    if (!tbody) return;
+
+    if (!issuedCertificates.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--sk-text-muted);">No certificates issued yet. Submit an activity evaluation to issue one.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = issuedCertificates.map(c => {
+      const isRevoked = String(c.status || '').toUpperCase() === 'REVOKED';
+      const certUrl = `certificate.html?id=${encodeURIComponent(c.certificateNumber || c.id)}`;
+      return `
+        <tr>
+          <td><strong>${escapeHtml(c.certificateNumber || c.id)}</strong></td>
+          <td>${escapeHtml(c.participantName)}</td>
+          <td>${escapeHtml(c.activityTitle)}</td>
+          <td>${escapeHtml(c.dateIssued || '—')}</td>
+          <td>
+            <span class="status-badge ${isRevoked ? 'status-revoked' : 'status-valid'}">
+              ${isRevoked ? 'REVOKED' : 'ACTIVE'}
+            </span>
+          </td>
+          <td><small>${escapeHtml(c.emailStatus || (c.email ? 'SENT' : 'DIGITAL'))}</small></td>
+          <td>
+            <a href="${certUrl}" target="_blank" class="studio-btn">Open</a>
+            ${isRevoked ? '' : `<button type="button" class="studio-btn" style="color: var(--sk-red);" onclick="window.revokeCert('${escapeHtml(c.certificateNumber || c.id)}')">Revoke</button>`}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  window.revokeCert = async (certId) => {
+    if (!confirm(`Are you sure you want to REVOKE Certificate ${certId}? It will immediately show as invalid on public verification.`)) return;
+
+    const matched = issuedCertificates.find(c => (c.certificateNumber || c.id) === certId);
+    if (matched) {
+      matched.status = 'REVOKED';
+      localStorage.setItem('sk_issued_certificates', JSON.stringify(issuedCertificates));
+      renderIssuedTable();
+    }
+
+    if (currentAdminPassword) {
+      postApi({
+        action: 'revoke-certificate',
+        password: currentAdminPassword,
+        certificateId: certId,
+        status: 'REVOKED'
+      }).catch(() => {});
+    }
+  };
+
+  // ==========================================================================
+  // ADMIN AUTHENTICATION & SUB-TABS
+  // ==========================================================================
+  function initAdminAuthentication() {
+    const loginForm = document.getElementById('adminLoginForm');
+    const loginBox = document.getElementById('adminLoginBox');
+    const workspace = document.getElementById('adminWorkspace');
+    const logoutBtn = document.getElementById('btnAdminLogout');
+    const refreshBtn = document.getElementById('btnAdminRefresh');
+    const errorEl = document.getElementById('adminLoginError');
+
+    if (currentAdminPassword) {
+      loginBox.style.display = 'none';
+      workspace.style.display = 'block';
+      fetchRemoteCertificates();
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('adminPasswordInput').value.trim();
+        errorEl.style.display = 'none';
+
+        try {
+          const endpoint = getCmsEndpoint();
+          if (endpoint) {
+            const resp = await callApi({ action: 'login', password: pwd });
+            if (!resp || !resp.success) {
+              throw new Error('Incorrect administrator password.');
+            }
+          }
+          currentAdminPassword = pwd;
+          sessionStorage.setItem('skQmsAdminKey', pwd);
+          loginBox.style.display = 'none';
+          workspace.style.display = 'block';
+          fetchRemoteCertificates();
+        } catch (err) {
+          errorEl.textContent = err.message || 'Incorrect password.';
+          errorEl.style.display = 'block';
+        }
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        currentAdminPassword = '';
+        sessionStorage.removeItem('skQmsAdminKey');
+        workspace.style.display = 'none';
+        loginBox.style.display = 'block';
+      });
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        loadAllActivities();
+        fetchRemoteCertificates();
+      });
+    }
+
+    // Subtab switching
+    const subBtns = document.querySelectorAll('[data-subtab]');
+    subBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        subBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const views = {
+          studio: document.getElementById('subtabStudio'),
+          activities: document.getElementById('subtabActivities'),
+          tracker: document.getElementById('subtabTracker'),
+          analytics: document.getElementById('subtabAnalytics')
+        };
+        Object.values(views).forEach(v => v && (v.style.display = 'none'));
+        if (views[btn.dataset.subtab]) views[btn.dataset.subtab].style.display = 'block';
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str ?? '').replace(/[&<>"']/g, m => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[m]));
+  }
+
+})();
+
+
+/* ===== SK SAPILANG CERTIFICATE STUDIO FREE-MOVE V4 ===== */
+(function(){
+  if(window.__SK_FREE_CERT_MOVE_V4) return;
+  window.__SK_FREE_CERT_MOVE_V4=true;
+
+  const selector='.cert-edit-item,.ct-edit-item,[data-cert-field],[data-key="name"],[data-key="qr"],[data-key="no"]';
+  let drag=null;
+
+  function stageOf(el){
+    return el.closest('#certVisualStage,#ctEditor,#certStudioStage,.certificate-stage,.cert-stage');
+  }
+  function fieldOf(el){
+    const raw=(el.dataset.key||el.dataset.certField||el.id||'').toLowerCase();
+    if(raw.includes('qr')) return 'qr';
+    if(raw.includes('no')||raw.includes('number')) return 'no';
+    return 'name';
+  }
+  function saveToState(el,stage){
+    const r=stage.getBoundingClientRect(), e=el.getBoundingClientRect();
+    const x=((e.left+e.width/2-r.left)/r.width)*100;
+    const y=((e.top+e.height/2-r.top)/r.height)*100;
+    const f=fieldOf(el);
+    if(window.CERT_STATE){
+      if(f==='name'){CERT_STATE.nameX=x;CERT_STATE.nameY=y;}
+      if(f==='qr'){CERT_STATE.qrX=x;CERT_STATE.qrY=y;}
+      if(f==='no'){CERT_STATE.noX=x;CERT_STATE.noY=y;}
+    }
+    // Activity Studio template layout
+    if(typeof activeStudioTemplate!=='undefined' && activeStudioTemplate && activeStudioTemplate.layout){
+      activeStudioTemplate.layout[f]=activeStudioTemplate.layout[f]||{};
+      activeStudioTemplate.layout[f].x=x;
+      activeStudioTemplate.layout[f].y=y;
+    }
+    el.style.left=x+'%'; el.style.top=y+'%';
+  }
+
+  document.addEventListener('pointerdown',function(e){
+    const el=e.target.closest(selector);
+    if(!el) return;
+    const stage=stageOf(el); if(!stage) return;
+    // Resize handles remain available to existing resize code.
+    if(e.target.closest('.cert-resize-handle,.ct-resize-handle,[data-resize]')) return;
+    e.preventDefault(); e.stopPropagation();
+    const sr=stage.getBoundingClientRect(), er=el.getBoundingClientRect();
+    drag={el,stage,pid:e.pointerId,dx:e.clientX-(er.left+er.width/2),dy:e.clientY-(er.top+er.height/2)};
+    el.style.position='absolute';
+    el.style.transform='translate(-50%,-50%)';
+    el.style.cursor='grabbing';
+    el.style.touchAction='none';
+    try{el.setPointerCapture(e.pointerId)}catch(_){}
+  },true);
+
+  document.addEventListener('pointermove',function(e){
+    if(!drag||e.pointerId!==drag.pid)return;
+    e.preventDefault();
+    const r=drag.stage.getBoundingClientRect();
+    let x=((e.clientX-drag.dx-r.left)/r.width)*100;
+    let y=((e.clientY-drag.dy-r.top)/r.height)*100;
+    x=Math.max(0,Math.min(100,x)); y=Math.max(0,Math.min(100,y));
+    drag.el.style.left=x+'%'; drag.el.style.top=y+'%';
+  },true);
+
+  function end(e){
+    if(!drag||e.pointerId!==drag.pid)return;
+    saveToState(drag.el,drag.stage);
+    drag.el.style.cursor='grab';
+    drag=null;
+  }
+  document.addEventListener('pointerup',end,true);
+  document.addEventListener('pointercancel',end,true);
+
+  function prep(){
+    document.querySelectorAll(selector).forEach(el=>{
+      if(stageOf(el)){
+        el.style.cursor='grab';
+        el.style.touchAction='none';
+        el.style.userSelect='none';
+      }
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',prep);else prep();
+  new MutationObserver(prep).observe(document.documentElement,{childList:true,subtree:true});
+})();
+
+
+
+/* Receive drag/resize adjustments from certificate.html live preview. */
+window.addEventListener('message',function(e){
+  if(e.origin!==location.origin||!e.data||e.data.type!=='SK_CERT_LAYOUT_UPDATED')return;
   try{
-    await ctLoadActivities();
-    const r=await integratedCmsApi({action:'list-items',password:integratedCmsPassword(),page:'certificate-templates'});
-    CERT_TEMPLATES=(r.items||[]).filter(x=>x.type==='Certificate Template');
-    const list=document.getElementById('ctList'),sel=document.getElementById('ciTemplate');
-    if(list)list.innerHTML=CERT_TEMPLATES.length?CERT_TEMPLATES.map(x=>{const d=ctParse(x);return `<div style="border:1px solid #d8e1e6;border-radius:10px;padding:10px;display:flex;justify-content:space-between;gap:10px;align-items:center"><div><strong>${integratedEscape(x.title)}</strong><div style="font-size:12px;color:#6a7c87">${integratedEscape(d.certType||'Certificate')} • ${integratedEscape(d.heading||'')} ${d.activityId?'• Linked to activity':''}</div></div><button class="admin-action-btn" type="button" onclick="ctEdit('${x.id}')">Edit</button></div>`}).join(''):'No saved activity certificate designs yet.';
-    if(sel)sel.innerHTML='<option value="">Auto-select from Activity / Use Master</option>'+CERT_TEMPLATES.map(x=>`<option value="${x.id}">${integratedEscape(x.title)} — ${integratedEscape(ctParse(x).certType||'Certificate')}</option>`).join('');
-  }catch(e){ctMsg(e.message)}
-}
-const CT_DEFAULT_LAYOUT={
- name:{x:50,y:46,w:62,h:9,fontSize:34,fontFamily:'Georgia',color:'#08284a',align:'center',bold:true,italic:false,letterSpacing:1,lineHeight:1.1,opacity:100,rotate:0,z:2},
- qr:{x:84,y:82,w:11,h:16,z:2,opacity:100},
- no:{x:18,y:92,w:28,h:5,fontSize:12,fontFamily:'Arial',color:'#08284a',align:'left',bold:true,italic:false,letterSpacing:0,lineHeight:1.2,opacity:100,rotate:0,z:2}
-};
-let CT_LAYOUT=JSON.parse(JSON.stringify(CT_DEFAULT_LAYOUT)),CT_SELECTED=null,CT_HISTORY=[],CT_FUTURE=[],CT_LOCAL_BG='';
-const ctLabel=k=>({name:'PARTICIPANT NAME',qr:'QR CODE',no:'UNIQUE CERTIFICATE NUMBER'}[k]||'CERTIFICATE FIELD');
-function ctSnapshot(){CT_HISTORY.push(JSON.stringify(CT_LAYOUT));if(CT_HISTORY.length>40)CT_HISTORY.shift();CT_FUTURE=[]}
-function ctRestore(raw){try{CT_LAYOUT=JSON.parse(raw);ctBuildCustomElements();ctApplyLayout()}catch(_){}}
-function ctUndo(){if(!CT_HISTORY.length)return;CT_FUTURE.push(JSON.stringify(CT_LAYOUT));ctRestore(CT_HISTORY.pop())}
-function ctRedo(){if(!CT_FUTURE.length)return;CT_HISTORY.push(JSON.stringify(CT_LAYOUT));ctRestore(CT_FUTURE.pop())}
-function ctBuildCustomElements(){/* Simple certificate mode: no extra system layers. */}
-document.getElementById('ciActivity')?.addEventListener('change',e=>ciApplyActivity(e.target.value));
-document.getElementById('ciTemplate')?.addEventListener('change',e=>{const x=CERT_TEMPLATES.find(v=>v.id===e.target.value);if(!x)return;const d=ctParse(x);if(d.activityId && [...document.getElementById('ciActivity').options].some(o=>o.value===d.activityId))document.getElementById('ciActivity').value=d.activityId;document.getElementById('ciType').value=d.certType||'Participation';document.getElementById('ciCitation').value=d.citation||'';if(d.activityDate)document.getElementById('ciDate').value=String(d.activityDate).slice(0,10)});
-document.getElementById('ciIssue')?.addEventListener('click',async()=>{const msg=document.getElementById('ciMsg'),name=document.getElementById('ciName').value.trim(),activityId=document.getElementById('ciActivity').value,activityObj=CERT_ACTIVITY_ITEMS.find(x=>x.id===activityId),template=CERT_TEMPLATES.find(x=>x.id===document.getElementById('ciTemplate').value),activity=activityObj?.title||template?.title||'';if(!name||!activity){msg.textContent='Recipient and linked activity are required.';return}msg.textContent='Issuing unique certificate...';try{const x=await integratedAdminPost({action:'admin-issue-certificate',password:integratedCmsPassword(),participant:name,recipientType:document.getElementById('ciRecipientType').value,certificateType:document.getElementById('ciType').value,activity,activityId,activitySource:activityObj?._source||'',date:document.getElementById('ciDate').value,citation:document.getElementById('ciCitation').value.trim(),certificatePreference:document.getElementById('ciDelivery').value,email:document.getElementById('ciEmail').value.trim(),templateId:document.getElementById('ciTemplate').value});msg.innerHTML=`Issued successfully: <strong>${integratedEscape(x.certificateId||'')}</strong> — <a href="certificate.html?id=${encodeURIComponent(x.certificateId)}" target="_blank">Open Certificate</a>`;document.getElementById('integratedCertificateRefresh')?.click()}catch(e){msg.textContent=e.message}});
-document.getElementById('certReloadActivities')?.addEventListener('click',async()=>{ctMsg('Refreshing activities...');await ctLoadActivities();ctMsg(CERT_ACTIVITY_ITEMS.length?`${CERT_ACTIVITY_ITEMS.length} activities loaded. Choose one below.`:'No activities were returned. Add an activity in Manage Activities, then click Refresh Activities.')});
-function certCenterShow(panel){
- document.querySelectorAll('[data-cert-panel]').forEach(x=>x.style.display=x.dataset.certPanel===panel?'block':'none');
- document.querySelectorAll('[data-cert-nav]').forEach(x=>x.classList.toggle('primary',x.dataset.certNav===panel));
- try{localStorage.setItem('skCertCenterPanel',panel)}catch(_){}
- if(panel==='designs')ctLoad();
- if(panel==='issue')ctLoadActivities();
-}
-document.querySelectorAll('[data-cert-nav]').forEach(b=>b.addEventListener('click',()=>certCenterShow(b.dataset.certNav)));
-// FAST START: restore the last Certificate Center panel immediately. certCenterShow() loads only what that panel needs.
-(()=>{let p='designs';try{p=localStorage.getItem('skCertCenterPanel')||'designs'}catch(_){}certCenterShow(p)})();
+    if(typeof activeStudioTemplate!=='undefined'&&activeStudioTemplate){
+      activeStudioTemplate.layout={...(activeStudioTemplate.layout||{}),...(e.data.layout||{})};
+    }
+    if(typeof activityTemplates!=='undefined'&&e.data.activityId){
+      activityTemplates[e.data.activityId]=activityTemplates[e.data.activityId]||{};
+      activityTemplates[e.data.activityId].layout={...(activityTemplates[e.data.activityId].layout||{}),...(e.data.layout||{})};
+    }
+  }catch(_){}
+});
 
-/* Certificate & feedback delivery tracker */
-async function integratedLoadCertificateTracker(){
- const body=document.getElementById('integratedCertificateRows');if(!body)return;
- body.innerHTML='<tr><td colspan="8">Loading delivery records...</td></tr>';
+
+/* ===== GUARANTEED LIVE PREVIEW OPENER V6 ===== */
+window.skOpenCertificatePreview=function(){
  try{
-  const r=await integratedCmsApi({action:'certificate-list',password:integratedCmsPassword()});
-  const items=r.certificates||[];
-  body.innerHTML=items.length?items.map(c=>`<tr data-cert-track="${integratedEscape(c.certificateId||'')}"><td><strong>${integratedEscape(c.certificateId||'')}</strong><br><small>${integratedEscape(c.qmsReference||'')}</small></td><td>${integratedEscape(c.participant||'')}<br><small>${integratedEscape(c.email||'No email')}</small></td><td>${integratedEscape(c.activity||'')}</td><td>${integratedEscape(c.deliveryPreference||'')}<br><small>Certificate email: ${integratedEscape(c.emailStatus||'')}</small></td><td>${integratedEscape(c.responseEmailStatus||'Not linked / manual issue')}</td><td>${integratedEscape(c.printStatus||'')}</td><td>${integratedEscape(c.status||'')}</td><td><a class="admin-action-btn" target="_blank" href="certificate.html?id=${encodeURIComponent(c.certificateId||'')}">Open</a>${c.email?` <button class="admin-action-btn" type="button" onclick="integratedResendCert('${String(c.certificateId||'').replaceAll("'",'')}')">Resend</button>`:''}</td></tr>`).join(''):'<tr><td colspan="8">No certificate records yet.</td></tr>';
- }catch(e){body.innerHTML=`<tr><td colspan="8">${integratedEscape(e.message)}</td></tr>`}
-}
-window.integratedResendCert=async id=>{try{await integratedAdminPost({action:'resend-certificate',password:integratedCmsPassword(),certificateId:id});await integratedLoadCertificateTracker()}catch(e){alert(e.message)}};
-document.getElementById('integratedCertificateRefresh')?.addEventListener('click',integratedLoadCertificateTracker);
-document.getElementById('integratedCertificateSearch')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#integratedCertificateRows tr').forEach(r=>r.style.display=!q||r.textContent.toLowerCase().includes(q)?'':'none')});
+   var activity=document.getElementById('ctActivity')||document.getElementById('certActivity')||document.getElementById('activityTemplateSelect');
+   var actId=(activity&&activity.value)||'master';
+   var layout={};try{layout=(activeStudioTemplate&&activeStudioTemplate.layout)||{};}catch(_){}
+   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,layout:JSON.stringify(layout),_:Date.now()});
+   var w=window.open('certificate.html?'+p.toString(),'_blank');
+   if(!w)alert('Please allow pop-ups for this local site, then try again.');
+   return false;
+ }catch(err){alert('Unable to open certificate preview: '+err.message);return false;}
+};
 
-// Simple certificate mode: Save & Preview uses the live final-layout preview after saving.
-document.getElementById('ctSavePreview')?.addEventListener('click',()=>{document.getElementById('ctSave')?.click();setTimeout(()=>{const b=document.getElementById('ctPreviewFull');if(b&&b.textContent.includes('Preview'))b.click();document.getElementById('ctEditorWrap')?.scrollIntoView({behavior:'smooth',block:'center'});},650)});
+
+/* ===== CERTIFICATE BACKGROUND BRIDGE V7 ===== */
+window.skCertBgPut=function(value){
+ return new Promise((resolve,reject)=>{
+   const r=indexedDB.open('SKSapilangQMS',1);
+   r.onupgradeneeded=()=>r.result.createObjectStore('certificate');
+   r.onerror=()=>reject(r.error);
+   r.onsuccess=()=>{
+     const tx=r.result.transaction('certificate','readwrite');
+     tx.objectStore('certificate').put(value,'previewBackground');
+     tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error);
+   };
+ });
+};
+
+
+/* ===== LIVE CERTIFICATE BACKGROUND POSTMESSAGE V8 ===== */
+window.addEventListener('message', async function(e){
+  if(e.origin!==location.origin || !e.data || e.data.type!=='SK_CERT_REQUEST_BACKGROUND') return;
+  try{
+    var stage=document.getElementById('ctEditor')||document.getElementById('certVisualStage')||document.getElementById('certStudioStage');
+    var bg='';
+    if(stage){
+      var im=stage.querySelector('img');
+      if(im && im.src) bg=im.src;
+      if(!bg){
+        var bi=getComputedStyle(stage).backgroundImage;
+        var mm=bi&&bi.match(/^url\(["']?(.*?)["']?\)$/);
+        if(mm) bg=mm[1];
+      }
+    }
+    try{ if(!bg && activeStudioTemplate) bg=activeStudioTemplate.backgroundUrl||''; }catch(_){}
+    if(!bg){ e.source.postMessage({type:'SK_CERT_BACKGROUND_RESPONSE',empty:true},e.origin); return; }
+
+    // Convert local blob/data URL to transferable ArrayBuffer.
+    var resp=await fetch(bg);
+    var blob=await resp.blob();
+    var buf=await blob.arrayBuffer();
+    e.source.postMessage({
+      type:'SK_CERT_BACKGROUND_RESPONSE',
+      mime:blob.type||'image/png',
+      buffer:buf
+    },e.origin,[buf]);
+  }catch(err){
+    e.source.postMessage({type:'SK_CERT_BACKGROUND_RESPONSE',error:String(err.message||err)},e.origin);
+  }
+});
+
+
+
+
+
+/* ===== CERTIFICATE BACKGROUND CAPTURE V10 - SINGLE DB VERSION ===== */
+(function(){
+ if(window.__SK_CERT_BG_CAPTURE_V10)return;window.__SK_CERT_BG_CAPTURE_V10=1;
+
+ function saveBlob(blob){
+   return new Promise((resolve,reject)=>{
+     const req=indexedDB.open('SKSapilangQMS',1);
+     req.onupgradeneeded=()=>{
+       if(!req.result.objectStoreNames.contains('certificate')) req.result.createObjectStore('certificate');
+     };
+     req.onerror=()=>reject(req.error);
+     req.onsuccess=()=>{
+       const db=req.result;
+       const tx=db.transaction('certificate','readwrite');
+       tx.objectStore('certificate').put(blob,'previewBackground');
+       tx.oncomplete=()=>{db.close();resolve(true)};
+       tx.onerror=()=>{db.close();reject(tx.error)};
+     };
+   });
+ }
+
+ document.addEventListener('change',async function(e){
+   const input=e.target;
+   if(!input||input.type!=='file'||!input.files||!input.files[0])return;
+   const id=(input.id||'').toLowerCase();
+   if(!(id==='ctfile'||id==='certmasterfile'||id.includes('cert')))return;
+   const file=input.files[0];
+   if(!file.type.startsWith('image/'))return;
+   try{
+     await saveBlob(file);
+     window.__SK_CERT_BG_READY=true;
+     window.__SK_CERT_BG_FILE=file;
+     const stage=document.getElementById('ctEditor')||document.getElementById('certVisualStage')||document.getElementById('certStudioStage');
+     if(stage){
+       if(window.__skCertStageUrl)URL.revokeObjectURL(window.__skCertStageUrl);
+       window.__skCertStageUrl=URL.createObjectURL(file);
+       stage.style.backgroundImage='url("'+window.__skCertStageUrl+'")';
+       stage.style.backgroundSize='100% 100%';
+       stage.style.backgroundPosition='center';
+       stage.style.backgroundRepeat='no-repeat';
+     }
+   }catch(err){
+     console.error('Certificate background save failed',err);
+     alert('The certificate image could not be prepared for preview: '+err.message);
+   }
+ },true);
+
+ // Expose one reliable saver to the preview opener.
+ window.skCertBgPut=saveBlob;
+})();
+
+
+/* ===== CERTIFICATE UNIFIED PREVIEW V11 ===== */
+(function(){
+ if(window.__SK_CERT_V11)return;window.__SK_CERT_V11=1;
+ window.__SK_CERT_UPLOAD_DATAURL='';
+
+ document.addEventListener('change',function(e){
+   const i=e.target;
+   if(!i||i.type!=='file'||!i.files||!i.files[0])return;
+   const id=(i.id||'').toLowerCase();
+   if(!(id==='ctfile'||id==='certmasterfile'||id.includes('cert')))return;
+   const f=i.files[0]; if(!f.type.startsWith('image/'))return;
+   const r=new FileReader();
+   r.onload=()=>{window.__SK_CERT_UPLOAD_DATAURL=r.result;};
+   r.readAsDataURL(f);
+ },true);
+
+ window.addEventListener('message',function(e){
+   if(e.origin!==location.origin||!e.data||e.data.type!=='SK_CERT_V11_READY')return;
+   const send=()=>{
+     let bg=window.__SK_CERT_UPLOAD_DATAURL||'';
+     if(!bg){
+       const stage=document.getElementById('ctEditor')||document.getElementById('certVisualStage')||document.getElementById('certStudioStage');
+       const img=stage&&stage.querySelector('img');
+       if(img&&String(img.src).startsWith('data:'))bg=img.src;
+       try{if(!bg&&activeStudioTemplate&&String(activeStudioTemplate.backgroundUrl||'').startsWith('data:'))bg=activeStudioTemplate.backgroundUrl;}catch(_){}
+     }
+     e.source.postMessage({type:'SK_CERT_V11_BACKGROUND',background:bg},e.origin);
+   };
+   if(window.__SK_CERT_UPLOAD_DATAURL)send(); else setTimeout(send,150);
+ });
+})();
+
+
+/* ===== SK SAPILANG CERTIFICATE ONE-GO V12 ===== */
+(function(){
+ if(window.__SK_CERT_V12)return; window.__SK_CERT_V12=1;
+
+ let V12_BG='', V12_FILE='';
+ const state={
+   name:{x:50,y:48,size:38},
+   qr:{x:82,y:78,size:90},
+   no:{x:8,y:91,size:13}
+ };
+ let drag=null;
+
+ function fileInput(){
+   return document.getElementById('ctFile')||
+          document.getElementById('certMasterFile')||
+          document.querySelector('input[type="file"][accept*="image"]');
+ }
+ function studioStage(){
+   return document.getElementById('ctEditor')||
+          document.getElementById('certVisualStage')||
+          document.getElementById('certStudioStage');
+ }
+ function setStudioBackground(url){
+   const st=studioStage(); if(!st)return;
+   st.style.backgroundImage=`url("${url}")`;
+   st.style.backgroundSize='100% 100%';
+   st.style.backgroundPosition='center';
+   st.style.backgroundRepeat='no-repeat';
+ }
+ function capture(file){
+   if(!file || !file.type.startsWith('image/'))return;
+   const r=new FileReader();
+   r.onload=()=>{
+     V12_BG=String(r.result||'');
+     V12_FILE=file.name||'certificate';
+     window.__SK_CERT_V12_BG=V12_BG;
+     setStudioBackground(V12_BG);
+   };
+   r.readAsDataURL(file);
+ }
+ document.addEventListener('change',e=>{
+   const i=e.target;
+   if(i && i.type==='file' && i.files && i.files[0]){
+     const id=(i.id||'').toLowerCase();
+     if(id==='ctfile'||id==='certmasterfile'||id.includes('cert')) capture(i.files[0]);
+   }
+ },true);
+
+ function ensureOverlay(){
+   let ov=document.getElementById('skCertV12Overlay');
+   if(ov)return ov;
+   ov=document.createElement('div');
+   ov.id='skCertV12Overlay';
+   ov.innerHTML=`
+   <style>
+   #skCertV12Overlay{position:fixed;inset:0;background:#dfe7f2;z-index:2147483000;overflow:auto;padding:16px;box-sizing:border-box}
+   #skCertV12Bar{max-width:1120px;margin:0 auto 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;font:600 13px Arial}
+   #skCertV12Bar button{border:1px solid #b8c4d2;background:white;border-radius:7px;padding:10px 14px;cursor:pointer;font-weight:700}
+   #skCertV12Bar .orange{background:#ff7900;color:#fff;border-color:#ff7900}
+   #skCertV12Canvas{width:min(1120px,calc(100vw - 32px));aspect-ratio:297/210;margin:auto;position:relative;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 30px #23364a35;overflow:hidden;touch-action:none}
+   .skv12item{position:absolute;z-index:5;cursor:move;user-select:none;touch-action:none;box-sizing:border-box}
+   .skv12item.active{outline:2px dashed #ff8a36;outline-offset:3px}
+   #skv12name{transform:translate(-50%,-50%);font-family:Georgia,serif;font-weight:700;white-space:nowrap}
+   #skv12qr{transform:translate(-50%,-50%);display:grid;place-items:center;background:#fff}
+   #skv12qr img{width:100%;height:100%;display:block}
+   #skv12no{white-space:nowrap;font:700 13px Arial}
+   #skCertV12Controls{max-width:1120px;margin:10px auto;background:#fff;padding:10px;border-radius:9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:13px Arial}
+   #skCertV12Controls button{padding:7px 10px}
+   @media print{body>*:not(#skCertV12Overlay){display:none!important}#skCertV12Overlay{position:static;padding:0;background:#fff}#skCertV12Bar,#skCertV12Controls{display:none!important}#skCertV12Canvas{width:297mm;height:210mm;box-shadow:none}}
+   </style>
+   <div id="skCertV12Bar">
+     <button type="button" data-v12="close">Back to QMS</button>
+     <button type="button" data-v12="reset">Reset Positions</button>
+     <button type="button" class="orange" data-v12="print">Print / Save PDF</button>
+   </div>
+   <div id="skCertV12Canvas">
+     <div id="skv12name" class="skv12item">SAMPLE PARTICIPANT NAME</div>
+     <div id="skv12qr" class="skv12item"><img alt="QR Code"></div>
+     <div id="skv12no" class="skv12item">Certificate No. SK-SAP-2026-000001</div>
+   </div>
+   <div id="skCertV12Controls">
+     <b>Selected:</b> <span id="skv12selected">Participant Name</span>
+     <label>Size <input id="skv12size" type="range" min="8" max="100" value="38"></label>
+     <button type="button" data-v12="name">Participant Name</button>
+     <button type="button" data-v12="qr">QR Code</button>
+     <button type="button" data-v12="no">Certificate Number</button>
+     <button type="button" data-v12="save">Save Adjustments</button>
+   </div>`;
+   document.body.appendChild(ov);
+
+   // Reuse the QR already generated by the QMS if available.
+   const sourceQR=document.querySelector('#ctEditor img[src*="qr"],#certVisualStage img[src*="qr"],img[alt*="QR"]');
+   const qri=ov.querySelector('#skv12qr img');
+   if(sourceQR && sourceQR.src) qri.src=sourceQR.src;
+   else qri.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(location.href);
+
+   ov.addEventListener('pointerdown',e=>{
+     const item=e.target.closest('.skv12item'); if(!item)return;
+     e.preventDefault();
+     ov.querySelectorAll('.skv12item').forEach(x=>x.classList.remove('active'));
+     item.classList.add('active');
+     const key=item.id==='skv12name'?'name':item.id==='skv12qr'?'qr':'no';
+     select(key);
+     const can=ov.querySelector('#skCertV12Canvas').getBoundingClientRect();
+     const r=item.getBoundingClientRect();
+     drag={item,key,can,dx:e.clientX-r.left,dy:e.clientY-r.top,pid:e.pointerId};
+     try{item.setPointerCapture(e.pointerId)}catch(_){}
+   });
+   ov.addEventListener('pointermove',e=>{
+     if(!drag)return;
+     const {item,key,can}=drag;
+     let px=(e.clientX-can.left-drag.dx)/can.width*100;
+     let py=(e.clientY-can.top-drag.dy)/can.height*100;
+     if(key==='name'||key==='qr'){
+       const rr=item.getBoundingClientRect();
+       px+=(rr.width/2)/can.width*100; py+=(rr.height/2)/can.height*100;
+     }
+     state[key].x=Math.max(0,Math.min(100,px));
+     state[key].y=Math.max(0,Math.min(100,py));
+     render();
+   });
+   const end=e=>{if(drag){try{drag.item.releasePointerCapture(drag.pid)}catch(_){} drag=null}};
+   ov.addEventListener('pointerup',end);ov.addEventListener('pointercancel',end);
+
+   ov.addEventListener('click',e=>{
+     const a=e.target.closest('[data-v12]'); if(!a)return;
+     const k=a.dataset.v12;
+     if(k==='close'){ov.remove();return}
+     if(k==='print'){window.print();return}
+     if(k==='reset'){
+       state.name={x:50,y:48,size:38};state.qr={x:82,y:78,size:90};state.no={x:8,y:91,size:13};render();return
+     }
+     if(k==='name'||k==='qr'||k==='no'){select(k);return}
+     if(k==='save'){
+       localStorage.setItem('skCertV12Layout',JSON.stringify(state));
+       alert('Certificate positions saved on this browser.');
+     }
+   });
+   ov.querySelector('#skv12size').addEventListener('input',e=>{
+     const key=ov.dataset.selected||'name';state[key].size=Number(e.target.value);render();
+   });
+   return ov;
+ }
+ function select(key){
+   const ov=document.getElementById('skCertV12Overlay');if(!ov)return;
+   ov.dataset.selected=key;
+   ov.querySelector('#skv12selected').textContent=key==='name'?'Participant Name':key==='qr'?'QR Code':'Certificate Number';
+   ov.querySelector('#skv12size').value=state[key].size;
+   ov.querySelectorAll('.skv12item').forEach(x=>x.classList.remove('active'));
+   ov.querySelector(key==='name'?'#skv12name':key==='qr'?'#skv12qr':'#skv12no').classList.add('active');
+ }
+ function render(){
+   const ov=document.getElementById('skCertV12Overlay');if(!ov)return;
+   const canvas=ov.querySelector('#skCertV12Canvas');
+   canvas.style.backgroundImage=V12_BG?`url("${V12_BG}")`:'none';
+   const n=ov.querySelector('#skv12name'),q=ov.querySelector('#skv12qr'),no=ov.querySelector('#skv12no');
+   n.style.left=state.name.x+'%';n.style.top=state.name.y+'%';n.style.fontSize=state.name.size+'px';
+   q.style.left=state.qr.x+'%';q.style.top=state.qr.y+'%';q.style.width=state.qr.size+'px';q.style.height=state.qr.size+'px';
+   no.style.left=state.no.x+'%';no.style.top=state.no.y+'%';no.style.fontSize=state.no.size+'px';
+ }
+ window.skOpenCertificatePreview=function(){
+   const i=fileInput();
+   if(!V12_BG && i && i.files && i.files[0]) capture(i.files[0]);
+   setTimeout(()=>{
+     if(!V12_BG){alert('Please choose your finished certificate PNG/JPG first.');return}
+     try{
+       const saved=JSON.parse(localStorage.getItem('skCertV12Layout')||'null');
+       if(saved){Object.assign(state.name,saved.name||{});Object.assign(state.qr,saved.qr||{});Object.assign(state.no,saved.no||{})}
+     }catch(_){}
+     ensureOverlay();render();select('name');
+   },V12_BG?0:250);
+   return false;
+ };
+
+ // Force existing "Open Live Certificate Preview" links/buttons to use V12.
+ document.addEventListener('click',e=>{
+   const el=e.target.closest('a,button');if(!el)return;
+   const t=(el.textContent||'').trim().toLowerCase();
+   if(t.includes('open live certificate preview')){
+     e.preventDefault();e.stopImmediatePropagation();window.skOpenCertificatePreview();
+   }
+ },true);
+})();
+
+
+/* ===== SK SAPILANG CERTIFICATE BACKGROUND REPLACE V13 ===== */
+(function(){
+ if(window.__SK_CERT_REPLACE_V13)return;window.__SK_CERT_REPLACE_V13=1;
+
+ function isCertInput(i){
+   if(!i||i.type!=='file')return false;
+   const id=(i.id||'').toLowerCase(), name=(i.name||'').toLowerCase();
+   return id==='ctfile'||id==='certmasterfile'||id.includes('cert')||name.includes('cert');
+ }
+ function applyNewFile(file){
+   if(!file||!file.type.startsWith('image/'))return;
+   const reader=new FileReader();
+   reader.onload=function(){
+     const fresh=String(reader.result||'');
+
+     // Explicitly discard the old background and replace it everywhere.
+     window.__SK_CERT_UPLOAD_DATAURL=fresh;
+     window.__SK_CERT_V12_BG=fresh;
+
+     // V12 keeps V12_BG in its closure, so force its preview canvas and
+     // Studio stage to use the new image immediately.
+     const stages=[
+       document.getElementById('ctEditor'),
+       document.getElementById('certVisualStage'),
+       document.getElementById('certStudioStage')
+     ].filter(Boolean);
+     stages.forEach(st=>{
+       st.style.backgroundImage='url("'+fresh+'")';
+       st.style.backgroundSize='100% 100%';
+       st.style.backgroundPosition='center';
+       st.style.backgroundRepeat='no-repeat';
+       const bg=st.querySelector('#certStudioBackground,img[data-background],img.cert-background');
+       if(bg){bg.src=fresh;bg.style.display='block'}
+     });
+
+     // If the full V12 editor is already open, replace its background live.
+     const canvas=document.getElementById('skCertV12Canvas');
+     if(canvas){
+       canvas.style.backgroundImage='url("'+fresh+'")';
+       canvas.style.backgroundSize='100% 100%';
+       canvas.style.backgroundPosition='center';
+       canvas.style.backgroundRepeat='no-repeat';
+     }
+
+     // Remember the newest selection independently of old template/cache data.
+     try{sessionStorage.setItem('skCertLatestBackground',fresh)}catch(_){}
+   };
+   reader.readAsDataURL(file);
+ }
+
+ document.addEventListener('change',function(e){
+   const i=e.target;
+   if(!isCertInput(i)||!i.files||!i.files[0])return;
+   // Clear old object/data references before reading the replacement.
+   window.__SK_CERT_UPLOAD_DATAURL='';
+   window.__SK_CERT_V12_BG='';
+   try{sessionStorage.removeItem('skCertLatestBackground')}catch(_){}
+   applyNewFile(i.files[0]);
+ },true);
+
+ // Override the V12 open action so the newest selected file always wins.
+ document.addEventListener('click',function(e){
+   const b=e.target.closest('a,button');if(!b)return;
+   const text=(b.textContent||'').trim().toLowerCase();
+   if(!text.includes('open live certificate preview'))return;
+
+   const input=document.getElementById('ctFile')||
+               document.getElementById('certMasterFile')||
+               document.querySelector('input[type="file"][accept*="image"]');
+
+   if(input&&input.files&&input.files[0]){
+     applyNewFile(input.files[0]);
+     // Give FileReader a moment, then update the V12 canvas after it opens.
+     setTimeout(function(){
+       try{
+         const latest=sessionStorage.getItem('skCertLatestBackground')||window.__SK_CERT_UPLOAD_DATAURL||'';
+         const cv=document.getElementById('skCertV12Canvas');
+         if(cv&&latest){
+           cv.style.backgroundImage='url("'+latest+'")';
+           cv.style.backgroundSize='100% 100%';
+         }
+       }catch(_){}
+     },350);
+   }
+ },true);
+})();
+
+
+/* ===== SK SAPILANG PRINT CERTIFICATE V14 =====
+   Fix: use a real IMG layer for printing, force A4 landscape,
+   and keep Name / QR / Certificate No. above it.
+*/
+(function(){
+ if(window.__SK_CERT_PRINT_V14)return; window.__SK_CERT_PRINT_V14=1;
+
+ function latestBg(){
+   try{
+     return sessionStorage.getItem('skCertLatestBackground') ||
+            window.__SK_CERT_UPLOAD_DATAURL ||
+            window.__SK_CERT_V12_BG || '';
+   }catch(_){
+     return window.__SK_CERT_UPLOAD_DATAURL || window.__SK_CERT_V12_BG || '';
+   }
+ }
+
+ function installPrintImage(){
+   const canvas=document.getElementById('skCertV12Canvas');
+   if(!canvas)return;
+   let img=document.getElementById('skCertV14PrintBg');
+   if(!img){
+     img=document.createElement('img');
+     img.id='skCertV14PrintBg';
+     img.alt='Certificate Background';
+     img.setAttribute('aria-hidden','true');
+     Object.assign(img.style,{
+       position:'absolute',inset:'0',width:'100%',height:'100%',
+       objectFit:'fill',display:'block',zIndex:'0',
+       pointerEvents:'none',userSelect:'none'
+     });
+     canvas.insertBefore(img,canvas.firstChild);
+   }
+   const bg=latestBg();
+   if(bg) img.src=bg;
+   canvas.style.backgroundImage='none';
+   canvas.querySelectorAll('.skv12item').forEach(el=>{
+     el.style.zIndex='5';
+     el.style.position='absolute';
+   });
+ }
+
+ function addPrintCss(){
+   if(document.getElementById('skCertV14PrintCss'))return;
+   const s=document.createElement('style');
+   s.id='skCertV14PrintCss';
+   s.textContent=`
+   @page{size:A4 landscape;margin:0}
+   @media print{
+     html,body{margin:0!important;padding:0!important;width:297mm!important;height:210mm!important;overflow:hidden!important;background:#fff!important}
+     body>*:not(#skCertV12Overlay){display:none!important}
+     #skCertV12Overlay{
+       display:block!important;position:fixed!important;inset:0!important;
+       width:297mm!important;height:210mm!important;margin:0!important;padding:0!important;
+       background:#fff!important;overflow:hidden!important;
+     }
+     #skCertV12Bar,#skCertV12Controls{display:none!important}
+     #skCertV12Canvas{
+       display:block!important;position:absolute!important;left:0!important;top:0!important;
+       width:297mm!important;height:210mm!important;max-width:none!important;
+       margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;
+       overflow:hidden!important;background:none!important;aspect-ratio:auto!important;
+       -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;
+     }
+     #skCertV14PrintBg{
+       display:block!important;position:absolute!important;left:0!important;top:0!important;
+       width:297mm!important;height:210mm!important;object-fit:fill!important;z-index:0!important;
+     }
+     #skCertV12Canvas .skv12item{z-index:5!important}
+   }`;
+   document.head.appendChild(s);
+ }
+
+ // Keep the real image synchronized whenever a different PNG is selected.
+ document.addEventListener('change',function(e){
+   const i=e.target;
+   if(!i || i.type!=='file' || !i.files || !i.files[0])return;
+   const id=(i.id||'').toLowerCase();
+   if(!(id==='ctfile'||id==='certmasterfile'||id.includes('cert')))return;
+   const r=new FileReader();
+   r.onload=function(){
+     const data=String(r.result||'');
+     try{sessionStorage.setItem('skCertLatestBackground',data)}catch(_){}
+     setTimeout(installPrintImage,0);
+   };
+   r.readAsDataURL(i.files[0]);
+ },true);
+
+ // When the editor opens, create the image layer.
+ document.addEventListener('click',function(e){
+   const el=e.target.closest('a,button'); if(!el)return;
+   const t=(el.textContent||'').toLowerCase();
+   if(t.includes('open live certificate preview')){
+     addPrintCss();
+     setTimeout(installPrintImage,450);
+   }
+ },true);
+
+ // Intercept only V12's Print / Save PDF button.
+ document.addEventListener('click',function(e){
+   const el=e.target.closest('[data-v12="print"]'); if(!el)return;
+   e.preventDefault(); e.stopImmediatePropagation();
+   addPrintCss(); installPrintImage();
+   const img=document.getElementById('skCertV14PrintBg');
+   if(!img || !img.src){
+     alert('Please choose the certificate PNG/JPG before printing.');
+     return;
+   }
+   const doPrint=()=>setTimeout(()=>window.print(),80);
+   if(img.complete) doPrint();
+   else { img.onload=doPrint; img.onerror=()=>alert('The certificate image could not be loaded for printing. Please select the PNG/JPG again.'); }
+ },true);
+
+ addPrintCss();
+})();
