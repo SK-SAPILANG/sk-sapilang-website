@@ -116,19 +116,91 @@
     });
   }
 
+  function postApiViaFrame(params) {
+    return new Promise((resolve, reject) => {
+      const endpoint = getCmsEndpoint();
+      if (!endpoint) return reject(new Error('CMS endpoint is not configured.'));
+      const requestId = 'qms_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+      const frameName = 'qms_post_' + requestId;
+      const iframe = document.createElement('iframe');
+      iframe.name = frameName;
+      iframe.style.display = 'none';
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = endpoint;
+      form.target = frameName;
+      form.style.display = 'none';
+      const payload = { ...params, transport: 'frame', requestId };
+      Object.entries(payload).forEach(([k, v]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden'; input.name = k; input.value = v ?? '';
+        form.appendChild(input);
+      });
+      let timer;
+      const cleanup = () => {
+        clearTimeout(timer);
+        window.removeEventListener('message', onMessage);
+        setTimeout(() => { try { form.remove(); iframe.remove(); } catch (_) {} }, 0);
+      };
+      const onMessage = (event) => {
+        const msg = event && event.data;
+        if (!msg || msg.source !== 'sk-cms-response' || msg.requestId !== requestId) return;
+        cleanup();
+        resolve(msg.data);
+      };
+      window.addEventListener('message', onMessage);
+      document.body.appendChild(iframe);
+      document.body.appendChild(form);
+      timer = setTimeout(() => {
+        cleanup();
+        reject(new Error('Apps Script did not return a QMS response. Confirm the Web App is deployed as Execute as: Me and accessible to the intended users, then redeploy the newest Code.gs.'));
+      }, (params && params.action === 'upload-certificate-background') ? 90000 : 18000);
+      form.submit();
+    });
+  }
+
   async function postApi(params) {
     const endpoint = getCmsEndpoint();
     if (!endpoint) return null;
-
     const body = new URLSearchParams();
     Object.entries(params).forEach(([k, v]) => body.append(k, v ?? ''));
+    try {
+      const resp = await fetch(endpoint, { method: 'POST', body, redirect: 'follow' });
+      const text = await resp.text();
+      const trimmed = String(text || '').trim();
+      if (trimmed && !trimmed.startsWith('<')) {
+        try { return JSON.parse(trimmed); } catch (_) {}
+      }
+      // Apps Script can return an HTML redirect/authorization page to fetch().
+      // Retry through a hidden form/iframe, which Code.gs answers using postMessage.
+      return await postApiViaFrame(params);
+    } catch (fetchErr) {
+      return await postApiViaFrame(params);
+    }
+  }
 
-    const resp = await fetch(endpoint, {
-      method: 'POST',
-      body,
-      redirect: 'follow'
+  async function prepareCertificateUploadData(dataUrl) {
+    if (!/^data:image\/(png|jpeg);base64,/i.test(String(dataUrl || ''))) throw new Error('Please choose a PNG or JPG certificate image.');
+    return await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const maxW = 2400, maxH = 1700;
+          const scale = Math.min(1, maxW / img.naturalWidth, maxH / img.naturalHeight);
+          const w = Math.max(1, Math.round(img.naturalWidth * scale));
+          const h = Math.max(1, Math.round(img.naturalHeight * scale));
+          const c = document.createElement('canvas'); c.width = w; c.height = h;
+          const ctx = c.getContext('2d');
+          ctx.fillStyle = '#fff'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
+          let out = c.toDataURL('image/jpeg', 0.86);
+          // If still unusually large, use a slightly lower quality.
+          if (out.length > 4.5 * 1024 * 1024) out = c.toDataURL('image/jpeg', 0.72);
+          resolve(out);
+        } catch (e) { reject(e); }
+      };
+      img.onerror = () => reject(new Error('The certificate image could not be prepared for upload.'));
+      img.src = dataUrl;
     });
-    return resp.json();
   }
 
   // --- INITIALIZATION ---
@@ -254,7 +326,7 @@
         <td>
           <span class="status-badge ${a.status === 'Completed' ? 'status-valid' : 'status-revoked'}" style="background: #E0F2FE; color: #0369A1;">
             ${escapeHtml(a.status || 'Upcoming')}
-          </span>
+          </span><br><small style="font-weight:700;color:${a.gadVisibility==='HIDE'?'#64748b':'#0f766e'}">GAD: ${a.gadVisibility==='HIDE'?'Hidden':'Shown'}</small>
         </td>
         <td>
           <button type="button" class="studio-btn" onclick="window.editActivity('${escapeHtml(a.id)}')">Edit</button>
@@ -278,6 +350,7 @@
         const venue = document.getElementById('actVenue').value.trim();
         const speaker = document.getElementById('actSpeaker').value.trim();
         const desc = document.getElementById('actDesc').value.trim();
+        const gadVisibility = document.getElementById('actGadVisibility')?.value || 'SHOW';
 
         const actData = {
           id: editId || ('ACT-' + Date.now().toString(36).toUpperCase()),
@@ -286,7 +359,8 @@
           status,
           venue,
           speaker,
-          description: desc
+          description: desc,
+          gadVisibility: gadVisibility
         };
 
         if (editId) {
@@ -312,7 +386,8 @@
             status: actData.status,
             eventDate: actData.date,
             venue: actData.venue,
-            speaker: actData.speaker
+            speaker: actData.speaker,
+            linkUrl: 'GAD:' + actData.gadVisibility
           }).catch(() => {});
         }
 
@@ -340,6 +415,7 @@
       document.getElementById('actVenue').value = item.venue || '';
       document.getElementById('actSpeaker').value = item.speaker || '';
       document.getElementById('actDesc').value = item.description || '';
+      if(document.getElementById('actGadVisibility')) document.getElementById('actGadVisibility').value = item.gadVisibility || 'SHOW';
       document.getElementById('btnSaveActivity').textContent = 'Update Activity';
       form.scrollIntoView({ behavior: 'smooth' });
     };
@@ -382,11 +458,15 @@
           } else {
             speakerArea.style.display = 'none';
           }
+          // Per-activity GAD visibility. The questions stay voluntary whenever shown.
+          const evalGadCard=document.getElementById('evalGadCard');
+          if(evalGadCard) evalGadCard.style.display=(act.gadVisibility==='HIDE')?'none':'block';
         } else {
           document.getElementById('evalDate').value = '';
           document.getElementById('evalVenue').value = '';
           document.getElementById('evalSpeaker').value = '';
           speakerArea.style.display = 'none';
+          const evalGadCard=document.getElementById('evalGadCard'); if(evalGadCard) evalGadCard.style.display='none';
         }
       });
     }
@@ -397,7 +477,7 @@
         e.preventDefault();
         const submitBtn = document.getElementById('btnSubmitEval');
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Processing & Issuing Certificate...';
+        submitBtn.textContent = 'Saving Evaluation...';
         resultBox.classList.remove('show');
 
         const formData = new FormData(form);
@@ -449,12 +529,21 @@
             improvement: formData.get('improvement') || ''
           };
 
+          // Include every non-sensitive evaluation answer expected by the backend.
+          ['relevance','objectives','facilitatorRating','organization','venueRating','materials','timeManagement','engagement','speakerKnowledge','speakerClarity','speakerEngagement','speakerResponsiveness','speakerComments','likedMost','future','classification'].forEach(k => { backendParams[k] = formData.get(k) || ''; });
+          ['sexAssignedAtBirth','sexAssignedAtBirthOther','genderIdentity','genderIdentityOther','preferredPronouns','preferredPronounsOther','accessibilitySupport','accessibilitySupportOther','organizationOffice','positionDesignation','sectorClassificationOther'].forEach(k => { backendParams[k] = formData.get(k) || ''; });
+          backendParams.programFormat = formData.get('programFormat') || 'In-Person';
           const res = await postApi(backendParams);
-          if (res && res.certificateId) {
-            newCert.certificateNumber = res.certificateId;
-          }
+          if (!res || !res.success || !res.certificateId) throw new Error((res && res.message) || 'The evaluation could not be saved.');
+          newCert.certificateNumber = res.certificateId;
+          newCert.qmsReference = res.reference || refNumber;
+          newCert.emailStatus = res.emailStatus || (newCert.email ? 'PROCESSING' : 'NOT PROVIDED');
         } catch (err) {
-          // Offline / local resilience
+          resultBox.innerHTML = `<div class="result-badge" style="background:#fff1f0;color:#b42318">Submission not completed</div><h3>Please try again.</h3><p>${escapeHtml(err.message || 'The server did not confirm your submission.')}</p>`;
+          resultBox.classList.add('show');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Evaluation & Generate Certificate';
+          return;
         }
 
         // Save certificate locally
@@ -478,7 +567,7 @@
             </div>
             <div class="result-metric">
               <small>QMS Reference</small>
-              <strong>${refNumber}</strong>
+              <strong>${newCert.qmsReference}</strong>
             </div>
             <div class="result-metric">
               <small>Activity</small>
@@ -494,9 +583,8 @@
             <a href="${certViewUrl}" target="_blank" class="btn-header btn-header-orange" style="padding: 10px 20px;">
               View / Print Digital Certificate
             </a>
-            <a href="${verifyUrl}" target="_blank" class="btn-header btn-header-outline" style="color: var(--sk-navy); border-color: var(--sk-border-strong); padding: 10px 20px;">
-              Verify QR Record
-            </a>
+            <a href="${verifyUrl}" target="_blank" class="btn-header btn-header-outline" style="color: var(--sk-navy); border-color: var(--sk-border-strong); padding: 10px 20px;">Verify QR Record</a>
+            <button type="button" class="btn-header btn-header-outline" style="color:var(--sk-navy);border-color:var(--sk-border-strong);padding:10px 20px" onclick="document.getElementById('activityResult').classList.remove('show');document.getElementById('evalActivitySelect').focus();">Submit Another Response</button>
           </div>
         `;
 
@@ -538,10 +626,26 @@
             contact: fd.get('contact'),
             purpose: fd.get('purpose'),
             service: fd.get('service'),
+            office: fd.get('office') || '',
+            birthdate: fd.get('birthdate') || '',
+            resourceSpeakerActivity: fd.get('resourceSpeakerActivity') || '',
+            organizerCoordination: fd.get('organizerCoordination') || '',
+            organizerHospitality: fd.get('organizerHospitality') || '',
+            organizerLogistics: fd.get('organizerLogistics') || '',
+            organizerInclusion: fd.get('organizerInclusion') || '',
+            organizerComments: fd.get('organizerComments') || '',
             rating: fd.get('rating') || '',
             comments: fd.get('comments') || '',
             consent: 'yes',
-            clientReference: ref
+            clientReference: ref,
+            sexAssignedAtBirth: fd.get('sexAssignedAtBirth') || '',
+            sexAssignedAtBirthOther: fd.get('sexAssignedAtBirthOther') || '',
+            genderIdentity: fd.get('genderIdentity') || '',
+            genderIdentityOther: fd.get('genderIdentityOther') || '',
+            preferredPronouns: fd.get('preferredPronouns') || '',
+            preferredPronounsOther: fd.get('preferredPronounsOther') || '',
+            accessibilitySupport: fd.get('accessibilitySupport') || '',
+            accessibilitySupportOther: fd.get('accessibilitySupportOther') || ''
           });
         } catch (err) {}
 
@@ -553,6 +657,7 @@
             <small>Visitor Reference Code</small>
             <strong>${ref}</strong>
           </div>
+          <div class="qms-success-actions"><button type="button" class="btn-header btn-header-orange" onclick="document.getElementById('visitorResult').classList.remove('show');document.getElementById('visitorForm').scrollIntoView({behavior:'smooth'});">Submit Another Response</button></div>
         `;
         resultBox.classList.add('show');
         resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -600,6 +705,7 @@
             <small>Submission Reference</small>
             <strong>${ref}</strong>
           </div>
+          <div class="qms-success-actions"><button type="button" class="btn-header btn-header-orange" onclick="document.getElementById('suggestionResult').classList.remove('show');document.getElementById('suggestionForm').scrollIntoView({behavior:'smooth'});">Submit Another Response</button></div>
         `;
         resultBox.classList.add('show');
         resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -619,6 +725,7 @@
     const actSelect = document.getElementById('studioActivitySelect');
     const fileInput = document.getElementById('studioFileInput');
     const btnUpload = document.getElementById('btnPermanentUpload');
+    const driveLinkInput = document.getElementById('studioDriveLink');
     const uploadStatus = document.getElementById('uploadStatusMsg');
     const feedbackMsg = document.getElementById('studioFeedbackMsg');
     const btnSave = document.getElementById('btnSaveTemplate');
@@ -635,6 +742,11 @@
     const btnBold = document.getElementById('btnBoldToggle');
     const alignSelect = document.getElementById('textAlignSelect');
     const certTypeSelect = document.getElementById('studioCertType');
+
+    // Keep the selected image in JavaScript state. This prevents the browser/file input
+    // from losing the File object after the local preview has already been rendered.
+    let selectedCertificateFile = null;
+    let selectedCertificateDataUrl = '';
 
     // 1. Select Activity -> Loads That Activity's Saved Design
     if (actSelect) {
@@ -670,64 +782,95 @@
     // 2. Canva File Upload: Temporary Local Preview + Drive Permanent Upload
     if (fileInput) {
       fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files && e.target.files[0];
         if (!file) return;
+        if (!/^image\/(png|jpeg)$/i.test(file.type || '')) {
+          selectedCertificateFile = null; selectedCertificateDataUrl = '';
+          alert('Please choose a PNG or JPG certificate image.');
+          e.target.value = ''; return;
+        }
+        selectedCertificateFile = file;
 
         // Immediate local preview using FileReader data URL
         const reader = new FileReader();
         reader.onload = (evt) => {
-          activeStudioTemplate.backgroundUrl = evt.target.result;
+          selectedCertificateDataUrl = String(evt.target.result || '');
+          try { sessionStorage.setItem('skCertStudioPendingImageV23', selectedCertificateDataUrl); sessionStorage.setItem('skCertStudioPendingImageV22', selectedCertificateDataUrl); } catch (_) {}
+          activeStudioTemplate.backgroundUrl = selectedCertificateDataUrl;
           canvas.style.backgroundImage = `url("${evt.target.result}")`;
-          uploadStatus.innerHTML = `<span style="color: var(--sk-orange);">Local preview active. Click "Permanently Upload to Drive" to save permanently.</span>`;
+          uploadStatus.innerHTML = `<span style="color: var(--sk-orange);">Local preview active. Upload this image to Google Drive, then paste its sharing link in Step 4.</span>`;
         };
         reader.readAsDataURL(file);
       });
     }
 
-    // Permanent Backend Upload
+    // Permanent template by Google Drive link/File ID — no image bytes pass through Apps Script.
+    // This avoids slow browser -> Apps Script -> Drive uploads. The image must already be
+    // uploaded to Drive and shared as "Anyone with the link" (Viewer).
+    function normalizeDriveImageUrl(value) {
+      const raw = String(value || '').trim();
+      if (!raw) return '';
+      // Accept a bare Drive file ID.
+      if (/^[A-Za-z0-9_-]{20,}$/.test(raw)) {
+        return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(raw) + '&sz=w2400';
+      }
+      let id = '';
+      let m = raw.match(/\/file\/d\/([A-Za-z0-9_-]+)/i);
+      if (m) id = m[1];
+      if (!id) {
+        try {
+          const u = new URL(raw);
+          id = u.searchParams.get('id') || '';
+        } catch (_) {}
+      }
+      if (id) return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w2400';
+      // Also allow a direct public image URL when needed.
+      if (/^https:\/\//i.test(raw)) return raw;
+      return '';
+    }
+
     if (btnUpload) {
       btnUpload.addEventListener('click', async () => {
-        const file = fileInput.files[0];
-        if (!file) {
-          alert('Please choose a Canva-exported PNG or JPG file first.');
+        const actId = actSelect ? actSelect.value : 'master';
+        const actTitle = actSelect && actSelect.selectedIndex >= 0 ? actSelect.options[actSelect.selectedIndex].text : 'Master Certificate';
+        const entered = driveLinkInput ? driveLinkInput.value : '';
+        const driveImageUrl = normalizeDriveImageUrl(entered);
+        if (!driveImageUrl) {
+          alert('Paste the Google Drive sharing link or File ID of the certificate image first.');
+          if (driveLinkInput) driveLinkInput.focus();
           return;
         }
 
         btnUpload.disabled = true;
-        btnUpload.textContent = 'Uploading to Drive...';
-        uploadStatus.textContent = 'Uploading file to Google Drive...';
-
+        btnUpload.textContent = 'Saving Link...';
+        uploadStatus.textContent = 'Linking Google Drive certificate to this activity...';
         try {
-          const reader = new FileReader();
-          reader.onload = async (evt) => {
-            const base64Data = evt.target.result;
-            const res = await postApi({
-              action: 'upload-certificate-background',
-              password: currentAdminPassword,
-              name: file.name,
-              data: base64Data
-            });
+          activeStudioTemplate.backgroundUrl = driveImageUrl;
+          canvas.style.backgroundImage = `url("${driveImageUrl}")`;
+          activityTemplates[actId] = JSON.parse(JSON.stringify(activeStudioTemplate));
+          localStorage.setItem('sk_cert_templates', JSON.stringify(activityTemplates));
 
-            if (res && res.success && res.url) {
-              activeStudioTemplate.backgroundUrl = res.url;
-              canvas.style.backgroundImage = `url("${res.url}")`;
-              uploadStatus.innerHTML = `<span style="color: var(--sk-green); font-weight: 700;">✓ Permanently uploaded to Google Drive! Permanent URL saved.</span>`;
-            } else {
-              // Retain base64 if Drive upload not connected
-              uploadStatus.innerHTML = `<span style="color: var(--sk-navy);">Saved locally in browser template.</span>`;
-            }
-            btnUpload.disabled = false;
-            btnUpload.textContent = 'Permanently Upload to Drive';
-          };
-          reader.readAsDataURL(file);
+          if (actId === 'master') {
+            const res = await postApi({ action:'save-certificate-settings', password:currentAdminPassword,
+              certificateBackground:driveImageUrl, certificateType:activeStudioTemplate.certType, ...activeStudioTemplate.layout });
+            if (res && res.success === false) throw new Error(res.message || 'Could not save certificate settings.');
+          } else {
+            const res = await postApi({ action:'save-certificate-template', password:currentAdminPassword,
+              activityId:actId, title:actTitle, backgroundUrl:driveImageUrl,
+              certType:activeStudioTemplate.certType, ...activeStudioTemplate.layout });
+            if (res && res.success === false) throw new Error(res.message || 'Could not save certificate template.');
+          }
+
+          uploadStatus.innerHTML = `<span style="color: var(--sk-green); font-weight:700;">✓ Drive template linked to ${actTitle}. No image upload was required.</span>`;
+          btnUpload.textContent = 'Drive Template Linked ✓';
+          setTimeout(() => { btnUpload.disabled = false; btnUpload.textContent = 'Update Drive Template'; }, 1200);
         } catch (err) {
           btnUpload.disabled = false;
-          btnUpload.textContent = 'Permanently Upload to Drive';
-          uploadStatus.textContent = 'Upload note: Stored in local layout cache.';
+          btnUpload.textContent = 'Use Drive Template';
+          uploadStatus.innerHTML = `<span style="color:#b42318;font-weight:700;">Could not save Drive link: ${err && err.message ? err.message : 'Please try again.'}</span>`;
         }
       });
     }
-
 
     // LIVE PREVIEW: always preview the currently selected activity/template.
     const btnTestPreview = document.getElementById('btnTestPreview');
@@ -742,9 +885,10 @@
         localStorage.setItem('sk_cert_templates', JSON.stringify(activityTemplates));
         localStorage.setItem('sk_cert_preview_activity', actId);
         localStorage.setItem('sk_cert_preview_template', JSON.stringify(activeStudioTemplate));
+        try { localStorage.setItem('skCertStudioAdminKey', currentAdminPassword || sessionStorage.getItem('skQmsAdminKey') || ''); } catch(_) {}
 
         const url = 'certificate.html?blank=1&activityId=' + encodeURIComponent(actId) + '&preview=1&_=' + Date.now();
-        window.open(url, '_blank', 'noopener');
+        window.open(url, '_blank');
       });
     }
 
@@ -836,6 +980,11 @@
 
       // Update control values to match selected
       const certTypeSelect = document.getElementById('studioCertType');
+
+    // Keep the selected image in JavaScript state. This prevents the browser/file input
+    // from losing the File object after the local preview has already been rendered.
+    let selectedCertificateFile = null;
+    let selectedCertificateDataUrl = '';
     if (certTypeSelect) certTypeSelect.value = activeStudioTemplate.certType || 'Certificate of Participation';
     const l = activeStudioTemplate.layout;
       if (kind === 'name') {
@@ -969,6 +1118,24 @@
       });
     }
 
+    // V34: Save adjustments made directly inside certificate.html preview.
+    window.addEventListener('message', async (e) => {
+      if (e.origin !== location.origin || !e.data || e.data.type !== 'SK_CERT_SAVE_ADJUSTMENTS_V34') return;
+      const targetId = String(e.data.activityId || actSelect.value || 'master');
+      if (actSelect && actSelect.value !== targetId) actSelect.value = targetId;
+      if (e.data.layout) Object.assign(activeStudioTemplate.layout, e.data.layout);
+      activityTemplates[targetId] = JSON.parse(JSON.stringify(activeStudioTemplate));
+      localStorage.setItem('sk_cert_templates', JSON.stringify(activityTemplates));
+      applyStudioTemplateToUI();
+      feedbackMsg.textContent = 'Saving adjustments from live certificate preview...';
+      try {
+        const payload = { password: currentAdminPassword, certificateBackground: activeStudioTemplate.backgroundUrl, certificateType: activeStudioTemplate.certType, ...activeStudioTemplate.layout };
+        if (targetId === 'master') await postApi({ action:'save-certificate-settings', ...payload });
+        else await postApi({ action:'save-certificate-template', activityId:targetId, title:actSelect.options[actSelect.selectedIndex] ? actSelect.options[actSelect.selectedIndex].text : targetId, backgroundUrl:activeStudioTemplate.backgroundUrl, certType:activeStudioTemplate.certType, ...payload });
+        feedbackMsg.textContent = '✓ Live preview adjustments permanently saved.';
+      } catch (_) { feedbackMsg.textContent = 'Saved in this browser. Click Save Design for Activity to retry permanent server saving.'; }
+    });
+
     // Initial render
     applyStudioTemplateToUI();
     selectStudioObject('name');
@@ -985,6 +1152,12 @@
     if (!canvas || !activeStudioTemplate) return;
 
     // Apply Background
+    const driveLinkInput = document.getElementById('studioDriveLink');
+    if (driveLinkInput && activeStudioTemplate.backgroundUrl && !/^data:image\//i.test(activeStudioTemplate.backgroundUrl)) {
+      driveLinkInput.value = activeStudioTemplate.backgroundUrl;
+    } else if (driveLinkInput && !activeStudioTemplate.backgroundUrl) {
+      driveLinkInput.value = '';
+    }
     if (activeStudioTemplate.backgroundUrl) {
       canvas.style.backgroundImage = `url("${activeStudioTemplate.backgroundUrl}")`;
     } else {
@@ -1091,52 +1264,85 @@
     if (!tbody) return;
 
     if (!issuedCertificates.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--sk-text-muted);">No certificates issued yet. Submit an activity evaluation to issue one.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="cert-empty">No certificates issued yet. Completed activity evaluations will appear here.</td></tr>';
       return;
     }
 
+    const deliveryView = (c) => {
+      const raw = String(c.emailStatus || '').trim();
+      if (!c.email) return '<span class="delivery-badge neutral">No email provided</span>';
+      if (/SENT/i.test(raw)) return '<span class="delivery-badge sent">✓ Sent</span>';
+      if (/FAILED/i.test(raw)) return '<span class="delivery-badge failed">! Not sent</span><small class="delivery-help">Email permission/authorization is required. Use Resend after authorizing Apps Script.</small>';
+      return `<span class="delivery-badge pending">${escapeHtml(raw || 'Pending')}</span>`;
+    };
+
     tbody.innerHTML = issuedCertificates.map(c => {
+      const id = c.certificateNumber || c.id;
       const isRevoked = String(c.status || '').toUpperCase() === 'REVOKED';
-      const certUrl = `certificate.html?id=${encodeURIComponent(c.certificateNumber || c.id)}`;
+      const certUrl = `certificate.html?id=${encodeURIComponent(id)}`;
       return `
         <tr>
-          <td><strong>${escapeHtml(c.certificateNumber || c.id)}</strong></td>
-          <td>${escapeHtml(c.participantName)}</td>
-          <td>${escapeHtml(c.activityTitle)}</td>
+          <td><strong class="cert-number">${escapeHtml(id)}</strong></td>
+          <td><strong>${escapeHtml(c.participantName || '—')}</strong></td>
+          <td>${escapeHtml(c.activityTitle || '—')}</td>
           <td>${escapeHtml(c.dateIssued || '—')}</td>
-          <td>
-            <span class="status-badge ${isRevoked ? 'status-revoked' : 'status-valid'}">
-              ${isRevoked ? 'REVOKED' : 'ACTIVE'}
-            </span>
-          </td>
-          <td><small>${escapeHtml(c.emailStatus || (c.email ? 'SENT' : 'DIGITAL'))}</small></td>
-          <td>
-            <a href="${certUrl}" target="_blank" class="studio-btn">Open</a>
-            ${isRevoked ? '' : `<button type="button" class="studio-btn" style="color: var(--sk-red);" onclick="window.revokeCert('${escapeHtml(c.certificateNumber || c.id)}')">Revoke</button>`}
-          </td>
-        </tr>
-      `;
+          <td><span class="status-badge ${isRevoked ? 'status-revoked' : 'status-valid'}">${isRevoked ? 'REVOKED' : 'ACTIVE'}</span></td>
+          <td>${deliveryView(c)}</td>
+          <td><div class="cert-actions">
+            <a href="${certUrl}" target="_blank" class="studio-btn cert-open">Open</a>
+            ${c.email ? `<button type="button" class="studio-btn" onclick="window.resendCert('${escapeHtml(id)}', this)">Resend Email</button>` : ''}
+            ${isRevoked ? `<button type="button" class="studio-btn" onclick="window.restoreCert('${escapeHtml(id)}')">Restore</button>` : `<button type="button" class="studio-btn cert-danger" onclick="window.revokeCert('${escapeHtml(id)}')">Revoke</button>`}
+            <button type="button" class="studio-btn cert-danger" onclick="window.deleteCert('${escapeHtml(id)}')">Delete</button>
+          </div></td>
+        </tr>`;
     }).join('');
   }
 
-  window.revokeCert = async (certId) => {
-    if (!confirm(`Are you sure you want to REVOKE Certificate ${certId}? It will immediately show as invalid on public verification.`)) return;
+  window.resendCert = async (certId, btn) => {
+    if (!currentAdminPassword) return alert('Please sign in as administrator first.');
+    const old = btn ? btn.textContent : '';
+    try {
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      const resp = await postApi({action:'resend-certificate', password:currentAdminPassword, certificateId:certId});
+      if (!resp || resp.success === false) throw new Error((resp && resp.message) || 'Unable to resend email.');
+      if (btn) btn.textContent = 'Sent ✓';
+      await fetchRemoteCertificates();
+    } catch (err) {
+      alert('Email could not be sent. Open the Apps Script project, run/authorize a MailApp function once, then redeploy the Web App and try Resend Email again.\n\n' + (err.message || err));
+      if (btn) btn.textContent = old;
+    } finally { if (btn) btn.disabled = false; }
+  };
 
+  async function setCertStatus(certId, status) {
+    if (!currentAdminPassword) throw new Error('Please sign in as administrator first.');
+    const resp = await postApi({type:'admin-update-certificate', adminKey:currentAdminPassword, certificateId:certId, status});
+    if (!resp || resp.success === false) throw new Error((resp && resp.message) || 'Unable to update certificate.');
     const matched = issuedCertificates.find(c => (c.certificateNumber || c.id) === certId);
-    if (matched) {
-      matched.status = 'REVOKED';
-      localStorage.setItem('sk_issued_certificates', JSON.stringify(issuedCertificates));
-      renderIssuedTable();
-    }
+    if (matched) matched.status = status;
+    localStorage.setItem('sk_issued_certificates', JSON.stringify(issuedCertificates));
+    renderIssuedTable();
+  }
 
-    if (currentAdminPassword) {
-      postApi({
-        action: 'revoke-certificate',
-        password: currentAdminPassword,
-        certificateId: certId,
-        status: 'REVOKED'
-      }).catch(() => {});
-    }
+  window.revokeCert = async (certId) => {
+    if (!confirm(`Revoke Certificate ${certId}? Public verification will immediately show it as revoked.`)) return;
+    try { await setCertStatus(certId, 'REVOKED'); }
+    catch (err) { alert(err.message || err); }
+  };
+
+  window.deleteCert = async (certId) => {
+    if (!confirm(`Move Certificate ${certId} to the Recycle Bin? You can restore it later.`)) return;
+    try {
+      const resp = await postApi({action:'qms-delete-certificate', password:currentAdminPassword, certificateId:certId});
+      if (!resp || resp.success === false) throw new Error((resp && resp.message) || 'Unable to delete certificate.');
+      await fetchRemoteCertificates();
+      if (typeof window.skQmsRefreshDashboard === 'function') window.skQmsRefreshDashboard();
+    } catch (err) { alert(err.message || err); }
+  };
+
+  window.restoreCert = async (certId) => {
+    if (!confirm(`Restore Certificate ${certId} to ACTIVE status?`)) return;
+    try { await setCertStatus(certId, 'ACTIVE'); }
+    catch (err) { alert(err.message || err); }
   };
 
   // ==========================================================================
@@ -1208,7 +1414,9 @@
         const views = {
           studio: document.getElementById('subtabStudio'),
           activities: document.getElementById('subtabActivities'),
+          records: document.getElementById('subtabRecords'),
           tracker: document.getElementById('subtabTracker'),
+          recycle: document.getElementById('subtabRecycle'),
           analytics: document.getElementById('subtabAnalytics')
         };
         Object.values(views).forEach(v => v && (v.style.display = 'none'));
@@ -1253,11 +1461,15 @@
       if(f==='qr'){CERT_STATE.qrX=x;CERT_STATE.qrY=y;}
       if(f==='no'){CERT_STATE.noX=x;CERT_STATE.noY=y;}
     }
-    // Activity Studio template layout
+    // Activity Studio uses FLAT percentage keys (nameX/nameY, qrX/qrY, noX/noY).
+    // Keep the drag state in exactly the same structure used by Save Design for Activity.
     if(typeof activeStudioTemplate!=='undefined' && activeStudioTemplate && activeStudioTemplate.layout){
-      activeStudioTemplate.layout[f]=activeStudioTemplate.layout[f]||{};
-      activeStudioTemplate.layout[f].x=x;
-      activeStudioTemplate.layout[f].y=y;
+      activeStudioTemplate.layout[f + 'X'] = Math.round(x * 10) / 10;
+      activeStudioTemplate.layout[f + 'Y'] = Math.round(y * 10) / 10;
+      // Remove obsolete nested coordinates left by older free-move builds.
+      if(activeStudioTemplate.layout[f] && typeof activeStudioTemplate.layout[f] === 'object'){
+        delete activeStudioTemplate.layout[f];
+      }
     }
     el.style.left=x+'%'; el.style.top=y+'%';
   }
@@ -1317,7 +1529,15 @@ window.addEventListener('message',function(e){
   if(e.origin!==location.origin||!e.data||e.data.type!=='SK_CERT_LAYOUT_UPDATED')return;
   try{
     if(typeof activeStudioTemplate!=='undefined'&&activeStudioTemplate){
-      activeStudioTemplate.layout={...(activeStudioTemplate.layout||{}),...(e.data.layout||{})};
+      const incoming={...(e.data.layout||{})};
+      ['name','qr','no'].forEach(function(f){
+        if(incoming[f] && typeof incoming[f]==='object'){
+          if(Number.isFinite(Number(incoming[f].x))) incoming[f+'X']=Number(incoming[f].x);
+          if(Number.isFinite(Number(incoming[f].y))) incoming[f+'Y']=Number(incoming[f].y);
+          delete incoming[f];
+        }
+      });
+      activeStudioTemplate.layout={...(activeStudioTemplate.layout||{}),...incoming};
     }
     if(typeof activityTemplates!=='undefined'&&e.data.activityId){
       activityTemplates[e.data.activityId]=activityTemplates[e.data.activityId]||{};
@@ -1333,7 +1553,8 @@ window.skOpenCertificatePreview=function(){
    var activity=document.getElementById('ctActivity')||document.getElementById('certActivity')||document.getElementById('activityTemplateSelect');
    var actId=(activity&&activity.value)||'master';
    var layout={};try{layout=(activeStudioTemplate&&activeStudioTemplate.layout)||{};}catch(_){}
-   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,layout:JSON.stringify(layout),_:Date.now()});
+   try{localStorage.setItem('skCertStudioAdminKey',sessionStorage.getItem('skQmsAdminKey')||'');}catch(_){}
+   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,api:getCmsEndpoint(),layout:JSON.stringify(layout),_:Date.now()});
    var w=window.open('certificate.html?'+p.toString(),'_blank');
    if(!w)alert('Please allow pop-ups for this local site, then try again.');
    return false;
@@ -1477,391 +1698,108 @@ window.addEventListener('message', async function(e){
 })();
 
 
-/* ===== SK SAPILANG CERTIFICATE ONE-GO V12 ===== */
+/* ===== LEGACY V16 CERTIFICATE OVERLAY REMOVED IN V28 =====
+   Drive-link templates and local preview are handled by the current Certificate Studio only.
+   This prevents the obsolete PNG/JPG-required validation from overriding the Drive workflow. */
+
+/* ===== QMS CONSOLIDATED RECORDS / ACTIVITY REPORTS / RECYCLE V20 ===== */
 (function(){
- if(window.__SK_CERT_V12)return; window.__SK_CERT_V12=1;
-
- let V12_BG='', V12_FILE='';
- const state={
-   name:{x:50,y:48,size:38},
-   qr:{x:82,y:78,size:90},
-   no:{x:8,y:91,size:13}
- };
- let drag=null;
-
- function fileInput(){
-   return document.getElementById('ctFile')||
-          document.getElementById('certMasterFile')||
-          document.querySelector('input[type="file"][accept*="image"]');
- }
- function studioStage(){
-   return document.getElementById('ctEditor')||
-          document.getElementById('certVisualStage')||
-          document.getElementById('certStudioStage');
- }
- function setStudioBackground(url){
-   const st=studioStage(); if(!st)return;
-   st.style.backgroundImage=`url("${url}")`;
-   st.style.backgroundSize='100% 100%';
-   st.style.backgroundPosition='center';
-   st.style.backgroundRepeat='no-repeat';
- }
- function capture(file){
-   if(!file || !file.type.startsWith('image/'))return;
-   const r=new FileReader();
-   r.onload=()=>{
-     V12_BG=String(r.result||'');
-     V12_FILE=file.name||'certificate';
-     window.__SK_CERT_V12_BG=V12_BG;
-     setStudioBackground(V12_BG);
-   };
-   r.readAsDataURL(file);
- }
- document.addEventListener('change',e=>{
-   const i=e.target;
-   if(i && i.type==='file' && i.files && i.files[0]){
-     const id=(i.id||'').toLowerCase();
-     if(id==='ctfile'||id==='certmasterfile'||id.includes('cert')) capture(i.files[0]);
-   }
- },true);
-
- function ensureOverlay(){
-   let ov=document.getElementById('skCertV12Overlay');
-   if(ov)return ov;
-   ov=document.createElement('div');
-   ov.id='skCertV12Overlay';
-   ov.innerHTML=`
-   <style>
-   #skCertV12Overlay{position:fixed;inset:0;background:#dfe7f2;z-index:2147483000;overflow:auto;padding:16px;box-sizing:border-box}
-   #skCertV12Bar{max-width:1120px;margin:0 auto 10px;display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;font:600 13px Arial}
-   #skCertV12Bar button{border:1px solid #b8c4d2;background:white;border-radius:7px;padding:10px 14px;cursor:pointer;font-weight:700}
-   #skCertV12Bar .orange{background:#ff7900;color:#fff;border-color:#ff7900}
-   #skCertV12Canvas{width:min(1120px,calc(100vw - 32px));aspect-ratio:297/210;margin:auto;position:relative;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 30px #23364a35;overflow:hidden;touch-action:none}
-   .skv12item{position:absolute;z-index:5;cursor:move;user-select:none;touch-action:none;box-sizing:border-box}
-   .skv12item.active{outline:2px dashed #ff8a36;outline-offset:3px}
-   #skv12name{transform:translate(-50%,-50%);font-family:Georgia,serif;font-weight:700;white-space:nowrap}
-   #skv12qr{transform:translate(-50%,-50%);display:grid;place-items:center;background:#fff}
-   #skv12qr img{width:100%;height:100%;display:block}
-   #skv12no{white-space:nowrap;font:700 13px Arial}
-   #skCertV12Controls{max-width:1120px;margin:10px auto;background:#fff;padding:10px;border-radius:9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:13px Arial}
-   #skCertV12Controls button{padding:7px 10px}
-   @media print{body>*:not(#skCertV12Overlay){display:none!important}#skCertV12Overlay{position:static;padding:0;background:#fff}#skCertV12Bar,#skCertV12Controls{display:none!important}#skCertV12Canvas{width:297mm;height:210mm;box-shadow:none}}
-   </style>
-   <div id="skCertV12Bar">
-     <button type="button" data-v12="close">Back to QMS</button>
-     <button type="button" data-v12="reset">Reset Positions</button>
-     <button type="button" class="orange" data-v12="print">Print / Save PDF</button>
-   </div>
-   <div id="skCertV12Canvas">
-     <div id="skv12name" class="skv12item">SAMPLE PARTICIPANT NAME</div>
-     <div id="skv12qr" class="skv12item"><img alt="QR Code"></div>
-     <div id="skv12no" class="skv12item">Certificate No. SK-SAP-2026-000001</div>
-   </div>
-   <div id="skCertV12Controls">
-     <b>Selected:</b> <span id="skv12selected">Participant Name</span>
-     <label>Size <input id="skv12size" type="range" min="8" max="100" value="38"></label>
-     <button type="button" data-v12="name">Participant Name</button>
-     <button type="button" data-v12="qr">QR Code</button>
-     <button type="button" data-v12="no">Certificate Number</button>
-     <button type="button" data-v12="save">Save Adjustments</button>
-   </div>`;
-   document.body.appendChild(ov);
-
-   // Reuse the QR already generated by the QMS if available.
-   const sourceQR=document.querySelector('#ctEditor img[src*="qr"],#certVisualStage img[src*="qr"],img[alt*="QR"]');
-   const qri=ov.querySelector('#skv12qr img');
-   if(sourceQR && sourceQR.src) qri.src=sourceQR.src;
-   else qri.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(location.href);
-
-   ov.addEventListener('pointerdown',e=>{
-     const item=e.target.closest('.skv12item'); if(!item)return;
-     e.preventDefault();
-     ov.querySelectorAll('.skv12item').forEach(x=>x.classList.remove('active'));
-     item.classList.add('active');
-     const key=item.id==='skv12name'?'name':item.id==='skv12qr'?'qr':'no';
-     select(key);
-     const can=ov.querySelector('#skCertV12Canvas').getBoundingClientRect();
-     const r=item.getBoundingClientRect();
-     drag={item,key,can,dx:e.clientX-r.left,dy:e.clientY-r.top,pid:e.pointerId};
-     try{item.setPointerCapture(e.pointerId)}catch(_){}
-   });
-   ov.addEventListener('pointermove',e=>{
-     if(!drag)return;
-     const {item,key,can}=drag;
-     let px=(e.clientX-can.left-drag.dx)/can.width*100;
-     let py=(e.clientY-can.top-drag.dy)/can.height*100;
-     if(key==='name'||key==='qr'){
-       const rr=item.getBoundingClientRect();
-       px+=(rr.width/2)/can.width*100; py+=(rr.height/2)/can.height*100;
-     }
-     state[key].x=Math.max(0,Math.min(100,px));
-     state[key].y=Math.max(0,Math.min(100,py));
-     render();
-   });
-   const end=e=>{if(drag){try{drag.item.releasePointerCapture(drag.pid)}catch(_){} drag=null}};
-   ov.addEventListener('pointerup',end);ov.addEventListener('pointercancel',end);
-
-   ov.addEventListener('click',e=>{
-     const a=e.target.closest('[data-v12]'); if(!a)return;
-     const k=a.dataset.v12;
-     if(k==='close'){ov.remove();return}
-     if(k==='print'){window.print();return}
-     if(k==='reset'){
-       state.name={x:50,y:48,size:38};state.qr={x:82,y:78,size:90};state.no={x:8,y:91,size:13};render();return
-     }
-     if(k==='name'||k==='qr'||k==='no'){select(k);return}
-     if(k==='save'){
-       localStorage.setItem('skCertV12Layout',JSON.stringify(state));
-       alert('Certificate positions saved on this browser.');
-     }
-   });
-   ov.querySelector('#skv12size').addEventListener('input',e=>{
-     const key=ov.dataset.selected||'name';state[key].size=Number(e.target.value);render();
-   });
-   return ov;
- }
- function select(key){
-   const ov=document.getElementById('skCertV12Overlay');if(!ov)return;
-   ov.dataset.selected=key;
-   ov.querySelector('#skv12selected').textContent=key==='name'?'Participant Name':key==='qr'?'QR Code':'Certificate Number';
-   ov.querySelector('#skv12size').value=state[key].size;
-   ov.querySelectorAll('.skv12item').forEach(x=>x.classList.remove('active'));
-   ov.querySelector(key==='name'?'#skv12name':key==='qr'?'#skv12qr':'#skv12no').classList.add('active');
- }
- function render(){
-   const ov=document.getElementById('skCertV12Overlay');if(!ov)return;
-   const canvas=ov.querySelector('#skCertV12Canvas');
-   canvas.style.backgroundImage=V12_BG?`url("${V12_BG}")`:'none';
-   const n=ov.querySelector('#skv12name'),q=ov.querySelector('#skv12qr'),no=ov.querySelector('#skv12no');
-   n.style.left=state.name.x+'%';n.style.top=state.name.y+'%';n.style.fontSize=state.name.size+'px';
-   q.style.left=state.qr.x+'%';q.style.top=state.qr.y+'%';q.style.width=state.qr.size+'px';q.style.height=state.qr.size+'px';
-   no.style.left=state.no.x+'%';no.style.top=state.no.y+'%';no.style.fontSize=state.no.size+'px';
- }
- window.skOpenCertificatePreview=function(){
-   const i=fileInput();
-   if(!V12_BG && i && i.files && i.files[0]) capture(i.files[0]);
-   setTimeout(()=>{
-     if(!V12_BG){alert('Please choose your finished certificate PNG/JPG first.');return}
-     try{
-       const saved=JSON.parse(localStorage.getItem('skCertV12Layout')||'null');
-       if(saved){Object.assign(state.name,saved.name||{});Object.assign(state.qr,saved.qr||{});Object.assign(state.no,saved.no||{})}
-     }catch(_){}
-     ensureOverlay();render();select('name');
-   },V12_BG?0:250);
-   return false;
- };
-
- // Force existing "Open Live Certificate Preview" links/buttons to use V12.
- document.addEventListener('click',e=>{
-   const el=e.target.closest('a,button');if(!el)return;
-   const t=(el.textContent||'').trim().toLowerCase();
-   if(t.includes('open live certificate preview')){
-     e.preventDefault();e.stopImmediatePropagation();window.skOpenCertificatePreview();
-   }
- },true);
+'use strict';
+let dashboard=null,recordKind='clients';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const endpoint=()=>window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint')||'';
+async function api(params){const ep=endpoint();if(!ep)throw new Error('CMS endpoint is not configured.');const r=await fetch(ep,{method:'POST',body:new URLSearchParams(params),redirect:'follow'});const j=await r.json();if(!j||!j.success)throw new Error(j?.message||'Request failed.');return j}
+async function load(){const pwd=sessionStorage.getItem('skQmsAdminKey')||'';if(!pwd)return;try{const r=await api({action:'qms-dashboard',password:pwd});dashboard=r.dashboard;fillActivities();render()}catch(e){console.warn(e)}loadRecycle()}
+function fillActivities(){const sel=document.getElementById('qmsActivityFilter');if(!sel||!dashboard)return;const cur=sel.value,titles=[...new Set((dashboard.activities||[]).map(x=>x.activity).filter(Boolean))].sort();sel.innerHTML='<option value="">All Activities</option>'+titles.map(x=>`<option>${esc(x)}</option>`).join('');sel.value=titles.includes(cur)?cur:''}
+function rows(){return dashboard?.[recordKind]||[]}
+function searchable(x){return Object.values(x).join(' ').toLowerCase()}
+function filtered(){const q=(document.getElementById('qmsRecordSearch')?.value||'').toLowerCase(),act=document.getElementById('qmsActivityFilter')?.value||'';return rows().filter(x=>(!q||searchable(x).includes(q))&&(!act||recordKind!=='activities'||x.activity===act))}
+function render(){const h=document.getElementById('qmsRecordsHead'),b=document.getElementById('qmsRecordsBody'),af=document.getElementById('qmsActivityFilter');if(!h||!b||!dashboard)return;if(af)af.style.display=recordKind==='activities'?'block':'none';let data=filtered(),heads=[],body='';if(recordKind==='clients'){heads=['Date','Reference','Visitor','Service / Purpose','Rating','Actions'];body=data.map(x=>`<tr><td>${esc(x.timestamp)}</td><td>${esc(x.reference)}</td><td><strong>${esc(x.name)}</strong><br><small>${esc(x.clientType)}</small></td><td>${esc(x.service)}<br><small>${esc(x.purpose)}</small></td><td>${Number(x.rating||0).toFixed(2)} / 5</td><td>${actions('client',x.reference)}</td></tr>`).join('')}else if(recordKind==='activities'){heads=['Date','Reference','Participant','Activity','Score','Actions'];body=data.map(x=>`<tr><td>${esc(x.timestamp)}</td><td>${esc(x.reference)}</td><td><strong>${esc(x.participant)}</strong><br><small>${esc(x.classification)}</small></td><td>${esc(x.activity)}<br><small>${esc(x.activityType)}</small></td><td>${Number(x.averageScore||0).toFixed(2)} / 5</td><td>${actions('activity',x.reference)}</td></tr>`).join('')}else{heads=['Date','Reference','From','Subject','Status','Actions'];body=data.map(x=>`<tr><td>${esc(x.timestamp)}</td><td>${esc(x.reference)}</td><td>${esc(x.name||'Anonymous')}</td><td><strong>${esc(x.subject)}</strong><br><small>${esc(x.category)} · ${esc(x.area)}</small></td><td>${esc(x.status)}</td><td>${actions('suggestion',x.reference)}</td></tr>`).join('')}h.innerHTML='<tr>'+heads.map(x=>'<th>'+x+'</th>').join('')+'</tr>';b.innerHTML=body||`<tr><td colspan="${heads.length}" style="text-align:center">No matching records.</td></tr>`}
+function actions(type,ref){return `<div class="record-actions"><button type="button" onclick="skQmsPrintRecord('${type}','${esc(ref)}')">Print</button><button type="button" class="danger" onclick="skQmsDeleteRecord('${type}','${esc(ref)}')">Delete</button></div>`}
+function findRecord(type,ref){const key=type==='client'?'clients':type==='activity'?'activities':'suggestions';return(dashboard?.[key]||[]).find(x=>x.reference===ref)}
+const labels={rating:'Overall Rating',relevance:'Relevance of Activity',objectives:'Objectives Achieved',facilitatorRating:'Facilitation',organization:'Organization',venueRating:'Venue / Facilities',materials:'Materials',timeManagement:'Time Management',engagement:'Participant Engagement',speakerKnowledge:'Speaker Knowledge',speakerClarity:'Speaker Clarity',speakerEngagement:'Speaker Engagement',speakerResponsiveness:'Speaker Responsiveness'};
+function printDoc(title,html){const w=open('','_blank');w.document.write(`<title>${esc(title)}</title><style>body{font-family:Arial,sans-serif;padding:28px;color:#082b50}h1{font-size:22px;margin:0 0 5px}h2{font-size:17px;margin-top:24px}.meta{color:#52677d;margin-bottom:18px}table{border-collapse:collapse;width:100%;margin:12px 0 20px}th,td{border:1px solid #ccd5df;padding:8px;text-align:left;vertical-align:top}th{background:#f4f7fa}.num{text-align:center}.summary{display:flex;gap:14px;flex-wrap:wrap}.card{border:1px solid #ccd5df;border-radius:10px;padding:12px;min-width:150px}.card strong{font-size:20px;color:#f47b20}@media print{button{display:none}.card{break-inside:avoid}}</style><h1>SK Sapilang Quality Management System</h1>${html}<p class="meta">Printed ${new Date().toLocaleString()}</p><button onclick="print()">Print / Save PDF</button>`);w.document.close()}
+window.skQmsPrintRecord=function(type,ref){const x=findRecord(type,ref);if(!x)return;if(type==='activity'){const ratingRows=Object.keys(labels).map(k=>{const n=Number(x[k]||0);return `<tr><th>${labels[k]}</th><td class="num">${n>0?n.toFixed(2)+' / 5':'N/A'}</td></tr>`}).join('');const comments=[['Speaker Comments',x.speakerComments],['Key Learning',x.learning],['Liked Most',x.likedMost],['Areas for Improvement',x.improvement],['Future Activities',x.future]].filter(x=>x[1]).map(x=>`<tr><th>${esc(x[0])}</th><td>${esc(x[1])}</td></tr>`).join('');return printDoc('Evaluation '+ref,`<h2>Individual Activity Evaluation</h2><p class="meta"><strong>${esc(x.activity)}</strong> · ${esc(ref)}</p><table><tr><th>Participant</th><td>${esc(x.participant)}</td></tr><tr><th>Classification</th><td>${esc(x.classification)}</td></tr><tr><th>Date Submitted</th><td>${esc(x.timestamp)}</td></tr><tr><th>Activity Type</th><td>${esc(x.activityType)}</td></tr><tr><th>Total / Average Rating</th><td><strong>${Number(x.averageScore||0).toFixed(2)} / 5</strong></td></tr></table><h2>Ratings</h2><table>${ratingRows}</table>${comments?'<h2>Feedback</h2><table>'+comments+'</table>':''}`)}const privateKeys=['birthdate','address','contact','email'];const lines=Object.entries(x).filter(([k,v])=>v!==''&&v!=null&&!privateKeys.includes(k)).map(([k,v])=>`<tr><th>${esc(k.replace(/([A-Z])/g,' $1'))}</th><td>${esc(v)}</td></tr>`).join('');printDoc('QMS Record '+ref,`<h2>Official ${esc(type)} Record</h2><p class="meta">${esc(ref)}</p><table>${lines}</table>`)};
+window.skQmsPrintActivityReport=function(){if(recordKind!=='activities'){print();return}const data=filtered();if(!data.length)return alert('No activity evaluations to print.');const selected=document.getElementById('qmsActivityFilter')?.value||'';if(!selected){const names=[...new Set(data.map(x=>x.activity).filter(Boolean))];if(names.length!==1)return alert('Select one Activity first to print its consolidated report.')}const title=selected||data[0].activity,criteria=Object.keys(labels);const avgs={};criteria.forEach(k=>{const nums=data.map(x=>Number(x[k])).filter(n=>n>0);avgs[k]=nums.length?nums.reduce((a,b)=>a+b,0)/nums.length:0});const overall=data.reduce((a,x)=>a+Number(x.averageScore||0),0)/data.length;const dist=[5,4,3,2,1].map(n=>({n,count:data.filter(x=>Math.round(Number(x.averageScore||0))===n).length}));const ratingRows=criteria.map(k=>{const count=data.map(x=>Number(x[k])).filter(n=>n>0).length;return `<tr><th>${labels[k]}</th><td class="num">${count?avgs[k].toFixed(2)+' / 5':'N/A'}</td><td class="num">${count} response(s)</td></tr>`}).join('');const people=data.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.participant)}</td><td>${esc(x.reference)}</td><td class="num">${Number(x.averageScore||0).toFixed(2)} / 5</td></tr>`).join('');const comments=data.filter(x=>x.improvement||x.likedMost||x.future).map(x=>`<tr><td>${esc(x.reference)}</td><td>${esc(x.likedMost||'—')}</td><td>${esc(x.improvement||'—')}</td><td>${esc(x.future||'—')}</td></tr>`).join('');printDoc(title+' Activity Report',`<h2>Activity Evaluation Report</h2><p class="meta"><strong>${esc(title)}</strong></p><div class="summary"><div class="card">Responses<br><strong>${data.length}</strong></div><div class="card">Overall Average<br><strong>${overall.toFixed(2)} / 5</strong></div>${dist.map(d=>`<div class="card">${d.n}-Star / Rating<br><strong>${d.count}</strong></div>`).join('')}</div><h2>Rating for Every Evaluation Question</h2><table><tr><th>Evaluation Question / Criterion</th><th>Average Rating</th><th>Rated Responses</th></tr>${ratingRows}</table><h2>Participant Evaluation Summary</h2><table><tr><th>#</th><th>Participant</th><th>Reference</th><th>Average</th></tr>${people}</table>${comments?'<h2>Comments & Suggestions</h2><table><tr><th>Reference</th><th>Liked Most</th><th>Improvement</th><th>Future Activities</th></tr>'+comments+'</table>':''}`)};
+window.skQmsDeleteRecord=async function(type,ref){if(!confirm('Move this response to the Recycle Bin? Analytics will automatically recalculate using active records only.'))return;try{await api({action:'qms-delete-record',password:sessionStorage.getItem('skQmsAdminKey')||'',recordType:type,reference:ref});await load()}catch(e){alert(e.message)}};
+async function loadRecycle(){const b=document.getElementById('qmsRecycleBody');if(!b)return;try{const r=await api({action:'recycle-list',password:sessionStorage.getItem('skQmsAdminKey')||''});b.innerHTML=(r.records||[]).map(x=>{let d={};try{d=JSON.parse(x.data||'{}')}catch(_){}const label=d.FULL_NAME||d.PARTICIPANT||d.SUBJECT||d.NAME||'',context=d.ACTIVITY||d.SERVICE_AVAILED||d.SUBJECT||d.CATEGORY||'—';return `<tr><td>${esc(x.deletedAt)}</td><td>${esc(x.type)}</td><td>${esc(x.reference)}</td><td>${esc(label)}</td><td>${esc(context)}</td><td><div class="record-actions"><button type="button" onclick="skQmsRestoreRecord('${esc(x.reference)}')">Restore</button><button type="button" class="danger" onclick="skQmsPurgeRecord('${esc(x.reference)}')">Delete Permanently</button></div></td></tr>`}).join('')||'<tr><td colspan="6" style="text-align:center">Recycle Bin is empty.</td></tr>'}catch(e){b.innerHTML='<tr><td colspan="6">Unable to load Recycle Bin.</td></tr>'}}
+window.skQmsRestoreRecord=async ref=>{try{await api({action:'recycle-restore',password:sessionStorage.getItem('skQmsAdminKey')||'',reference:ref});await load()}catch(e){alert(e.message)}};
+window.skQmsPurgeRecord=async ref=>{if(!confirm('Permanently delete this recycled record? This cannot be undone.'))return;try{await api({action:'recycle-purge',password:sessionStorage.getItem('skQmsAdminKey')||'',reference:ref});await load()}catch(e){alert(e.message)}};
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[data-record-kind]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-record-kind]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');recordKind=btn.dataset.recordKind;render()}));document.getElementById('qmsRecordSearch')?.addEventListener('input',render);document.getElementById('qmsActivityFilter')?.addEventListener('change',render);document.getElementById('btnPrintRecordGroup')?.addEventListener('click',window.skQmsPrintActivityReport);document.querySelector('[data-subtab="records"]')?.addEventListener('click',load);document.querySelector('[data-subtab="recycle"]')?.addEventListener('click',loadRecycle);document.getElementById('btnAdminRefresh')?.addEventListener('click',load);const observer=new MutationObserver(()=>{if(document.getElementById('adminWorkspace')?.style.display==='block'&&!dashboard)load()});observer.observe(document.getElementById('adminWorkspace')||document.body,{attributes:true,attributeFilter:['style']})})
 })();
 
 
-/* ===== SK SAPILANG CERTIFICATE BACKGROUND REPLACE V13 ===== */
+/* ===== V29 ACTIVITY FOLDERS + LIVE ANALYTICS ===== */
 (function(){
- if(window.__SK_CERT_REPLACE_V13)return;window.__SK_CERT_REPLACE_V13=1;
+  if(window.__SK_V29_GROUPS)return; window.__SK_V29_GROUPS=true;
+  function esc29(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function groupCerts(){
+    const body=document.getElementById('certsTableBody'); if(!body||!Array.isArray(window.__v29Certs||null))return;
+  }
+  function enhanceCertificateFolders(){
+    const body=document.getElementById('certsTableBody'); if(!body)return;
+    const rows=[...body.querySelectorAll('tr')].filter(r=>r.children.length===7 && !r.classList.contains('v29-folder'));
+    if(!rows.length)return;
+    body.querySelectorAll('.v29-folder').forEach(x=>x.remove());
+    let last=''; rows.forEach(r=>{const act=(r.children[2]?.textContent||'Unassigned Activity').trim(); if(act!==last){const tr=document.createElement('tr');tr.className='v29-folder';tr.innerHTML=`<td colspan="7"><div class="v29-folderbar"><strong>📁 ${esc29(act)}</strong><span><button type="button" onclick="window.skPrintCertificateActivity('${encodeURIComponent(act)}')">Print Activity List</button></span></div></td>`;body.insertBefore(tr,r);last=act;}});
+  }
+  window.skPrintCertificateActivity=function(encoded){const act=decodeURIComponent(encoded), rows=[...document.querySelectorAll('#certsTableBody tr')].filter(r=>r.children.length===7&&(r.children[2]?.textContent||'').trim()===act);const html=rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.children[0].innerText}</td><td>${r.children[1].innerText}</td><td>${r.children[3].innerText}</td><td>${r.children[4].innerText}</td></tr>`).join('');const w=open('','_blank');w.document.write(`<title>${esc29(act)} Certificates</title><style>body{font-family:Arial;padding:28px;color:#082b50}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccd5df;padding:8px}th{background:#f4f7fa}button{margin-top:20px}@media print{button{display:none}}</style><h1>SK Sapilang Certificate Registry</h1><h2>${esc29(act)}</h2><p>Total Certificates: <strong>${rows.length}</strong></p><table><tr><th>#</th><th>Certificate No.</th><th>Participant</th><th>Issued</th><th>Status</th></tr>${html}</table><button onclick="print()">Print / Save PDF</button>`);w.document.close();};
+  let folderBusy=false,folderTimer=null;
+  const safeEnhance=()=>{if(folderBusy)return;folderBusy=true;try{enhanceCertificateFolders();}finally{folderBusy=false;}};
+  const mo=new MutationObserver(()=>{if(folderBusy)return;clearTimeout(folderTimer);folderTimer=setTimeout(safeEnhance,60);});
+  const start=()=>{const b=document.getElementById('certsTableBody');if(b){safeEnhance();mo.observe(b,{childList:true});}};
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start):start();
 
- function isCertInput(i){
-   if(!i||i.type!=='file')return false;
-   const id=(i.id||'').toLowerCase(), name=(i.name||'').toLowerCase();
-   return id==='ctfile'||id==='certmasterfile'||id.includes('cert')||name.includes('cert');
- }
- function applyNewFile(file){
-   if(!file||!file.type.startsWith('image/'))return;
-   const reader=new FileReader();
-   reader.onload=function(){
-     const fresh=String(reader.result||'');
-
-     // Explicitly discard the old background and replace it everywhere.
-     window.__SK_CERT_UPLOAD_DATAURL=fresh;
-     window.__SK_CERT_V12_BG=fresh;
-
-     // V12 keeps V12_BG in its closure, so force its preview canvas and
-     // Studio stage to use the new image immediately.
-     const stages=[
-       document.getElementById('ctEditor'),
-       document.getElementById('certVisualStage'),
-       document.getElementById('certStudioStage')
-     ].filter(Boolean);
-     stages.forEach(st=>{
-       st.style.backgroundImage='url("'+fresh+'")';
-       st.style.backgroundSize='100% 100%';
-       st.style.backgroundPosition='center';
-       st.style.backgroundRepeat='no-repeat';
-       const bg=st.querySelector('#certStudioBackground,img[data-background],img.cert-background');
-       if(bg){bg.src=fresh;bg.style.display='block'}
-     });
-
-     // If the full V12 editor is already open, replace its background live.
-     const canvas=document.getElementById('skCertV12Canvas');
-     if(canvas){
-       canvas.style.backgroundImage='url("'+fresh+'")';
-       canvas.style.backgroundSize='100% 100%';
-       canvas.style.backgroundPosition='center';
-       canvas.style.backgroundRepeat='no-repeat';
-     }
-
-     // Remember the newest selection independently of old template/cache data.
-     try{sessionStorage.setItem('skCertLatestBackground',fresh)}catch(_){}
-   };
-   reader.readAsDataURL(file);
- }
-
- document.addEventListener('change',function(e){
-   const i=e.target;
-   if(!isCertInput(i)||!i.files||!i.files[0])return;
-   // Clear old object/data references before reading the replacement.
-   window.__SK_CERT_UPLOAD_DATAURL='';
-   window.__SK_CERT_V12_BG='';
-   try{sessionStorage.removeItem('skCertLatestBackground')}catch(_){}
-   applyNewFile(i.files[0]);
- },true);
-
- // Override the V12 open action so the newest selected file always wins.
- document.addEventListener('click',function(e){
-   const b=e.target.closest('a,button');if(!b)return;
-   const text=(b.textContent||'').trim().toLowerCase();
-   if(!text.includes('open live certificate preview'))return;
-
-   const input=document.getElementById('ctFile')||
-               document.getElementById('certMasterFile')||
-               document.querySelector('input[type="file"][accept*="image"]');
-
-   if(input&&input.files&&input.files[0]){
-     applyNewFile(input.files[0]);
-     // Give FileReader a moment, then update the V12 canvas after it opens.
-     setTimeout(function(){
-       try{
-         const latest=sessionStorage.getItem('skCertLatestBackground')||window.__SK_CERT_UPLOAD_DATAURL||'';
-         const cv=document.getElementById('skCertV12Canvas');
-         if(cv&&latest){
-           cv.style.backgroundImage='url("'+latest+'")';
-           cv.style.backgroundSize='100% 100%';
-         }
-       }catch(_){}
-     },350);
-   }
- },true);
+  async function refreshAnalytics(){
+    const pwd=sessionStorage.getItem('skQmsAdminKey')||''; if(!pwd)return;
+    try{const endpoint=(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint')||localStorage.getItem('sk_cms_endpoint')||'').trim(); if(!endpoint)return; const d=await new Promise(resolve=>{const cb='qms_an_'+Date.now()+'_'+Math.floor(Math.random()*9999),sc=document.createElement('script');let t=setTimeout(()=>{try{sc.remove();delete window[cb]}catch(_){}resolve(null)},10000);window[cb]=v=>{clearTimeout(t);try{sc.remove();delete window[cb]}catch(_){}resolve(v)};sc.onerror=()=>{clearTimeout(t);try{sc.remove();delete window[cb]}catch(_){}resolve(null)};sc.src=endpoint+'?'+new URLSearchParams({action:'qms-dashboard',password:pwd,callback:cb,_:Date.now()});document.head.appendChild(sc)});const x=d&&d.dashboard;if(!x)return;
+      const s=x.summary||{}; window.__skLastQmsDashboard=x; const a=document.getElementById('kpiActivityAvg'),c=document.getElementById('kpiClientAvg'),sg=document.getElementById('kpiTotalSuggestions'),ct=document.getElementById('kpiTotalCerts'); if(a)a.textContent=(Number(s.averageActivityScore||0)).toFixed(2)+' / 5.0';if(c)c.textContent=(Number(s.averageClientSatisfaction||0)).toFixed(2)+' / 5.0';if(sg)sg.textContent=Number(s.suggestions||0);if(ct)ct.textContent=Number(s.activeCertificates||0);
+      let host=document.getElementById('v29AnalyticsAll');if(!host){host=document.createElement('div');host.id='v29AnalyticsAll';document.querySelector('#subtabAnalytics .panel-header')?.insertAdjacentElement('afterend',host);}
+      const groups={};(x.activities||[]).forEach(r=>{const k=r.activity||'Unassigned Activity';(groups[k]??=[]).push(r)});
+      host.innerHTML=`<div class="v29-analytics-grid"><div class="v29-card"><small>Activity Evaluations</small><strong>${Number(s.activityEvaluations||0)}</strong></div><div class="v29-card"><small>Visitor / Client Responses</small><strong>${Number(s.clientResponses||0)}</strong></div><div class="v29-card"><small>Speaker Evaluations</small><strong>${Number(s.speakerEvaluations||0)}</strong></div><div class="v29-card"><small>Suggestions / Proposals</small><strong>${Number(s.suggestions||0)}</strong></div></div><h4>Activity-by-Activity Analytics</h4>${Object.entries(groups).map(([name,rs])=>{const avg=rs.length?rs.reduce((t,r)=>t+Number(r.averageScore||0),0)/rs.length:0;return `<div class="v29-activity-analytics"><strong>📁 ${esc29(name)}</strong><span>${rs.length} response(s) · ${avg.toFixed(2)} / 5.0</span><button type="button" onclick="window.skV29PrintEvalActivity('${encodeURIComponent(name)}')">Print Report</button></div>`}).join('')||'<p>No active activity evaluations yet.</p>'}`;
+      const gad=x.gadSummary||{};
+      host.insertAdjacentHTML('beforeend',`<div class="gad-admin-report"><div class="gad-admin-head"><div><h4>GAD Compliance & Documentation View</h4><p>Optional administrative view for legitimate Gender and Development monitoring, verification, validation, assessment, recognition, awards, planning, and official documentation. Displays aggregated information only.</p></div><button type="button" id="btnToggleGadReport">Show GAD Documentation</button></div><div id="gadAdminBody" style="display:none"><label><strong>Purpose of Report</strong></label><select id="gadReportPurpose" class="form-control" style="max-width:420px;margin:8px 0 14px"><option>GAD Accomplishment / Monitoring</option><option>Validation / Verification</option><option>Awards / Recognition Documentation</option><option>Audit / Assessment</option><option>Planning / Program Review</option><option>Other Official GAD Purpose</option></select><div id="gadAggregateCards"></div><p class="gad-privacy-note">Privacy safeguard: this view shows aggregate counts only. Names, contact details, addresses, and individual optional GAD responses are not shown.</p><button type="button" class="btn-header btn-header-orange" id="btnPrintGadReport">Print GAD Documentation Report</button></div></div>`);
+      const body=document.getElementById('gadAdminBody'),toggle=document.getElementById('btnToggleGadReport');
+      const list=(title,arr)=>`<div class="gad-stat"><strong>${esc29(title)}</strong>${(arr||[]).map(i=>`<span>${esc29(i.label)} <b>${Number(i.value||0)}</b></span>`).join('')||'<span>No active responses</span>'}</div>`;
+      const cards=document.getElementById('gadAggregateCards'); if(cards)cards.innerHTML=`<div class="v29-analytics-grid"><div class="v29-card"><small>Active GAD Profiles</small><strong>${Number(gad.totalProfiles||0)}</strong></div><div class="v29-card"><small>Resource Speaker Evaluations</small><strong>${Number(s.resourceSpeakerEvaluations||0)}</strong></div></div><div class="gad-stat-grid">${list('Sex Assigned at Birth',gad.sex)}${list('Gender Identity / Expression',gad.gender)}${list('Accessibility / Participation Support',gad.accessibility)}${list('Form / Participation Source',gad.formTypes)}</div>`;
+      if(toggle)toggle.onclick=()=>{const show=body.style.display==='none';body.style.display=show?'block':'none';toggle.textContent=show?'Hide GAD Documentation':'Show GAD Documentation'};
+      document.getElementById('btnPrintGadReport')?.addEventListener('click',()=>window.skPrintGadDocumentation&&window.skPrintGadDocumentation());
+    }catch(e){console.warn('Analytics refresh failed',e)}
+  }
+  window.skQmsRefreshDashboard=refreshAnalytics;
+  window.skV29PrintEvalActivity=function(enc){const name=decodeURIComponent(enc);const filter=document.getElementById('qmsActivityFilter');if(filter){filter.value=name;filter.dispatchEvent(new Event('change'));}setTimeout(()=>window.skQmsPrintActivityReport&&window.skQmsPrintActivityReport(),50)};
+  window.skPrintGadDocumentation=function(){const x=window.__skLastQmsDashboard||{},g=x.gadSummary||{},s=x.summary||{},purpose=document.getElementById('gadReportPurpose')?.value||'GAD Documentation';const rows=(title,arr)=>`<h3>${esc29(title)}</h3><table><tr><th>Category</th><th>Active Responses</th></tr>${(arr||[]).map(i=>`<tr><td>${esc29(i.label)}</td><td>${Number(i.value||0)}</td></tr>`).join('')||'<tr><td colspan="2">No active responses</td></tr>'}</table>`;const w=open('','_blank');w.document.write(`<title>SK Sapilang GAD Documentation Report</title><style>body{font-family:Arial,sans-serif;color:#082b50;padding:30px}h1{margin-bottom:4px}p{line-height:1.5}table{width:100%;border-collapse:collapse;margin:8px 0 20px}th,td{border:1px solid #cbd5e1;padding:8px;text-align:left}th{background:#f1f5f9}.note{font-size:12px;color:#475569;border:1px solid #cbd5e1;padding:12px}button{margin-top:18px;padding:10px 16px}@media print{button{display:none}}</style><h1>Sangguniang Kabataan of Barangay Sapilang</h1><h2>GAD Compliance & Documentation Report</h2><p><strong>Purpose:</strong> ${esc29(purpose)}<br><strong>Generated:</strong> ${new Date().toLocaleString()}<br><strong>Active GAD profiles:</strong> ${Number(g.totalProfiles||0)}<br><strong>Active activity evaluations:</strong> ${Number(s.activityEvaluations||0)}<br><strong>Active visitor/client responses:</strong> ${Number(s.clientResponses||0)}<br><strong>Resource speaker evaluations of organizers:</strong> ${Number(s.resourceSpeakerEvaluations||0)}</p>${rows('Sex Assigned at Birth',g.sex)}${rows('Gender Identity / Expression',g.gender)}${rows('Accessibility / Participation Support',g.accessibility)}${rows('Participation / Form Source',g.formTypes)}<p class="note"><strong>Data privacy and integrity note:</strong> This report contains aggregated active records only. Deleted/recycled records are excluded automatically. Individual names, contact information, addresses, and person-level optional GAD responses are not displayed.</p><button onclick="print()">Print / Save PDF</button>`);w.document.close();};
+  document.addEventListener('click',e=>{if(e.target?.dataset?.subtab==='analytics')setTimeout(refreshAnalytics,50)});
 })();
 
 
-/* ===== SK SAPILANG PRINT CERTIFICATE V14 =====
-   Fix: use a real IMG layer for printing, force A4 landscape,
-   and keep Name / QR / Certificate No. above it.
-*/
-(function(){
- if(window.__SK_CERT_PRINT_V14)return; window.__SK_CERT_PRINT_V14=1;
-
- function latestBg(){
-   try{
-     return sessionStorage.getItem('skCertLatestBackground') ||
-            window.__SK_CERT_UPLOAD_DATAURL ||
-            window.__SK_CERT_V12_BG || '';
-   }catch(_){
-     return window.__SK_CERT_UPLOAD_DATAURL || window.__SK_CERT_V12_BG || '';
-   }
- }
-
- function installPrintImage(){
-   const canvas=document.getElementById('skCertV12Canvas');
-   if(!canvas)return;
-   let img=document.getElementById('skCertV14PrintBg');
-   if(!img){
-     img=document.createElement('img');
-     img.id='skCertV14PrintBg';
-     img.alt='Certificate Background';
-     img.setAttribute('aria-hidden','true');
-     Object.assign(img.style,{
-       position:'absolute',inset:'0',width:'100%',height:'100%',
-       objectFit:'fill',display:'block',zIndex:'0',
-       pointerEvents:'none',userSelect:'none'
-     });
-     canvas.insertBefore(img,canvas.firstChild);
-   }
-   const bg=latestBg();
-   if(bg) img.src=bg;
-   canvas.style.backgroundImage='none';
-   canvas.querySelectorAll('.skv12item').forEach(el=>{
-     el.style.zIndex='5';
-     el.style.position='absolute';
-   });
- }
-
- function addPrintCss(){
-   if(document.getElementById('skCertV14PrintCss'))return;
-   const s=document.createElement('style');
-   s.id='skCertV14PrintCss';
-   s.textContent=`
-   @page{size:A4 landscape;margin:0}
-   @media print{
-     html,body{margin:0!important;padding:0!important;width:297mm!important;height:210mm!important;overflow:hidden!important;background:#fff!important}
-     body>*:not(#skCertV12Overlay){display:none!important}
-     #skCertV12Overlay{
-       display:block!important;position:fixed!important;inset:0!important;
-       width:297mm!important;height:210mm!important;margin:0!important;padding:0!important;
-       background:#fff!important;overflow:hidden!important;
-     }
-     #skCertV12Bar,#skCertV12Controls{display:none!important}
-     #skCertV12Canvas{
-       display:block!important;position:absolute!important;left:0!important;top:0!important;
-       width:297mm!important;height:210mm!important;max-width:none!important;
-       margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;
-       overflow:hidden!important;background:none!important;aspect-ratio:auto!important;
-       -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;
-     }
-     #skCertV14PrintBg{
-       display:block!important;position:absolute!important;left:0!important;top:0!important;
-       width:297mm!important;height:210mm!important;object-fit:fill!important;z-index:0!important;
-     }
-     #skCertV12Canvas .skv12item{z-index:5!important}
-   }`;
-   document.head.appendChild(s);
- }
-
- // Keep the real image synchronized whenever a different PNG is selected.
- document.addEventListener('change',function(e){
-   const i=e.target;
-   if(!i || i.type!=='file' || !i.files || !i.files[0])return;
-   const id=(i.id||'').toLowerCase();
-   if(!(id==='ctfile'||id==='certmasterfile'||id.includes('cert')))return;
-   const r=new FileReader();
-   r.onload=function(){
-     const data=String(r.result||'');
-     try{sessionStorage.setItem('skCertLatestBackground',data)}catch(_){}
-     setTimeout(installPrintImage,0);
-   };
-   r.readAsDataURL(i.files[0]);
- },true);
-
- // When the editor opens, create the image layer.
- document.addEventListener('click',function(e){
-   const el=e.target.closest('a,button'); if(!el)return;
-   const t=(el.textContent||'').toLowerCase();
-   if(t.includes('open live certificate preview')){
-     addPrintCss();
-     setTimeout(installPrintImage,450);
-   }
- },true);
-
- // Intercept only V12's Print / Save PDF button.
- document.addEventListener('click',function(e){
-   const el=e.target.closest('[data-v12="print"]'); if(!el)return;
-   e.preventDefault(); e.stopImmediatePropagation();
-   addPrintCss(); installPrintImage();
-   const img=document.getElementById('skCertV14PrintBg');
-   if(!img || !img.src){
-     alert('Please choose the certificate PNG/JPG before printing.');
-     return;
-   }
-   const doPrint=()=>setTimeout(()=>window.print(),80);
-   if(img.complete) doPrint();
-   else { img.onload=doPrint; img.onerror=()=>alert('The certificate image could not be loaded for printing. Please select the PNG/JPG again.'); }
- },true);
-
- addPrintCss();
-})();
+/* ===== V38 LIVE PREVIEW PERMANENT LAYOUT SAVE =====
+   Called directly by certificate.html while the preview was opened from QMS.
+   Saves one master set of coordinates per activity; participant content remains unique. */
+window.skSaveCertificatePreviewLayout = async function(activityId, layout){
+  const targetId=String(activityId||'master').trim()||'master';
+  const incoming=Object.assign({},layout||{});
+  if(typeof activeStudioTemplate==='undefined'||!activeStudioTemplate) throw new Error('Certificate Studio is not ready.');
+  activeStudioTemplate.layout=Object.assign({},activeStudioTemplate.layout||{},incoming);
+  if(typeof activityTemplates!=='undefined'){
+    activityTemplates[targetId]=Object.assign({},activityTemplates[targetId]||{},activeStudioTemplate,{layout:Object.assign({},activeStudioTemplate.layout)});
+    localStorage.setItem('sk_cert_templates',JSON.stringify(activityTemplates));
+  }
+  localStorage.setItem('sk_cert_preview_activity',targetId);
+  localStorage.setItem('sk_cert_preview_template',JSON.stringify(activeStudioTemplate));
+  const sel=document.getElementById('ctActivity')||document.getElementById('certActivity')||document.getElementById('activityTemplateSelect');
+  let title=targetId;
+  if(sel){
+    if(sel.value!==targetId) sel.value=targetId;
+    if(sel.options&&sel.selectedIndex>=0) title=sel.options[sel.selectedIndex].text||targetId;
+  }
+  const payload={password:currentAdminPassword,certificateBackground:activeStudioTemplate.backgroundUrl||'',certificateType:activeStudioTemplate.certType||'Certificate of Participation',...activeStudioTemplate.layout};
+  let res;
+  if(targetId==='master') res=await postApi({action:'save-certificate-settings',...payload});
+  else res=await postApi({action:'save-certificate-template',activityId:targetId,title,backgroundUrl:activeStudioTemplate.backgroundUrl||'',certType:activeStudioTemplate.certType||'Certificate of Participation',...payload});
+  if(res&&res.success===false) throw new Error(res.message||'Server did not save the layout.');
+  try{ if(typeof applyStudioTemplateToUI==='function') applyStudioTemplateToUI(); }catch(_){}
+  const m=document.getElementById('certStudioMsg')||document.getElementById('certificateStudioMessage')||document.getElementById('uploadStatus');
+  if(m) m.textContent='✓ Live preview layout permanently saved for '+title+'.';
+  return {success:true,activityId:targetId};
+};

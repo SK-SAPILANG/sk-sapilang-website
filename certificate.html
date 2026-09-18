@@ -1,775 +1,744 @@
-/* ==========================================================================
-   SANGGUNIANG KABATAAN NG BARANGAY SAPILANG
-   Feedback / QMS Center & Certificate Studio Design System
-   Colors: White, Navy Blue (#0A2540), Orange Accent (#FF7A00)
-   ========================================================================== */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="qms-certificate-version" content="V40">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Certificate | Sangguniang Kabataan of Barangay Sapilang</title>
+  <!-- SK Sapilang Certificate V35: deploy this HTML file as certificate.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Inter:wght@400;600;700&family=Montserrat:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #E2E8F0;
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #0F172A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .toolbar {
+      width: 100%;
+      max-width: 1100px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 10px auto;
+    }
+    .toolbar-brand {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0A2540;
+    }
+    .toolbar-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .btn-light {
+      background: #FFFFFF;
+      color: #0A2540;
+      border-color: #CBD5E1;
+    }
+    .btn-light:hover {
+      background: #F1F5F9;
+    }
+    .btn-primary {
+      background: #0A2540;
+      color: #FFFFFF;
+    }
+    .btn-primary:hover {
+      background: #16385C;
+    }
+    .btn-orange {
+      background: #FF7A00;
+      color: #FFFFFF;
+    }
+    .btn-orange:hover {
+      background: #EA580C;
+    }
 
-:root {
-  --sk-white: #FFFFFF;
-  --sk-bg: #F8FAFC;
-  --sk-bg-subtle: #F1F5F9;
-  --sk-card-bg: #FFFFFF;
+    .cert-stage-container {
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 16px 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* A4 Landscape Ratio: 297mm / 210mm = ~1.414 */
+    .certificate-canvas {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 297 / 210;
+      background-color: #FFFFFF;
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .cert-layer {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .layer-name {
+      white-space: nowrap;
+      font-weight: 700;
+      color: #0A2540;
+      z-index: 10;
+    }
+
+    .layer-qr {
+      background: #FFFFFF;
+      padding: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    .layer-qr img, .layer-qr canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .layer-no {
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0A2540;
+      z-index: 10;
+    }
+
+    .status-msg {
+      max-width: 600px;
+      background: #FFFFFF;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      margin: 60px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+      body {
+        background: #FFFFFF !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .toolbar, .no-print {
+        display: none !important;
+      }
+      .cert-stage-container {
+        padding: 0 !important;
+        max-width: none !important;
+      }
+      .certificate-canvas {
+        width: 297mm !important;
+        height: 210mm !important;
+        max-width: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-brand">Sangguniang Kabataan ng Barangay Sapilang • Certificate Center</div>
+    <div class="toolbar-actions">
+      <a class="btn btn-light" href="feedback.html">Back to QMS</a>
+      <a class="btn btn-light" id="verifyBtn" href="certificate-verify.html">Verify Certificate</a>
+      <button class="btn btn-orange" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div id="loading" class="status-msg">
+    <h2 style="color: #0A2540; font-size: 20px;">Loading Certificate...</h2>
+    <p style="color: #64748B; font-size: 13px; margin-top: 6px;">Retrieving official digital credentials.</p>
+  </div>
+
   
-  --sk-navy: #0A2540;
-  --sk-navy-deep: #051626;
-  --sk-navy-light: #16385C;
-  
-  --sk-orange: #FF7A00;
-  --sk-orange-hover: #EA580C;
-  --sk-orange-light: #FFF7ED;
-  --sk-orange-border: #FFEDD5;
-
-  --sk-text-main: #0F172A;
-  --sk-text-muted: #64748B;
-  --sk-border: #E2E8F0;
-  --sk-border-strong: #CBD5E1;
-
-  --sk-green: #10B981;
-  --sk-red: #EF4444;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--sk-bg);
-  color: var(--sk-text-main);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-.container {
-  width: 100%;
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Header */
-.site-header {
-  background-color: var(--sk-navy);
-  color: var(--sk-white);
-  border-bottom: 3px solid var(--sk-orange);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 12px rgba(10, 37, 64, 0.15);
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 0;
-}
-
-.brand-group {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-  color: var(--sk-white);
-}
-
-.brand-logo {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--sk-white);
-  padding: 2px;
-  border: 2px solid var(--sk-orange);
-  object-fit: contain;
-}
-
-.brand-titles h1 {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  line-height: 1.2;
-}
-
-.brand-titles p {
-  font-size: 11px;
-  color: #94A3B8;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin-top: 2px;
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.btn-header {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-}
-
-.btn-header-outline {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: var(--sk-white);
-  background: transparent;
-}
-
-.btn-header-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--sk-white);
-}
-
-.btn-header-orange {
-  background: var(--sk-orange);
-  color: var(--sk-white);
-  border: 1px solid var(--sk-orange);
-}
-
-.btn-header-orange:hover {
-  background: var(--sk-orange-hover);
-}
-
-/* Hero */
-.hero-banner {
-  background: linear-gradient(135deg, var(--sk-navy) 0%, var(--sk-navy-deep) 100%);
-  color: var(--sk-white);
-  padding: 44px 0 36px;
-  border-bottom: 1px solid var(--sk-border);
-}
-
-.hero-content {
-  max-width: 800px;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  background: rgba(255, 122, 0, 0.15);
-  border: 1px solid rgba(255, 122, 0, 0.35);
-  color: #FFB020;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.hero-title {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.5px;
-  margin-bottom: 12px;
-}
-
-.hero-title span {
-  color: var(--sk-orange);
-}
-
-.hero-desc {
-  font-size: 15px;
-  color: #CBD5E1;
-  max-width: 680px;
-  line-height: 1.6;
-}
-
-/* Tabs Navigation */
-.tabs-container {
-  margin-top: -18px;
-  position: relative;
-  z-index: 10;
-}
-
-.qms-nav-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background: var(--sk-white);
-  border: 1px solid var(--sk-border);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-}
-
-.qms-tab-btn {
-  padding: 16px 14px;
-  background: var(--sk-white);
-  border: none;
-  border-bottom: 3px solid transparent;
-  color: var(--sk-text-muted);
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-right: 1px solid var(--sk-border);
-}
-
-.qms-tab-btn:last-child {
-  border-right: none;
-}
-
-.qms-tab-btn strong {
-  display: block;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--sk-navy);
-}
-
-.qms-tab-btn span {
-  display: block;
-  font-size: 11px;
-  color: var(--sk-text-muted);
-  margin-top: 2px;
-}
-
-.qms-tab-btn:hover {
-  background: var(--sk-bg);
-}
-
-.qms-tab-btn.active {
-  background: var(--sk-white);
-  border-bottom-color: var(--sk-orange);
-}
-
-.qms-tab-btn.active strong {
-  color: var(--sk-orange);
-}
-
-/* Panels */
-.qms-panel {
-  display: none;
-  background: var(--sk-white);
-  border: 1px solid var(--sk-border);
-  border-radius: 14px;
-  padding: 32px;
-  margin: 24px 0 50px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
-}
-
-.qms-panel.active {
-  display: block;
-}
-
-.panel-header {
-  border-bottom: 1px solid var(--sk-border);
-  padding-bottom: 18px;
-  margin-bottom: 24px;
-}
-
-.panel-header h2 {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--sk-navy);
-}
-
-.panel-header p {
-  font-size: 13px;
-  color: var(--sk-text-muted);
-  margin-top: 4px;
-}
-
-/* Form Controls */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group.full {
-  grid-column: 1 / -1;
-}
-
-.form-group label {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--sk-navy);
-  margin-bottom: 6px;
-}
-
-.form-group label .required-mark {
-  color: var(--sk-orange);
-  margin-left: 2px;
-}
-
-.form-control {
-  width: 100%;
-  height: 44px;
-  padding: 8px 14px;
-  font-size: 14px;
-  border: 1px solid var(--sk-border);
-  border-radius: 8px;
-  background-color: var(--sk-white);
-  color: var(--sk-text-main);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-textarea.form-control {
-  height: auto;
-  min-height: 100px;
-  padding: 12px;
-  resize: vertical;
-}
-
-.form-control:focus {
-  border-color: var(--sk-orange);
-  box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.15);
-}
-
-.form-help {
-  font-size: 12px;
-  color: var(--sk-text-muted);
-  margin-top: 5px;
-}
-
-/* Rating Matrix */
-.rating-section {
-  margin: 24px 0 16px;
-  padding: 18px;
-  background: var(--sk-bg);
-  border: 1px solid var(--sk-border);
-  border-radius: 10px;
-}
-
-.rating-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--sk-navy);
-  margin-bottom: 12px;
-}
-
-.rating-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-
-.rating-box {
-  position: relative;
-}
-
-.rating-box input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.rating-box label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 6px;
-  background: var(--sk-white);
-  border: 1px solid var(--sk-border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.rating-box label strong {
-  font-size: 16px;
-  color: var(--sk-navy);
-}
-
-.rating-box label span {
-  font-size: 10px;
-  color: var(--sk-text-muted);
-  text-align: center;
-  margin-top: 2px;
-}
-
-.rating-box input:checked + label {
-  background: var(--sk-orange-light);
-  border-color: var(--sk-orange);
-  box-shadow: 0 0 0 2px var(--sk-orange);
-}
-
-.rating-box input:checked + label strong {
-  color: var(--sk-orange-hover);
-}
-
-/* Consent & Callout Box */
-.consent-box {
-  background: var(--sk-bg-subtle);
-  border: 1px solid var(--sk-border);
-  border-radius: 10px;
-  padding: 16px;
-  margin: 20px 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.consent-box input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  accent-color: var(--sk-orange);
-  cursor: pointer;
-}
-
-.consent-box label {
-  font-size: 13px;
-  color: var(--sk-navy);
-  line-height: 1.5;
-  cursor: pointer;
-}
-
-.btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: var(--sk-navy);
-  color: var(--sk-white);
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-submit:hover {
-  background: var(--sk-navy-light);
-}
-
-.btn-submit:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-/* Result Box */
-.result-box {
-  display: none;
-  margin-top: 24px;
-  padding: 24px;
-  border-radius: 12px;
-  background: #F0FDF4;
-  border: 1px solid #BBF7D0;
-}
-
-.result-box.show {
-  display: block;
-}
-
-.result-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  background: #DCFCE7;
-  color: #166534;
-  font-size: 11px;
-  font-weight: 800;
-  border-radius: 6px;
-  text-transform: uppercase;
-}
-
-.result-box h3 {
-  font-size: 20px;
-  font-weight: 800;
-  color: #14532D;
-  margin: 10px 0 6px;
-}
-
-.result-box p {
-  font-size: 13px;
-  color: #166534;
-}
-
-.result-card-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin: 18px 0;
-}
-
-.result-metric {
-  background: var(--sk-white);
-  border: 1px solid #BBF7D0;
-  padding: 12px;
-  border-radius: 8px;
-}
-
-.result-metric small {
-  display: block;
-  font-size: 11px;
-  color: #166534;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.result-metric strong {
-  display: block;
-  font-size: 16px;
-  color: #14532D;
-  margin-top: 4px;
-}
-
-/* ==========================================================================
-   CERTIFICATE STUDIO (Direct Visual Editor)
-   ========================================================================== */
-.studio-container {
-  background: var(--sk-bg-subtle);
-  border: 1px solid var(--sk-border);
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.studio-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  background: var(--sk-white);
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--sk-border);
-  margin-bottom: 16px;
-}
-
-.studio-btn {
-  padding: 7px 14px;
-  background: var(--sk-white);
-  border: 1px solid var(--sk-border);
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--sk-navy);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.studio-btn:hover {
-  background: var(--sk-bg);
-  border-color: var(--sk-navy);
-}
-
-.studio-btn.active {
-  background: var(--sk-orange);
-  color: var(--sk-white);
-  border-color: var(--sk-orange);
-}
-
-.cert-stage-wrapper {
-  overflow: auto;
-  background: #CBD5E1;
-  padding: 24px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-}
-
-.cert-visual-canvas {
-  position: relative;
-  width: 100%;
-  max-width: 960px;
-  aspect-ratio: 297 / 210;
-  background-color: var(--sk-white);
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-  overflow: hidden;
-  user-select: none;
-  touch-action: none;
-}
-
-/* 3 Dynamic Certificate Elements */
-.cert-obj {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: move;
-  border: 2px dashed transparent;
-  padding: 4px;
-  z-index: 10;
-  touch-action: none;
-}
-
-.cert-obj.selected {
-  border-color: var(--sk-orange);
-  background: rgba(255, 122, 0, 0.08);
-}
-
-.cert-obj-name {
-  white-space: nowrap;
-  font-weight: 700;
-  color: var(--sk-navy);
-}
-
-.cert-obj-qr {
-  background: var(--sk-white);
-  border: 2px solid var(--sk-navy);
-  display: grid;
-  place-items: center;
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--sk-navy);
-  text-align: center;
-  padding: 4px;
-}
-
-.cert-obj-no {
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--sk-navy);
-}
-
-.cert-resize-handle {
-  display: none;
-  position: absolute;
-  right: -7px;
-  bottom: -7px;
-  width: 16px;
-  height: 16px;
-  background: var(--sk-orange);
-  border: 2px solid var(--sk-white);
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  cursor: nwse-resize;
-  pointer-events: auto;
-}
-
-.cert-obj.selected .cert-resize-handle {
-  display: block;
-}
-
-/* Certificate Tables & Admin Badges */
-.table-wrap {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.sk-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 14px;
-}
-
-.sk-table th,
-.sk-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--sk-border);
-  text-align: left;
-  font-size: 13px;
-}
-
-.sk-table th {
-  background: var(--sk-navy);
-  color: var(--sk-white);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-}
-
-.sk-table tr:hover {
-  background: var(--sk-bg);
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.status-valid {
-  background: #DCFCE7;
-  color: #166534;
-}
-
-.status-revoked {
-  background: #FEE2E2;
-  color: #991B1B;
-}
-
-/* Footer */
-.site-footer {
-  background: var(--sk-navy-deep);
-  color: #94A3B8;
-  padding: 30px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 12px;
-}
-
-.footer-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .qms-nav-tabs {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  .qms-nav-tabs {
-    grid-template-columns: 1fr;
-  }
-  .qms-panel {
-    padding: 20px 14px;
-  }
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .rating-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Print Stylesheet for Certificate */
-@media print {
-  @page {
-    size: A4 landscape;
-    margin: 0;
-  }
-  body {
-    background: #FFF !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  .site-header, .tabs-container, .panel-header, .studio-toolbar, .site-footer, .no-print {
-    display: none !important;
-  }
-  .cert-stage-wrapper {
-    background: transparent !important;
-    padding: 0 !important;
-  }
-  .cert-visual-canvas {
-    width: 297mm !important;
-    height: 210mm !important;
-    max-width: none !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-  }
-}
+<div id="liveEditorBar" class="no-print" style="display:none;position:sticky;top:0;z-index:50;background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;margin:8px auto 12px;max-width:1100px;box-shadow:0 4px 16px rgba(0,0,0,.08);align-items:center;gap:8px;flex-wrap:wrap">
+  <strong style="color:#0A2540">Adjust Certificate:</strong>
+  <button type="button" data-live-select="name">Participant Name</button>
+  <button type="button" data-live-select="qr">QR Code</button>
+  <button type="button" data-live-select="no">Certificate Number</button>
+  <label style="margin-left:8px">Size <input id="liveSize" type="range" min="8" max="140" value="40" style="width:150px"></label>
+  <button type="button" id="liveReset">Reset</button>
+  <button type="button" id="liveSave" style="background:#ff7a16;color:#fff;border:0;font-weight:800">Save Layout</button>
+  <span id="liveSaveMsg" style="font-size:12px;color:#475569"></span>
+</div>
+
+<div class="cert-stage-container">
+    <main id="certificateCanvas" class="certificate-canvas" style="display: none;">
+      <img id="certificateBgImage" alt="Certificate background" style="position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;display:none;pointer-events:none;">
+      <div id="builtInCertificate" style="position:absolute;inset:0;z-index:0;background:#fff;display:none;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;inset:1.3%;border:3px solid #0A2540"></div>
+        <div style="position:absolute;inset:2.1%;border:1px solid #FF7A00"></div>
+        <div style="position:absolute;left:-6%;top:-11%;width:30%;height:42%;border-radius:50%;background:rgba(10,37,64,.055)"></div>
+        <div style="position:absolute;right:-7%;bottom:-14%;width:34%;height:48%;border-radius:50%;background:rgba(255,122,0,.07)"></div>
+        <div style="position:absolute;left:0;right:0;top:7%;text-align:center;color:#0A2540;font-family:Arial,sans-serif">
+          <div style="font-size:13px;font-weight:800;letter-spacing:1.6px">REPUBLIC OF THE PHILIPPINES</div>
+          <div style="font-size:14px;font-weight:700;margin-top:5px">SANGGUNIANG KABATAAN NG BARANGAY SAPILANG</div>
+          <div style="font-size:11px;margin-top:3px">Bacnotan, La Union</div>
+          <div style="width:90px;height:4px;background:#FF7A00;margin:15px auto 0;border-radius:10px"></div>
+          <div style="font-family:Georgia,serif;font-size:43px;font-weight:700;margin-top:22px;letter-spacing:.5px">CERTIFICATE OF PARTICIPATION</div>
+          <div style="font-size:14px;margin-top:13px;letter-spacing:.8px">THIS CERTIFICATE IS PROUDLY PRESENTED TO</div>
+        </div>
+        <div style="position:absolute;left:17%;right:17%;top:57%;border-top:1px solid #94A3B8"></div>
+        <div style="position:absolute;left:16%;right:16%;top:61%;text-align:center;color:#334155;font:14px/1.55 Arial,sans-serif">
+          in recognition of active participation and meaningful engagement in an activity of the<br>
+          <strong style="color:#0A2540">Sangguniang Kabataan of Barangay Sapilang</strong>.
+        </div>
+        <div style="position:absolute;left:0;right:0;bottom:8%;text-align:center;color:#64748B;font:10px Arial,sans-serif;letter-spacing:.5px">DIGITALLY ISSUED • VERIFY AUTHENTICITY USING THE QR CODE</div>
+      </div>
+      <!-- Dynamic Overlay Layers -->
+      <div id="layerName" class="cert-layer layer-name"></div>
+      <div id="layerQr" class="cert-layer layer-qr"></div>
+      <div id="layerNo" class="cert-layer layer-no"></div>
+    </main>
+  </div>
+
+  <script src="cms-config.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    (async function() {
+      const qs = new URLSearchParams(location.search);
+      const certId = (qs.get('id') || qs.get('cert') || '').trim();
+      const isBlank = qs.get('blank') === '1';
+      const previewActivityId = (qs.get('activityId') || qs.get('activity') || localStorage.getItem('sk_cert_preview_activity') || '').trim();
+      const isPreview = qs.get('preview') === '1';
+      const directPreviewBg = qs.get('bg') || '';
+      let directPreviewLayout = null;
+      try { directPreviewLayout = JSON.parse(qs.get('layout') || 'null'); } catch (e) {}
+      const directPreviewCertType = qs.get('certType') || '';
+
+
+      const canvas = document.getElementById('certificateCanvas');
+      const loading = document.getElementById('loading');
+      const nameEl = document.getElementById('layerName');
+      const qrEl = document.getElementById('layerQr');
+      const noEl = document.getElementById('layerNo');
+      const verifyBtn = document.getElementById('verifyBtn');
+
+      // Default fallback layout coordinates
+      let template = {
+        backgroundUrl: '',
+        layout: {
+          nameX: 50, nameY: 48, nameSize: 38, nameFont: 'Georgia', nameColor: '#0A2540', nameBold: true, nameAlign: 'center',
+          qrX: 84, qrY: 80, qrSize: 96,
+          noX: 18, noY: 92, noSize: 13, noColor: '#0A2540'
+        }
+      };
+
+      let certRecord = {
+        certificateId: isBlank ? 'SK-SAP-2026-000001' : (certId || 'SK-SAP-2026-000001'),
+        participant: isBlank ? 'SAMPLE PARTICIPANT NAME' : 'Participant Name',
+        activity: isBlank ? 'Certificate Preview' : 'Youth Empowerment Program',
+        status: 'ACTIVE',
+        activityId: isBlank ? previewActivityId : ''
+      };
+
+      const endpointFromUrl = q.get('api') || '';
+      if (endpointFromUrl) { try { localStorage.setItem('skCmsEndpoint', endpointFromUrl); } catch(_) {} }
+      const endpoint = endpointFromUrl || window.SK_CMS_ENDPOINT || localStorage.getItem('skCmsEndpoint') || localStorage.getItem('sk_cms_endpoint') || '';
+
+      // JSONP helper
+      function callCms(params) {
+        return new Promise((resolve) => {
+          if (!endpoint) return resolve(null);
+          const cb = 'c_' + Date.now() + Math.floor(Math.random() * 1000);
+          const s = document.createElement('script');
+          const t = setTimeout(() => { s.remove(); resolve(null); }, 15000);
+          window[cb] = (r) => { clearTimeout(t); s.remove(); delete window[cb]; resolve(r); };
+          s.onerror = () => { clearTimeout(t); s.remove(); delete window[cb]; resolve(null); };
+          s.src = endpoint + '?' + new URLSearchParams({ ...params, callback: cb, _: Date.now() });
+          document.head.appendChild(s);
+        });
+      }
+
+      try {
+        if (!isBlank && certId) {
+          // 1. Fetch certificate record from backend or local storage
+          let r = await callCms({ action: 'verify-certificate', id: certId });
+          if (r && r.success && r.found && r.certificate) {
+            certRecord = r.certificate;
+          } else {
+            // Local fallback
+            const localList = JSON.parse(localStorage.getItem('sk_issued_certificates') || '[]');
+            const matched = localList.find(c => (c.certificateNumber || c.id || '').toUpperCase() === certId.toUpperCase());
+            if (matched) {
+              certRecord = {
+                certificateId: matched.certificateNumber || matched.id,
+                participant: matched.participantName,
+                activity: matched.activityTitle,
+                status: matched.status || 'ACTIVE',
+                activityId: matched.activityId
+              };
+            }
+          }
+
+          if (String(certRecord.status || '').toUpperCase() === 'REVOKED') {
+            throw new Error('This certificate has been REVOKED by the Sangguniang Kabataan.');
+          }
+        }
+
+        // 2. Fetch certificate template for this activity (or master template)
+        const actId = certRecord.activityId || previewActivityId || '';
+        // V39: load the permanent backend template by activity ID or activity title.
+        // This also works for certificate links opened directly from email.
+        try {
+          const publicTpl = await callCms({ action:'public-template', activityId:actId, activity:certRecord.activity || '' });
+          if (publicTpl && publicTpl.success && publicTpl.found && publicTpl.template) {
+            template = Object.assign({}, template, publicTpl.template, { activityId: publicTpl.template.activityId || actId,
+              layout: Object.assign({}, template.layout || {}, publicTpl.template.layout || {})
+            });
+          }
+        } catch(_) {}
+        // For Studio test preview, direct URL parameters are highest priority.
+        // They work even when the Canva image is too large for localStorage.
+        let usedPreviewTemplate = false;
+        if (isBlank && isPreview && directPreviewBg) {
+          template = {
+            ...template,
+            backgroundUrl: directPreviewBg,
+            certType: directPreviewCertType || template.certType || '',
+            layout: { ...template.layout, ...(directPreviewLayout || {}) }
+          };
+          usedPreviewTemplate = true;
+        } else if (isBlank && isPreview) {
+          try {
+            const livePreview = JSON.parse(localStorage.getItem('sk_cert_preview_template') || 'null');
+            if (livePreview && livePreview.backgroundUrl) {
+              template = {
+                ...template,
+                ...livePreview,
+                layout: { ...template.layout, ...(livePreview.layout || {}) }
+              };
+              usedPreviewTemplate = true;
+            }
+          } catch (e) {}
+        }
+
+        let tplResp = null;
+        // Public certificate links must never require the administrator password.
+        // public-template above is the authoritative saved activity layout.
+        if (!usedPreviewTemplate && actId && actId !== 'master' && !template.activityId) {
+          tplResp = await callCms({ action: 'public-template', activityId: actId, activity: certRecord.activity || '' });
+        }
+        if (!usedPreviewTemplate && tplResp && tplResp.success && tplResp.template) {
+          template = {
+            backgroundUrl: tplResp.template.backgroundUrl || tplResp.mediaUrl || '',
+            certType: tplResp.template.certType || '',
+            layout: { ...template.layout, ...(tplResp.template.layout || {}) }
+          };
+        } else if (!usedPreviewTemplate) {
+          // Check local activity template or master settings
+          const localTpls = JSON.parse(localStorage.getItem('sk_cert_templates') || '{}');
+          if (actId && localTpls[actId]) {
+            template = {
+              ...template,
+              ...localTpls[actId],
+              layout: { ...template.layout, ...(localTpls[actId].layout || {}) }
+            };
+          } else {
+            const masterSettings = await callCms({ action: 'certificate-settings' });
+            if (masterSettings && masterSettings.settings) {
+              const ms = masterSettings.settings;
+              template.backgroundUrl = ms.certificateBackground || '';
+              template.layout = {
+                nameX: Number(ms.nameX) || 50,
+                nameY: Number(ms.nameY) || 48,
+                nameSize: Number(ms.nameSize) || 38,
+                nameFont: ms.nameFont || 'Georgia',
+                nameColor: ms.nameColor || '#0A2540',
+                nameBold: ms.nameBold !== 'false',
+                nameAlign: ms.nameAlign || 'center',
+                qrX: Number(ms.qrX) || 84,
+                qrY: Number(ms.qrY) || 80,
+                qrSize: Number(ms.qrSize) || 96,
+                noX: Number(ms.noX) || 18,
+                noY: Number(ms.noY) || 92,
+                noSize: Number(ms.noSize) || 13,
+                noColor: ms.noColor || '#0A2540'
+              };
+            }
+          }
+        }
+
+        // Apply Certificate Background Image using a real IMG element.
+        // This is more reliable than CSS background-image for blob/Drive URLs.
+        const bgImage = document.getElementById('certificateBgImage');
+        if (template.backgroundUrl) {
+          canvas.style.backgroundImage = 'none';
+          canvas.style.border = '0';
+          if (!bgImage) throw new Error('Certificate background layer is missing.');
+          bgImage.onload = () => { bgImage.style.display = 'block'; const b=document.getElementById('builtInCertificate'); if(b)b.style.display='none'; };
+          bgImage.onerror = () => {
+            bgImage.style.display = 'none';
+            canvas.style.border = '2px dashed #CBD5E1';
+            loading.textContent = 'Certificate background could not be loaded. Check that the Google Drive image is shared as “Anyone with the link” and update its link in Certificate Studio.';
+            loading.style.display = 'block';
+          };
+          bgImage.src = template.backgroundUrl;
+        } else {
+          if (bgImage) bgImage.style.display = 'none';
+          const builtIn = document.getElementById('builtInCertificate');
+          if (builtIn) builtIn.style.display = 'block';
+          canvas.style.border = '0';
+          canvas.style.background = '#FFFFFF';
+        }
+
+        const l = template.layout;
+
+        // Apply Participant Full Name
+        nameEl.style.left = l.nameX + '%';
+        nameEl.style.top = l.nameY + '%';
+        nameEl.style.fontSize = l.nameSize + 'px';
+        nameEl.style.fontFamily = l.nameFont || 'Georgia, serif';
+        nameEl.style.color = l.nameColor || '#0A2540';
+        nameEl.style.fontWeight = l.nameBold ? '700' : '400';
+        nameEl.style.textAlign = l.nameAlign || 'center';
+        nameEl.textContent = certRecord.participant;
+
+        // Apply Certificate Number
+        noEl.style.left = l.noX + '%';
+        noEl.style.top = l.noY + '%';
+        noEl.style.fontSize = l.noSize + 'px';
+        noEl.style.color = l.noColor || '#0A2540';
+        noEl.textContent = 'Certificate No. ' + certRecord.certificateId;
+
+        // Apply QR Code with verification link
+        const verifyUrl = new URL('certificate-verify.html', location.href);
+        verifyUrl.searchParams.set('id', certRecord.certificateId);
+        verifyBtn.href = verifyUrl.href;
+
+        qrEl.style.left = l.qrX + '%';
+        qrEl.style.top = l.qrY + '%';
+        qrEl.style.width = l.qrSize + 'px';
+        qrEl.style.height = l.qrSize + 'px';
+        qrEl.innerHTML = '';
+
+        new QRCode(qrEl, {
+          text: verifyUrl.href,
+          width: l.qrSize,
+          height: l.qrSize,
+          correctLevel: QRCode.CorrectLevel.M
+        });
+
+        // Hide loading, show certificate
+        loading.style.display = 'none';
+        canvas.style.display = 'block';
+
+      } catch (err) {
+        loading.innerHTML = `
+          <h2 style="color: #DC2626;">Certificate Unavailable</h2>
+          <p style="color: #475569; margin: 10px 0 16px;">${err.message || 'Unable to load certificate.'}</p>
+          <a href="feedback.html" class="btn btn-primary">Return to QMS</a>
+        `;
+      }
+    })();
+  </script>
+
+
+
+
+<script id="sk-live-editor-v7">
+(function(){
+ if(window.__SK_LIVE_V7)return; window.__SK_LIVE_V7=1;
+ const Q=new URLSearchParams(location.search);
+ if(Q.get('preview')!=='1'&&Q.get('edit')!=='1')return;
+ const ids={name:'layerName',qr:'layerQr',no:'layerNo'};
+ let drag=null, selected='name';
+ function cv(){return document.getElementById('certificateCanvas')}
+ function el(k){return document.getElementById(ids[k])}
+ function choose(k){
+   selected=k;
+   Object.keys(ids).forEach(x=>{let e=el(x);if(e){e.style.outline=x===k?'2px dashed #ff7a16':'1px dashed #cbd5e1';e.style.cursor='move';e.style.pointerEvents='auto';e.style.zIndex='10';}});
+ }
+ function begin(e,k){
+   const C=cv(),E=el(k);if(!C||!E)return;
+   e.preventDefault();e.stopPropagation();choose(k);
+   const cr=C.getBoundingClientRect(),er=E.getBoundingClientRect();
+   drag={k,dx:e.clientX-(er.left+er.width/2),dy:e.clientY-(er.top+er.height/2)};
+ }
+ function move(e){
+   if(!drag)return;
+   e.preventDefault();
+   const C=cv(),E=el(drag.k),r=C.getBoundingClientRect();
+   let x=(e.clientX-drag.dx-r.left)/r.width*100;
+   let y=(e.clientY-drag.dy-r.top)/r.height*100;
+   x=Math.max(0,Math.min(100,x));y=Math.max(0,Math.min(100,y));
+   E.style.left=x+'%';E.style.top=y+'%';E.style.transform='translate(-50%,-50%)';
+   E.dataset.x=x;E.dataset.y=y;
+ }
+ function end(){drag=null}
+ function init(){
+   Object.keys(ids).forEach(k=>{
+     const E=el(k);if(!E)return;
+     E.style.touchAction='none';E.style.userSelect='none';E.style.pointerEvents='auto';
+     E.onpointerdown=e=>begin(e,k);
+     E.onmousedown=e=>begin(e,k);
+   });
+   document.addEventListener('pointermove',move,{passive:false});
+   document.addEventListener('mousemove',move,{passive:false});
+   document.addEventListener('pointerup',end);document.addEventListener('mouseup',end);
+   document.querySelectorAll('[data-live-select]').forEach(b=>b.onclick=()=>choose(b.dataset.liveSelect));
+   choose('name');
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,350));
+ else setTimeout(init,350);
+})();
+</script>
+
+
+<script id="sk-cert-bg-reader-v7">
+(function(){
+ const q=new URLSearchParams(location.search);if(q.get('bgdb')!=='1')return;
+ function get(){
+  return new Promise((resolve,reject)=>{
+   const r=indexedDB.open('SKSapilangQMS',1);
+   r.onupgradeneeded=()=>r.result.createObjectStore('certificate');
+   r.onerror=()=>reject(r.error);
+   r.onsuccess=()=>{
+    const tx=r.result.transaction('certificate','readonly'),g=tx.objectStore('certificate').get('previewBackground');
+    g.onsuccess=()=>resolve(g.result);g.onerror=()=>reject(g.error);
+   };
+  });
+ }
+ async function apply(){
+  try{
+   const v=await get();if(!v)return;
+   const img=document.getElementById('certificateBgImage');if(!img)return;
+   if(window.__skBgObjectUrl)URL.revokeObjectURL(window.__skBgObjectUrl);
+   const url=v instanceof Blob?(window.__skBgObjectUrl=URL.createObjectURL(v)):String(v);
+   img.onload=()=>{img.style.display='block';};
+   img.src=url;img.style.display='block';
+  }catch(e){console.error('Certificate background:',e)}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(apply,300));else setTimeout(apply,300);
+})();
+</script>
+
+
+<script id="sk-cert-background-postmessage-v8">
+(function(){
+ if(window.__SK_BG_PM_V8)return;window.__SK_BG_PM_V8=1;
+ function applyBlob(buffer,mime){
+   var img=document.getElementById('certificateBgImage');
+   if(!img)return;
+   try{
+     if(window.__skLiveBgUrl)URL.revokeObjectURL(window.__skLiveBgUrl);
+     window.__skLiveBgUrl=URL.createObjectURL(new Blob([buffer],{type:mime||'image/png'}));
+     img.onload=function(){img.style.display='block';};
+     img.onerror=function(){console.error('Live certificate background failed to render');};
+     img.src=window.__skLiveBgUrl;
+     img.style.display='block';
+   }catch(e){console.error(e)}
+ }
+ window.addEventListener('message',function(e){
+   if(e.origin!==location.origin||!e.data||e.data.type!=='SK_CERT_BACKGROUND_RESPONSE')return;
+   if(e.data.buffer)applyBlob(e.data.buffer,e.data.mime);
+   else if(e.data.error)console.error('Certificate background transfer:',e.data.error);
+ });
+ function request(){
+   if(window.opener && !window.opener.closed){
+     window.opener.postMessage({type:'SK_CERT_REQUEST_BACKGROUND'},location.origin);
+   }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(request,250));
+ else setTimeout(request,250);
+})();
+</script>
+
+
+
+
+
+<script id="sk-cert-background-v10">
+(function(){
+ if(window.__SK_CERT_BG_V10)return;window.__SK_CERT_BG_V10=1;
+ function readBlob(){
+   return new Promise((resolve,reject)=>{
+     const req=indexedDB.open('SKSapilangQMS',1);
+     req.onupgradeneeded=()=>{
+       if(!req.result.objectStoreNames.contains('certificate'))req.result.createObjectStore('certificate');
+     };
+     req.onerror=()=>reject(req.error);
+     req.onsuccess=()=>{
+       const db=req.result,tx=db.transaction('certificate','readonly');
+       const g=tx.objectStore('certificate').get('previewBackground');
+       g.onsuccess=()=>{const v=g.result;db.close();resolve(v)};
+       g.onerror=()=>{db.close();reject(g.error)};
+     };
+   });
+ }
+ async function apply(){
+   try{
+     const blob=await readBlob();
+     if(!blob)return;
+     const img=document.getElementById('certificateBgImage');
+     const canvas=document.getElementById('certificateCanvas');
+     if(!img)return;
+     if(window.__skCertV10Url)URL.revokeObjectURL(window.__skCertV10Url);
+     window.__skCertV10Url = blob instanceof Blob ? URL.createObjectURL(blob) : String(blob);
+     img.style.position='absolute';
+     img.style.inset='0';
+     img.style.width='100%';
+     img.style.height='100%';
+     img.style.objectFit='fill';
+     img.style.zIndex='0';
+     img.style.display='block';
+     img.src=window.__skCertV10Url;
+     if(canvas){
+       canvas.style.backgroundImage='none';
+       canvas.style.backgroundColor='transparent';
+       canvas.style.border='0';
+       canvas.style.position='relative';
+     }
+     document.querySelectorAll('#layerName,#layerQr,#layerNo,.cert-layer').forEach(el=>{
+       el.style.zIndex='10';
+     });
+   }catch(err){console.error('Certificate V10 background:',err)}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(apply,700));
+ else setTimeout(apply,700);
+})();
+</script>
+
+
+<script id="sk-unified-certificate-v11">
+(function(){
+ if(window.__SK_CERT_UNIFIED_V11)return;window.__SK_CERT_UNIFIED_V11=1;
+ const q=new URLSearchParams(location.search); if(q.get('v11')!=='1')return;
+
+ function apply(bg){
+   if(!bg)return;
+   const canvas=document.getElementById('certificateCanvas');
+   let img=document.getElementById('certificateBgImage');
+   if(!canvas)return;
+   if(!img){
+     img=document.createElement('img');
+     img.id='certificateBgImage';
+     canvas.insertBefore(img,canvas.firstChild);
+   }
+   Object.assign(img.style,{
+     position:'absolute',inset:'0',width:'100%',height:'100%',
+     objectFit:'fill',display:'block',zIndex:'0',pointerEvents:'none'
+   });
+   img.src=bg;
+   canvas.style.position='relative';
+   canvas.style.background='transparent';
+   canvas.style.border='0';
+   ['layerName','layerQr','layerNo'].forEach(id=>{
+     const el=document.getElementById(id);
+     if(el){el.style.zIndex='10';el.style.pointerEvents='auto';}
+   });
+ }
+ window.addEventListener('message',function(e){
+   if(e.origin!==location.origin||!e.data||e.data.type!=='SK_CERT_V11_BACKGROUND')return;
+   apply(e.data.background||'');
+ });
+ function ready(){
+   if(window.opener&&!window.opener.closed){
+     window.opener.postMessage({type:'SK_CERT_V11_READY'},location.origin);
+   }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(ready,100));
+ else setTimeout(ready,100);
+})();
+</script>
+
+<style id="sk-v34-preview-readability">
+.toolbar,.toolbar-actions .btn{font-size:14px}.toolbar-brand{font-size:14px;font-weight:800}#liveEditorBar{font-size:15px!important}#liveEditorBar button{font-size:14px;padding:9px 13px;border-radius:7px;border:1px solid #cbd5e1;font-weight:700;cursor:pointer}#liveSaveMsg{font-size:13px!important;font-weight:700}.status-msg p{font-size:14px!important}
+</style>
+<script id="sk-live-editor-v34-save">
+(function(){
+ const q=new URLSearchParams(location.search); if(q.get('preview')!=='1'&&q.get('edit')!=='1')return;
+ const ids={name:'layerName',qr:'layerQr',no:'layerNo'}; let selected='name';
+ const bar=document.getElementById('liveEditorBar'),size=document.getElementById('liveSize'),save=document.getElementById('liveSave'),reset=document.getElementById('liveReset'),msg=document.getElementById('liveSaveMsg');
+ if(bar)bar.style.display='flex';
+ function el(k){return document.getElementById(ids[k])} function canvas(){return document.getElementById('certificateCanvas')}
+ function pct(v,total){return Math.round((v/total*100)*10)/10}
+ function choose(k){selected=k;const E=el(k);if(!E)return;const px=parseFloat(getComputedStyle(E).width)||40;if(size)size.value=k==='qr'?Math.max(8,Math.min(140,px)):Math.max(8,Math.min(140,parseFloat(getComputedStyle(E).fontSize)||40));}
+ document.querySelectorAll('[data-live-select]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.liveSelect)));
+ if(size)size.addEventListener('input',()=>{const E=el(selected),v=Number(size.value);if(!E)return;if(selected==='qr'){E.style.width=v+'px';E.style.height=v+'px'}else E.style.fontSize=v+'px'});
+ function currentLayout(){const C=canvas(),r=C.getBoundingClientRect(),out={};['name','qr','no'].forEach(k=>{const E=el(k);if(!E)return;const er=E.getBoundingClientRect();out[k+'X']=Number(E.dataset.x)||pct((er.left+er.width/2)-r.left,r.width);out[k+'Y']=Number(E.dataset.y)||pct((er.top+er.height/2)-r.top,r.height);if(k==='qr')out.qrSize=Math.round(er.width);else if(k==='name')out.nameSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||40);else out.noSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||13)});return out}
+ if(save)save.addEventListener('click',async()=>{
+  const activityId=(q.get('activityId')||q.get('activity')||localStorage.getItem('sk_cert_preview_activity')||'master').trim();
+  const layout=currentLayout();
+  save.disabled=true; save.textContent='Saving...';
+  if(msg)msg.textContent='Saving this layout permanently for this activity...';
+  try{
+    let tpl={}; try{tpl=JSON.parse(localStorage.getItem('sk_cert_preview_template')||'{}')}catch(_){}
+    tpl.layout=Object.assign({},tpl.layout||{},layout);
+    localStorage.setItem('sk_cert_preview_template',JSON.stringify(tpl));
+    const all=JSON.parse(localStorage.getItem('sk_cert_templates')||'{}');
+    all[activityId]=Object.assign({},all[activityId]||tpl,{layout:Object.assign({},(all[activityId]||tpl).layout||{},layout)});
+    localStorage.setItem('sk_cert_templates',JSON.stringify(all));
+
+    // Preferred V39 path: save straight to Apps Script so refresh/email/other devices use it.
+    const ep=(q.get('api')||window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint')||localStorage.getItem('sk_cms_endpoint')||'').trim();
+    let adminKey='';
+    try{adminKey=(window.opener&&!window.opener.closed?window.opener.sessionStorage.getItem('skQmsAdminKey'):'')||sessionStorage.getItem('skQmsAdminKey')||localStorage.getItem('skCertStudioAdminKey')||'';}catch(_){adminKey=localStorage.getItem('skCertStudioAdminKey')||'';}
+    let permanentlySaved=false;
+    if(ep && adminKey){
+      const payload=new URLSearchParams(Object.assign({
+        action:'save-certificate-template', password:adminKey, activityId:activityId,
+        title:(tpl.title||q.get('activityTitle')||''), backgroundUrl:(tpl.backgroundUrl||''),
+        canvaUrl:(tpl.canvaUrl||''), certType:(tpl.certType||'Certificate of Participation')
+      },layout));
+      const resp=await fetch(ep,{method:'POST',body:payload,redirect:'follow'});
+      const data=await resp.json();
+      if(!data||data.success===false)throw new Error((data&&data.message)||'Backend could not save the layout.');
+      permanentlySaved=true;
+      try {
+        const check=await callCms({action:'public-template',activityId:activityId,activity:tpl.title||''});
+        if(check&&check.success&&check.found&&check.template&&check.template.layout){
+          localStorage.setItem('sk_cert_preview_template',JSON.stringify(Object.assign({},tpl,check.template,{layout:check.template.layout})));
+        }
+      } catch(_){}
+    } else if(window.opener&&!window.opener.closed&&typeof window.opener.skSaveCertificatePreviewLayout==='function'){
+      await window.opener.skSaveCertificatePreviewLayout(activityId,layout);
+      permanentlySaved=true;
+    }
+    if(!permanentlySaved)throw new Error('Open this preview from Certificate Studio while signed in as administrator, then click Save Layout.');
+    if(msg)msg.textContent='✓ LAYOUT SAVED. These positions will be used for every certificate in this activity.';
+  }catch(err){
+    if(msg)msg.textContent='⚠ '+(err&&err.message?err.message:'Could not save layout.');
+  }finally{save.disabled=false;save.textContent='Save Layout';}
+});
+ if(reset)reset.addEventListener('click',()=>{if(msg)msg.textContent='Reset only changes this preview until you click Save Adjustments.'});
+ setTimeout(()=>choose('name'),500);
+})();
+</script>
+
+</body>
+</html>

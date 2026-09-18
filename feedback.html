@@ -145,6 +145,66 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
 }
 </style>
 
+
+<style id="v18-certificate-admin-polish">
+#subtabTracker .table-wrap{background:#fff;border:1px solid #dbe4ef;border-radius:16px;box-shadow:0 8px 28px rgba(0,35,70,.06)}
+#subtabTracker .sk-table{min-width:980px;width:100%;table-layout:auto}
+#subtabTracker .sk-table th{font-size:12px;letter-spacing:.01em;color:#002b55;background:#f4f7fb;white-space:nowrap}
+#subtabTracker .sk-table td{font-size:13px;line-height:1.45;color:#17324d;vertical-align:middle}
+#subtabTracker .sk-table td:nth-child(1){width:145px}#subtabTracker .sk-table td:nth-child(2){min-width:150px}#subtabTracker .sk-table td:nth-child(3){min-width:230px}#subtabTracker .sk-table td:nth-child(6){min-width:185px}#subtabTracker .sk-table td:nth-child(7){min-width:150px}
+.cert-number{color:#002b55;word-break:normal}.delivery-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}.delivery-badge.sent{background:#e8f7ee;color:#176b3a}.delivery-badge.failed{background:#fff0ee;color:#a52a22}.delivery-badge.pending{background:#fff7e8;color:#8a5a00}.delivery-badge.neutral{background:#eef2f6;color:#526274}.delivery-help{display:block;max-width:190px;margin-top:5px;color:#68798c;line-height:1.3}.cert-actions{display:flex;flex-direction:column;align-items:stretch;gap:6px}.cert-actions .studio-btn{text-align:center;justify-content:center;padding:7px 10px!important;font-size:12px}.cert-open{border-color:#ff7900!important;color:#fff!important;background:#ff7900!important;text-decoration:none!important}.cert-danger{color:#a52a22!important}.cert-empty{text-align:center!important;padding:32px!important;color:#68798c!important}
+@media(max-width:720px){#subtabTracker .table-wrap{border-radius:12px}#subtabTracker .sk-table{min-width:900px}.delivery-help{max-width:160px}}
+</style>
+
+<style id="v39-readability">
+/* V39 readability upgrade */
+body { font-size: 16px !important; }
+.panel-header h2 { font-size: 26px !important; line-height: 1.25 !important; }
+.panel-header p, .form-help, .hero-desc { font-size: 14px !important; line-height: 1.65 !important; }
+.form-group label, .rating-title { font-size: 15px !important; line-height: 1.45 !important; }
+.form-control { font-size: 16px !important; min-height: 48px !important; }
+textarea.form-control { min-height: 120px !important; }
+.qms-tab-btn, button, .btn-submit { font-size: 15px !important; }
+.rating-box label strong { font-size: 19px !important; }
+.rating-box label span { font-size: 12px !important; }
+.admin-card, .admin-card p, .admin-card td, .admin-card th { font-size: 14px !important; }
+@media (max-width:700px){
+  body{font-size:16px!important}
+  .form-control{font-size:16px!important}
+  .panel-header h2{font-size:23px!important}
+}
+</style>
+
+
+<style id="v42-accessibility-readability">
+/* V42 accessibility/readability: designed for easier reading at normal browser zoom */
+html { font-size: 18px !important; }
+body { font-size: 18px !important; line-height: 1.7 !important; }
+.container { max-width: 1320px !important; }
+.hero-desc, .panel-header p, .form-help, small { font-size: 15px !important; line-height: 1.65 !important; }
+.panel-header h2 { font-size: 28px !important; }
+.form-group label, .rating-title { font-size: 17px !important; line-height: 1.5 !important; }
+.form-control, select, input, textarea { font-size: 17px !important; min-height: 50px !important; }
+button, .btn-submit, .qms-tab-btn, .btn-header { font-size: 16px !important; min-height: 44px !important; }
+.rating-box label strong { font-size: 21px !important; }
+.rating-box label span { font-size: 14px !important; line-height: 1.35 !important; }
+.admin-card, .admin-card p, .admin-card td, .admin-card th,
+#adminPanel, #adminPanel p, #adminPanel td, #adminPanel th { font-size: 16px !important; line-height: 1.6 !important; }
+#analyticsPanel, #analyticsPanel p, #analyticsPanel span, #analyticsPanel div,
+[data-subpanel="analytics"], [data-subpanel="analytics"] p, [data-subpanel="analytics"] span,
+[data-subpanel="analytics"] div { font-size: 16px !important; line-height: 1.55 !important; }
+#analyticsPanel h2, [data-subpanel="analytics"] h2 { font-size: 27px !important; }
+#analyticsPanel h3, [data-subpanel="analytics"] h3 { font-size: 20px !important; }
+#analyticsPanel strong, [data-subpanel="analytics"] strong { font-size: 18px !important; }
+table th { font-size: 16px !important; }
+table td { font-size: 16px !important; }
+@media(max-width:700px){
+ html,body{font-size:17px!important}
+ .panel-header h2{font-size:24px!important}
+ .form-control,select,input,textarea{font-size:17px!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -234,6 +294,7 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
               <option>Barangay Resident</option>
               <option>Government Representative</option>
               <option>Partner Organization</option>
+              <option>Resource Speaker / Trainer / Facilitator</option>
               <option>Other Guest</option>
             </select>
           </div>
@@ -288,6 +349,22 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
               <option>Barangay Clearance Endorsement</option>
               <option>General SK Assistance</option>
             </select>
+          </div>
+        </div>
+
+        <div id="resourceSpeakerVisitorEval" style="display:none; margin:20px 0; padding:20px; border:1px solid var(--sk-border); border-radius:12px; background:#F8FAFC;">
+          <h3 style="margin:0 0 6px;">Resource Speaker Evaluation of SK Sapilang / Organizers</h3>
+          <p style="margin:0 0 16px; color:#475569;">For invited resource speakers, trainers, and facilitators. Your feedback helps us improve how we coordinate, welcome, support, and conduct inclusive youth and community activities. You may skip any item you do not wish to answer.</p>
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="rsActivity">Activity / Program You Were Invited To</label>
+              <input type="text" id="rsActivity" name="resourceSpeakerActivity" class="form-control" placeholder="Enter the activity or program title">
+            </div>
+            <div class="form-group"><label for="rsCoordination">Pre-Activity Coordination</label><select id="rsCoordination" name="organizerCoordination" class="form-control"><option value="">Optional / Not applicable</option><option value="5">5 - Excellent</option><option value="4">4 - Very Good</option><option value="3">3 - Good</option><option value="2">2 - Needs Improvement</option><option value="1">1 - Poor</option></select><small>Clarity and timeliness of invitations, schedules, instructions, and communication.</small></div>
+            <div class="form-group"><label for="rsHospitality">Reception & Hospitality</label><select id="rsHospitality" name="organizerHospitality" class="form-control"><option value="">Optional / Not applicable</option><option value="5">5 - Excellent</option><option value="4">4 - Very Good</option><option value="3">3 - Good</option><option value="2">2 - Needs Improvement</option><option value="1">1 - Poor</option></select><small>Courtesy, respect, assistance, and overall welcome provided by the organizers.</small></div>
+            <div class="form-group"><label for="rsLogistics">Venue, Materials & Technical Support</label><select id="rsLogistics" name="organizerLogistics" class="form-control"><option value="">Optional / Not applicable</option><option value="5">5 - Excellent</option><option value="4">4 - Very Good</option><option value="3">3 - Good</option><option value="2">2 - Needs Improvement</option><option value="1">1 - Poor</option></select><small>Readiness of the venue, equipment, materials, and assistance needed for your session.</small></div>
+            <div class="form-group"><label for="rsInclusion">Inclusiveness & Participant Engagement</label><select id="rsInclusion" name="organizerInclusion" class="form-control"><option value="">Optional / Not applicable</option><option value="5">5 - Excellent</option><option value="4">4 - Very Good</option><option value="3">3 - Good</option><option value="2">2 - Needs Improvement</option><option value="1">1 - Poor</option></select><small>How well the activity promoted respectful, accessible, gender-responsive, and meaningful participation.</small></div>
+            <div class="form-group full"><label for="rsOrganizerComments">Comments / Recommendations for SK Sapilang (Optional)</label><textarea id="rsOrganizerComments" name="organizerComments" class="form-control" placeholder="What did the organizers do well? What can we improve in coordination, hospitality, logistics, accessibility, inclusion, or participant engagement?"></textarea></div>
           </div>
         </div>
 
@@ -524,6 +601,26 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
           </div>
 
           <div class="form-group">
+            <label for="evObjectives">Achievement of Activity Objectives</label>
+            <span class="form-help">Rate how clearly the activity met its stated goals and intended learning or community outcomes.</span>
+            <select id="evObjectives" name="objectives" class="form-control">
+              <option value="5">5 - Objectives Fully Achieved</option><option value="4">4 - Very Good</option>
+              <option value="3">3 - Satisfactory</option><option value="2">2 - Fair</option>
+              <option value="1">1 - Poor</option><option value="N/A">N/A</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="evFacilitation">Facilitation / Program Delivery</label>
+            <span class="form-help">Consider how clearly, respectfully, inclusively, and effectively the activity was facilitated.</span>
+            <select id="evFacilitation" name="facilitatorRating" class="form-control">
+              <option value="5">5 - Excellent Delivery</option><option value="4">4 - Very Good</option>
+              <option value="3">3 - Satisfactory</option><option value="2">2 - Fair</option>
+              <option value="1">1 - Poor</option><option value="N/A">N/A</option>
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="evOrganization">Program Organization & Flow</label>
             <select id="evOrganization" name="organization" class="form-control">
               <option value="5">5 - Well Organized & Smooth</option>
@@ -559,9 +656,41 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
             </select>
           </div>
 
+          <div class="form-group">
+            <label for="evMaterials">Learning Materials / Resources</label>
+            <span class="form-help">Rate the usefulness, clarity, availability, and relevance of materials or resources provided.</span>
+            <select id="evMaterials" name="materials" class="form-control">
+              <option value="5">5 - Excellent</option><option value="4">4 - Very Good</option>
+              <option value="3">3 - Satisfactory</option><option value="2">2 - Fair</option>
+              <option value="1">1 - Poor</option><option value="N/A">N/A</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="evEngagement">Participant Engagement & Inclusion</label>
+            <span class="form-help">Consider opportunities to participate, ask questions, share ideas, and feel welcomed regardless of background or identity.</span>
+            <select id="evEngagement" name="engagement" class="form-control">
+              <option value="5">5 - Highly Engaging & Inclusive</option><option value="4">4 - Very Good</option>
+              <option value="3">3 - Satisfactory</option><option value="2">2 - Fair</option>
+              <option value="1">1 - Poor</option><option value="N/A">N/A</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="evLikedMost">Most Valuable Part of the Activity</label>
+            <span class="form-help">Briefly tell us which topic, session, activity, or experience was most useful to you and why.</span>
+            <textarea id="evLikedMost" name="likedMost" class="form-control" placeholder="What did you find most useful or meaningful?"></textarea>
+          </div>
+
           <div class="form-group full">
             <label for="evLearning">Key Takeaways & Insights Learned</label>
             <textarea id="evLearning" name="learning" class="form-control" placeholder="What key insights or practical skills did you gain from this activity?"></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="evFuture">Topics / Activities You Want in the Future</label>
+            <span class="form-help">Suggest future topics, services, trainings, sports, advocacy activities, or youth programs relevant to you or the community.</span>
+            <textarea id="evFuture" name="future" class="form-control" placeholder="What should SK Sapilang offer next?"></textarea>
           </div>
 
           <div class="form-group full">
@@ -692,8 +821,10 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
         <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--sk-border);">
           <button type="button" class="studio-btn active" data-subtab="studio">Certificate Studio</button>
           <button type="button" class="studio-btn" data-subtab="activities">Activity Manager</button>
-          <button type="button" class="studio-btn" data-subtab="tracker">Issued Certificates</button>
-          <button type="button" class="studio-btn" data-subtab="analytics">QMS Analytics & Reports</button>
+          <button type="button" class="studio-btn" data-subtab="records">QMS Records</button>
+          <button type="button" class="studio-btn" data-subtab="tracker">Certificates</button>
+          <button type="button" class="studio-btn" data-subtab="recycle">Recycle Bin</button>
+          <button type="button" class="studio-btn" data-subtab="analytics">Analytics & Reports</button>
         </div>
 
         <!-- SUBTAB 1: CERTIFICATE STUDIO (REBUILT FROM SCRATCH) -->
@@ -727,14 +858,18 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
               </div>
 
               <div class="form-group full">
-                <label for="studioFileInput">Step 3: Upload Finished Certificate from Canva (PNG or JPG)</label>
-                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                  <input type="file" id="studioFileInput" accept="image/png,image/jpeg,image/webp" class="form-control" style="flex: 1; min-width: 240px;">
-                  <button type="button" id="btnPermanentUpload" class="btn-header btn-header-orange">Permanently Upload to Drive</button>
+                <label for="studioFileInput">Step 3: Preview Finished Certificate from Canva (PNG or JPG)</label>
+                <input type="file" id="studioFileInput" accept="image/png,image/jpeg,image/webp" class="form-control">
+                <span class="form-help">This file is only used for an instant local preview. It is not uploaded through QMS.</span>
+              </div>
+
+              <div class="form-group full">
+                <label for="studioDriveLink">Step 4: Google Drive Certificate Link or File ID</label>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <input type="text" id="studioDriveLink" class="form-control" style="flex:1;min-width:240px;" placeholder="Paste the Google Drive sharing link or file ID here">
+                  <button type="button" id="btnPermanentUpload" class="btn-header btn-header-orange">Use Drive Template</button>
                 </div>
-                <span class="form-help" id="uploadStatusMsg">
-                  Uploads are stored permanently in the SK Sapilang Google Drive folder and linked to this activity.
-                </span>
+                <span class="form-help" id="uploadStatusMsg">Upload the certificate image to Google Drive yourself, set it to “Anyone with the link” as Viewer, then paste its link here. QMS saves only the link, so this is fast.</span>
               </div>
             </div>
 
@@ -809,6 +944,27 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
           </div>
         </div>
 
+        <!-- QMS RECORDS -->
+        <div id="subtabRecords" class="admin-subview" style="display:none;">
+          <div class="panel-header"><h3>QMS Records & Print Center</h3><p>View, search, print, and safely delete Visitor Logbook entries, Activity Evaluations, and Suggestions.</p></div>
+          <div class="qms-record-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;">
+            <button type="button" class="studio-btn active" data-record-kind="clients">Visitors</button>
+            <button type="button" class="studio-btn" data-record-kind="activities">Evaluations</button>
+            <button type="button" class="studio-btn" data-record-kind="suggestions">Suggestions</button>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+            <input id="qmsRecordSearch" type="search" class="form-control" placeholder="Search records..." style="max-width:360px;"><select id="qmsActivityFilter" class="form-control" style="max-width:360px;display:none"><option value="">All Activities</option></select>
+            <button type="button" id="btnPrintRecordGroup" class="btn-header btn-header-orange">Print Current Activity / View</button>
+          </div>
+          <div class="table-wrap"><table class="sk-table"><thead id="qmsRecordsHead"></thead><tbody id="qmsRecordsBody"><tr><td>Loading records...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- RECYCLE BIN -->
+        <div id="subtabRecycle" class="admin-subview" style="display:none;">
+          <div class="panel-header"><h3>Recycle Bin</h3><p>Deleted QMS records are retained here and can be restored later.</p></div>
+          <div class="table-wrap"><table class="sk-table"><thead><tr><th>Deleted</th><th>Type</th><th>Reference</th><th>Participant / Record</th><th>Activity / Subject</th><th>Action</th></tr></thead><tbody id="qmsRecycleBody"><tr><td colspan="6">Loading recycle bin...</td></tr></tbody></table></div>
+        </div>
+
         <!-- SUBTAB 2: ACTIVITY MANAGER (Single Source of Truth) -->
         <div id="subtabActivities" class="admin-subview" style="display: none;">
           <div class="panel-header" style="padding-bottom: 10px; margin-bottom: 16px;">
@@ -846,6 +1002,15 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
               <div class="form-group">
                 <label for="actSpeaker">Resource Speaker / Trainer / Facilitator</label>
                 <input type="text" id="actSpeaker" class="form-control" placeholder="Leave blank if general program">
+              </div>
+
+              <div class="form-group">
+                <label for="actGadVisibility">GAD & Inclusion Questions</label>
+                <select id="actGadVisibility" class="form-control">
+                  <option value="SHOW">Show for this activity</option>
+                  <option value="HIDE">Hide for this activity</option>
+                </select>
+                <span class="topic-help">Choose whether the optional GAD and inclusion section will appear to participants evaluating this specific activity. This can be changed later without deleting previously collected GAD records.</span>
               </div>
 
               <div class="form-group full">
@@ -967,6 +1132,10 @@ footer{background:var(--navy)!important;color:#e8f0f7!important;padding:25px!imp
 
 
 
+
+<style id="qms-v17-modern">
+:root{--qms-radius:16px} body{font-family:Inter,Arial,sans-serif!important} .qms-panel,.admin-subview{letter-spacing:.005em}.form-control{min-height:44px!important;border-radius:10px!important}.btn-submit,.btn-header,.studio-btn{border-radius:10px!important;font-weight:750!important}.table-wrap{border-radius:14px;overflow:auto;border:1px solid var(--sk-border)}.sk-table{min-width:820px}.sk-table th{position:sticky;top:0;background:#f8fafc;z-index:1}.sk-table td,.sk-table th{padding:12px 14px!important;vertical-align:top}.record-actions{display:flex;gap:6px;flex-wrap:wrap}.record-actions button{padding:7px 10px;border-radius:8px;border:1px solid #d7dee8;background:white;cursor:pointer;font-weight:700}.record-actions .danger{color:#b42318}.qms-success-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}@media(max-width:720px){.qms-container{padding-left:12px!important;padding-right:12px!important}.panel-header h2,.panel-header h3{font-size:20px!important}.form-grid{grid-template-columns:1fr!important}.btn-submit{width:100%}.sk-table{font-size:12px}}@media print{header,.site-footer,.qms-tabs,#adminLoginBox,#adminWorkspace>div:first-child,#adminWorkspace>div:nth-child(2),button,input[type=search]{display:none!important}.admin-subview{display:none!important}#subtabRecords.printing,#subtabAnalytics.printing{display:block!important}.table-wrap{border:0!important;overflow:visible!important}.sk-table{min-width:0!important;width:100%!important;font-size:9pt}.record-actions{display:none!important}}
+</style>
 <style id="sk-qms-hard-tab-style">
 #visitorPanel,#activityPanel,#suggestionPanel,#adminPanel{display:none!important}
 #visitorPanel.sk-tab-visible,#activityPanel.sk-tab-visible,#suggestionPanel.sk-tab-visible,#adminPanel.sk-tab-visible{display:block!important}
@@ -1013,3 +1182,71 @@ document.addEventListener('DOMContentLoaded',function(){
 
 </body>
 </html>
+<style id="qms-v29-folders">
+.v29-folder td{padding:7px 10px!important;background:#eef4fa!important}.v29-folderbar{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#062d55}.v29-folderbar button,.v29-activity-analytics button{border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:7px 10px;font-weight:700;cursor:pointer}.v29-analytics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 22px}.v29-card{border:1px solid #d8e1eb;border-radius:12px;padding:15px;background:#fff}.v29-card small{display:block;color:#64748b}.v29-card strong{display:block;font-size:25px;color:#082b50;margin-top:4px}.v29-activity-analytics{display:grid;grid-template-columns:minmax(240px,1fr) auto auto;gap:12px;align-items:center;border:1px solid #d8e1eb;border-radius:10px;padding:12px;margin:8px 0;background:#fff}@media(max-width:760px){.v29-analytics-grid{grid-template-columns:1fr 1fr}.v29-activity-analytics{grid-template-columns:1fr}.v29-folderbar{align-items:flex-start;flex-direction:column}}
+</style>
+
+<!-- V32 GAD-responsive inclusive enhancements -->
+<style>
+.gad-note{font-size:12px;color:var(--sk-text-muted);line-height:1.55;margin-top:5px}.gad-card{background:#f8fafc;border:1px solid var(--sk-border);border-left:4px solid var(--sk-orange);border-radius:10px;padding:16px;margin:18px 0}.gad-card h3{font-size:15px;color:var(--sk-navy);margin:0 0 5px}.gad-optional{font-weight:500;color:var(--sk-text-muted);font-size:11px}.other-specify{display:none;margin-top:8px}.other-specify.show{display:block}
+</style>
+<script>
+(function(){
+ function addOption(sel,text,value){if(!sel||[...sel.options].some(o=>o.text.trim()===text))return;let o=document.createElement('option');o.text=text;o.value=value||text;sel.add(o)}
+ function wireOther(sel,input){if(!sel||!input)return;function sync(){input.classList.toggle('show',/^Other/i.test(sel.value));if(!/^Other/i.test(sel.value))input.value=''}sel.addEventListener('change',sync);sync()}
+ function gadBlock(prefix){return `<div class="gad-card" id="${prefix}GadCard"><h3>Optional GAD & Inclusion Information</h3><p class="gad-note">These questions help SK Sapilang understand whether programs and services are reaching different groups fairly. Answering is voluntary. You may select “Prefer not to say.” Individual responses should be treated as confidential and used mainly for appropriate, aggregated GAD reporting.</p><div class="form-grid" style="margin-top:12px"><div class="form-group"><label for="${prefix}Sex">Sex Assigned at Birth <span class="gad-optional">(Optional)</span></label><select id="${prefix}Sex" name="sexAssignedAtBirth" class="form-control"><option value="">Select an option</option><option>Female</option><option>Male</option><option>Intersex</option><option>Prefer not to say</option><option>Others</option></select><input id="${prefix}SexOther" name="sexAssignedAtBirthOther" class="form-control other-specify" placeholder="Please specify, if you wish"></div><div class="form-group"><label for="${prefix}Gender">Gender Identity / Expression <span class="gad-optional">(Optional)</span></label><select id="${prefix}Gender" name="genderIdentity" class="form-control"><option value="">Select an option</option><option>Woman / Girl</option><option>Man / Boy</option><option>Non-binary / Gender diverse</option><option>Prefer to self-describe</option><option>Prefer not to say</option><option>Others</option></select><input id="${prefix}GenderOther" name="genderIdentityOther" class="form-control other-specify" placeholder="Please specify, if you wish"></div><div class="form-group"><label for="${prefix}Pronouns">Preferred Pronouns <span class="gad-optional">(Optional)</span></label><select id="${prefix}Pronouns" name="preferredPronouns" class="form-control"><option value="">Select an option</option><option>She / Her</option><option>He / Him</option><option>They / Them</option><option>Use my name</option><option>Prefer not to say</option><option>Others</option></select><input id="${prefix}PronounsOther" name="preferredPronounsOther" class="form-control other-specify" placeholder="Please specify, if you wish"></div><div class="form-group"><label for="${prefix}Accessibility">Accessibility / Participation Support <span class="gad-optional">(Optional)</span></label><select id="${prefix}Accessibility" name="accessibilitySupport" class="form-control"><option value="">No response / None</option><option>No additional support needed</option><option>Mobility / physical access support</option><option>Visual or hearing support</option><option>Communication / learning support</option><option>Parent, guardian or caregiver support</option><option>Prefer not to say</option><option>Others</option></select><input id="${prefix}AccessibilityOther" name="accessibilitySupportOther" class="form-control other-specify" placeholder="Please specify any support you wish us to consider"></div></div></div>`}
+ function init(){
+  const vf=document.getElementById('visitorForm'), af=document.getElementById('activityEvalForm');
+  const visType=document.getElementById('visType'), rsEval=document.getElementById('resourceSpeakerVisitorEval');
+  function toggleResourceSpeakerVisitorEval(){if(!visType||!rsEval)return;rsEval.style.display=visType.value==='Resource Speaker / Trainer / Facilitator'?'block':'none';}
+  if(visType){visType.addEventListener('change',toggleResourceSpeakerVisitorEval);toggleResourceSpeakerVisitorEval();}
+  if(vf&&!document.getElementById('visSex')){let grid=vf.querySelector('.form-grid');grid.insertAdjacentHTML('afterend',gadBlock('vis'))}
+  if(af&&!document.getElementById('evalSex')){let grid=af.querySelector('.form-grid');grid.insertAdjacentHTML('afterend',gadBlock('eval'))}
+  ['visSex','visGender','visPronouns','visAccessibility','evalSex','evalGender','evalPronouns','evalAccessibility'].forEach(id=>wireOther(document.getElementById(id),document.getElementById(id+'Other')));
+  [['visType','Other / Self-describe'],['visPurpose','Others'],['visService','Others'],['evalClassification','Others'],['sugCategory','Others'],['sugArea','Others']].forEach(x=>addOption(document.getElementById(x[0]),x[1]));
+  const comments=document.getElementById('visComments');if(comments){comments.previousElementSibling.textContent='Service Experience, Comments & Recommendations (Optional)';comments.placeholder='What went well during your visit? Was the service respectful, accessible, clear, and responsive to your needs? Tell us what we can improve or any support you would like considered in future services.'}
+  const learn=document.getElementById('evLearning');if(learn){learn.previousElementSibling.textContent='Learning, Relevance & Key Takeaways (Optional)';learn.placeholder='What did you learn, understand better, or find most useful? You may mention knowledge, skills, attitudes, or ideas that you can apply in school, work, family, youth leadership, or community life.'}
+  const imp=document.getElementById('evImprovement');if(imp){imp.previousElementSibling.textContent='Suggestions for Improvement & Inclusion (Optional)';imp.placeholder='What could make the next activity better, safer, more accessible, more inclusive, or more useful? You may comment on content, schedule, venue, facilitation, materials, participation, accessibility, or other concerns.'}
+  const sp=document.getElementById('spkComments');if(sp){sp.previousElementSibling.textContent='Feedback for Resource Speaker / Facilitator (Optional)';sp.placeholder='What did the speaker/facilitator do well? What could improve the clarity, respectfulness, inclusiveness, interaction, or usefulness of the discussion?'}
+  const msg=document.getElementById('sugMessage');if(msg){msg.previousElementSibling.innerHTML='Detailed Message / Description <span class="required-mark">*</span>';msg.placeholder='Describe your idea, concern, experience, or recommendation. You may explain who may benefit or be affected, why it matters, and any accessibility, inclusion, safety, or GAD-related consideration you want SK Sapilang to understand.'}
+  const sol=document.getElementById('sugSolution');if(sol){sol.previousElementSibling.textContent='Proposed Action, Solution or Support Needed (Optional)';sol.placeholder='What action do you suggest? You may propose activities, partnerships, policy/service improvements, accessibility measures, or other practical steps. If you are unsure, you may leave this blank.'}
+  document.querySelectorAll('.rating-title').forEach((el,i)=>{if(i===0)el.insertAdjacentHTML('beforeend','<div class="gad-note">Rate your overall service experience based on responsiveness, courtesy, clarity, accessibility, and whether your concern was appropriately addressed.</div>');if(i===1)el.insertAdjacentHTML('beforeend','<div class="gad-note">Consider the activity’s usefulness, organization, inclusiveness, accessibility, participant engagement, and overall experience.</div>')});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<style id="qms-v33-gad-admin">
+.gad-admin-report{margin-top:22px;border:1px solid var(--sk-border);border-left:4px solid var(--sk-orange);border-radius:12px;padding:18px;background:#fff}.gad-admin-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}.gad-admin-head h4{margin:0 0 5px;color:var(--sk-navy);font-size:16px}.gad-admin-head p{max-width:760px;margin:0;color:var(--sk-text-muted);font-size:12px;line-height:1.55}.gad-admin-head button{border:1px solid var(--sk-navy);background:#fff;color:var(--sk-navy);border-radius:8px;padding:9px 13px;font-weight:700;cursor:pointer}.gad-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}.gad-stat{border:1px solid var(--sk-border);border-radius:10px;padding:12px;background:#f8fafc}.gad-stat>strong{display:block;margin-bottom:8px;color:var(--sk-navy)}.gad-stat span{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #e2e8f0;padding:6px 0;font-size:12px}.gad-privacy-note{font-size:12px;line-height:1.5;color:#475569;background:#f8fafc;border:1px solid #cbd5e1;padding:10px;border-radius:8px}@media(max-width:700px){.gad-stat-grid{grid-template-columns:1fr}}
+</style>
+
+<!-- V34 readability + topic-relevant feedback guidance -->
+<style id="qms-v34-readable">
+html{font-size:17px}body{font-size:16px;line-height:1.65}.form-control,select.form-control,textarea.form-control,input.form-control{font-size:16px!important;min-height:48px}.form-group label{font-size:15px!important;line-height:1.45;font-weight:700}.form-help,.gad-note,.gad-optional{font-size:13px!important;line-height:1.55}.card p,.section-card p,.admin-panel p{font-size:14px;line-height:1.6}.rating-box label span{font-size:13px!important}.rating-title{font-size:16px!important}.btn,.btn-primary,.btn-header,.studio-btn,button{font-size:14px}.topic-help{display:block;margin-top:4px;color:#52657a;font-size:13px;line-height:1.5;font-weight:400}.qms-section-intro{font-size:14px!important;line-height:1.65!important;color:#475569!important}
+@media(max-width:700px){html{font-size:16px}.form-control,select.form-control,textarea.form-control,input.form-control{font-size:16px!important}.form-group label{font-size:15px!important}}
+</style>
+<script id="qms-v34-form-guidance">
+(function(){
+ function help(id,text){const e=document.getElementById(id);if(!e)return;const g=e.closest('.form-group');if(!g||g.querySelector('.topic-help'))return;const s=document.createElement('span');s.className='topic-help';s.textContent=text;const l=g.querySelector('label');if(l)l.insertAdjacentElement('afterend',s)}
+ function add(sel,text){if(sel&&![...sel.options].some(o=>o.textContent.trim()===text)){const o=document.createElement('option');o.textContent=text;o.value=text;sel.appendChild(o)}}
+ function init(){
+  const c=document.getElementById('evalClassification');
+  ['Core Youth / General Youth Member','Katipunan ng Kabataan (KK) Member','In-School Youth','Out-of-School Youth (OSY)','Working Youth','Youth Leader / Youth Volunteer','LGBTQIA+ Youth','Youth with Disability (PWD)','Indigenous Peoples (IP) Youth','Solo Parent Youth','Young Parent','Youth with Specific Needs','Youth Organization / Council Member','Community Member / Stakeholder','Prefer not to say','Others / Self-describe'].forEach(x=>add(c,x));
+  help('evalClassification','Choose the classification that best describes your participation. This is used for youth and GAD program monitoring. Sensitive or personal classifications are optional; you may choose “Prefer not to say.”');
+  help('evRelevance','Consider whether the topic was connected to the activity objectives and useful to your needs, experiences, studies, work, family, leadership, or community life.');
+  help('evOrganization','Consider the sequence of activities, instructions, coordination, transitions, and whether the program was easy to follow.');
+  help('evVenue','Consider comfort, safety, cleanliness, accessibility, visibility, sound, and whether the environment supported participation.');
+  help('evMaterials','Consider whether presentations, handouts, equipment, digital materials, or other learning resources were clear, useful, and appropriate to the topic.');
+  help('evTimeManagement','Consider whether the schedule, pacing, breaks, and time given for discussion or activities were appropriate.');
+  help('evEngagement','Consider whether participants had meaningful opportunities to ask questions, share ideas, participate, and feel included.');
+  help('spkKnowledge','Consider how accurately and confidently the resource speaker explained information relevant to the assigned topic.');
+  help('spkClarity','Consider whether explanations, examples, language, and presentation style made the topic easy to understand.');
+  help('spkEngagement','Consider whether the speaker encouraged questions, interaction, respectful participation, and different perspectives.');
+  help('visComments','Briefly describe what went well and what SK Sapilang could improve. You may comment on courtesy, responsiveness, accessibility, inclusion, clarity, waiting time, or how your concern was handled.');
+  help('evLearning','Briefly explain the most relevant lesson, idea, skill, or realization you gained from the topic and how it may be useful to you or the community.');
+  help('evImprovement','Briefly explain what should be improved in relation to this activity or topic. You may mention content, speaker/facilitation, schedule, venue, accessibility, participation, or materials.');
+  help('spkComments','Briefly give topic-related feedback on the speaker’s strengths and what could make the discussion clearer, more useful, inclusive, or engaging.');
+  help('sugMessage','Briefly explain the concern, proposal, or recommendation and why it matters. Include enough context for the SK to understand the issue without requiring unnecessary personal information.');
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
