@@ -1773,6 +1773,20 @@ document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[da
 })();
 
 
+
+/* ===== V43 GLOBAL CMS ENDPOINT RESOLVER =====
+   Later certificate/admin enhancement blocks run outside the original QMS closure.
+   Use this resolver there so Live Preview works on Live Server and GitHub Pages. */
+window.skGetCmsEndpoint = window.skGetCmsEndpoint || function(){
+  try {
+    return String(window.SK_CMS_ENDPOINT ||
+      localStorage.getItem('skCmsEndpoint') ||
+      localStorage.getItem('sk_cms_endpoint') || '').trim();
+  } catch (_) {
+    return String(window.SK_CMS_ENDPOINT || '').trim();
+  }
+};
+
 /* ===== V38 LIVE PREVIEW PERMANENT LAYOUT SAVE =====
    Called directly by certificate.html while the preview was opened from QMS.
    Saves one master set of coordinates per activity; participant content remains unique. */
