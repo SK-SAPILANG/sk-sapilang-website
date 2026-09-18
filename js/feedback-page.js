@@ -323,6 +323,23 @@ window.skGetCmsEndpoint = getCmsEndpoint;
       if (currentStudio) studioSelect.value = currentStudio;
     }
 
+    // V49: Activity Manager / Apps Script is the single source of truth.
+    // Remove obsolete certificate templates belonging to deleted/renamed legacy activities.
+    try {
+      const validIds = new Set(activitiesList.map(a => String(a.id)));
+      const cached = JSON.parse(localStorage.getItem('sk_cert_templates') || '{}');
+      Object.keys(cached).forEach(id => {
+        if (id !== 'master' && !validIds.has(String(id))) delete cached[id];
+      });
+      localStorage.setItem('sk_cert_templates', JSON.stringify(cached));
+      const previewId=String(localStorage.getItem('sk_cert_preview_activity')||'');
+      if(previewId && previewId!=='master' && !validIds.has(previewId)){
+        localStorage.removeItem('sk_cert_preview_activity');
+        localStorage.removeItem('sk_cert_preview_activity_title');
+        localStorage.removeItem('sk_cert_preview_template');
+      }
+    } catch(_) {}
+
     // 3. Admin Activities Table
     renderActivitiesTable();
   }
@@ -463,6 +480,11 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     // Adaptive Speaker Questions Logic
     if (actSelect) {
       actSelect.addEventListener('change', () => {
+      try {
+        localStorage.setItem('sk_cert_preview_activity', String(actSelect.value||'master'));
+        localStorage.removeItem('sk_cert_preview_template');
+      } catch(_) {}
+
         const selectedId = actSelect.value;
         const act = activitiesList.find(a => a.id === selectedId);
 
@@ -906,7 +928,7 @@ window.skGetCmsEndpoint = getCmsEndpoint;
         localStorage.setItem('sk_cert_preview_template', JSON.stringify(activeStudioTemplate));
         try { localStorage.setItem('skCertStudioAdminKey', currentAdminPassword || sessionStorage.getItem('skQmsAdminKey') || ''); } catch(_) {}
 
-        const url = 'certificate.html?blank=1&activityId=' + encodeURIComponent(actId) + '&activityTitle=' + encodeURIComponent((actSelect&&actSelect.selectedIndex>=0)?actSelect.options[actSelect.selectedIndex].text:'') + '&api=' + encodeURIComponent(getCmsEndpoint()) + '&preview=1&_=' + Date.now();
+        const url = 'certificate.html?blank=1&activityId=' + encodeURIComponent(actId) + '&preview=1&_=' + Date.now();
         window.open(url, '_blank');
       });
     }
@@ -1566,32 +1588,24 @@ window.addEventListener('message',function(e){
 });
 
 
-/* ===== V48 GUARANTEED LIVE PREVIEW OPENER ===== */
+/* ===== V49 LIVE PREVIEW — SERVER ACTIVITY SOURCE ===== */
 window.skOpenCertificatePreview=function(){
  try{
-   // IMPORTANT: this is the real Certificate Studio selector used by feedback.html.
-   var activity=document.getElementById('studioActivitySelect');
-   var actId=(activity&&activity.value?String(activity.value):'master').trim()||'master';
-   var title=(activity&&activity.options&&activity.selectedIndex>=0)?activity.options[activity.selectedIndex].text:'';
-   var tpl={};
-   try{tpl=(typeof activeStudioTemplate!=='undefined'&&activeStudioTemplate)?activeStudioTemplate:{};}catch(_){}
+   var sel=document.getElementById('studioActivitySelect');
+   var actId=(sel&&sel.value)?String(sel.value).trim():'master';
+   var title=(sel&&sel.selectedIndex>=0)?String(sel.options[sel.selectedIndex].text||''):'';
+   var ep='';
+   try{ep=String(window.SK_CMS_ENDPOINT||localStorage.getItem('skCmsEndpoint')||localStorage.getItem('sk_cms_endpoint')||'').trim();}catch(_){}
    try{
      localStorage.setItem('sk_cert_preview_activity',actId);
-     localStorage.setItem('sk_cert_preview_template',JSON.stringify(Object.assign({},tpl,{activityId:actId,title:title})));
-     localStorage.setItem('skCertStudioAdminKey',sessionStorage.getItem('skQmsAdminKey')||localStorage.getItem('skCertStudioAdminKey')||'');
+     localStorage.setItem('sk_cert_preview_activity_title',title);
+     localStorage.removeItem('sk_cert_preview_template'); // prevent stale activity template crossing
    }catch(_){}
-   var p=new URLSearchParams({
-     blank:'1',preview:'1',edit:'1',v48:'1',
-     activityId:actId,activityTitle:title,
-     api:getCmsEndpoint(),_:Date.now()
-   });
+   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',activityId:actId,activityTitle:title,api:ep,_:Date.now()});
    var w=window.open('certificate.html?'+p.toString(),'_blank');
    if(!w)alert('Please allow pop-ups for this site, then try again.');
    return false;
- }catch(err){
-   alert('Unable to open certificate preview: '+(err&&err.message?err.message:err));
-   return false;
- }
+ }catch(err){alert('Unable to open certificate preview: '+(err&&err.message?err.message:err));return false;}
 };
 
 

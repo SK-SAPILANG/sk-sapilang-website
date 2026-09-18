@@ -323,8 +323,8 @@
         try {
           var cachedPreview = JSON.parse(localStorage.getItem('sk_cert_preview_template') || '{}');
           var requestedActivity=String(qs.get('activityId')||'').trim();
-          var cachedActivity=String(cachedPreview.activityId||localStorage.getItem('sk_cert_preview_activity')||'').trim();
-          if (cachedPreview && Object.keys(cachedPreview).length && (!cachedActivity || cachedActivity===requestedActivity)) {
+          var cachedActivity=String(cachedPreview.activityId||'').trim();
+          if (cachedPreview && Object.keys(cachedPreview).length && cachedActivity && cachedActivity===requestedActivity) {
             template = Object.assign({}, template || {}, cachedPreview, {
               layout: Object.assign({}, (template && template.layout) || {}, cachedPreview.layout || {})
             });
@@ -359,12 +359,10 @@
         } else if (isBlank && isPreview) {
           try {
             const livePreview = JSON.parse(localStorage.getItem('sk_cert_preview_template') || 'null');
-            const liveActivity=String((livePreview&&livePreview.activityId)||localStorage.getItem('sk_cert_preview_activity')||'').trim();
-            if (livePreview && livePreview.backgroundUrl && (!liveActivity || liveActivity===actId)) {
+            if (livePreview && livePreview.backgroundUrl) {
               template = {
                 ...template,
                 ...livePreview,
-                activityId: actId,
                 layout: backendLayoutAuthoritative ? { ...template.layout } : { ...template.layout, ...(livePreview.layout || {}) }
               };
               usedPreviewTemplate = true;
