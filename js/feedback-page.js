@@ -1,15 +1,21 @@
 
-/* ===== V44 SAFE GLOBAL ENDPOINT ===== */
-window.skGetCmsEndpoint = window.skGetCmsEndpoint || function () {
+/* ===== V45 BACKWARD-COMPATIBLE GLOBAL CMS ENDPOINT ===== */
+function getCmsEndpoint() {
   try {
-    var ep = window.SK_CMS_ENDPOINT ||
+    return String(
+      window.SK_CMS_ENDPOINT ||
       localStorage.getItem('skCmsEndpoint') ||
-      localStorage.getItem('sk_cms_endpoint') || '';
-    return String(ep || '').trim();
+      localStorage.getItem('sk_cms_endpoint') ||
+      ''
+    ).trim();
   } catch (e) {
     return String(window.SK_CMS_ENDPOINT || '').trim();
   }
-};
+}
+window.getCmsEndpoint = getCmsEndpoint;
+window.skGetCmsEndpoint = getCmsEndpoint;
+
+
 
 /**
  * ============================================================================
@@ -98,7 +104,7 @@ window.skGetCmsEndpoint = window.skGetCmsEndpoint || function () {
   // --- HELPER: JSONP / API CALLS ---
   function callApi(params) {
     return new Promise((resolve, reject) => {
-      const endpoint = window.skGetCmsEndpoint();
+      const endpoint = getCmsEndpoint();
       if (!endpoint) {
         return resolve(null); // Fallback to local storage if endpoint unset
       }
@@ -131,7 +137,7 @@ window.skGetCmsEndpoint = window.skGetCmsEndpoint || function () {
 
   function postApiViaFrame(params) {
     return new Promise((resolve, reject) => {
-      const endpoint = window.skGetCmsEndpoint();
+      const endpoint = getCmsEndpoint();
       if (!endpoint) return reject(new Error('CMS endpoint is not configured.'));
       const requestId = 'qms_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const frameName = 'qms_post_' + requestId;
@@ -173,7 +179,7 @@ window.skGetCmsEndpoint = window.skGetCmsEndpoint || function () {
   }
 
   async function postApi(params) {
-    const endpoint = window.skGetCmsEndpoint();
+    const endpoint = getCmsEndpoint();
     if (!endpoint) return null;
     const body = new URLSearchParams();
     Object.entries(params).forEach(([k, v]) => body.append(k, v ?? ''));
@@ -1382,7 +1388,7 @@ window.skGetCmsEndpoint = window.skGetCmsEndpoint || function () {
         errorEl.style.display = 'none';
 
         try {
-          const endpoint = window.skGetCmsEndpoint();
+          const endpoint = getCmsEndpoint();
           if (endpoint) {
             const resp = await callApi({ action: 'login', password: pwd });
             if (!resp || !resp.success) {
@@ -1567,7 +1573,7 @@ window.skOpenCertificatePreview=function(){
    var actId=(activity&&activity.value)||'master';
    var layout={};try{layout=(activeStudioTemplate&&activeStudioTemplate.layout)||{};}catch(_){}
    try{localStorage.setItem('skCertStudioAdminKey',sessionStorage.getItem('skQmsAdminKey')||'');}catch(_){}
-   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,api:window.skGetCmsEndpoint(),layout:JSON.stringify(layout),_:Date.now()});
+   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,api:getCmsEndpoint(),layout:JSON.stringify(layout),_:Date.now()});
    var w=window.open('certificate.html?'+p.toString(),'_blank');
    if(!w)alert('Please allow pop-ups for this local site, then try again.');
    return false;
@@ -1802,7 +1808,7 @@ window.skGetCmsEndpoint = window.skGetCmsEndpoint || function(){
 
 
 try {
-  var __v44ep = window.skGetCmsEndpoint();
+  var __v44ep = getCmsEndpoint();
   if (__v44ep) {
     localStorage.setItem('skCmsEndpoint', __v44ep);
     localStorage.setItem('sk_cms_endpoint', __v44ep);

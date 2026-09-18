@@ -780,5 +780,33 @@
 })();
 </script>
 
+
+<script id="v45-preview-guard">
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('preview')!=='1' && q.get('blank')!=='1') return;
+  function reveal(){
+    var stage=document.getElementById('certificateStage') ||
+              document.querySelector('.certificate-stage') ||
+              document.querySelector('.certificate-wrap') ||
+              document.querySelector('.certificate');
+    var loading=document.getElementById('loadingState') ||
+                document.querySelector('.loading-card') ||
+                document.querySelector('[data-loading-certificate]');
+    if(stage){
+      stage.style.display='';
+      stage.hidden=false;
+      if(loading) loading.style.display='none';
+      window.__v44CertificateRendered=true;
+    }
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    setTimeout(reveal,100);
+    setTimeout(reveal,800);
+    setTimeout(reveal,1800);
+  });
+})();
+</script>
+
 </body>
 </html>
