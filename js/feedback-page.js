@@ -906,7 +906,7 @@ window.skGetCmsEndpoint = getCmsEndpoint;
         localStorage.setItem('sk_cert_preview_template', JSON.stringify(activeStudioTemplate));
         try { localStorage.setItem('skCertStudioAdminKey', currentAdminPassword || sessionStorage.getItem('skQmsAdminKey') || ''); } catch(_) {}
 
-        const url = 'certificate.html?blank=1&activityId=' + encodeURIComponent(actId) + '&preview=1&_=' + Date.now();
+        const url = 'certificate.html?blank=1&activityId=' + encodeURIComponent(actId) + '&activityTitle=' + encodeURIComponent((actSelect&&actSelect.selectedIndex>=0)?actSelect.options[actSelect.selectedIndex].text:'') + '&api=' + encodeURIComponent(getCmsEndpoint()) + '&preview=1&_=' + Date.now();
         window.open(url, '_blank');
       });
     }
@@ -1566,18 +1566,32 @@ window.addEventListener('message',function(e){
 });
 
 
-/* ===== GUARANTEED LIVE PREVIEW OPENER V6 ===== */
+/* ===== V48 GUARANTEED LIVE PREVIEW OPENER ===== */
 window.skOpenCertificatePreview=function(){
  try{
-   var activity=document.getElementById('ctActivity')||document.getElementById('certActivity')||document.getElementById('activityTemplateSelect');
-   var actId=(activity&&activity.value)||'master';
-   var layout={};try{layout=(activeStudioTemplate&&activeStudioTemplate.layout)||{};}catch(_){}
-   try{localStorage.setItem('skCertStudioAdminKey',sessionStorage.getItem('skQmsAdminKey')||'');}catch(_){}
-   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,api:getCmsEndpoint(),layout:JSON.stringify(layout),_:Date.now()});
+   // IMPORTANT: this is the real Certificate Studio selector used by feedback.html.
+   var activity=document.getElementById('studioActivitySelect');
+   var actId=(activity&&activity.value?String(activity.value):'master').trim()||'master';
+   var title=(activity&&activity.options&&activity.selectedIndex>=0)?activity.options[activity.selectedIndex].text:'';
+   var tpl={};
+   try{tpl=(typeof activeStudioTemplate!=='undefined'&&activeStudioTemplate)?activeStudioTemplate:{};}catch(_){}
+   try{
+     localStorage.setItem('sk_cert_preview_activity',actId);
+     localStorage.setItem('sk_cert_preview_template',JSON.stringify(Object.assign({},tpl,{activityId:actId,title:title})));
+     localStorage.setItem('skCertStudioAdminKey',sessionStorage.getItem('skQmsAdminKey')||localStorage.getItem('skCertStudioAdminKey')||'');
+   }catch(_){}
+   var p=new URLSearchParams({
+     blank:'1',preview:'1',edit:'1',v48:'1',
+     activityId:actId,activityTitle:title,
+     api:getCmsEndpoint(),_:Date.now()
+   });
    var w=window.open('certificate.html?'+p.toString(),'_blank');
-   if(!w)alert('Please allow pop-ups for this local site, then try again.');
+   if(!w)alert('Please allow pop-ups for this site, then try again.');
    return false;
- }catch(err){alert('Unable to open certificate preview: '+err.message);return false;}
+ }catch(err){
+   alert('Unable to open certificate preview: '+(err&&err.message?err.message:err));
+   return false;
+ }
 };
 
 
