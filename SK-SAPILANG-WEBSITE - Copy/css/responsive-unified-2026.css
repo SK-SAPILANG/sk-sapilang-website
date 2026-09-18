@@ -1,0 +1,47 @@
+/* SK Sapilang responsive/unified compatibility layer — 2026-09-19
+   Presentation only: no application logic, IDs, data, URLs or backend behavior. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;max-width:100%}
+body{max-width:100%;overflow-x:hidden}
+img,svg,video,canvas{max-width:100%;height:auto}
+iframe{max-width:100%}
+input,select,textarea,button{font:inherit;max-width:100%}
+button,a,input,select,textarea{touch-action:manipulation}
+:where(p,li,label,input,select,textarea,button,td,th){line-height:1.5}
+:where(.container,.wrapper,.content,.page,.page-content,.main-content,.section-inner,.nav-inner){max-width:100%}
+:where(.card,.panel,.box,.modal,.dialog,.form-card,.stat-card){min-width:0}
+:where(h1,h2,h3,h4,p,li,td,th,label,.card,.panel){overflow-wrap:anywhere}
+:where(table){border-collapse:collapse}
+:where(.table-wrap,.table-wrapper,.table-container,.admin-table,.data-table-container){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+:where(.modal,.dialog,[role="dialog"]){max-width:min(94vw,1100px);max-height:92dvh;overflow:auto}
+
+@media (max-width:900px){
+  body{font-size:max(16px,1rem)}
+  :where(.container,.wrapper,.content,.page-content,.main-content,.section-inner){padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  :where(h1,.page-title,.hero-title){font-size:clamp(1.75rem,7vw,2.6rem);line-height:1.12}
+  :where(h2,.section-title){font-size:clamp(1.35rem,5vw,2rem);line-height:1.2}
+  :where(h3){font-size:clamp(1.1rem,4vw,1.45rem)}
+  :where(.grid,.cards,.card-grid,.stats-grid,.dashboard-grid,.form-grid,.two-column,.three-column,.columns){grid-template-columns:minmax(0,1fr)!important}
+  :where(.row,.toolbar,.toolbar-actions,.actions,.button-row,.form-actions,.filters){flex-wrap:wrap}
+  :where(input,select,textarea){min-height:44px;font-size:16px}
+  :where(button,.btn,[role="button"]){min-height:44px}
+  :where(.navbar,.nav,.nav-inner,.header-inner){max-width:100%}
+  :where(.nav-links,.navbar-nav,.menu,.main-nav){max-width:100%}
+  :where(pre,code){white-space:pre-wrap;overflow-wrap:anywhere}
+}
+
+@media (max-width:600px){
+  :where(.container,.wrapper,.content,.page-content,.main-content,.section-inner){padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+  :where(.card,.panel,.box,.form-card){border-radius:14px}
+  :where(.toolbar-actions,.actions,.button-row,.form-actions){gap:8px}
+  :where(.toolbar-actions .btn,.actions .btn,.form-actions .btn){max-width:100%}
+  :where(table){font-size:.92rem}
+}
+
+@media (orientation:landscape) and (max-height:600px){
+  :where(.modal,.dialog,[role="dialog"]){max-height:88dvh}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
