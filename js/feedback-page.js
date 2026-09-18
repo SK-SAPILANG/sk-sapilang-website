@@ -1845,3 +1845,21 @@ window.skSaveCertificatePreviewLayout = async function(activityId, layout){
   if(m) m.textContent='✓ Live preview layout permanently saved for '+title+'.';
   return {success:true,activityId:targetId};
 };
+
+
+/* ===== V47 SAVED LAYOUT CACHE SYNC ===== */
+window.addEventListener('message', function(ev){
+  if(ev.origin !== location.origin || !ev.data || ev.data.type !== 'SK_CERT_LAYOUT_SAVED') return;
+  try{
+    var aid=String(ev.data.activityId||'').trim();
+    if(!aid)return;
+    var all=JSON.parse(localStorage.getItem('sk_cert_templates')||'{}');
+    all[aid]=Object.assign({},all[aid]||{},{activityId:aid,layout:Object.assign({},(all[aid]||{}).layout||{},ev.data.layout||{})});
+    localStorage.setItem('sk_cert_templates',JSON.stringify(all));
+    var p=JSON.parse(localStorage.getItem('sk_cert_preview_template')||'{}');
+    if(String(p.activityId||aid)===aid){
+      p.activityId=aid;p.layout=Object.assign({},p.layout||{},ev.data.layout||{});
+      localStorage.setItem('sk_cert_preview_template',JSON.stringify(p));
+    }
+  }catch(_){}
+});

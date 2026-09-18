@@ -333,12 +333,14 @@
         const actId = certRecord.activityId || previewActivityId || '';
         // V39: load the permanent backend template by activity ID or activity title.
         // This also works for certificate links opened directly from email.
+        let backendLayoutAuthoritative = false;
         try {
           const publicTpl = await callCms({ action:'public-template', activityId:actId, activity:certRecord.activity || '' });
           if (publicTpl && publicTpl.success && publicTpl.found && publicTpl.template) {
             template = Object.assign({}, template, publicTpl.template, { activityId: publicTpl.template.activityId || actId,
               layout: Object.assign({}, template.layout || {}, publicTpl.template.layout || {})
             });
+            backendLayoutAuthoritative = !!(publicTpl.template.layout && Object.keys(publicTpl.template.layout).length);
           }
         } catch(_) {}
         // For Studio test preview, direct URL parameters are highest priority.
@@ -349,7 +351,7 @@
             ...template,
             backgroundUrl: directPreviewBg,
             certType: directPreviewCertType || template.certType || '',
-            layout: { ...template.layout, ...(directPreviewLayout || {}) }
+            layout: backendLayoutAuthoritative ? { ...template.layout } : { ...template.layout, ...(directPreviewLayout || {}) }
           };
           usedPreviewTemplate = true;
         } else if (isBlank && isPreview) {
@@ -359,7 +361,7 @@
               template = {
                 ...template,
                 ...livePreview,
-                layout: { ...template.layout, ...(livePreview.layout || {}) }
+                layout: backendLayoutAuthoritative ? { ...template.layout } : { ...template.layout, ...(livePreview.layout || {}) }
               };
               usedPreviewTemplate = true;
             }
@@ -378,8 +380,8 @@
             certType: tplResp.template.certType || '',
             layout: { ...template.layout, ...(tplResp.template.layout || {}) }
           };
-        } else if (!usedPreviewTemplate) {
-          // Check local activity template or master settings
+        } else if (!usedPreviewTemplate && !backendLayoutAuthoritative) {
+          // Check local activity template or master settings ONLY when backend has no saved activity layout
           const localTpls = JSON.parse(localStorage.getItem('sk_cert_templates') || '{}');
           if (actId && localTpls[actId]) {
             template = {
@@ -742,7 +744,11 @@
       try {
         const check=await callCms({action:'public-template',activityId:activityId,activity:tpl.title||''});
         if(check&&check.success&&check.found&&check.template&&check.template.layout){
-          localStorage.setItem('sk_cert_preview_template',JSON.stringify(Object.assign({},tpl,check.template,{layout:check.template.layout})));
+          const confirmed=Object.assign({},tpl,check.template,{activityId:activityId,layout:check.template.layout});
+          localStorage.setItem('sk_cert_preview_template',JSON.stringify(confirmed));
+          const confirmedAll=JSON.parse(localStorage.getItem('sk_cert_templates')||'{}');
+          confirmedAll[activityId]=confirmed;
+          localStorage.setItem('sk_cert_templates',JSON.stringify(confirmedAll));
         }
       } catch(_){}
     } else if(window.opener&&!window.opener.closed&&typeof window.opener.skSaveCertificatePreviewLayout==='function'){
@@ -750,6 +756,11 @@
       permanentlySaved=true;
     }
     if(!permanentlySaved)throw new Error('Open this preview from Certificate Studio while signed in as administrator, then click Save Layout.');
+    try{
+      if(window.opener&&!window.opener.closed){
+        window.opener.postMessage({type:'SK_CERT_LAYOUT_SAVED',activityId:activityId,layout:layout},location.origin);
+      }
+    }catch(_){}
     if(msg)msg.textContent='✓ LAYOUT SAVED. These positions will be used for every certificate in this activity.';
   }catch(err){
     if(msg)msg.textContent='⚠ '+(err&&err.message?err.message:'Could not save layout.');
