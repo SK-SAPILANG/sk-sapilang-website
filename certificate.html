@@ -267,6 +267,12 @@
       };
 
       const endpointFromUrl = q.get('api') || '';
+      if(endpointFromUrl){
+        try{
+          localStorage.setItem('skCmsEndpoint',endpointFromUrl);
+          localStorage.setItem('sk_cms_endpoint',endpointFromUrl);
+        }catch(_){}
+      }
       if (endpointFromUrl) { try { localStorage.setItem('skCmsEndpoint', endpointFromUrl); } catch(_) {} }
       const endpoint = endpointFromUrl || window.SK_CMS_ENDPOINT || localStorage.getItem('skCmsEndpoint') || localStorage.getItem('sk_cms_endpoint') || '';
 
@@ -311,6 +317,19 @@
         }
 
         // 2. Fetch certificate template for this activity (or master template)
+        
+      // V44: Live Preview must render immediately even without a certificate record.
+      if ((q.get('blank') === '1' || q.get('preview') === '1') && q.get('activityId')) {
+        try {
+          var cachedPreview = JSON.parse(localStorage.getItem('sk_cert_preview_template') || '{}');
+          if (cachedPreview && Object.keys(cachedPreview).length) {
+            template = Object.assign({}, template || {}, cachedPreview, {
+              layout: Object.assign({}, (template && template.layout) || {}, cachedPreview.layout || {})
+            });
+          }
+        } catch (_) {}
+      }
+
         const actId = certRecord.activityId || previewActivityId || '';
         // V39: load the permanent backend template by activity ID or activity title.
         // This also works for certificate links opened directly from email.
@@ -455,6 +474,7 @@
 
         // Hide loading, show certificate
         loading.style.display = 'none';
+        window.__v44CertificateRendered = true;
         canvas.style.display = 'block';
 
       } catch (err) {
@@ -737,6 +757,26 @@
 });
  if(reset)reset.addEventListener('click',()=>{if(msg)msg.textContent='Reset only changes this preview until you click Save Adjustments.'});
  setTimeout(()=>choose('name'),500);
+})();
+</script>
+
+
+<script id="v44-loading-guard">
+(function(){
+  window.__v44CertificateRendered = false;
+  setTimeout(function(){
+    if(window.__v44CertificateRendered) return;
+    var loading=document.getElementById('loadingState') ||
+      document.querySelector('.loading-card') ||
+      document.querySelector('[data-loading-certificate]');
+    if(loading){
+      loading.innerHTML =
+        '<strong style="font-size:20px">Certificate could not finish loading.</strong>'+
+        '<div style="margin-top:8px;font-size:15px;line-height:1.5">'+
+        'Return to QMS and open Live Certificate Preview again. If this is a certificate link from email, refresh the page once.'+
+        '</div>';
+    }
+  },12000);
 })();
 </script>
 

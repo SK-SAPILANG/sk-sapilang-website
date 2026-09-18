@@ -1,3 +1,16 @@
+
+/* ===== V44 SAFE GLOBAL ENDPOINT ===== */
+window.skGetCmsEndpoint = window.skGetCmsEndpoint || function () {
+  try {
+    var ep = window.SK_CMS_ENDPOINT ||
+      localStorage.getItem('skCmsEndpoint') ||
+      localStorage.getItem('sk_cms_endpoint') || '';
+    return String(ep || '').trim();
+  } catch (e) {
+    return String(window.SK_CMS_ENDPOINT || '').trim();
+  }
+};
+
 /**
  * ============================================================================
  * SANGGUNIANG KABATAAN NG BARANGAY SAPILANG
@@ -85,7 +98,7 @@
   // --- HELPER: JSONP / API CALLS ---
   function callApi(params) {
     return new Promise((resolve, reject) => {
-      const endpoint = getCmsEndpoint();
+      const endpoint = window.skGetCmsEndpoint();
       if (!endpoint) {
         return resolve(null); // Fallback to local storage if endpoint unset
       }
@@ -118,7 +131,7 @@
 
   function postApiViaFrame(params) {
     return new Promise((resolve, reject) => {
-      const endpoint = getCmsEndpoint();
+      const endpoint = window.skGetCmsEndpoint();
       if (!endpoint) return reject(new Error('CMS endpoint is not configured.'));
       const requestId = 'qms_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const frameName = 'qms_post_' + requestId;
@@ -160,7 +173,7 @@
   }
 
   async function postApi(params) {
-    const endpoint = getCmsEndpoint();
+    const endpoint = window.skGetCmsEndpoint();
     if (!endpoint) return null;
     const body = new URLSearchParams();
     Object.entries(params).forEach(([k, v]) => body.append(k, v ?? ''));
@@ -1369,7 +1382,7 @@
         errorEl.style.display = 'none';
 
         try {
-          const endpoint = getCmsEndpoint();
+          const endpoint = window.skGetCmsEndpoint();
           if (endpoint) {
             const resp = await callApi({ action: 'login', password: pwd });
             if (!resp || !resp.success) {
@@ -1554,7 +1567,7 @@ window.skOpenCertificatePreview=function(){
    var actId=(activity&&activity.value)||'master';
    var layout={};try{layout=(activeStudioTemplate&&activeStudioTemplate.layout)||{};}catch(_){}
    try{localStorage.setItem('skCertStudioAdminKey',sessionStorage.getItem('skQmsAdminKey')||'');}catch(_){}
-   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,api:getCmsEndpoint(),layout:JSON.stringify(layout),_:Date.now()});
+   var p=new URLSearchParams({blank:'1',preview:'1',edit:'1',v11:'1',activityId:actId,api:window.skGetCmsEndpoint(),layout:JSON.stringify(layout),_:Date.now()});
    var w=window.open('certificate.html?'+p.toString(),'_blank');
    if(!w)alert('Please allow pop-ups for this local site, then try again.');
    return false;
@@ -1786,6 +1799,15 @@ window.skGetCmsEndpoint = window.skGetCmsEndpoint || function(){
     return String(window.SK_CMS_ENDPOINT || '').trim();
   }
 };
+
+
+try {
+  var __v44ep = window.skGetCmsEndpoint();
+  if (__v44ep) {
+    localStorage.setItem('skCmsEndpoint', __v44ep);
+    localStorage.setItem('sk_cms_endpoint', __v44ep);
+  }
+} catch (_) {}
 
 /* ===== V38 LIVE PREVIEW PERMANENT LAYOUT SAVE =====
    Called directly by certificate.html while the preview was opened from QMS.
