@@ -444,6 +444,8 @@
         // Apply Participant Full Name
         nameEl.style.left = l.nameX + '%';
         nameEl.style.top = l.nameY + '%';
+        nameEl.dataset.x = String(l.nameX);
+        nameEl.dataset.y = String(l.nameY);
         nameEl.style.fontSize = l.nameSize + 'px';
         nameEl.style.fontFamily = l.nameFont || 'Georgia, serif';
         nameEl.style.color = l.nameColor || '#0A2540';
@@ -454,6 +456,8 @@
         // Apply Certificate Number
         noEl.style.left = l.noX + '%';
         noEl.style.top = l.noY + '%';
+        noEl.dataset.x = String(l.noX);
+        noEl.dataset.y = String(l.noY);
         noEl.style.fontSize = l.noSize + 'px';
         noEl.style.color = l.noColor || '#0A2540';
         noEl.textContent = 'Certificate No. ' + certRecord.certificateId;
@@ -465,6 +469,8 @@
 
         qrEl.style.left = l.qrX + '%';
         qrEl.style.top = l.qrY + '%';
+        qrEl.dataset.x = String(l.qrX);
+        qrEl.dataset.y = String(l.qrY);
         qrEl.style.width = l.qrSize + 'px';
         qrEl.style.height = l.qrSize + 'px';
         qrEl.innerHTML = '';
@@ -529,11 +535,9 @@
      const E=el(k);if(!E)return;
      E.style.touchAction='none';E.style.userSelect='none';E.style.pointerEvents='auto';
      E.onpointerdown=e=>begin(e,k);
-     E.onmousedown=e=>begin(e,k);
    });
    document.addEventListener('pointermove',move,{passive:false});
-   document.addEventListener('mousemove',move,{passive:false});
-   document.addEventListener('pointerup',end);document.addEventListener('mouseup',end);
+   document.addEventListener('pointerup',end);
    document.querySelectorAll('[data-live-select]').forEach(b=>b.onclick=()=>choose(b.dataset.liveSelect));
    choose('name');
  }
@@ -714,7 +718,7 @@
  function choose(k){selected=k;const E=el(k);if(!E)return;const px=parseFloat(getComputedStyle(E).width)||40;if(size)size.value=k==='qr'?Math.max(8,Math.min(140,px)):Math.max(8,Math.min(140,parseFloat(getComputedStyle(E).fontSize)||40));}
  document.querySelectorAll('[data-live-select]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.liveSelect)));
  if(size)size.addEventListener('input',()=>{const E=el(selected),v=Number(size.value);if(!E)return;if(selected==='qr'){E.style.width=v+'px';E.style.height=v+'px'}else E.style.fontSize=v+'px'});
- function currentLayout(){const C=canvas(),r=C.getBoundingClientRect(),out={};['name','qr','no'].forEach(k=>{const E=el(k);if(!E)return;const er=E.getBoundingClientRect();out[k+'X']=Number(E.dataset.x)||pct((er.left+er.width/2)-r.left,r.width);out[k+'Y']=Number(E.dataset.y)||pct((er.top+er.height/2)-r.top,r.height);if(k==='qr')out.qrSize=Math.round(er.width);else if(k==='name')out.nameSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||40);else out.noSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||13)});return out}
+ function currentLayout(){const C=canvas(),r=C.getBoundingClientRect(),out={};['name','qr','no'].forEach(k=>{const E=el(k);if(!E)return;const er=E.getBoundingClientRect();const cx=((er.left+er.width/2)-r.left)/r.width*100,cy=((er.top+er.height/2)-r.top)/r.height*100;out[k+'X']=Math.round(cx*100)/100;out[k+'Y']=Math.round(cy*100)/100;E.dataset.x=String(out[k+'X']);E.dataset.y=String(out[k+'Y']);if(k==='qr')out.qrSize=Math.round(er.width);else if(k==='name')out.nameSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||40);else out.noSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||13)});return out}
  if(save)save.addEventListener('click',async()=>{
   const activityId=(q.get('activityId')||q.get('activity')||localStorage.getItem('sk_cert_preview_activity')||'master').trim();
   const layout=currentLayout();
