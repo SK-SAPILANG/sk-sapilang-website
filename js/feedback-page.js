@@ -1247,6 +1247,59 @@ window.skGetCmsEndpoint = getCmsEndpoint;
   // ==========================================================================
   // ISSUED CERTIFICATE TRACKER
   // ==========================================================================
+
+  function openCertificateSelection(kind, activityTitle, triggerBtn) {
+    const mode = kind === 'hardcopy' ? 'hardcopy' : 'ecert';
+    const rows = selectedBatchCertificates(mode, activityTitle);
+    if(!rows.length) {
+      return alert(mode==='hardcopy'
+        ? 'No Hard Copy or Both requests found for '+activityTitle+'.'
+        : 'No E-Certificate or Both requests found for '+activityTitle+'.');
+    }
+
+    document.getElementById('skCertSelectionModal')?.remove();
+    const modal=document.createElement('div');
+    modal.id='skCertSelectionModal';
+    modal.style.cssText='position:fixed;inset:0;z-index:999999;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:18px';
+    const titleText=mode==='hardcopy'?'Select Hard Copies':'Select E-Certificates';
+    modal.innerHTML=`
+      <div style="width:min(720px,100%);max-height:86vh;overflow:auto;background:#fff;border-radius:18px;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.25)">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+          <div><h2 style="margin:0 0 5px">${titleText}</h2><div style="color:#64748b">${escapeHtml(activityTitle)} • ${rows.length} eligible participant(s)</div></div>
+          <button type="button" id="skCertSelClose" style="border:0;background:#f1f5f9;border-radius:9px;padding:8px 11px;font-weight:800;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0">
+          <button type="button" id="skCertSelAll" class="studio-btn">Select All</button>
+          <button type="button" id="skCertSelNone" class="studio-btn">Clear All</button>
+        </div>
+        <div id="skCertSelList" style="display:grid;gap:8px">
+          ${rows.map((c,i)=>`<label style="display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid #e2e8f0;border-radius:10px;cursor:pointer">
+            <input type="checkbox" class="sk-cert-pick" data-index="${i}" checked style="width:19px;height:19px">
+            <span><strong>${escapeHtml(c.participantName||'Participant')}</strong><br><small>${escapeHtml(c.certificateNumber||c.id||'')}</small></span>
+          </label>`).join('')}
+        </div>
+        <div style="position:sticky;bottom:-20px;background:#fff;padding:16px 0 2px;margin-top:12px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
+          <button type="button" id="skCertSelCancel" class="studio-btn">Cancel</button>
+          <button type="button" id="skCertSelDownload" class="studio-btn">${mode==='hardcopy'?'Download Selected Hard Copies':'Download Selected E-Certificates'}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+
+    const close=()=>modal.remove();
+    modal.querySelector('#skCertSelClose').onclick=close;
+    modal.querySelector('#skCertSelCancel').onclick=close;
+    modal.addEventListener('click',e=>{if(e.target===modal)close()});
+    modal.querySelector('#skCertSelAll').onclick=()=>modal.querySelectorAll('.sk-cert-pick').forEach(x=>x.checked=true);
+    modal.querySelector('#skCertSelNone').onclick=()=>modal.querySelectorAll('.sk-cert-pick').forEach(x=>x.checked=false);
+    modal.querySelector('#skCertSelDownload').onclick=async function(){
+      const picked=[...modal.querySelectorAll('.sk-cert-pick:checked')].map(x=>rows[Number(x.dataset.index)]).filter(Boolean);
+      if(!picked.length) return alert('Select at least one participant.');
+      close();
+      if(mode==='hardcopy') return window.downloadHardCopyPdf(triggerBtn,activityTitle,picked);
+      return window.downloadECertificatesZip(triggerBtn,activityTitle,picked);
+    };
+  }
+
   function chooseCertificateActivity(kind, btn) {
     const titles=[...new Set(issuedCertificates.map(c=>String(c.activityTitle||'').trim()).filter(Boolean))].sort();
     if(!titles.length) return alert('No certificate activities are available yet.');
@@ -1256,8 +1309,8 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     const n=Number(answer);
     if(!Number.isInteger(n)||n<1||n>titles.length) return alert('Please enter a valid activity number.');
     const title=titles[n-1];
-    if(kind==='download') return window.downloadECertificatesZip(btn,title);
-    if(kind==='hardcopy') return window.downloadHardCopyPdf(btn,title);
+    if(kind==='download') return openCertificateSelection('ecert',title,btn);
+    if(kind==='hardcopy') return openCertificateSelection('hardcopy',title,btn);
   }
 
   function initIssuedTracker() {
@@ -1411,8 +1464,8 @@ window.skGetCmsEndpoint = getCmsEndpoint;
       catch(_){window.prompt('Copy these email addresses:',txt);}
       return;
     }
-    if(action==='download') return window.downloadECertificatesZip(btn,title);
-    if(action==='hardcopy') return window.downloadHardCopyPdf(btn,title);
+    if(action==='download') return openCertificateSelection('ecert',title,btn);
+    if(action==='hardcopy') return openCertificateSelection('hardcopy',title,btn);
     if(action==='send'){
       const rows=selectedBatchCertificates('email',title);
       if(!rows.length) return alert('No e-certificate recipients with email addresses were found for '+title+'.');
@@ -1584,12 +1637,12 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     else window.prompt('Copy these e-certificate email addresses:',emailText);
   };
 
-  window.downloadECertificatesZip = async (btn, explicitActivity) => {
+  window.downloadECertificatesZip = async (btn, explicitActivity, explicitRows) => {
     const sel=document.getElementById('certBatchActivity');
     const selectedActivity=String(explicitActivity || (sel ? sel.value : '') || '').trim();
     if(!selectedActivity) return alert('Please select one seminar/activity first.');
 
-    const rows=selectedBatchCertificates('ecert', selectedActivity);
+    const rows=Array.isArray(explicitRows)?explicitRows:selectedBatchCertificates('ecert', selectedActivity);
     if(!rows.length) return alert('No E-Certificate or Both requests found for the selected activity.');
 
     const activityLabel=(explicitActivity || (sel && sel.selectedIndex>=0 ? sel.options[sel.selectedIndex].text : selectedActivity)).trim();
@@ -1625,8 +1678,8 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     }
   };
 
-  window.downloadHardCopyPdf = async (btn, explicitActivity) => {
-    const rows=selectedBatchCertificates('hardcopy', explicitActivity);
+  window.downloadHardCopyPdf = async (btn, explicitActivity, explicitRows) => {
+    const rows=Array.isArray(explicitRows)?explicitRows:selectedBatchCertificates('hardcopy', explicitActivity);
     if(!rows.length) return alert('No Hard Copy or Both requests found for the selected activity.');
     const old=btn.textContent; btn.disabled=true;
     try {
