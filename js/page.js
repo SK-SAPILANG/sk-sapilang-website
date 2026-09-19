@@ -1408,12 +1408,29 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     iframe.src = `certificate.html?id=${encodeURIComponent(certId)}`;
     document.body.appendChild(iframe);
     try {
-      await new Promise((resolve,reject)=>{ const t=setTimeout(()=>reject(new Error('Certificate preview timed out.')),20000); iframe.onload=()=>{clearTimeout(t);resolve();}; });
+      // Attach the load handler before assigning/reloading the URL so a fast cached
+      // certificate page cannot fire `load` before the handler exists.
+      await new Promise((resolve,reject)=>{
+        let done=false;
+        const finish=()=>{ if(done) return; done=true; clearTimeout(t); resolve(); };
+        const fail=()=>{ if(done) return; done=true; clearTimeout(t); reject(new Error('Certificate preview timed out.')); };
+        const t=setTimeout(fail,60000);
+        iframe.addEventListener('load',finish,{once:true});
+        // If the frame already completed from cache, continue immediately.
+        try { if(iframe.contentDocument && iframe.contentDocument.readyState==='complete') finish(); } catch(_) {}
+      });
       const doc = iframe.contentDocument;
-      const canvasEl = doc && doc.getElementById('certificateCanvas');
-      if (!canvasEl) throw new Error('Certificate canvas was not found.');
-      for (let i=0;i<40 && getComputedStyle(canvasEl).display==='none';i++) await new Promise(r=>setTimeout(r,250));
-      await new Promise(r=>setTimeout(r,500));
+      if (!doc) throw new Error('Certificate preview could not be opened.');
+      let canvasEl = doc.getElementById('certificateCanvas');
+      // Give certificate.html/API data, images and fonts enough time to finish.
+      for (let i=0;i<120;i++) {
+        canvasEl = doc.getElementById('certificateCanvas');
+        if (canvasEl && getComputedStyle(canvasEl).display!=='none' && canvasEl.offsetWidth>0 && canvasEl.offsetHeight>0) break;
+        await new Promise(r=>setTimeout(r,250));
+      }
+      if (!canvasEl || getComputedStyle(canvasEl).display==='none') throw new Error('Certificate preview did not finish loading.');
+      try { if (doc.fonts && doc.fonts.ready) await Promise.race([doc.fonts.ready,new Promise(r=>setTimeout(r,5000))]); } catch(_) {}
+      await new Promise(r=>setTimeout(r,750));
       return await html2canvas(canvasEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
     } finally { iframe.remove(); }
   }
