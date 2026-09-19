@@ -1247,6 +1247,50 @@ window.skGetCmsEndpoint = getCmsEndpoint;
   // ==========================================================================
   // ISSUED CERTIFICATE TRACKER
   // ==========================================================================
+  let certExportCorePromise=null;
+  function skLoadScriptOnce(url,test){
+    return new Promise((resolve,reject)=>{
+      if(test()) return resolve(true);
+      const existing=[...document.scripts].find(x=>x.src===url);
+      if(existing){
+        let n=0; const t=setInterval(()=>{ if(test()){clearInterval(t);resolve(true);} else if(++n>100){clearInterval(t);reject(new Error('Timed out loading '+url));}},100);
+        return;
+      }
+      const el=document.createElement('script'); el.src=url; el.async=true;
+      el.onload=()=>test()?resolve(true):reject(new Error('Loaded but unavailable: '+url));
+      el.onerror=()=>reject(new Error('Blocked: '+url));
+      document.head.appendChild(el);
+    });
+  }
+  async function skLoadAny(urls,test){
+    if(test()) return;
+    let last;
+    for(const u of urls){try{await skLoadScriptOnce(u,test);if(test())return;}catch(e){last=e;}}
+    throw last||new Error('Required library could not be loaded.');
+  }
+  async function ensureCertificateExportTools(needZip){
+    if(!certExportCorePromise){
+      certExportCorePromise=(async()=>{
+        await skLoadAny([
+          'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+          'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js'
+        ],()=>typeof window.html2canvas==='function');
+        await skLoadAny([
+          'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js',
+          'https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js'
+        ],()=>!!(window.jspdf&&window.jspdf.jsPDF));
+      })().catch(e=>{certExportCorePromise=null;throw e;});
+    }
+    await certExportCorePromise;
+    if(needZip) await skLoadAny([
+      'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+      'https://unpkg.com/jszip@3.10.1/dist/jszip.min.js'
+    ],()=>typeof window.JSZip==='function');
+  }
+
   function initIssuedTracker() {
     const searchInput = document.getElementById('certSearchInput');
     const refreshBtn = document.getElementById('btnRefreshCerts');
@@ -2042,52 +2086,3 @@ window.addEventListener('message', function(ev){
     }
   }catch(_){}
 });
-
-
-/* ===== CERTIFICATE TRACKER BUTTON CONTROLLER ===== */
-(function(){
-  if (window.__SK_CERT_TRACKER_BUTTONS_FIXED__) return;
-  window.__SK_CERT_TRACKER_BUTTONS_FIXED__ = true;
-
-  async function runRefresh(btn){
-    const old=btn.textContent;
-    try{
-      btn.disabled=true; btn.textContent='Refreshing…';
-      if(typeof fetchRemoteCertificates==='function'){
-        await fetchRemoteCertificates();
-      }else{
-        const refresh=document.getElementById('btnAdminRefresh');
-        if(refresh) refresh.click();
-        else throw new Error('Certificate refresh function is unavailable.');
-      }
-    }catch(e){
-      alert('Could not refresh the certificate list. '+(e.message||e));
-    }finally{
-      btn.disabled=false; btn.textContent=old;
-    }
-  }
-
-  document.addEventListener('click', async function(e){
-    const btn=e.target.closest('#btnCopyECertEmails,#btnDownloadECertZip,#btnCombinedHardCopyPdf,#btnRefreshCerts');
-    if(!btn) return;
-    e.preventDefault();
-    e.stopPropagation();
-
-    try{
-      if(btn.id==='btnCopyECertEmails'){
-        if(typeof window.copyECertificateEmails!=='function') throw new Error('Copy email function is unavailable.');
-        await window.copyECertificateEmails();
-      }else if(btn.id==='btnDownloadECertZip'){
-        if(typeof window.downloadECertificatesZip!=='function') throw new Error('E-Certificate ZIP function is unavailable.');
-        await window.downloadECertificatesZip(btn);
-      }else if(btn.id==='btnCombinedHardCopyPdf'){
-        if(typeof window.downloadHardCopyPdf!=='function') throw new Error('Hard-copy PDF function is unavailable.');
-        await window.downloadHardCopyPdf(btn);
-      }else if(btn.id==='btnRefreshCerts'){
-        await runRefresh(btn);
-      }
-    }catch(err){
-      alert('Certificate tool error: '+(err && err.message ? err.message : err));
-    }
-  }, true);
-})();
