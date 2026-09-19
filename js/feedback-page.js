@@ -1304,32 +1304,18 @@ document.querySelectorAll('[data-cert-nav]').forEach(b=>b.addEventListener('clic
 (()=>{let p='designs';try{p=localStorage.getItem('skCertCenterPanel')||'designs'}catch(_){}certCenterShow(p)})();
 
 /* Certificate & feedback delivery tracker */
-let CERT_TRACKER_ITEMS=[];
-function certDeliveryWantsE(c){const p=String(c.deliveryPreference||'').toLowerCase();return p.includes('digital')||p.includes('e-certificate')||p.includes('both')||p.includes('+');}
-function certDeliveryWantsHard(c){const p=String(c.deliveryPreference||'').toLowerCase();return p.includes('hard copy')||p.includes('both')||p.includes('+');}
-function certTrackerFiltered(){const a=document.getElementById('integratedCertificateActivity')?.value||'';return CERT_TRACKER_ITEMS.filter(c=>!a||String(c.activity||'')===a);}
-function certPopulateActivityFilter(){const s=document.getElementById('integratedCertificateActivity');if(!s)return;const keep=s.value;const acts=[...new Set(CERT_TRACKER_ITEMS.map(c=>String(c.activity||'').trim()).filter(Boolean))].sort();s.innerHTML='<option value="">All Activities</option>'+acts.map(a=>`<option value="${integratedEscape(a)}">${integratedEscape(a)}</option>`).join('');if(acts.includes(keep))s.value=keep;}
-function certApplyTrackerFilter(){const a=document.getElementById('integratedCertificateActivity')?.value||'',q=(document.getElementById('integratedCertificateSearch')?.value||'').toLowerCase();document.querySelectorAll('#integratedCertificateRows tr[data-cert-track]').forEach(r=>{const matchA=!a||r.dataset.activity===a;const matchQ=!q||r.textContent.toLowerCase().includes(q);r.style.display=matchA&&matchQ?'':'none'});}
 async function integratedLoadCertificateTracker(){
  const body=document.getElementById('integratedCertificateRows');if(!body)return;
  body.innerHTML='<tr><td colspan="8">Loading delivery records...</td></tr>';
  try{
   const r=await integratedCmsApi({action:'certificate-list',password:integratedCmsPassword()});
-  const items=r.certificates||[]; CERT_TRACKER_ITEMS=items; certPopulateActivityFilter();
-  body.innerHTML=items.length?items.map(c=>`<tr data-cert-track="${integratedEscape(c.certificateId||'')}" data-activity="${integratedEscape(c.activity||'')}"><td><strong>${integratedEscape(c.certificateId||'')}</strong><br><small>${integratedEscape(c.qmsReference||'')}</small></td><td>${integratedEscape(c.participant||'')}<br><small>${integratedEscape(c.email||'No email')}</small></td><td>${integratedEscape(c.activity||'')}</td><td>${integratedEscape(c.deliveryPreference||'')}<br><small>Certificate email: ${integratedEscape(c.emailStatus||'')}</small></td><td>${integratedEscape(c.responseEmailStatus||'Not linked / manual issue')}</td><td>${integratedEscape(c.printStatus||'')}</td><td>${integratedEscape(c.status||'')}</td><td><a class="admin-action-btn" target="_blank" href="certificate.html?id=${encodeURIComponent(c.certificateId||'')}">Open</a>${c.email?` <button class="admin-action-btn" type="button" onclick="integratedResendCert('${String(c.certificateId||'').replaceAll("'",'')}')">Resend</button>`:''}</td></tr>`).join(''):'<tr><td colspan="8">No certificate records yet.</td></tr>';
+  const items=r.certificates||[];
+  body.innerHTML=items.length?items.map(c=>`<tr data-cert-track="${integratedEscape(c.certificateId||'')}"><td><strong>${integratedEscape(c.certificateId||'')}</strong><br><small>${integratedEscape(c.qmsReference||'')}</small></td><td>${integratedEscape(c.participant||'')}<br><small>${integratedEscape(c.email||'No email')}</small></td><td>${integratedEscape(c.activity||'')}</td><td>${integratedEscape(c.deliveryPreference||'')}<br><small>Certificate email: ${integratedEscape(c.emailStatus||'')}</small></td><td>${integratedEscape(c.responseEmailStatus||'Not linked / manual issue')}</td><td>${integratedEscape(c.printStatus||'')}</td><td>${integratedEscape(c.status||'')}</td><td><a class="admin-action-btn" target="_blank" href="certificate.html?id=${encodeURIComponent(c.certificateId||'')}">Open</a>${c.email?` <button class="admin-action-btn" type="button" onclick="integratedResendCert('${String(c.certificateId||'').replaceAll("'",'')}')">Resend</button>`:''}</td></tr>`).join(''):'<tr><td colspan="8">No certificate records yet.</td></tr>';
  }catch(e){body.innerHTML=`<tr><td colspan="8">${integratedEscape(e.message)}</td></tr>`}
 }
 window.integratedResendCert=async id=>{try{await integratedAdminPost({action:'resend-certificate',password:integratedCmsPassword(),certificateId:id});await integratedLoadCertificateTracker()}catch(e){alert(e.message)}};
 document.getElementById('integratedCertificateRefresh')?.addEventListener('click',integratedLoadCertificateTracker);
-document.getElementById('integratedCertificateSearch')?.addEventListener('input',certApplyTrackerFilter);
-document.getElementById('integratedCertificateActivity')?.addEventListener('change',certApplyTrackerFilter);
-function certBulkStatus(t){const e=document.getElementById('certificateBulkStatus');if(e)e.textContent=t;}
-document.getElementById('copyECertificateEmails')?.addEventListener('click',async()=>{const emails=[...new Set(certTrackerFiltered().filter(certDeliveryWantsE).map(c=>String(c.email||'').trim().toLowerCase()).filter(e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)))];if(!emails.length){certBulkStatus('No valid e-certificate email addresses found for the selected activity.');return}try{await navigator.clipboard.writeText(emails.join(', '));certBulkStatus(`${emails.length} unique e-certificate email address(es) copied.`)}catch(_){prompt('Copy these email addresses:',emails.join(', '));}});
-function openCertificateBatch(mode){const items=certTrackerFiltered().filter(c=>mode==='hard'?certDeliveryWantsHard(c):mode==='e'?certDeliveryWantsE(c):true);if(!items.length){certBulkStatus('No matching certificates found for the selected activity.');return}try{sessionStorage.setItem('skCertificateBatch',JSON.stringify(items));sessionStorage.setItem('skCertificateBatchMode',mode)}catch(_){}window.open('certificate-bulk.html?mode='+encodeURIComponent(mode),'_blank');}
-document.getElementById('downloadECertificatesZip')?.addEventListener('click',()=>openCertificateBatch('e'));
-document.getElementById('downloadHardCopiesPdf')?.addEventListener('click',()=>openCertificateBatch('hard'));
-document.getElementById('downloadAllCertificatesZip')?.addEventListener('click',()=>openCertificateBatch('all'));
-
+document.getElementById('integratedCertificateSearch')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#integratedCertificateRows tr').forEach(r=>r.style.display=!q||r.textContent.toLowerCase().includes(q)?'':'none')});
 
 // Simple certificate mode: Save & Preview uses the live final-layout preview after saving.
 document.getElementById('ctSavePreview')?.addEventListener('click',()=>{document.getElementById('ctSave')?.click();setTimeout(()=>{const b=document.getElementById('ctPreviewFull');if(b&&b.textContent.includes('Preview'))b.click();document.getElementById('ctEditorWrap')?.scrollIntoView({behavior:'smooth',block:'center'});},650)});

@@ -1504,17 +1504,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                           </div>
                         </article>
                         <div class="admin-card" data-cert-panel="issued" style="display:none">
-                            <div class="admin-card-head"><div><small>DELIVERY & TRACKING</small><h4>Certificate Delivery & Bulk Processing</h4><p>Filter issued certificates by activity, copy e-certificate recipient emails, prepare electronic certificates, and create one print batch for participants who requested a hard copy.</p></div></div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;align-items:center">
+                            <div class="admin-card-head"><div><small>DELIVERY & TRACKING</small><h4>Certificate & Feedback Delivery Tracker</h4><p>Track certificate number, participant, activity, delivery preference, certificate email status, hard-copy request and certificate status. Evaluation submissions with an email automatically receive a response summary and their digital certificate link.</p></div></div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
                               <button class="admin-action-btn primary" id="integratedCertificateRefresh" type="button">Refresh Certificates</button>
-                              <select id="integratedCertificateActivity" class="admin-action-btn" style="min-width:240px"><option value="">All Activities</option></select>
-                              <button class="admin-action-btn" id="copyECertificateEmails" type="button">Copy E-Certificate Emails</button>
-                              <button class="admin-action-btn" id="downloadECertificatesZip" type="button">Prepare E-Certificates</button>
-                              <button class="admin-action-btn" id="downloadHardCopiesPdf" type="button">Print Hard Copies</button>
-                              <button class="admin-action-btn" id="downloadAllCertificatesZip" type="button">Prepare All Certificates</button>
                               <a class="admin-action-btn" href="certificate.html?blank=1&template=official" target="_blank" style="text-decoration:none">Print Blank Certificate</a>
                             </div>
-                            <p class="form-help" id="certificateBulkStatus">E-Certificate: approximately 1 day after the event. Hard copy: approximately 3 working days after the event.</p>
                             <input id="integratedCertificateSearch" type="search" placeholder="Search certificate, participant, activity or status..." style="width:100%;margin-bottom:12px">
                             <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Certificate</th><th>Participant</th><th>Activity</th><th>Delivery</th><th>Feedback Copy</th><th>Hard Copy</th><th>Status</th><th>Actions</th></tr></thead><tbody id="integratedCertificateRows"><tr><td colspan="8">Open this tab to load certificate records.</td></tr></tbody></table></div>
                         </div>
@@ -1599,7 +1593,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 </footer>
 
 <script src="cms-config.js?v=20260903-CONNECTED"></script>
-<script src="js/feedback-page.js?v=20260919-CERT-CENTER-FINAL"></script>
+<script src="js/feedback-page.js?v=20260919-CERT-STUDIO-EXACT"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
 </body>
