@@ -276,7 +276,7 @@ async function issueDigitalCertificate(form,qmsReference){
     body.set("venue",String(fd.get("venue")||"").trim());
     body.set("speaker",String(fd.get("speaker")||"").trim());
     body.set("qmsReference",String(qmsReference||"").trim());
-    body.set("certificatePreference",String(fd.get("certificatePreference")||"E-Certificate").trim());
+    body.set("certificatePreference",String(fd.get("certificatePreference")||"Digital Certificate").trim());
     const response=await fetch(endpoint,{method:"POST",body,redirect:"follow"});
     if(!response.ok) throw new Error("Certificate server returned an error.");
     const data=await response.json();
@@ -314,15 +314,15 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
             const cert=data.certificateId?{success:true,certificateId:data.certificateId}:await issueDigitalCertificate(form,data.reference);
             if(cert&&cert.success&&cert.certificateId){
                 const url="certificate.html?id="+encodeURIComponent(cert.certificateId);
-                const preference=cert.certificatePreference||data.certificatePreference||new FormData(form).get("certificatePreference")||"E-Certificate";
+                const preference=cert.certificatePreference||data.certificatePreference||new FormData(form).get("certificatePreference")||"Digital Certificate";
                 const hardCopy=cert.hardCopyAvailableOn||data.hardCopyAvailableOn||"";
                 resultBox.insertAdjacentHTML("beforeend",`
                     <div class="result-row" style="margin-top:16px">
                         <div class="result-item" style="width:100%">
                             <small>Certificate of Participation</small>
                             <strong>${integratedEscape(cert.certificateId)}</strong>
-                            <p style="margin:8px 0">Your certificate record has been received. If you selected an E-Certificate, please allow approximately one (1) day after the event for processing and distribution.</p>
-                            ${hardCopy?`<p style="margin:8px 0 12px"><strong>Hard Copy Requested:</strong> Your printed certificate will be available for claiming on <strong>${integratedEscape(hardCopy)}</strong> (approximately three working days after the event).</p>`:""}
+                            <p style="margin:8px 0">Your verified digital certificate is ready. Digital certificates are highly recommended to help SK Sapilang reduce unnecessary paper use.</p>
+                            ${hardCopy?`<p style="margin:8px 0 12px"><strong>Hard Copy Requested:</strong> Your printed certificate will be available for claiming on <strong>${integratedEscape(hardCopy)}</strong> (three days after submission).</p>`:""}
                             <p style="margin:8px 0 12px"><strong>Selected delivery:</strong> ${integratedEscape(preference)}</p>
                             <a class="primary-button" href="${url}" target="_blank" rel="noopener">View / Print Digital Certificate</a>
                         </div>
@@ -1052,47 +1052,14 @@ async function integratedLoadCertificates(){
     const body=new URLSearchParams({action:'certificate-list',password:INTEGRATED_ADMIN_KEY});
     const response=await fetch(feedbackCmsEndpoint(),{method:'POST',body,redirect:'follow'});
     const data=await response.json(); if(!data.success)throw new Error(data.message||'Unable to load certificates.');
-    INTEGRATED_CERTIFICATES=data.certificates||[]; integratedPopulateCertificateActivities(); integratedRenderCertificates();
+    INTEGRATED_CERTIFICATES=data.certificates||[]; integratedRenderCertificates();
 }
 function integratedRenderCertificates(){
     const tbody=document.getElementById('integratedCertificateRows'); if(!tbody)return;
     const q=(document.getElementById('integratedCertificateSearch')?.value||'').toLowerCase();
-    const activity=(document.getElementById('integratedCertificateActivity')?.value||'');
-    const rows=INTEGRATED_CERTIFICATES.filter(c=>(!activity||c.activity===activity)&&[c.certificateId,c.participant,c.activity,c.deliveryPreference,c.printStatus].join(' ').toLowerCase().includes(q));
+    const rows=INTEGRATED_CERTIFICATES.filter(c=>[c.certificateId,c.participant,c.activity,c.deliveryPreference,c.printStatus].join(' ').toLowerCase().includes(q));
     tbody.innerHTML=rows.length?rows.map(c=>`<tr><td><strong>${integratedEscape(c.certificateId)}</strong><br>${integratedEscape(c.qmsReference)}</td><td>${integratedEscape(c.participant)}</td><td>${integratedEscape(c.activity)}<br><small>${integratedEscape(c.activityType)}</small></td><td>${integratedEscape(c.deliveryPreference)}</td><td>${integratedEscape(c.hardCopyAvailableOn||'—')}<br><small>${integratedEscape(c.printStatus||'')}</small></td><td>${integratedEscape(c.status)}</td><td><a href="certificate.html?id=${encodeURIComponent(c.certificateId)}" target="_blank">View / Print</a> · <a href="certificate.html?blank=1&activity=${encodeURIComponent(c.activity)}&type=${encodeURIComponent(c.activityType)}&date=${encodeURIComponent(c.date||'')}&venue=${encodeURIComponent(c.venue||'')}" target="_blank">Blank</a></td></tr>`).join(''):'<tr><td colspan="7">No certificate records found.</td></tr>';
 }
 document.getElementById('integratedCertificateRefresh')?.addEventListener('click',()=>integratedLoadCertificates().catch(e=>alert(e.message)));
 document.getElementById('integratedCertificateSearch')?.addEventListener('input',integratedRenderCertificates);
 document.querySelector('[data-admin-tab="certificates"]')?.addEventListener('click',()=>integratedLoadCertificates().catch(()=>{}));
-
-
-/* CERTIFICATE BULK DISTRIBUTION V3 */
-function integratedPopulateCertificateActivities(){
-  const select=document.getElementById('integratedCertificateActivity'); if(!select)return;
-  const current=select.value; const names=[...new Set(INTEGRATED_CERTIFICATES.map(c=>c.activity).filter(Boolean))].sort();
-  select.innerHTML='<option value="">All Activities</option>'+names.map(n=>`<option value="${integratedEscape(n)}">${integratedEscape(n)}</option>`).join('');
-  if(names.includes(current))select.value=current;
-}
-function selectedCertificateRecords(mode){
-  const activity=document.getElementById('integratedCertificateActivity')?.value||'';
-  let rows=INTEGRATED_CERTIFICATES.filter(c=>!activity||c.activity===activity);
-  if(mode==='email') rows=rows.filter(c=>/E-Certificate|Digital|Both/i.test(c.deliveryPreference||'')&&!/^Hard Copy Certificate$/i.test(c.deliveryPreference||''));
-  if(mode==='hard') rows=rows.filter(c=>/Hard Copy|Both/i.test(c.deliveryPreference||''));
-  return rows;
-}
-document.getElementById('integratedCertificateActivity')?.addEventListener('change',integratedRenderCertificates);
-document.getElementById('copyECertificateEmails')?.addEventListener('click',async()=>{
-  const emails=[...new Set(selectedCertificateRecords('email').map(c=>String(c.email||'').trim().toLowerCase()).filter(e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)))];
-  if(!emails.length){alert('No valid E-Certificate email addresses were found for the selected activity.');return;}
-  await navigator.clipboard.writeText(emails.join(', ')); alert(emails.length+' unique email address(es) copied.');
-});
-function openBulkCertificateTool(mode){
-  const rows=selectedCertificateRecords(mode==='hard'?'hard':mode==='email'?'email':null);
-  if(!rows.length){alert('No certificate records found for this selection.');return;}
-  sessionStorage.setItem('skCertificateBulkRecords',JSON.stringify(rows));
-  sessionStorage.setItem('skCertificateBulkMode',mode);
-  window.open('certificate-bulk.html?mode='+encodeURIComponent(mode),'_blank','noopener');
-}
-document.getElementById('downloadECertificateZip')?.addEventListener('click',()=>openBulkCertificateTool('email'));
-document.getElementById('printHardCopyBatch')?.addEventListener('click',()=>openBulkCertificateTool('hard'));
-document.getElementById('downloadAllCertificateZip')?.addEventListener('click',()=>openBulkCertificateTool('all'));
