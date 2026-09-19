@@ -1,3 +1,6 @@
+
+// QMS display fail-safe: content must remain visible even if an optional admin module fails.
+document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("visible"); });
 const menuButton=document.getElementById("menuButton");
 const navLinks=document.getElementById("navLinks");
 
