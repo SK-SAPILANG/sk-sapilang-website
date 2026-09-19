@@ -1268,7 +1268,7 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     }
     const copyBtn=document.getElementById('btnCopyECertEmails'); if(copyBtn) copyBtn.addEventListener('click', window.copyECertificateEmails);
     const zipBtn=document.getElementById('btnDownloadECertZip'); if(zipBtn) zipBtn.addEventListener('click', ()=>window.downloadECertificatesZip(zipBtn));
-    const hardBtn=document.getElementById('btnHardCopyPdf'); if(hardBtn) hardBtn.addEventListener('click', ()=>window.downloadHardCopyPdf(hardBtn));
+    const hardBtn=document.getElementById('btnCombinedHardCopyPdf'); if(hardBtn) hardBtn.addEventListener('click', ()=>window.downloadHardCopyPdf(hardBtn));
   }
 
   async function fetchRemoteCertificates() {
@@ -1365,6 +1365,43 @@ window.skGetCmsEndpoint = getCmsEndpoint;
 
   function safeFileName(v) { return String(v || 'certificate').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').trim(); }
 
+  // Robust on-demand loaders for certificate batch PDF/ZIP export.
+  let batchToolsPromise=null;
+  function loadExternalScript(url,test){
+    return new Promise((resolve,reject)=>{
+      if(test()) return resolve(true);
+      const tag=document.createElement('script');
+      tag.src=url; tag.async=true; tag.crossOrigin='anonymous';
+      tag.onload=()=>test()?resolve(true):reject(new Error('Library unavailable after loading.'));
+      tag.onerror=()=>reject(new Error('Could not load export library.'));
+      document.head.appendChild(tag);
+    });
+  }
+  async function loadWithFallback(urls,test){
+    if(test()) return true;
+    let last;
+    for(const url of urls){try{await loadExternalScript(url,test);if(test())return true;}catch(e){last=e;}}
+    throw last||new Error('Required export library could not be loaded.');
+  }
+  async function ensureBatchTools(needZip){
+    if(!batchToolsPromise) batchToolsPromise=(async()=>{
+      await loadWithFallback([
+        'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+        'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'
+      ],()=>typeof window.html2canvas==='function');
+      await loadWithFallback([
+        'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js',
+        'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js'
+      ],()=>!!(window.jspdf&&window.jspdf.jsPDF));
+    })().catch(e=>{batchToolsPromise=null;throw e;});
+    await batchToolsPromise;
+    if(needZip) await loadWithFallback([
+      'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
+      'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js'
+    ],()=>typeof window.JSZip==='function');
+  }
+
+
   async function renderCertificateCanvas(certId) {
     const iframe = document.createElement('iframe');
     iframe.style.cssText='position:fixed;left:-10000px;top:0;width:1400px;height:1100px;border:0;opacity:0;pointer-events:none';
@@ -1393,16 +1430,35 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     const rows=selectedBatchCertificates('email');
     const emails=[...new Set(rows.map(c=>String(c.email||'').trim()).filter(Boolean))];
     if(!emails.length) return alert('No e-certificate email addresses found for the selected activity.');
-    await navigator.clipboard.writeText(emails.join(', '));
-    alert(`${emails.length} e-certificate email address(es) copied.`);
+    const emailText=emails.join(', ');
+    let copied=false;
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(emailText);
+        copied=true;
+      }
+    }catch(_){}
+    if(!copied){
+      const ta=document.createElement('textarea');
+      ta.value=emailText;
+      ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;left:-9999px;top:0';
+      document.body.appendChild(ta);
+      ta.select(); ta.setSelectionRange(0,ta.value.length);
+      try{copied=document.execCommand('copy');}catch(_){}
+      ta.remove();
+    }
+    if(copied) alert(`${emails.length} e-certificate email address(es) copied.`);
+    else window.prompt('Copy these e-certificate email addresses:',emailText);
   };
 
   window.downloadECertificatesZip = async (btn) => {
     const rows=selectedBatchCertificates('ecert');
     if(!rows.length) return alert('No E-Certificate or Both requests found for the selected activity.');
-    if(!window.JSZip || !window.jspdf || !window.html2canvas) return alert('PDF/ZIP tools did not load. Please check your internet connection and reload.');
     const old=btn.textContent; btn.disabled=true;
     try {
+      btn.textContent='Loading PDF/ZIP tools…';
+      await ensureBatchTools(true);
       const zip=new JSZip();
       for(let i=0;i<rows.length;i++){
         btn.textContent=`Preparing ${i+1}/${rows.length}…`;
@@ -1418,9 +1474,10 @@ window.skGetCmsEndpoint = getCmsEndpoint;
   window.downloadHardCopyPdf = async (btn) => {
     const rows=selectedBatchCertificates('hardcopy');
     if(!rows.length) return alert('No Hard Copy or Both requests found for the selected activity.');
-    if(!window.jspdf || !window.html2canvas) return alert('PDF tools did not load. Please check your internet connection and reload.');
     const old=btn.textContent; btn.disabled=true;
     try {
+      btn.textContent='Loading PDF tools…';
+      await ensureBatchTools(false);
       const { jsPDF }=window.jspdf; const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
       for(let i=0;i<rows.length;i++){
         btn.textContent=`Preparing ${i+1}/${rows.length}…`;
@@ -1985,3 +2042,52 @@ window.addEventListener('message', function(ev){
     }
   }catch(_){}
 });
+
+
+/* ===== CERTIFICATE TRACKER BUTTON CONTROLLER ===== */
+(function(){
+  if (window.__SK_CERT_TRACKER_BUTTONS_FIXED__) return;
+  window.__SK_CERT_TRACKER_BUTTONS_FIXED__ = true;
+
+  async function runRefresh(btn){
+    const old=btn.textContent;
+    try{
+      btn.disabled=true; btn.textContent='Refreshing…';
+      if(typeof fetchRemoteCertificates==='function'){
+        await fetchRemoteCertificates();
+      }else{
+        const refresh=document.getElementById('btnAdminRefresh');
+        if(refresh) refresh.click();
+        else throw new Error('Certificate refresh function is unavailable.');
+      }
+    }catch(e){
+      alert('Could not refresh the certificate list. '+(e.message||e));
+    }finally{
+      btn.disabled=false; btn.textContent=old;
+    }
+  }
+
+  document.addEventListener('click', async function(e){
+    const btn=e.target.closest('#btnCopyECertEmails,#btnDownloadECertZip,#btnCombinedHardCopyPdf,#btnRefreshCerts');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    try{
+      if(btn.id==='btnCopyECertEmails'){
+        if(typeof window.copyECertificateEmails!=='function') throw new Error('Copy email function is unavailable.');
+        await window.copyECertificateEmails();
+      }else if(btn.id==='btnDownloadECertZip'){
+        if(typeof window.downloadECertificatesZip!=='function') throw new Error('E-Certificate ZIP function is unavailable.');
+        await window.downloadECertificatesZip(btn);
+      }else if(btn.id==='btnCombinedHardCopyPdf'){
+        if(typeof window.downloadHardCopyPdf!=='function') throw new Error('Hard-copy PDF function is unavailable.');
+        await window.downloadHardCopyPdf(btn);
+      }else if(btn.id==='btnRefreshCerts'){
+        await runRefresh(btn);
+      }
+    }catch(err){
+      alert('Certificate tool error: '+(err && err.message ? err.message : err));
+    }
+  }, true);
+})();

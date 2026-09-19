@@ -263,7 +263,7 @@
         participant: isBlank ? 'SAMPLE PARTICIPANT NAME' : 'Participant Name',
         activity: isBlank ? 'Certificate Preview' : 'Youth Empowerment Program',
         status: 'ACTIVE',
-        activityId: isBlank ? previewActivityId : ''
+        activityId: isBlank ? (previewActivityId || 'certificate-default') : ''
       };
 
       const endpointFromUrl = qs.get('api') || '';
@@ -720,7 +720,12 @@
  if(size)size.addEventListener('input',()=>{const E=el(selected),v=Number(size.value);if(!E)return;if(selected==='qr'){E.style.width=v+'px';E.style.height=v+'px'}else E.style.fontSize=v+'px'});
  function currentLayout(){const C=canvas(),r=C.getBoundingClientRect(),out={};['name','qr','no'].forEach(k=>{const E=el(k);if(!E)return;const er=E.getBoundingClientRect();const cx=((er.left+er.width/2)-r.left)/r.width*100,cy=((er.top+er.height/2)-r.top)/r.height*100;out[k+'X']=Math.round(cx*100)/100;out[k+'Y']=Math.round(cy*100)/100;E.dataset.x=String(out[k+'X']);E.dataset.y=String(out[k+'Y']);if(k==='qr')out.qrSize=Math.round(er.width);else if(k==='name')out.nameSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||40);else out.noSize=Math.round(parseFloat(getComputedStyle(E).fontSize)||13)});return out}
  if(save)save.addEventListener('click',async()=>{
-  const activityId=(q.get('activityId')||q.get('activity')||localStorage.getItem('sk_cert_preview_activity')||'master').trim();
+  let activityId=(q.get('activityId')||q.get('activity')||localStorage.getItem('sk_cert_preview_activity')||'').trim();
+  let tplForId={}; try{tplForId=JSON.parse(localStorage.getItem('sk_cert_preview_template')||'{}')}catch(_){}
+  if(!activityId || activityId==='master'){
+    activityId=String(tplForId.activityId||tplForId.id||tplForId.title||q.get('activityTitle')||'certificate-default').trim();
+  }
+  localStorage.setItem('sk_cert_preview_activity',activityId);
   const layout=currentLayout();
   save.disabled=true; save.textContent='Saving...';
   if(msg)msg.textContent='Saving this layout permanently for this activity...';

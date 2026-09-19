@@ -418,7 +418,7 @@ table td { font-size: 16px !important; }
     <section id="activityPanel" class="qms-panel">
       <div class="panel-header">
         <h2>Activity Evaluation & Digital Certificate Claim</h2>
-        <p>Complete your evaluation of an SK Sapilang youth activity. Your Certificate of Participation is generated automatically using your full name.</p>
+        <p>Complete your evaluation of an SK Sapilang youth activity. Your certificate record is generated using your full name, then prepared according to your selected delivery preference.</p>
       </div>
 
       <form id="activityEvalForm">
@@ -459,9 +459,9 @@ table td { font-size: 16px !important; }
           </div>
 
           <div class="form-group">
-            <label for="evalEmail">Email Address (Optional for Digital Copy)</label>
+            <label for="evalEmail">Email Address (Required for E-Certificate)</label>
             <input type="email" id="evalEmail" name="email" class="form-control" placeholder="name@example.com">
-            <span class="form-help">If you select an E-Certificate option, your email will be included in the activity batch for processing (approximately 1 day). Certificates are not emailed immediately after submission.</span>
+            <span class="form-help">For E-Certificate requests, your certificate will be prepared for batch release. Please allow approximately 1 day. It will not be emailed immediately after submission.</span>
           </div>
 
           <div class="form-group">
@@ -485,10 +485,11 @@ table td { font-size: 16px !important; }
           <div class="form-group">
             <label for="evalCertPreference">Certificate Delivery Preference <span class="required-mark">*</span></label>
             <select id="evalCertPreference" name="certificatePreference" class="form-control" required>
-              <option value="E-Certificate" selected>E-Certificate (~1 day)</option>
-              <option value="Hard Copy">Hard Copy (~3 working days)</option>
-              <option value="E-Certificate + Hard Copy">E-Certificate + Hard Copy (~1 day / ~3 working days)</option>
+              <option value="E-Certificate" selected>E-Certificate — approximately 1 day</option>
+              <option value="Hard Copy">Hard Copy — approximately 3 working days</option>
+              <option value="E-Certificate + Hard Copy">E-Certificate + Hard Copy — approximately 1 day / 3 working days</option>
             </select>
+            <span class="form-help">E-Certificates are prepared for batch release. Hard copies are prepared for scheduled printing and claiming.</span>
           </div>
         </div>
 
@@ -706,7 +707,7 @@ table td { font-size: 16px !important; }
           </label>
         </div>
 
-        <button type="submit" class="btn-submit" id="btnSubmitEval">Submit Evaluation & Generate Certificate</button>
+        <button type="submit" class="btn-submit" id="btnSubmitEval">Submit Evaluation & Register Certificate Request</button>
       </form>
 
       <div id="activityResult" class="result-box"></div>
@@ -1048,12 +1049,17 @@ table td { font-size: 16px !important; }
         <div id="subtabTracker" class="admin-subview" style="display: none;">
           <div class="panel-header" style="padding-bottom: 10px; margin-bottom: 16px;">
             <h3>Issued Certificate Registry & Delivery Tracker</h3>
-            <p>Track generated certificates and process E-Certificate and Hard Copy requests by activity.</p>
+            <p>Track generated certificates and process E-Certificate and hard-copy requests by activity. E-Certificates are released in batches rather than emailed immediately after each submission.</p>
           </div>
 
           <div style="display: flex; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
             <input type="search" id="certSearchInput" class="form-control" placeholder="Search by participant name, certificate number, or activity..." style="max-width: 380px;">
-            <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn-header btn-header-outline" id="btnCopyActivityEmails" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Copy E-Certificate Emails</button><button type="button" class="btn-header btn-header-outline" id="btnDownloadECertZip" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Download E-Certificates ZIP</button><button type="button" class="btn-header btn-header-outline" id="btnHardCopyPdf" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Combined Hard Copy PDF</button><button type="button" class="btn-header btn-header-orange" id="btnRefreshCerts">Refresh List</button></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="studio-btn" id="btnCopyECertEmails">Copy E-Certificate Emails</button>
+              <button type="button" class="studio-btn" id="btnDownloadECertZip">Download E-Certificates ZIP</button>
+              <button type="button" class="studio-btn" id="btnCombinedHardCopyPdf">Combined Hard Copy PDF</button>
+              <button type="button" class="btn-header btn-header-orange" id="btnRefreshCerts">Refresh List</button>
+            </div>
           </div>
 
           <div class="table-wrap">
@@ -1065,7 +1071,7 @@ table td { font-size: 16px !important; }
                   <th>Activity</th>
                   <th>Issued Date</th>
                   <th>Status</th>
-                  <th>Email Delivery</th>
+                  <th>Certificate Preference / Release</th>
                   <th>Actions</th>
                 </tr>
               </thead>
