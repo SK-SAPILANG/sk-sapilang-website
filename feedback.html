@@ -314,7 +314,6 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 .copyright{color:#6d8592;font-size:7px;text-align:right}
 
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
-#qms-center .reveal{opacity:1!important;transform:none!important}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 @media(max-width:1100px){
@@ -589,14 +588,6 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
   <link rel="stylesheet" href="css/readability.css?v=20260902-READABILITY">
   <link rel="stylesheet" href="css/futuristic-theme.css?v=20260902-FUTURE">
   <link rel="stylesheet" href="css/readable-mixed-theme.css?v=20260905-LIGHT-RESTORE">
-
-<style>
-.ct-edit-item{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;cursor:move;touch-action:none;outline:1px dashed transparent;padding:3px;color:#142b3b;z-index:3}
-.ct-edit-item.ct-selected{outline:2px solid #ff9d00;background:#fff8}
-.ct-resize{display:none;position:absolute;right:-7px;bottom:-7px;width:15px;height:15px;border-radius:4px;background:#ff9d00;border:2px solid #fff;box-shadow:0 1px 4px #0004;cursor:nwse-resize}
-.ct-edit-item.ct-selected .ct-resize{display:block}.ct-qr-placeholder{background:#fff;border:2px solid #142b3b;font:700 11px Arial,sans-serif;line-height:1.2;text-align:center}
-</style>
-<link rel="stylesheet" href="global-readability.css">
 </head>
 
 <body>
@@ -715,31 +706,18 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <div class="form-group">
                             <label>Email Address <span>(Optional)</span></label>
                             <input name="email" type="email" autocomplete="email" placeholder="name@example.com">
-                            <span class="form-help">Optional. Provide a valid email if you choose an E-Certificate. E-Certificates are expected to be distributed approximately one (1) day after the event. No email? You may leave this blank if you will claim a hard copy.</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Mobile Number <span>(Optional)</span></label>
-                            <input name="contact" type="tel" autocomplete="tel" inputmode="tel" placeholder="09XXXXXXXXX">
-                            <span class="form-help">Optional. Required only if you choose future activity announcements by text/SMS.</span>
-                        </div>
-
-                        <div class="form-group full" style="background:#f8fbfd;border:1px solid #cfe1eb;border-radius:14px;padding:16px">
-                            <label>Future SK Sapilang Activity Updates <span>(Optional)</span></label>
-                            <p class="form-help" style="margin-bottom:10px">This is separate from the required evaluation consent. Leave both unchecked if you do not want future announcements.</p>
-                            <label style="display:block;margin:8px 0;font-weight:600"><input type="checkbox" name="futureEmailConsent" value="yes"> I consent to receive future activity/program announcements by email.</label>
-                            <label style="display:block;margin:8px 0;font-weight:600"><input type="checkbox" name="futureSmsConsent" value="yes"> I consent to receive future activity/program announcements by text/SMS.</label>
+                            <span class="form-help">Optional. If provided, your digital certificate and verification link will also be sent to this email. No email? You may leave this blank.</span>
                         </div>
 
                         <div class="form-group full" style="background:#f5fbf6;border:1px solid #b9dec0;border-radius:14px;padding:16px">
                             <label>Certificate Delivery Preference <strong>* Required</strong></label>
                             <select name="certificatePreference" required>
                                 <option value="">Select Certificate Preference</option>
-                                <option value="Digital Certificate">E-Certificate — sent approximately one (1) day after the event</option>
-                                <option value="Hard Copy Certificate">Hard Copy — available approximately three (3) working days after the event</option>
-                                <option value="Both Digital and Hard Copy">E-Certificate + Hard Copy</option>
+                                <option value="Digital Certificate">Digital Certificate — Highly Recommended</option>
+                                <option value="Hard Copy Certificate">Printed / Hard Copy Certificate</option>
+                                <option value="Both Digital and Hard Copy">Both Digital and Printed Copy</option>
                             </select>
-                            <span class="form-help"><strong>Certificate Processing:</strong> E-Certificates are processed after the activity and are expected to be sent to the registered email address <strong>within approximately one (1) day after the event</strong>. Hard copy certificates will be available for claiming <strong>within approximately three (3) working days after the event</strong>. Claiming instructions will be provided by SK Sapilang.</span>
+                            <span class="form-help"><strong>Paper-Saving Notice:</strong> SK Sapilang highly recommends digital certificates as part of our effort to reduce unnecessary paper use and promote sustainable, accessible public services. Printed certificates remain available when needed. If you request a hard copy, it will be available for claiming <strong>three (3) days after successful submission</strong>.</span>
                         </div>
 
                         <div class="form-group">
@@ -801,18 +779,17 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     </div>
 
                     <div class="rating-title">
-                        <h4 id="adaptiveEvaluationTitle">Detailed Activity Evaluation</h4>
-                        <p id="adaptiveEvaluationHelp">Only questions relevant to the selected activity will be shown.</p>
+                        <h4>Detailed Evaluation</h4>
+                        <p>Rate each aspect of the seminar, training or activity.</p>
                     </div>
 
                     <div class="form-grid">
 
-                        <div class="form-group" id="evalRelevanceGroup">
-                            <label id="evalRelevanceLabel">Relevance of Topic / Activity *</label>
-                            <span class="form-help" id="evalRelevanceHelp">How useful, appropriate and connected the topic or activity was to the needs, interests and development of the participants.</span>
-                            <select name="relevance">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Relevance of Topic / Activity *</label>
+                            <span class="form-help">How useful, appropriate and connected the topic or activity was to the needs, interests and development of the participants.</span>
+                            <select name="relevance" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -821,12 +798,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="evalObjectivesGroup">
-                            <label id="evalObjectivesLabel">Achievement of Objectives *</label>
-                            <span class="form-help" id="evalObjectivesHelp">How well the activity achieved its stated purpose and expected outcomes.</span>
-                            <select name="objectives">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Achievement of Objectives *</label>
+                            <span class="form-help">How well the seminar, training or activity achieved its stated purpose, expected outcomes and learning objectives.</span>
+                            <select name="objectives" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -835,12 +811,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="facilitatorRatingGroup">
-                            <label id="facilitatorRatingLabel">Resource Speaker / Trainer / Facilitator *</label>
+                        <div class="form-group">
+                            <label>Resource Speaker / Trainer / Facilitator *</label>
                             <span class="form-help">Evaluate the speaker's knowledge of the topic, clarity of presentation, communication skills, preparedness, responsiveness to questions and ability to engage participants.</span>
-                            <select name="facilitatorRating">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                            <select name="facilitatorRating" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -849,12 +824,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="evalOrganizationGroup">
-                            <label id="evalOrganizationLabel">Organization & Facilitation *</label>
-                            <span class="form-help" id="evalOrganizationHelp">How organized and smoothly implemented the activity was.</span>
-                            <select name="organization">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Organization & Facilitation *</label>
+                            <span class="form-help">How organized and smoothly implemented the activity was, including registration, instructions, coordination, flow of activities and assistance from organizers.</span>
+                            <select name="organization" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -863,12 +837,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="evalVenueGroup">
-                            <label id="evalVenueLabel">Venue / Facilities *</label>
-                            <span class="form-help" id="evalVenueHelp">How suitable, accessible, comfortable, safe and appropriate the venue and facilities were for the activity.</span>
-                            <select name="venueRating">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Venue / Facilities *</label>
+                            <span class="form-help">How suitable, accessible, comfortable, safe and appropriate the venue and facilities were for the activity.</span>
+                            <select name="venueRating" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -877,12 +850,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="evalMaterialsGroup">
-                            <label id="evalMaterialsLabel">Materials / Equipment *</label>
-                            <span class="form-help" id="evalMaterialsHelp">The quality, availability and usefulness of materials, equipment, supplies or resources used during the activity.</span>
-                            <select name="materials">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Materials / Equipment *</label>
+                            <span class="form-help">The quality, availability and usefulness of presentation materials, handouts, equipment, supplies and other resources used during the activity.</span>
+                            <select name="materials" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -891,12 +863,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="evalTimeGroup">
-                            <label id="evalTimeLabel">Time Management *</label>
-                            <span class="form-help" id="evalTimeHelp">How effectively the schedule was followed and whether enough time was provided for the important parts of the activity.</span>
-                            <select name="timeManagement">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Time Management *</label>
+                            <span class="form-help">How effectively the schedule was followed and whether enough time was provided for discussions, activities, questions and other important parts of the program.</span>
+                            <select name="timeManagement" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -905,12 +876,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             </select>
                         </div>
 
-                        <div class="form-group" id="evalEngagementGroup">
-                            <label id="evalEngagementLabel">Participation / Engagement *</label>
-                            <span class="form-help" id="evalEngagementHelp">How effectively the activity encouraged participation and active involvement.</span>
-                            <select name="engagement">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                        <div class="form-group">
+                            <label>Participation / Engagement *</label>
+                            <span class="form-help">How effectively the activity encouraged interaction, participation, questions, collaboration and active involvement from participants.</span>
+                            <select name="engagement" required>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -931,8 +901,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Speaker Knowledge & Expertise</label>
                             <span class="form-help">How knowledgeable, credible and confident the resource speaker appeared in discussing the subject matter.</span>
                             <select name="speakerKnowledge">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -945,8 +914,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Clarity & Communication</label>
                             <span class="form-help">How clearly the speaker explained ideas, used understandable examples and communicated information to participants.</span>
                             <select name="speakerClarity">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -959,8 +927,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Participant Engagement</label>
                             <span class="form-help">How effectively the speaker encouraged participation, maintained interest and created opportunities for questions or interaction.</span>
                             <select name="speakerEngagement">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -973,8 +940,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <label>Responsiveness to Questions</label>
                             <span class="form-help">How well the speaker listened to questions and provided helpful, understandable and relevant responses.</span>
                             <select name="speakerResponsiveness">
-                                <option value="">Select Rating / Not Applicable</option>
-                                <option value="N/A">Not Applicable</option>
+                                <option value="">Select Rating</option>
                                 <option value="5">5 - Excellent</option>
                                 <option value="4">4 - Very Good</option>
                                 <option value="3">3 - Satisfactory</option>
@@ -990,10 +956,10 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         </div>
 
                         <div class="form-group full">
-                            <label id="evalLearningLabel">What did you learn or benefit from? <span>(Optional)</span></label>
+                            <label>What did you learn or benefit from? <span>(Optional)</span></label>
                             <textarea
                                 name="learning"
-                                id="evalLearningInput" placeholder="Share your main learning, skills gained, insights or benefits."
+                                placeholder="Share your main learning, skills gained, insights or benefits."
                             ></textarea>
                         </div>
 
@@ -1378,187 +1344,61 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                     </section>
 
                     <section class="admin-tab-content" id="integratedCertificatesTab">
-                        <article class="admin-panel" style="margin-bottom:14px">
-                          <div class="admin-panel-head"><h4>Certificate Center</h4><p>Work in four simple steps. Activities saved in Activity Manager are automatically available here.</p></div>
-                          <div class="admin-panel-body">
-                            <div class="admin-login-card" style="margin:0 0 14px;padding:16px;max-width:none">
-                              <small>CERTIFICATE ADMINISTRATION</small>
-                              <h4 style="margin:4px 0 6px">Administrator Access</h4>
-                              <p style="margin:0 0 10px">Uses the same administrator password as the QMS. If you already logged in, the Certificate Center unlocks automatically.</p>
-                              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-                                <input id="certAdminPassword" type="password" autocomplete="current-password" placeholder="Enter QMS administrator password" style="flex:1;min-width:240px">
-                                <button id="certAdminUnlock" type="button" class="admin-action-btn primary">Unlock Certificate Center</button>
-                              </div>
-                              <div id="certAdminStatus" class="admin-schedule-message" style="margin-top:8px">Use your existing QMS administrator password.</div>
-                            </div>
-                            <div class="admin-schedule-card-actions" style="gap:8px;flex-wrap:wrap">
-                              <button type="button" class="admin-action-btn primary" data-cert-nav="designs">1. Activity Designs</button>
-                              <button type="button" class="admin-action-btn" data-cert-nav="issue">2. Issue Certificate</button>
-                              <button type="button" class="admin-action-btn" data-cert-nav="issued">3. Issued Certificates</button>
-                              <button type="button" class="admin-action-btn" data-cert-nav="master">4. Master / Default</button>
-                              <button type="button" class="admin-action-btn" id="certReloadActivities">↻ Refresh Activities</button>
-                            </div>
-                            <div style="margin-top:10px;font-size:13px"><strong id="certActivityCount">Loading activities...</strong></div>
-                            <div id="certActivityEmpty" style="display:none;margin-top:10px;padding:12px;border:1px solid #ffd18a;border-radius:10px;background:#fff8e8">No activities found. Go to <strong>Manage Activities → Activity Manager</strong>, add/save the activity once, then click <strong>Refresh Activities</strong> here.</div>
-                          </div>
-                        </article>
-                        <article class="admin-panel" data-cert-panel="designs" style="margin-bottom:18px">
-                          <div class="admin-panel-head"><h4>Activity Certificate Designs</h4><p>Choose an activity already in your QMS, then assign its certificate design and wording. Each activity may use a different Canva background and certificate content.</p></div>
-                          <div class="admin-panel-body">
-                            <div class="admin-schedule-form">
-                              <div class="admin-schedule-field"><label>Linked Activity / Program</label><select id="ctActivity"><option value="">Select an activity...</option></select><span class="admin-schedule-help">Certificate designs are linked to an activity already saved in your QMS/website. Use Custom Activity only when needed.</span></div>
-                              <div class="admin-schedule-field"><label>Custom Activity (optional)</label><input id="ctCustomActivity" placeholder="Only if the activity is not yet in the system"></div>
-                              <div class="admin-schedule-field"><label>Certificate Type</label><select id="ctType"><option>Participation</option><option>Completion</option><option>Recognition</option><option>Appreciation</option><option>Resource Speaker</option><option>Partnership</option><option>Facilitator / Trainer</option><option>Volunteer</option><option>Sponsor / Donor</option><option>Other / Custom</option></select></div>
-                              <div style="display:none"><div style="display:none"><input id="ctHeading" value="Certificate"></div></div>
-                              <div style="display:none"><div style="display:none"><textarea id="ctCitation"></textarea></div></div>
-                              <div class="admin-schedule-field full"><label>Private Canva Edit Link</label><input id="ctCanva" type="url" placeholder="Paste the Canva edit link for this design"></div>
-                              <div class="admin-schedule-field full"><label>Canva Certificate Background (PNG/JPG)</label><input id="ctFile" type="file" accept="image/png,image/jpeg,image/webp"><input id="ctBg" type="hidden"></div>
-                              <div class="admin-schedule-field full">
-                                <label>Live Certificate Editor / Preview</label>
-                                <span class="admin-schedule-help">Click an item, then drag it anywhere on the certificate. Use the corner handle to resize. Changes are saved with this activity certificate.</span>
-                                <div style="padding:12px;border:1px solid #bfe4f5;background:#f4fbff;border-radius:12px;margin:10px 0">
-  <strong style="color:#08284a">SIMPLE CERTIFICATE MODE</strong>
-  <div class="admin-schedule-help" style="margin-top:5px">Your uploaded PNG/JPG is the complete certificate design. QMS adds only the participant name, unique QR code, and unique certificate number.</div>
-</div>
-<div class="ct-element-toolbar" style="display:grid;grid-template-columns:repeat(3,minmax(145px,1fr));gap:7px;margin:10px 0">
-  <button type="button" class="admin-action-btn" data-ct-select="name">Participant Name</button>
-  <button type="button" class="admin-action-btn" data-ct-select="qr">QR Code</button>
-  <button type="button" class="admin-action-btn" data-ct-select="no">Unique Number</button>
-</div>
-<div style="display:none">
-  <textarea id="ctHeaderText">SANGGUNIANG KABATAAN OF BARANGAY SAPILANG</textarea><input id="ctLogo1"><input id="ctLogo2"><input id="ctSignatory"><input id="ctSignatoryPosition"><input id="ctSignatureUrl"><input id="ctLogo1File" type="file"><input id="ctLogo2File" type="file"><input id="ctSignatureFile" type="file"><button id="ctUploadLogo1" type="button"></button><button id="ctUploadLogo2" type="button"></button><button id="ctUploadSignature" type="button"></button>
-</div>
-<div id="ctDesignToolbar" style="position:sticky;top:0;z-index:20;background:#fff;border:1px solid #d7e4ea;border-radius:12px;padding:10px;margin:10px 0;box-shadow:0 5px 18px #1231">
-  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-    <button type="button" class="admin-action-btn" id="ctUndo">↶ Undo</button>
-    <button type="button" class="admin-action-btn" id="ctRedo">↷ Redo</button>
-    <span class="admin-schedule-help"><b>Tip:</b> click Participant Name, QR Code, or Unique Number, then drag or resize it.</span>
-    <span style="display:none"><button id="ctAddText"></button><button id="ctAddImage"></button><input id="ctAssetFile" type="file"><button id="ctAddLine"></button><button id="ctDuplicate"></button><button id="ctHide"></button><button id="ctDelete"></button><button id="ctBlankMode"></button><button id="ctRestoreElements"></button><button id="ctForward"></button><button id="ctBackward"></button><button id="ctWrap"></button><button id="ctNewLine"></button></span>
-  </div>
-  <div id="ctFormatBar" style="display:grid;grid-template-columns:160px 78px 74px 74px 90px 90px 90px 90px;gap:6px;margin-top:8px;align-items:center">
-    <select id="ctFontFamily"><option>Arial</option><option>Georgia</option><option>Times New Roman</option><option>Verdana</option><option>Trebuchet MS</option><option>Tahoma</option><option>Courier New</option><option>Garamond</option></select>
-    <input id="ctFontSize" type="number" min="6" max="120" value="20" title="Font size">
-    <input id="ctTextColor" type="color" value="#08284a" title="Text color"><input id="ctOpacity" type="number" min="10" max="100" value="100" title="Opacity %">
-    <button type="button" class="admin-action-btn" id="ctBold"><b>B</b></button><button type="button" class="admin-action-btn" id="ctItalic"><i>I</i></button>
-    <select id="ctAlign"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select>
-    <input id="ctLetterSpacing" type="number" min="-2" max="20" step=".5" value="0" title="Letter spacing">
-    <input id="ctLineHeight" type="number" min="0.7" max="3" step=".1" value="1.2" title="Line spacing"><input id="ctRotate" type="number" min="-180" max="180" value="0" title="Rotation">
-  </div>
-  <div id="ctHiddenStatus" class="admin-schedule-help" style="margin-top:6px;font-weight:700;color:#0a91c9">All certificate elements are currently visible.</div><div class="admin-schedule-help" style="margin-top:6px">Select an element to format it. Use <b>Wrap / One Line</b> to choose whether words continue below, or <b>↵ New Line</b> to force the next words onto a new line. Double-click custom text to edit its wording. Images/logos can be uploaded directly. Dynamic Recipient Name, QR Code and Certificate No. stay linked to each issued certificate.</div>
-</div>
-<div id="ctElementActions" style="display:none"><span id="ctActionSelected"></span><button id="ctActionHide"></button><button id="ctActionDelete"></button><button id="ctActionDuplicate"></button><button id="ctActionLock"></button><button id="ctActionForward"></button><button id="ctActionBackward"></button><select id="ctRestoreOne"></select><button id="ctRestoreOneBtn"></button></div>
-<div id="ctHiddenStatus" style="display:none"></div>
-<div id="ctEditorWrap" style="margin-top:10px;overflow:auto;background:#eef4f7;border:1px solid #d7e4ea;border-radius:14px;padding:12px">
-                                  <div id="ctEditor" style="position:relative;width:min(100%,1000px);aspect-ratio:297/210;margin:auto;background:#fff center/100% 100% no-repeat;box-shadow:0 8px 24px #1232;overflow:hidden;user-select:none">
-  <div class="ct-edit-item" data-key="name">SAMPLE PARTICIPANT NAME<div class="ct-resize"></div></div>
-  <div class="ct-edit-item" data-key="no">Certificate No. SK-SAP-2026-000001<div class="ct-resize"></div></div>
-  <div class="ct-edit-item ct-qr-placeholder" data-key="qr">UNIQUE<br>QR CODE<div class="ct-resize"></div></div>
-</div></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-                                  <button class="admin-action-btn" id="ctResetLayout" type="button">Reset 3 Fields</button>
-                                  <button class="admin-action-btn" id="ctPreviewFull" type="button">Preview Full Size</button>
-                                  <span id="ctSelectedItem" class="admin-schedule-help" style="align-self:center">Select any certificate element above, then drag or resize it.</span>
-                                </div>
-                              </div>
-                              <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn" id="ctUpload" type="button">Upload Design</button><button class="admin-action-btn primary" id="ctSave" type="button">Save Certificate Design</button><button class="admin-action-btn" id="ctSavePreview" type="button">Save & Preview</button><button class="admin-action-btn" id="ctNew" type="button">New Template</button></div><div id="ctMsg" class="admin-schedule-message"></div></div>
-                              <div class="admin-schedule-field full"><label>Saved Activity Certificate Designs</label><div id="ctList" style="display:grid;gap:8px"></div></div>
-                            </div>
-                          </div>
-                        </article>
-
-                        <article class="admin-panel" data-cert-panel="issue" style="margin-bottom:18px;display:none">
-                          <div class="admin-panel-head"><h4>Issue Certificate</h4><p>Issue certificates to participants, resource speakers, partner organizations, sponsors, volunteers and others. Every certificate gets its own verification number and QR.</p></div>
-                          <div class="admin-panel-body"><div class="admin-schedule-form">
-                            <div class="admin-schedule-field"><label>Saved Design</label><select id="ciTemplate"><option value="">Use Master Certificate</option></select></div>
-                            <div class="admin-schedule-field"><label>Recipient Type</label><select id="ciRecipientType"><option>Individual</option><option>Organization / Partner</option></select></div>
-                            <div class="admin-schedule-field"><label>Recipient / Organization Name</label><input id="ciName" placeholder="Complete name or organization"></div>
-                            <div class="admin-schedule-field"><label>Certificate Type</label><select id="ciType"><option>Participation</option><option>Completion</option><option>Recognition</option><option>Appreciation</option><option>Resource Speaker</option><option>Partnership</option><option>Facilitator / Trainer</option><option>Volunteer</option><option>Sponsor / Donor</option><option>Other / Custom</option></select></div>
-                            <div class="admin-schedule-field"><label>Linked Activity / Program</label><select id="ciActivity"><option value="">Select an activity...</option></select><span class="admin-schedule-help">Choose the activity first. Its saved certificate design and content will be selected automatically when available.</span></div><div class="admin-schedule-field"><label>Date</label><input id="ciDate" type="date"></div>
-                            <div class="admin-schedule-field full"><label>Custom Citation / Role (optional)</label><textarea id="ciCitation" rows="3"></textarea></div>
-                            <div class="admin-schedule-field"><label>Delivery</label><select id="ciDelivery"><option>Digital / E-Copy</option><option>Printed / Hard Copy</option></select></div>
-                            <div class="admin-schedule-field"><label>Email for E-Copy (optional)</label><input id="ciEmail" type="email"></div>
-                            <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn primary" id="ciIssue" type="button">Issue Certificate</button></div><div id="ciMsg" class="admin-schedule-message"></div></div>
-                          </div></div>
-                        </article>
-
-                        <article class="admin-panel" data-cert-panel="master" style="margin-bottom:18px;display:none">
-                          <div class="admin-panel-head"><h4>Master Certificate Setup</h4><p>Edit the permanent design in Canva. Here, upload the exported PNG/JPG and directly drag or resize the participant name, QR code and certificate number on the certificate itself.</p></div>
-                          <div class="admin-panel-body">
-                            <div class="admin-schedule-form">
-                              <div class="admin-schedule-field full"><label for="certCanvaUrl">Private Canva Edit Link</label><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="certCanvaUrl" type="url" placeholder="Paste your Canva edit link" style="flex:1;min-width:260px"><a id="certOpenCanva" class="admin-action-btn" target="_blank" rel="noopener" style="text-decoration:none">EDIT IN CANVA</a></div><span class="admin-schedule-help">Administrator only. This link is never shown on participant certificates.</span></div>
-                              <div class="admin-schedule-field full"><label for="certMasterFile">Certificate Background from Canva (PNG/JPG)</label><input id="certMasterFile" type="file" accept="image/png,image/jpeg,image/webp"><span class="admin-schedule-help">Choosing a file previews it immediately below. Click Upload / Replace Background when ready.</span></div>
-                              <input id="certBackgroundUrl" type="hidden">
-                              <div class="admin-schedule-field full">
-                                <label>DIRECT VISUAL EDITOR</label>
-                                <div style="margin:6px 0 10px;color:#617486;font-size:15px;line-height:1.6;font-weight:600">Click an item, drag it anywhere, then drag its orange corner handle to resize it. What you see here is what the generated certificate will use.</div>
-                                <div id="certVisualStage" style="position:relative;width:100%;max-width:1050px;aspect-ratio:297/210;margin:auto;background:#f4f4f4 center/100% 100% no-repeat;border:2px solid #d9e2e8;border-radius:8px;overflow:hidden;touch-action:none;box-shadow:0 10px 28px rgba(0,0,0,.08)">
-                                  <div id="certVisualEmpty" style="position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:#6c7d88"><div><strong style="display:block;font-size:18px;color:#18394c">Upload your Canva certificate</strong>Select a PNG/JPG above to start positioning the personalized fields.</div></div>
-                                  <div id="certDragName" class="cert-edit-item" data-kind="name" style="position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);font-family:Georgia,serif;font-size:44px;font-weight:700;white-space:nowrap;text-align:center;color:#172b3a;cursor:move">SAMPLE PARTICIPANT NAME<span class="cert-resize-handle"></span></div>
-                                  <div id="certDragQr" class="cert-edit-item cert-qr-sample" data-kind="qr" style="position:absolute;left:83%;top:78%;transform:translate(-50%,-50%);width:96px;height:96px;background:#fff;border:5px solid #111;cursor:move;display:grid;place-items:center;font-size:11px;font-weight:800;text-align:center">UNIQUE<br>QR<span class="cert-resize-handle"></span></div>
-                                  <div id="certDragNo" class="cert-edit-item" data-kind="no" style="position:absolute;left:7%;top:91%;font-size:14px;font-weight:700;white-space:nowrap;color:#172b3a;cursor:move">Certificate No. SK-SAP-2026-000001<span class="cert-resize-handle"></span></div>
-                                </div>
-                                <style>.cert-edit-item{z-index:20;user-select:none;-webkit-user-select:none;touch-action:none;pointer-events:auto}.cert-edit-item *{pointer-events:none}.cert-resize-handle{pointer-events:auto!important}.cert-dragging,.cert-dragging *{cursor:grabbing!important}.cert-edit-item.cert-selected{outline:2px dashed #ff9900;outline-offset:5px}.cert-resize-handle{display:none;position:absolute;width:18px;height:18px;right:-12px;bottom:-12px;background:#ff9900;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 5px #555;cursor:nwse-resize}.cert-selected>.cert-resize-handle{display:block}</style>
-                                <div id="certSelectedInfo" style="margin-top:10px;font-size:15px;line-height:1.5;font-weight:700;color:#35576a">Select an item on the certificate to move or resize it.</div>
-                              </div>
-                              <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button id="certUploadDesign" class="admin-action-btn" type="button">Upload / Replace Background</button><button id="certSaveDesign" class="admin-action-btn primary" type="button">SAVE POSITIONS & MASTER CERTIFICATE</button><button id="certResetPositions" class="admin-action-btn" type="button">Reset Positions</button><a class="admin-action-btn" href="certificate.html?blank=1" target="_blank" style="text-decoration:none">Generate Test Certificate</a></div><div id="certDesignMsg" class="admin-schedule-message"></div></div>
-                            </div>
-                          </div>
-                        </article>
-                        <div class="admin-card" data-cert-panel="issued" style="display:none">
-                            <div class="admin-card-head"><div><small>DELIVERY & TRACKING</small><h4>Certificate & Feedback Delivery Tracker</h4><p>Manage certificates by activity for bulk distribution. Individual automatic certificate emails are disabled. E-Certificates can be downloaded as individual PDFs in one ZIP, while all Hard Copy requests can be combined into one multi-page PDF for one-go printing.</p></div></div>
+                        <div class="admin-card">
+                            <div class="admin-card-head"><div><small>DIGITAL & PRINT MANAGEMENT</small><h4>Certificates</h4><p>Access issued certificates, hard-copy requests and blank printable templates.</p></div></div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
                               <button class="admin-action-btn primary" id="integratedCertificateRefresh" type="button">Refresh Certificates</button>
-                              <select id="bulkCertificateActivity" class="admin-action-btn" style="min-width:240px"><option value="">Select activity for bulk action</option></select>
-                              <button class="admin-action-btn" id="copyActivityEmails" type="button">Copy E-Certificate Emails</button>
-                              <button class="admin-action-btn primary" id="downloadECertificates" type="button">Download E-Certificates (.ZIP)</button>
-                              <button class="admin-action-btn primary" id="downloadHardCopyPdf" type="button">Download / Print Hard Copies (.PDF)</button>
-                              <button class="admin-action-btn" id="downloadActivityCertificates" type="button">Download All Certificates (.ZIP)</button>
                               <a class="admin-action-btn" href="certificate.html?blank=1&template=official" target="_blank" style="text-decoration:none">Print Blank Certificate</a>
                             </div>
                             <input id="integratedCertificateSearch" type="search" placeholder="Search certificate, participant, activity or status..." style="width:100%;margin-bottom:12px">
-                            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Certificate</th><th>Participant</th><th>Activity</th><th>Delivery</th><th>Feedback Copy</th><th>Hard Copy</th><th>Status</th><th>Actions</th></tr></thead><tbody id="integratedCertificateRows"><tr><td colspan="8">Open this tab to load certificate records.</td></tr></tbody></table></div>
+                            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Certificate</th><th>Participant</th><th>Activity</th><th>Delivery</th><th>Hard Copy</th><th>Status</th><th>Actions</th></tr></thead><tbody id="integratedCertificateRows"><tr><td colspan="7">Open this tab to load certificate records.</td></tr></tbody></table></div>
                         </div>
                     </section>
 
                     <section class="admin-tab-content" id="integratedManageTab">
-                        <article class="admin-panel" id="communicationsCenter" style="margin-bottom:18px">
-                          <div class="admin-panel-head"><h4>Future Activity Announcement Center</h4><p>Send announcements only to contacts who separately consented to email and/or text updates.</p></div>
-                          <div class="admin-panel-body">
-                            <div class="admin-schedule-form">
-                              <div class="admin-schedule-field"><label>Channel</label><select id="notifyChannel"><option value="email">Email</option><option value="sms">Text / SMS</option></select></div>
-                              <div class="admin-schedule-field"><label>Recipient Group</label><select id="notifyGroup"><option value="all">All Consented Contacts</option><option value="activity">Participants of Selected Activity</option></select></div>
-                              <div class="admin-schedule-field full"><label>Activity Filter</label><select id="notifyActivity"><option value="">All activities</option></select></div>
-                              <div class="admin-schedule-field full"><label>Announcement Subject</label><input id="notifySubject" placeholder="Upcoming SK Sapilang Activity"></div>
-                              <div class="admin-schedule-field full"><label>Message</label><textarea id="notifyMessage" rows="5" placeholder="Write the announcement here..."></textarea></div>
-                            </div>
-                            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="admin-action-btn" id="notifyRefresh" type="button">Refresh Consented Contacts</button><button class="admin-action-btn primary" id="notifySend" type="button">Send to Selected Group</button></div>
-                            <p class="form-help" id="notifyStatus">Email is ready through Apps Script. Text/SMS requires your chosen SMS gateway to be configured in Script Properties.</p>
-                            <div class="admin-detail-grid" id="notifySummary" style="margin-top:12px"></div>
-                          </div>
-                        </article>
                         <article class="admin-panel">
-                          <div class="admin-panel-head">
-                            <h4>Activity Manager</h4>
-                            <p>Add an activity or program once. The same record is used for evaluations, certificates, and the public Updates & Programs page.</p>
-                          </div>
-                          <div class="admin-panel-body">
-                            <form id="webActivityForm" class="admin-schedule-form">
-                              <div class="admin-schedule-field full"><label>Activity / Program Title *</label><input id="webActTitle" required></div>
-                              <div class="admin-schedule-field"><label>Date *</label><input id="webActDate" type="date" required></div>
-                              <div class="admin-schedule-field"><label>Status *</label><select id="webActStatus"><option>Upcoming</option><option>Ongoing</option><option>Completed</option></select></div>
-                              <div class="admin-schedule-field full"><label>Short Description</label><textarea id="webActDescription" placeholder="Brief description shown on the website and activity records."></textarea></div>
-                              <div class="admin-schedule-field"><label>Venue</label><input id="webActVenue"></div>
-                              <div class="admin-schedule-field"><label>Resource Speaker / Trainer / Facilitator</label><input id="webActSpeaker"></div>
-                              <div class="admin-schedule-field"><label>Pubmat Image URL</label><input id="webActPubmat" type="url" placeholder="Public image URL"></div>
-                              <div class="admin-schedule-field"><label>Facebook Post / Album Link</label><input id="webActFacebook" type="url" placeholder="Facebook post or album URL"></div>
-                              <div class="admin-schedule-field full"><label>Documentation Photos <span>(for completed activities)</span></label><textarea id="webActPhotos" placeholder="Paste public photo URLs, one per line"></textarea></div>
-                              <div class="admin-schedule-field full"><label>Website Visibility</label><div style="display:flex;gap:14px;flex-wrap:wrap"><label style="font-weight:600"><input id="webActShowUpdates" type="checkbox" checked> Show in Updates</label><label style="font-weight:600"><input id="webActShowPrograms" type="checkbox" checked> Show in Programs</label><label style="font-weight:600"><input id="webActEvaluation" type="checkbox" checked> Available for Evaluation</label><label style="font-weight:600"><input id="webActCertificates" type="checkbox" checked> Available for Certificates</label></div></div>
-                              <div class="admin-schedule-field full"><label for="integratedCmsPassword">Website CMS Password</label><input id="integratedCmsPassword" type="password" autocomplete="current-password" placeholder="Leave blank if same as QMS access code"><span class="admin-schedule-help">Enter it once. It is used by Activity Manager and Certificate Center.</span></div>
-                              <div class="admin-schedule-field full"><div class="admin-schedule-card-actions"><button class="admin-action-btn primary" id="webActSave" type="submit">Add Activity / Program</button><button class="admin-action-btn" id="webActClear" type="button">Clear</button><button class="admin-action-btn" id="webActReload" type="button">Refresh Activities</button></div><div id="webActMsg" class="admin-schedule-message"></div></div>
-                            </form>
-                            <div style="margin:14px 0 8px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="admin-action-btn primary" data-activity-filter="all">All</button><button type="button" class="admin-action-btn" data-activity-filter="Upcoming">Upcoming</button><button type="button" class="admin-action-btn" data-activity-filter="Ongoing">Ongoing</button><button type="button" class="admin-action-btn" data-activity-filter="Completed">Completed</button></div>
-                            <div id="webActList" class="admin-schedule-list"></div>
-                          </div>
+                            <div class="admin-panel-head">
+                                <h4>Manage Scheduled Activities</h4>
+                                <p>Add or update activities that people can select in the Activity / Program Evaluation form.</p>
+                            </div>
+                            <div class="admin-panel-body">
+                                <form id="integratedScheduleForm" class="admin-schedule-form">
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleTitle">Activity / Project / Training Name *</label>
+                                        <input id="integratedScheduleTitle" required>
+                                    </div>
+                                    <div class="admin-schedule-field">
+                                        <label for="integratedScheduleDate">Date *</label>
+                                        <input id="integratedScheduleDate" type="date" required>
+                                    </div>
+                                    <div class="admin-schedule-field">
+                                        <label for="integratedScheduleVenue">Venue *</label>
+                                        <input id="integratedScheduleVenue" required>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleSpeaker">Resource Speaker / Trainer / Facilitator</label>
+                                        <input id="integratedScheduleSpeaker">
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedScheduleDescription">Short Description</label>
+                                        <textarea id="integratedScheduleDescription"></textarea>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <label for="integratedCmsPassword">Website CMS Password</label>
+                                        <input id="integratedCmsPassword" type="password" autocomplete="current-password" placeholder="Leave blank if it is the same as the QMS access code">
+                                        <span class="admin-schedule-help">The QMS access code will be used automatically when this is blank.</span>
+                                    </div>
+                                    <div class="admin-schedule-field full">
+                                        <div class="admin-schedule-card-actions">
+                                            <button class="admin-action-btn primary" type="submit" id="integratedScheduleSave">Add Scheduled Activity</button>
+                                            <button class="admin-action-btn" type="button" id="integratedScheduleClear">Clear Form</button>
+                                            <button class="admin-action-btn" type="button" id="integratedScheduleReload">Refresh List</button>
+                                        </div>
+                                        <div class="admin-schedule-message" id="integratedScheduleMessage"></div>
+                                    </div>
+                                </form>
+                                <div class="admin-schedule-list" id="integratedScheduleList"><div class="admin-empty">Loading scheduled activities...</div></div>
+                            </div>
                         </article>
                     </section>
 
@@ -1599,10 +1439,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 </footer>
 
 <script src="cms-config.js?v=20260903-CONNECTED"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="js/feedback-page.js?v=20260919-BULK-CERTIFICATES"></script>
+<script src="js/feedback-page.js?v=20260919-RESTORE-KNOWN-GOOD"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
 </body>

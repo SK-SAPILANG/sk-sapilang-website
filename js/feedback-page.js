@@ -1,6 +1,3 @@
-
-// QMS display fail-safe: content must remain visible even if an optional admin module fails.
-document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("visible"); });
 const menuButton=document.getElementById("menuButton");
 const navLinks=document.getElementById("navLinks");
 
@@ -324,8 +321,8 @@ document.getElementById("activityForm").addEventListener("submit",async e=>{
                         <div class="result-item" style="width:100%">
                             <small>Certificate of Participation</small>
                             <strong>${integratedEscape(cert.certificateId)}</strong>
-                            <p style="margin:8px 0">Your certificate record has been created successfully. If you selected an E-Certificate, it is expected to be distributed to your registered email address within approximately one (1) day after the event.</p>
-                            ${hardCopy?`<p style="margin:8px 0 12px"><strong>Hard Copy Requested:</strong> Your printed certificate will be available for claiming on <strong>${integratedEscape(hardCopy)}</strong> (approximately three (3) working days after the event).</p>`:""}
+                            <p style="margin:8px 0">Your verified digital certificate is ready. Digital certificates are highly recommended to help SK Sapilang reduce unnecessary paper use.</p>
+                            ${hardCopy?`<p style="margin:8px 0 12px"><strong>Hard Copy Requested:</strong> Your printed certificate will be available for claiming on <strong>${integratedEscape(hardCopy)}</strong> (three days after submission).</p>`:""}
                             <p style="margin:8px 0 12px"><strong>Selected delivery:</strong> ${integratedEscape(preference)}</p>
                             <a class="primary-button" href="${url}" target="_blank" rel="noopener">View / Print Digital Certificate</a>
                         </div>
@@ -531,7 +528,6 @@ function integratedRenderSchedules(items){
 }
 
 async function integratedLoadSchedules(){
-    if(!document.getElementById("integratedScheduleForm")) return;
     integratedScheduleMessage("Loading scheduled activities...");
     try{
         const response=await integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page:"feedback.html"});
@@ -568,8 +564,7 @@ async function integratedDeleteSchedule(id){
     }catch(error){integratedScheduleMessage(error.message,true);}
 }
 
-const integratedScheduleFormEl=document.getElementById("integratedScheduleForm");
-if(integratedScheduleFormEl) integratedScheduleFormEl.addEventListener("submit",async event=>{
+document.getElementById("integratedScheduleForm").addEventListener("submit",async event=>{
     event.preventDefault();
     const button=document.getElementById("integratedScheduleSave");
     button.disabled=true;
@@ -589,10 +584,8 @@ if(integratedScheduleFormEl) integratedScheduleFormEl.addEventListener("submit",
     }catch(error){integratedScheduleMessage(error.message,true);}finally{button.disabled=false;}
 });
 
-const integratedScheduleClearEl=document.getElementById("integratedScheduleClear");
-const integratedScheduleReloadEl=document.getElementById("integratedScheduleReload");
-if(integratedScheduleClearEl) integratedScheduleClearEl.addEventListener("click",integratedClearScheduleForm);
-if(integratedScheduleReloadEl) integratedScheduleReloadEl.addEventListener("click",integratedLoadSchedules);
+document.getElementById("integratedScheduleClear").addEventListener("click",integratedClearScheduleForm);
+document.getElementById("integratedScheduleReload").addEventListener("click",integratedLoadSchedules);
 
 function integratedEscape(value){
     return String(value??"")
@@ -1059,7 +1052,7 @@ async function integratedLoadCertificates(){
     const body=new URLSearchParams({action:'certificate-list',password:INTEGRATED_ADMIN_KEY});
     const response=await fetch(feedbackCmsEndpoint(),{method:'POST',body,redirect:'follow'});
     const data=await response.json(); if(!data.success)throw new Error(data.message||'Unable to load certificates.');
-    INTEGRATED_CERTIFICATES=data.certificates||[]; integratedRenderCertificates(); integratedPopulateBulkActivities();
+    INTEGRATED_CERTIFICATES=data.certificates||[]; integratedRenderCertificates();
 }
 function integratedRenderCertificates(){
     const tbody=document.getElementById('integratedCertificateRows'); if(!tbody)return;
@@ -1070,122 +1063,3 @@ function integratedRenderCertificates(){
 document.getElementById('integratedCertificateRefresh')?.addEventListener('click',()=>integratedLoadCertificates().catch(e=>alert(e.message)));
 document.getElementById('integratedCertificateSearch')?.addEventListener('input',integratedRenderCertificates);
 document.querySelector('[data-admin-tab="certificates"]')?.addEventListener('click',()=>integratedLoadCertificates().catch(()=>{}));
-
-
-function integratedPopulateBulkActivities(){
-    const select=document.getElementById('bulkCertificateActivity');
-    if(!select)return;
-    const current=select.value;
-    const activities=[...new Set(INTEGRATED_CERTIFICATES.map(c=>String(c.activity||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-    select.innerHTML='<option value="">Select activity for bulk action</option>'+activities.map(a=>`<option value="${integratedEscape(a)}">${integratedEscape(a)}</option>`).join('');
-    if(activities.includes(current))select.value=current;
-}
-function integratedSelectedActivityCertificates(){
-    const activity=document.getElementById('bulkCertificateActivity')?.value||'';
-    if(!activity)throw new Error('Please select an activity first.');
-    return INTEGRATED_CERTIFICATES.filter(c=>String(c.activity||'')===activity && String(c.status||'ACTIVE').toUpperCase()!=='REVOKED');
-}
-function integratedWantsDigital(c){
-    const p=String(c.deliveryPreference||'Digital Certificate').toLowerCase();
-    return p.includes('digital') || p.includes('e-certificate') || p.includes('e-certificate') || p.includes('both');
-}
-function integratedWantsHardCopy(c){
-    const p=String(c.deliveryPreference||'').toLowerCase();
-    return p.includes('hard copy') || p.includes('printed') || p.includes('both');
-}
-async function integratedCopyActivityEmails(){
-    const certs=integratedSelectedActivityCertificates().filter(integratedWantsDigital);
-    const emails=[...new Set(certs.map(c=>String(c.email||'').trim().toLowerCase()).filter(e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)))];
-    if(!emails.length)throw new Error('No valid E-Certificate email addresses were found for this activity.');
-    await navigator.clipboard.writeText(emails.join(', '));
-    alert(emails.length+' unique E-Certificate email address'+(emails.length===1?'':'es')+' copied. Paste them into Gmail BCC.');
-}
-function integratedSafeFilename(value){return String(value||'certificate').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').trim().slice(0,100)||'certificate';}
-function integratedWaitForCertificateFrame(frame){
-    return new Promise((resolve,reject)=>{
-        const timeout=setTimeout(()=>reject(new Error('Certificate page timed out.')),20000);
-        frame.onload=()=>{
-            const started=Date.now();
-            const check=()=>{
-                try{
-                    const doc=frame.contentDocument;
-                    const cert=doc&&doc.getElementById('certificate');
-                    if(cert && !cert.hidden){clearTimeout(timeout);resolve(cert);return;}
-                }catch(e){}
-                if(Date.now()-started>18000){clearTimeout(timeout);reject(new Error('Certificate did not finish loading.'));return;}
-                setTimeout(check,250);
-            }; check();
-        };
-    });
-}
-async function integratedCertificatePdfBlob(c){
-    const frame=document.createElement('iframe');
-    frame.style.cssText='position:fixed;left:-10000px;top:0;width:1400px;height:1000px;border:0;opacity:0;pointer-events:none';
-    document.body.appendChild(frame);
-    frame.src='certificate.html?id='+encodeURIComponent(c.certificateId)+'&bulk=1';
-    try{
-        const certEl=await integratedWaitForCertificateFrame(frame);
-        const canvas=await html2canvas(certEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
-        const img=canvas.toDataURL('image/jpeg',0.96);
-        const {jsPDF}=window.jspdf;
-        const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-        pdf.addImage(img,'JPEG',0,0,297,210,undefined,'FAST');
-        return pdf.output('blob');
-    } finally {frame.remove();}
-}
-async function integratedDownloadCertificateZip(certs,button,filename){
-    if(!certs.length)throw new Error('No matching certificates were found for this activity.');
-    if(!window.JSZip||!window.html2canvas||!window.jspdf)throw new Error('Certificate tools did not load. Please refresh the page while connected to the internet.');
-    const original=button.textContent; button.disabled=true;
-    const zip=new JSZip();
-    try{
-        for(let i=0;i<certs.length;i++){
-            const c=certs[i]; button.textContent=`Preparing ${i+1} of ${certs.length}...`;
-            const blob=await integratedCertificatePdfBlob(c);
-            zip.file(integratedSafeFilename(c.participant)+' - '+integratedSafeFilename(c.certificateId)+'.pdf',blob);
-        }
-        button.textContent='Creating ZIP...';
-        const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
-        const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000);
-    }finally{button.disabled=false;button.textContent=original;}
-}
-async function integratedDownloadActivityCertificates(){
-    const activity=document.getElementById('bulkCertificateActivity').value;
-    const certs=integratedSelectedActivityCertificates();
-    return integratedDownloadCertificateZip(certs,document.getElementById('downloadActivityCertificates'),integratedSafeFilename(activity)+' - All Certificates.zip');
-}
-async function integratedDownloadECertificates(){
-    const activity=document.getElementById('bulkCertificateActivity').value;
-    const certs=integratedSelectedActivityCertificates().filter(integratedWantsDigital);
-    return integratedDownloadCertificateZip(certs,document.getElementById('downloadECertificates'),integratedSafeFilename(activity)+' - E-Certificates.zip');
-}
-async function integratedDownloadHardCopyPdf(){
-    const activity=document.getElementById('bulkCertificateActivity').value;
-    const certs=integratedSelectedActivityCertificates().filter(integratedWantsHardCopy);
-    if(!certs.length)throw new Error('No Hard Copy certificate requests were found for this activity.');
-    if(!window.html2canvas||!window.jspdf)throw new Error('Certificate PDF tools did not load. Please refresh the page while connected to the internet.');
-    const button=document.getElementById('downloadHardCopyPdf'), original=button.textContent; button.disabled=true;
-    const {jsPDF}=window.jspdf;
-    const combined=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-    try{
-        for(let i=0;i<certs.length;i++){
-            const c=certs[i]; button.textContent=`Preparing ${i+1} of ${certs.length}...`;
-            const frame=document.createElement('iframe');
-            frame.style.cssText='position:fixed;left:-10000px;top:0;width:1400px;height:1000px;border:0;opacity:0;pointer-events:none';
-            document.body.appendChild(frame);
-            frame.src='certificate.html?id='+encodeURIComponent(c.certificateId)+'&bulk=1';
-            try{
-                const certEl=await integratedWaitForCertificateFrame(frame);
-                const canvas=await html2canvas(certEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
-                const img=canvas.toDataURL('image/jpeg',0.96);
-                if(i>0)combined.addPage('a4','landscape');
-                combined.addImage(img,'JPEG',0,0,297,210,undefined,'FAST');
-            }finally{frame.remove();}
-        }
-        combined.save(integratedSafeFilename(activity)+' - Hard Copy Certificates.pdf');
-    }finally{button.disabled=false;button.textContent=original;}
-}
-document.getElementById('copyActivityEmails')?.addEventListener('click',()=>integratedCopyActivityEmails().catch(e=>alert(e.message)));
-document.getElementById('downloadECertificates')?.addEventListener('click',()=>integratedDownloadECertificates().catch(e=>alert(e.message)));
-document.getElementById('downloadHardCopyPdf')?.addEventListener('click',()=>integratedDownloadHardCopyPdf().catch(e=>alert(e.message)));
-document.getElementById('downloadActivityCertificates')?.addEventListener('click',()=>integratedDownloadActivityCertificates().catch(e=>alert(e.message)));
