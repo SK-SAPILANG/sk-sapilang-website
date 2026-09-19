@@ -1247,6 +1247,19 @@ window.skGetCmsEndpoint = getCmsEndpoint;
   // ==========================================================================
   // ISSUED CERTIFICATE TRACKER
   // ==========================================================================
+  function chooseCertificateActivity(kind, btn) {
+    const titles=[...new Set(issuedCertificates.map(c=>String(c.activityTitle||'').trim()).filter(Boolean))].sort();
+    if(!titles.length) return alert('No certificate activities are available yet.');
+    const menu=titles.map((t,i)=>`${i+1}. ${t}`).join('\n');
+    const answer=window.prompt(`Choose an activity by number:\n\n${menu}`);
+    if(answer===null) return;
+    const n=Number(answer);
+    if(!Number.isInteger(n)||n<1||n>titles.length) return alert('Please enter a valid activity number.');
+    const title=titles[n-1];
+    if(kind==='download') return window.downloadECertificatesZip(btn,title);
+    if(kind==='hardcopy') return window.downloadHardCopyPdf(btn,title);
+  }
+
   function initIssuedTracker() {
     const searchInput = document.getElementById('certSearchInput');
     const refreshBtn = document.getElementById('btnRefreshCerts');
@@ -1267,8 +1280,8 @@ window.skGetCmsEndpoint = getCmsEndpoint;
       });
     }
     const copyBtn=document.getElementById('btnCopyECertEmails'); if(copyBtn) copyBtn.addEventListener('click', window.copyECertificateEmails);
-    const zipBtn=document.getElementById('btnDownloadECertZip'); if(zipBtn) zipBtn.addEventListener('click', ()=>window.downloadECertificatesZip(zipBtn));
-    const hardBtn=document.getElementById('btnCombinedHardCopyPdf'); if(hardBtn) hardBtn.addEventListener('click', ()=>window.downloadHardCopyPdf(hardBtn));
+    const zipBtn=document.getElementById('btnDownloadECertZip'); if(zipBtn) zipBtn.addEventListener('click', ()=>chooseCertificateActivity('download',zipBtn));
+    const hardBtn=document.getElementById('btnCombinedHardCopyPdf'); if(hardBtn) hardBtn.addEventListener('click', ()=>chooseCertificateActivity('hardcopy',hardBtn));
   }
 
   async function fetchRemoteCertificates() {
@@ -1305,7 +1318,123 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     } catch (e) {}
   }
 
+
+  function ensureActivityCertificateControlPanel() {
+    const table = document.getElementById('certsTableBody');
+    if (!table) return null;
+    const host = table.closest('table')?.parentElement || table.parentElement;
+    if (!host) return null;
+
+    let panel = document.getElementById('activityCertificateControlPanel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'activityCertificateControlPanel';
+      panel.style.cssText = 'margin:18px 0;padding:16px;border:1px solid #dbe3ee;border-radius:14px;background:#fff;';
+      host.parentElement.insertBefore(panel, host);
+    }
+    return panel;
+  }
+
+  function renderActivityCertificateControls() {
+    const panel = ensureActivityCertificateControlPanel();
+    if (!panel) return;
+
+    const groups = new Map();
+    issuedCertificates.forEach(c => {
+      const title = String(c.activityTitle || 'Unspecified Activity').trim();
+      if (!groups.has(title)) groups.set(title, []);
+      groups.get(title).push(c);
+    });
+
+    if (!groups.size) {
+      panel.innerHTML = '<strong>Activity Certificate Control</strong><p style="margin:8px 0 0;color:#64748b">No issued certificates yet.</p>';
+      return;
+    }
+
+    const escAttr = v => escapeHtml(String(v || '')).replace(/`/g,'&#96;');
+    panel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+        <div>
+          <h3 style="margin:0">Activity Certificate Control</h3>
+          <p style="margin:4px 0 0;color:#64748b">Download, email, copy addresses, or prepare hard copies by seminar/activity.</p>
+        </div>
+      </div>
+      <div style="display:grid;gap:10px">
+        ${[...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([title,rows])=>{
+          const ecount=rows.filter(c=>/E-Certificate|Digital Certificate/i.test(String(c.deliveryPreference||'E-Certificate'))).length;
+          const hcount=rows.filter(c=>/Hard Copy/i.test(String(c.deliveryPreference||''))).length;
+          return `<div style="border:1px solid #e2e8f0;border-radius:12px;padding:12px">
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+              <div><strong>${escapeHtml(title)}</strong><br><small>${rows.length} certificate(s) • ${ecount} e-certificate request(s) • ${hcount} hard-copy request(s)</small></div>
+              <div style="display:flex;gap:7px;flex-wrap:wrap">
+                <button type="button" class="studio-btn" onclick="skActivityCertAction('view', decodeURIComponent('${encodeURIComponent(title)}'), this)">View List</button>
+                <button type="button" class="studio-btn" onclick="skActivityCertAction('copy', decodeURIComponent('${encodeURIComponent(title)}'), this)">Copy Emails</button>
+                <button type="button" class="studio-btn" onclick="skActivityCertAction('download', decodeURIComponent('${encodeURIComponent(title)}'), this)">Download All</button>
+                <button type="button" class="studio-btn" onclick="skActivityCertAction('send', decodeURIComponent('${encodeURIComponent(title)}'), this)">Send All</button>
+                <button type="button" class="studio-btn" onclick="skActivityCertAction('hardcopy', decodeURIComponent('${encodeURIComponent(title)}'), this)">Hard-Copy PDF</button>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function setBatchActivityByTitle(title) {
+    const sel=document.getElementById('certBatchActivity');
+    if(!sel) return false;
+    const target=String(title||'').trim().toLowerCase();
+    let found=false;
+    [...sel.options].forEach(o=>{
+      if(String(o.text||'').trim().toLowerCase()===target || String(o.value||'').trim().toLowerCase()===target){
+        sel.value=o.value; found=true;
+      }
+    });
+    if(!found){
+      const o=document.createElement('option'); o.value=title; o.textContent=title; sel.appendChild(o); sel.value=title;
+    }
+    return true;
+  }
+
+  window.skActivityCertAction = async function(action,title,btn){
+    setBatchActivityByTitle(title);
+    if(action==='view'){
+      const q=document.getElementById('certSearchInput');
+      if(q){ q.value=title; q.dispatchEvent(new Event('input',{bubbles:true})); q.scrollIntoView({behavior:'smooth',block:'center'}); }
+      return;
+    }
+    if(action==='copy') {
+      const rows=selectedBatchCertificates('email',title);
+      const emails=[...new Set(rows.map(c=>String(c.email||'').trim()).filter(Boolean))];
+      if(!emails.length) return alert('No e-certificate email addresses found for '+title+'.');
+      const txt=emails.join(', ');
+      try{await navigator.clipboard.writeText(txt);alert(`${emails.length} email address(es) copied.`);}
+      catch(_){window.prompt('Copy these email addresses:',txt);}
+      return;
+    }
+    if(action==='download') return window.downloadECertificatesZip(btn,title);
+    if(action==='hardcopy') return window.downloadHardCopyPdf(btn,title);
+    if(action==='send'){
+      const rows=selectedBatchCertificates('email',title);
+      if(!rows.length) return alert('No e-certificate recipients with email addresses were found for '+title+'.');
+      if(!confirm(`Send ${rows.length} e-certificate email(s) for ${title}?`)) return;
+      const old=btn.textContent; btn.disabled=true; let sent=0, failed=0;
+      try{
+        for(let i=0;i<rows.length;i++){
+          btn.textContent=`Sending ${i+1}/${rows.length}…`;
+          const id=rows[i].certificateNumber||rows[i].id;
+          try{
+            const resp=await postApi({action:'resend-certificate',password:currentAdminPassword||sessionStorage.getItem('skQmsAdminKey')||'',certificateId:id});
+            if(resp && resp.success!==false) sent++; else failed++;
+          }catch(_){ failed++; }
+        }
+        alert(`Send All finished for ${title}. Sent: ${sent}. Failed: ${failed}.`);
+        await fetchRemoteCertificates();
+      }finally{btn.disabled=false;btn.textContent=old;}
+    }
+  };
+
   function renderIssuedTable() {
+    renderActivityCertificateControls();
     const tbody = document.getElementById('certsTableBody');
     const kpiCerts = document.getElementById('kpiTotalCerts');
     if (kpiCerts) kpiCerts.textContent = issuedCertificates.length;
@@ -1353,21 +1482,16 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     if (names.includes(current)) sel.value = current;
   }
 
-  function selectedBatchCertificates(kind) {
-    const sel = document.getElementById('certBatchActivity');
-    const act = sel ? String(sel.value || '').trim() : '';
-    const norm = v => String(v || '').trim().toLowerCase();
-    return issuedCertificates.filter(c => {
-      if (act) {
-        const matchesActivity =
-          norm(c.activityTitle) === norm(act) ||
-          norm(c.activityId) === norm(act);
-        if (!matchesActivity) return false;
-      }
-      const pref = String(c.deliveryPreference || 'E-Certificate');
-      if (kind === 'email') return !!c.email && (/E-Certificate/i.test(pref) || /Digital Certificate/i.test(pref));
-      if (kind === 'hardcopy') return /Hard Copy/i.test(pref);
-      return /E-Certificate/i.test(pref) || /Digital Certificate/i.test(pref);
+  function selectedBatchCertificates(kind, explicitActivity) {
+    const sel=document.getElementById('certBatchActivity');
+    const act=String(explicitActivity || (sel ? sel.value : '') || '').trim();
+    const norm=v=>String(v||'').trim().toLowerCase();
+    return issuedCertificates.filter(c=>{
+      if(act && norm(c.activityTitle)!==norm(act) && norm(c.activityId)!==norm(act)) return false;
+      const pref=String(c.deliveryPreference||'E-Certificate');
+      if(kind==='email') return !!c.email && (/E-Certificate/i.test(pref)||/Digital Certificate/i.test(pref)||/Both/i.test(pref));
+      if(kind==='hardcopy') return /Hard Copy/i.test(pref)||/Both/i.test(pref);
+      return /E-Certificate/i.test(pref)||/Digital Certificate/i.test(pref)||/Both/i.test(pref);
     });
   }
 
@@ -1460,15 +1584,15 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     else window.prompt('Copy these e-certificate email addresses:',emailText);
   };
 
-  window.downloadECertificatesZip = async (btn) => {
+  window.downloadECertificatesZip = async (btn, explicitActivity) => {
     const sel=document.getElementById('certBatchActivity');
-    const selectedActivity=sel ? String(sel.value||'').trim() : '';
+    const selectedActivity=String(explicitActivity || (sel ? sel.value : '') || '').trim();
     if(!selectedActivity) return alert('Please select one seminar/activity first.');
 
-    const rows=selectedBatchCertificates('ecert');
+    const rows=selectedBatchCertificates('ecert', selectedActivity);
     if(!rows.length) return alert('No E-Certificate or Both requests found for the selected activity.');
 
-    const activityLabel=(sel && sel.selectedIndex>=0 ? sel.options[sel.selectedIndex].text : selectedActivity).trim();
+    const activityLabel=(explicitActivity || (sel && sel.selectedIndex>=0 ? sel.options[sel.selectedIndex].text : selectedActivity)).trim();
     const old=btn.textContent; btn.disabled=true;
     try {
       btn.textContent='Loading PDF/ZIP tools…';
@@ -1501,8 +1625,8 @@ window.skGetCmsEndpoint = getCmsEndpoint;
     }
   };
 
-  window.downloadHardCopyPdf = async (btn) => {
-    const rows=selectedBatchCertificates('hardcopy');
+  window.downloadHardCopyPdf = async (btn, explicitActivity) => {
+    const rows=selectedBatchCertificates('hardcopy', explicitActivity);
     if(!rows.length) return alert('No Hard Copy or Both requests found for the selected activity.');
     const old=btn.textContent; btn.disabled=true;
     try {
