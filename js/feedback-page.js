@@ -528,6 +528,7 @@ function integratedRenderSchedules(items){
 }
 
 async function integratedLoadSchedules(){
+    if(!document.getElementById("integratedScheduleForm")) return;
     integratedScheduleMessage("Loading scheduled activities...");
     try{
         const response=await integratedCmsApi({action:"list-items",password:integratedCmsPassword(),page:"feedback.html"});
@@ -564,7 +565,8 @@ async function integratedDeleteSchedule(id){
     }catch(error){integratedScheduleMessage(error.message,true);}
 }
 
-document.getElementById("integratedScheduleForm").addEventListener("submit",async event=>{
+const integratedScheduleFormEl=document.getElementById("integratedScheduleForm");
+if(integratedScheduleFormEl) integratedScheduleFormEl.addEventListener("submit",async event=>{
     event.preventDefault();
     const button=document.getElementById("integratedScheduleSave");
     button.disabled=true;
@@ -584,8 +586,10 @@ document.getElementById("integratedScheduleForm").addEventListener("submit",asyn
     }catch(error){integratedScheduleMessage(error.message,true);}finally{button.disabled=false;}
 });
 
-document.getElementById("integratedScheduleClear").addEventListener("click",integratedClearScheduleForm);
-document.getElementById("integratedScheduleReload").addEventListener("click",integratedLoadSchedules);
+const integratedScheduleClearEl=document.getElementById("integratedScheduleClear");
+const integratedScheduleReloadEl=document.getElementById("integratedScheduleReload");
+if(integratedScheduleClearEl) integratedScheduleClearEl.addEventListener("click",integratedClearScheduleForm);
+if(integratedScheduleReloadEl) integratedScheduleReloadEl.addEventListener("click",integratedLoadSchedules);
 
 function integratedEscape(value){
     return String(value??"")
