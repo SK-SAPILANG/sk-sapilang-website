@@ -706,18 +706,18 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                         <div class="form-group">
                             <label>Email Address <span>(Optional)</span></label>
                             <input name="email" type="email" autocomplete="email" placeholder="name@example.com">
-                            <span class="form-help">Optional. If provided, your digital certificate and verification link will also be sent to this email. No email? You may leave this blank.</span>
+                            <span class="form-help">Required when selecting E-Certificate or E-Certificate + Hard Copy. Your e-certificate is expected to be distributed to this registered email address within approximately one (1) day after the event.</span>
                         </div>
 
                         <div class="form-group full" style="background:#f5fbf6;border:1px solid #b9dec0;border-radius:14px;padding:16px">
                             <label>Certificate Delivery Preference <strong>* Required</strong></label>
                             <select name="certificatePreference" required>
                                 <option value="">Select Certificate Preference</option>
-                                <option value="Digital Certificate">Digital Certificate — Highly Recommended</option>
-                                <option value="Hard Copy Certificate">Printed / Hard Copy Certificate</option>
-                                <option value="Both Digital and Hard Copy">Both Digital and Printed Copy</option>
+                                <option value="E-Certificate">E-Certificate — approximately 1 day after the event</option>
+                                <option value="Hard Copy Certificate">Hard Copy Certificate — approximately 3 working days after the event</option>
+                                <option value="E-Certificate + Hard Copy">E-Certificate + Hard Copy</option>
                             </select>
-                            <span class="form-help"><strong>Paper-Saving Notice:</strong> SK Sapilang highly recommends digital certificates as part of our effort to reduce unnecessary paper use and promote sustainable, accessible public services. Printed certificates remain available when needed. If you request a hard copy, it will be available for claiming <strong>three (3) days after successful submission</strong>.</span>
+                            <span class="form-help"><strong>Certificate Processing:</strong> E-Certificates are expected to be distributed to the registered email address within approximately <strong>one (1) day after the event</strong>. Hard-copy certificates will be processed and available for claiming within approximately <strong>three (3) working days after the event</strong>. Participants selecting both will be included in both distribution groups.</span>
                         </div>
 
                         <div class="form-group">
@@ -1348,6 +1348,11 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
                             <div class="admin-card-head"><div><small>DIGITAL & PRINT MANAGEMENT</small><h4>Certificates</h4><p>Access issued certificates, hard-copy requests and blank printable templates.</p></div></div>
                             <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
                               <button class="admin-action-btn primary" id="integratedCertificateRefresh" type="button">Refresh Certificates</button>
+                              <select id="integratedCertificateActivity" class="admin-action-btn" style="min-width:220px"><option value="">All Activities</option></select>
+                              <button class="admin-action-btn" id="copyECertificateEmails" type="button">Copy E-Certificate Emails</button>
+                              <button class="admin-action-btn" id="downloadECertificateZip" type="button">Download E-Certificates ZIP</button>
+                              <button class="admin-action-btn" id="printHardCopyBatch" type="button">Download / Print Hard Copies PDF</button>
+                              <button class="admin-action-btn" id="downloadAllCertificateZip" type="button">Download All Certificates ZIP</button>
                               <a class="admin-action-btn" href="certificate.html?blank=1&template=official" target="_blank" style="text-decoration:none">Print Blank Certificate</a>
                             </div>
                             <input id="integratedCertificateSearch" type="search" placeholder="Search certificate, participant, activity or status..." style="width:100%;margin-bottom:12px">
@@ -1439,7 +1444,7 @@ footer{padding:18px 0 25px;border-top:1px solid rgba(57,210,255,.14);background:
 </footer>
 
 <script src="cms-config.js?v=20260903-CONNECTED"></script>
-<script src="js/feedback-page.js?v=20260919-RESTORE-KNOWN-GOOD"></script>
+<script src="js/feedback-page.js?v=20260919-CERTIFICATE-BULK-V3"></script>
 <script src="js/frame-bridge.js?v=20260830-FINAL"></script>
 <script src="js/site-header.js?v=20260903-UNIVERSAL-HERO"></script>
 </body>
