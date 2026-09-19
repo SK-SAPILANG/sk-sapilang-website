@@ -244,14 +244,14 @@ function qmsSaveActivity_(p,parameters){
   if(smsConsent==='YES'&&!mobile)throw new Error('Please enter a mobile number if you consent to SMS updates.');
   if(emailUpdatesConsent==='YES'&&!email)throw new Error('Please enter an email address if you consent to email updates.');
   const consentDate=(smsConsent==='YES'||emailUpdatesConsent==='YES')?new Date():'';
-  qmsActivitySheet_().appendRow([new Date(),reference,p.activity||'',p.activityType||'',p.date||'',p.venue||'',p.participant||'',p.classification||'',p.speaker||'',p.rating||'',p.relevance||'',p.objectives||'',p.facilitatorRating||'',p.organization||'',p.venueRating||'',p.materials||'',p.timeManagement||'',p.engagement||'',p.speakerKnowledge||'',p.speakerClarity||'',p.speakerEngagement||'',p.speakerResponsiveness||'',p.speakerComments||'',p.learning||'',p.likedMost||'',p.improvement||'',p.future||'',avg,email,p.programFormat||'',p.certificatePreference||'Digital Certificate',mobile,smsConsent,emailUpdatesConsent,consentDate,p.activity||'']);
+  qmsActivitySheet_().appendRow([new Date(),reference,p.activity||'',p.activityType||'',p.date||'',p.venue||'',p.participant||'',p.classification||'',p.speaker||'',p.rating||'',p.relevance||'',p.objectives||'',p.facilitatorRating||'',p.organization||'',p.venueRating||'',p.materials||'',p.timeManagement||'',p.engagement||'',p.speakerKnowledge||'',p.speakerClarity||'',p.speakerEngagement||'',p.speakerResponsiveness||'',p.speakerComments||'',p.learning||'',p.likedMost||'',p.improvement||'',p.future||'',avg,email,p.programFormat||'',p.certificatePreference||'E-Certificate',mobile,smsConsent,emailUpdatesConsent,consentDate,p.activity||'']);
 
   // Save GAD/inclusion information in the same request. This removes the second
   // browser request that previously caused the “GAD monitoring request timed out” error.
   const sectors=((parameters&&parameters.sectorClassification)||[]).map(String).join(' | ');
   cmsGadSheet_().appendRow([new Date(),reference,'Activity / Program Evaluation',String(p.sexAssignedAtBirth||''),String(p.sexAssignedAtBirthOther||''),String(p.genderIdentity||''),String(p.genderIdentityOther||''),String(p.preferredPronouns||''),String(p.preferredPronounsOther||''),String(p.organizationOffice||''),String(p.positionDesignation||''),sectors,String(p.sectorClassificationOther||'')]);
 
-  const cert=cmsIssueCertificate_({participant:p.participant,email:email,activity:p.activity,activityType:p.programFormat||p.activityType,date:p.date,venue:p.venue,speaker:p.speaker,qmsReference:reference,certificatePreference:p.certificatePreference||'Digital Certificate'});
+  const cert=cmsIssueCertificate_({participant:p.participant,email:email,activity:p.activity,activityType:p.programFormat||p.activityType,date:p.date,venue:p.venue,speaker:p.speaker,qmsReference:reference,certificatePreference:p.certificatePreference||'E-Certificate'});
   return {success:true,reference:reference,score:avg,rating:cmsQualityLabel_(avg),certificateId:cert.certificateId,emailSent:cert.emailSent,certificatePreference:cert.certificatePreference,hardCopyAvailableOn:cert.hardCopyAvailableOn};
 }
 function qmsSaveClient_(p){
@@ -279,30 +279,24 @@ function cmsCertificatesSheet_(){
   return sheet;
 }
 function cmsIssueCertificate_(p){
-  const participant=String(p.participant||'').trim(),email=String(p.email||'').trim(),activity=String(p.activity||'').trim(),qmsReference=String(p.qmsReference||'').trim(),preference=String(p.certificatePreference||'Digital Certificate').trim();
+  const participant=String(p.participant||'').trim(),email=String(p.email||'').trim(),activity=String(p.activity||'').trim(),qmsReference=String(p.qmsReference||'').trim(),preference=String(p.certificatePreference||'E-Certificate').trim();
   if(!participant||!activity||!qmsReference)throw new Error('Participant, activity and QMS reference are required.');
   const sheet=cmsCertificatesSheet_();
-  if(sheet.getLastRow()>1){const rows=sheet.getRange(2,1,sheet.getLastRow()-1,15).getDisplayValues();const ex=rows.find(r=>r[1]===qmsReference);if(ex)return {success:true,certificateId:ex[0],existing:true,emailSent:/SENT/i.test(ex[11]||''),certificatePreference:ex[12]||'Digital Certificate',hardCopyAvailableOn:ex[13]||''};}
+  if(sheet.getLastRow()>1){const rows=sheet.getRange(2,1,sheet.getLastRow()-1,15).getDisplayValues();const ex=rows.find(r=>r[1]===qmsReference);if(ex)return {success:true,certificateId:ex[0],existing:true,emailSent:/SENT/i.test(ex[11]||''),certificatePreference:ex[12]||'E-Certificate',hardCopyAvailableOn:ex[13]||''};}
   const year=Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Manila','yyyy');const seq=String(Math.max(sheet.getLastRow(),1)).padStart(6,'0');const id='SKSAP-'+year+'-'+seq;
-  const certificateUrl='https://sk-sapilang.github.io/sk-sapilang-website/certificate.html?id='+encodeURIComponent(id);
   const hardCopyRequested=/Hard Copy/i.test(preference);
-  const hardCopyDate=new Date(); hardCopyDate.setDate(hardCopyDate.getDate()+3);
+  const hardCopyDate=new Date();
+  if(hardCopyRequested){let added=0;while(added<3){hardCopyDate.setDate(hardCopyDate.getDate()+1);const d=hardCopyDate.getDay();if(d!==0&&d!==6)added++;}}
   const hardCopyAvailableOn=hardCopyRequested?Utilities.formatDate(hardCopyDate,Session.getScriptTimeZone()||'Asia/Manila','MMMM d, yyyy'):'';
-  let emailStatus='NOT PROVIDED',emailSent=false;
-  if(email){
-    try{
-      const adminCopy=(cmsCertificateSettings_().settings||{}).adminEmail||'';
-      MailApp.sendEmail({to:email,bcc:adminCopy||undefined,subject:'Your SK Sapilang Digital Certificate – '+activity,htmlBody:'<p>Good day, <strong>'+cmsEscapeHtml_(participant)+'</strong>.</p><p>Thank you for participating in <strong>'+cmsEscapeHtml_(activity)+'</strong> and completing the activity evaluation.</p><p>Your SK Sapilang Certificate of Participation is now available digitally. SK Sapilang highly recommends digital certificates to help reduce unnecessary paper use.</p><p><a href="'+certificateUrl+'">View / Print Digital Certificate</a></p><p>Certificate No.: <strong>'+id+'</strong><br>QMS Reference: <strong>'+cmsEscapeHtml_(qmsReference)+'</strong></p><p>Sangguniang Kabataan of Barangay Sapilang</p>'});
-      emailStatus='SENT';emailSent=true;
-    }catch(err){emailStatus='FAILED: '+String(err.message||err).slice(0,120);}
-  }
+  // V45: certificate records are generated immediately, but individual emails are intentionally held for activity-based batch delivery.
+  const emailStatus=email?'BATCH DELIVERY':'NOT PROVIDED',emailSent=false;
   sheet.appendRow([id,qmsReference,participant,activity,String(p.activityType||''),String(p.date||''),String(p.venue||''),String(p.speaker||''),new Date(),'ACTIVE',email,emailStatus,preference,hardCopyAvailableOn,hardCopyRequested?'PRINT REQUESTED':'DIGITAL ONLY']);
   return {success:true,certificateId:id,existing:false,emailSent:emailSent,emailStatus:emailStatus,certificatePreference:preference,hardCopyAvailableOn:hardCopyAvailableOn};
 }
 function cmsEscapeHtml_(value){return String(value||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function cmsVerifyCertificate_(id){
   id=String(id||'').trim().toUpperCase();if(!/^SKSAP-\d{4}-\d{6}$/.test(id))return {success:true,found:false};const sh=cmsCertificatesSheet_();if(sh.getLastRow()<2)return {success:true,found:false};
-  const rows=sh.getRange(2,1,sh.getLastRow()-1,15).getDisplayValues(),r=rows.find(x=>String(x[0]).toUpperCase()===id);if(!r)return {success:true,found:false};return {success:true,found:true,certificate:{certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13]||'',printStatus:r[14]||''}};
+  const rows=sh.getRange(2,1,sh.getLastRow()-1,15).getDisplayValues(),r=rows.find(x=>String(x[0]).toUpperCase()===id);if(!r)return {success:true,found:false};return {success:true,found:true,certificate:{certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],deliveryPreference:r[12]||'E-Certificate',hardCopyAvailableOn:r[13]||'',printStatus:r[14]||''}};
 }
 function cmsQmsDashboard_(){
   const av=qmsActivitySheet_().getDataRange().getDisplayValues(),sv=qmsSuggestionSheet_().getDataRange().getDisplayValues(),cv=cmsVisitorSheet_().getDataRange().getDisplayValues();
@@ -418,7 +412,7 @@ function cmsCertificateList_(){
   const sh=cmsCertificatesSheet_();
   if(sh.getLastRow()<2)return {success:true,certificates:[]};
   const rows=sh.getRange(2,1,sh.getLastRow()-1,15).getDisplayValues().reverse();
-  return {success:true,certificates:rows.map(r=>({certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],emailStatus:r[11],deliveryPreference:r[12]||'Digital Certificate',hardCopyAvailableOn:r[13],printStatus:r[14]||''}))};
+  return {success:true,certificates:rows.map(r=>({certificateId:r[0],qmsReference:r[1],participant:r[2],activity:r[3],activityType:r[4],date:r[5],venue:r[6],speaker:r[7],issuedAt:r[8],status:r[9]||'ACTIVE',email:r[10],emailStatus:r[11],deliveryPreference:r[12]||'E-Certificate',hardCopyAvailableOn:r[13],printStatus:r[14]||''}))};
 }
 function cmsUpdateCertificateStatus_(p){
   if(!cmsAuthorized_(p.adminKey||p.password))throw new Error('Incorrect administrator password.');
