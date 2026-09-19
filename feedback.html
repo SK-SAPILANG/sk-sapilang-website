@@ -461,7 +461,7 @@ table td { font-size: 16px !important; }
           <div class="form-group">
             <label for="evalEmail">Email Address (Optional for Digital Copy)</label>
             <input type="email" id="evalEmail" name="email" class="form-control" placeholder="name@example.com">
-            <span class="form-help">If provided, your email will be included in the activity-based e-certificate delivery list. Certificates are not emailed immediately after submission.</span>
+            <span class="form-help">If you select an E-Certificate option, your email will be included in the activity batch for processing (approximately 1 day). Certificates are not emailed immediately after submission.</span>
           </div>
 
           <div class="form-group">
@@ -488,7 +488,6 @@ table td { font-size: 16px !important; }
               <option value="E-Certificate" selected>E-Certificate (~1 day)</option>
               <option value="Hard Copy">Hard Copy (~3 working days)</option>
               <option value="E-Certificate + Hard Copy">E-Certificate + Hard Copy (~1 day / ~3 working days)</option>
-              <option value="Both Digital and Hard Copy">Both Digital and Printed Copy</option>
             </select>
           </div>
         </div>
@@ -1049,16 +1048,12 @@ table td { font-size: 16px !important; }
         <div id="subtabTracker" class="admin-subview" style="display: none;">
           <div class="panel-header" style="padding-bottom: 10px; margin-bottom: 16px;">
             <h3>Issued Certificate Registry & Delivery Tracker</h3>
-            <p>Track generated certificates and prepare activity-based e-certificate and hard-copy batches. Individual emails are not sent automatically.</p>
+            <p>Track generated certificates and process E-Certificate and Hard Copy requests by activity.</p>
           </div>
 
-          <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:end;">
-            <div style="flex:1;min-width:240px"><label for="certBatchActivity" style="display:block;font-size:12px;font-weight:700;margin-bottom:5px">Activity Batch</label><select id="certBatchActivity" class="form-control"><option value="">All activities</option></select></div>
-            <input type="search" id="certSearchInput" class="form-control" placeholder="Search participant, certificate, or activity..." style="max-width:340px;">
-            <button type="button" class="btn-header btn-header-outline" id="btnCopyECertEmails" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Copy E-Certificate Emails</button>
-            <button type="button" class="btn-header btn-header-outline" id="btnDownloadECertZip" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Download E-Certificates ZIP</button>
-            <button type="button" class="btn-header btn-header-orange" id="btnHardCopyPdf">Combined Hard Copy PDF</button>
-            <button type="button" class="btn-header btn-header-orange" id="btnRefreshCerts">Refresh List</button>
+          <div style="display: flex; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
+            <input type="search" id="certSearchInput" class="form-control" placeholder="Search by participant name, certificate number, or activity..." style="max-width: 380px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn-header btn-header-outline" id="btnCopyActivityEmails" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Copy E-Certificate Emails</button><button type="button" class="btn-header btn-header-outline" id="btnDownloadECertZip" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Download E-Certificates ZIP</button><button type="button" class="btn-header btn-header-outline" id="btnHardCopyPdf" style="color:var(--sk-navy);border-color:var(--sk-border-strong)">Combined Hard Copy PDF</button><button type="button" class="btn-header btn-header-orange" id="btnRefreshCerts">Refresh List</button></div>
           </div>
 
           <div class="table-wrap">
@@ -1070,7 +1065,7 @@ table td { font-size: 16px !important; }
                   <th>Activity</th>
                   <th>Issued Date</th>
                   <th>Status</th>
-                  <th>Delivery Preference</th>
+                  <th>Email Delivery</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -1131,10 +1126,7 @@ table td { font-size: 16px !important; }
   </footer>
 
   <script src="cms-config.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="js/feedback-page.js"></script>
+  <script src="js/feedback-page.js"></script>
 
 
 
